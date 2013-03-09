@@ -1,0 +1,416 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"argtyp",
+				"argtype"
+			],
+			[
+				"m_delta",
+				"m_deltaTime"
+			],
+			[
+				"m_",
+				"m_renderService"
+			],
+			[
+				"scal",
+				"scalingLocation"
+			],
+			[
+				"shaderpr",
+				"shaderprogram"
+			],
+			[
+				"m_shad",
+				"m_shaderprogram"
+			],
+			[
+				"source",
+				"sourceCodePointer"
+			],
+			[
+				"shaderp",
+				"shaderprogram"
+			],
+			[
+				"shader",
+				"shaderprogram"
+			],
+			[
+				"erro",
+				"errorMsg"
+			],
+			[
+				"CXX",
+				"CXXFLAGS"
+			],
+			[
+				"CXX_",
+				"CXX_DEBUG_FLAGS"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/main.cpp",
+			"settings":
+			{
+				"buffer_size": 1729,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/makefile",
+			"settings":
+			{
+				"buffer_size": 997,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.h",
+			"settings":
+			{
+				"buffer_size": 1530,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.cpp",
+			"settings":
+			{
+				"buffer_size": 3107,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/MakeRelease.sublime-build",
+	"command_palette":
+	{
+		"height": 54.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				":",
+				"File: Revert"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/makefile",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GameEngine.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/StateMachine.h",
+		"/home/jakob/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/jakob/.config/sublime-text-2/Packages/User/C++.sublime-settings",
+		"/home/jakob/Skrivbord/Projects/CppTesting/src/main.cpp",
+		"/home/jakob/Skrivbord/Projects/CppTesting/src/Makefile",
+		"/home/jakob/Skrivbord/Projects/CppTesting/main.cpp",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/release/fragment.shader",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/release/vertex.shader",
+		"/home/jakob/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/jakob/.config/sublime-text-2/Packages/User/CppRunCommands/CppRunCommands.py",
+		"/home/jakob/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/jakob/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/ShaderProgram.h",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/main.cpp",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/fragment.shader",
+		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/vertex.shader",
+		"/home/jakob/Skrivbord/Projects/SFMLtest/src/Makefile",
+		"/home/jakob/Skrivbord/Projects/SFMLtest/src/main.cpp",
+		"/home/jakob/.config/sublime-text-2/Packages/SublimeClang/SublimeClang.sublime-settings",
+		"/home/jakob/Skrivbord/Projects/SFMLtest/SFMLtest.sublime-project",
+		"/home/jakob/.config/sublime-text-2/Packages/User/SublimeClang.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"C++",
+			"f5",
+			"f8",
+			"f7",
+			"f6",
+			"f7",
+			"shift+f7",
+			"shift+f5",
+			"f5",
+			"f2",
+			"f1",
+			"f9",
+			"f8",
+			"f7",
+			"f6",
+			"f5",
+			"ignored_packages",
+			"ignored",
+			"vec4",
+			"ctrl+shift+a",
+			"ctrl+shift+e",
+			"ctrl+shift+q",
+			"ctrl+shift",
+			"ctrl+a",
+			"ctrl+e",
+			"ctrl+page"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"[",
+			"1E",
+			"}\n",
+			"1E"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/main.cpp",
+					"settings":
+					{
+						"buffer_size": 1729,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1658,
+								1658
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/makefile",
+					"settings":
+					{
+						"buffer_size": 997,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								912,
+								912
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 180.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/Engine.h",
+					"settings":
+					{
+						"buffer_size": 1530,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								854,
+								854
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 3107,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								232,
+								232
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.clang":
+	{
+		"height": 112.0
+	},
+	"output.exec":
+	{
+		"height": 150.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"sto",
+				"src/Storage.cpp"
+			],
+			[
+				"main.cp",
+				"src/main.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
