@@ -37,7 +37,7 @@ clean:
 # form of:
 # objectfile.o: headerfile.h
 
-main.o: GameEngine.h Locator.h
-Engine.o: Settings.h Locator.h State.h
+main.o: GameEngine.h Locator.h Settings.h
+Engine.o: Settings.h Locator.h State.h Utility.h
 GameEngine.o: Engine.h
 Locator.o: Settings.h

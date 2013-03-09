@@ -1,10 +1,9 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef CC_ENGINE_H
+#define CC_ENGINE_H
 
 #include <SFML/Graphics.hpp>
-#include "Settings.h"
-#include "State.h"
 #include <memory>
+#include "State.h"
 
 namespace cc
 {
@@ -23,7 +22,6 @@ namespace cc
 
 		// Extra engine data
 		sf::RenderWindow m_window;
-		Settings m_settings;
 		sf::Event m_events;
 
 
@@ -43,10 +41,16 @@ namespace cc
 		// Default constructor, mainly provides Locator with services and
 		// initializes default game settings.
 		// Some game settings can be overloaded through commandline commands
-		Engine();
+		explicit Engine();
 
 		// Initializes the Game engine, and starts the game loop.
-		void run(unsigned int width, unsigned int height, const std::string& title, unsigned int style);
+		// To set settings such as window size, use the settings 
+		// class through the Locator
+		void run();
+
+		// Allows Game settings to be set through command line in the
+		// format of: "settingName=value"
+		void parseArgs(int argc, char const* args[]);
 
 	protected:
 

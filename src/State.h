@@ -1,5 +1,5 @@
-#ifndef STATE_H
-#define STATE_H
+#ifndef CC_STATE_H
+#define CC_STATE_H
 
 namespace cc
 {

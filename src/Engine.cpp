@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include "Locator.h"
+#include "Settings.h"
+#include "Utility.h"
 
 namespace cc
 {
@@ -10,36 +12,39 @@ namespace cc
 	 m_deltaTime(0)
 	{
 		// Provide locator with services
-		Locator::provide(&m_settings);
 		Locator::provide(&m_window);
 		Locator::provide(&m_events);
 
 		// Initialize default settings
-		Locator::getSettings()->setString("infoAuthor", "Programmed by Jakob Larsson 8/3-2013, aged 17");
-		Locator::getSettings()->setString("infoOS", "Supports: Linux and Windows");
-		Locator::getSettings()->setString("infoName", "Callisto Chaos");
-		Locator::getSettings()->setString("windowTitle", "--> Jakob Larsson Game Engine <--");
-		Locator::getSettings()->setBool("windowShowCursor", true);
-		Locator::getSettings()->setBool("windowVsync", false);
-		Locator::getSettings()->setInt("windowFpsLimit", 0);
-		Locator::getSettings()->setInt("windowWidth", 800);
-		Locator::getSettings()->setInt("windowHeight", 600);
-		Locator::getSettings()->setInt("windowStyle", sf::Style::Close);
+		Settings::setString("infoAuthor", "Programmed by Jakob Larsson 8/3-2013, aged 17");
+		Settings::setString("infoOS", "Supports: Linux and Windows");
+		Settings::setString("infoName", "Callisto Chaos");
+		Settings::setString("windowTitle", "--> Jakob Larsson Game Engine <--");
+		Settings::setBool("windowShowCursor", true);
+		Settings::setBool("windowVsync", false);
+		Settings::setInt("windowFpsLimit", 0);
+		Settings::setInt("windowWidth", 800);
+		Settings::setInt("windowHeight", 600);
+		Settings::setInt("windowStyle", sf::Style::Close);
 	}	
 
-	void Engine::run(unsigned int width, unsigned int height, const std::string& title, unsigned int style)
-	{
-		// Initialize renderwindow and load extra settings
-		m_window.create(
-			sf::VideoMode(Locator::getSettings()->getInt("windowWidth"), Locator::getSettings()->getInt("windowHeight")),
-			 Locator::getSettings()->getString("windowTitle"),
-			 Locator::getSettings()->getInt("windowStyle"));
-		m_window.setFramerateLimit(Locator::getSettings()->getInt("windowFpsLimit"));
-		m_window.setMouseCursorVisible(Locator::getSettings()->getBool("windowShowCursor"));
-		m_window.setVerticalSyncEnabled(Locator::getSettings()->getBool("windowVsync"));
 
-		// Start gameloop
-		gameloop();
+	void Engine::run()
+	{
+		if(!m_window.isOpen())
+		{
+			// Initialize renderwindow and load extra window settings
+			m_window.create(
+				sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
+				 Settings::getString("windowTitle"),
+				 Settings::getInt("windowStyle"));
+			m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
+			m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
+			m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
+
+			// Start gameloop
+			gameloop();
+		}
 	}
 	void Engine::gameloop()
 	{
@@ -47,7 +52,7 @@ namespace cc
 		{
 			m_deltaTime = m_deltaClock.restart().asSeconds();
 			m_fps = 1.0 / m_deltaTime;
-			Locator::getSettings()->setInt("gameFps", m_fps);
+			Settings::setInt("gameFps", m_fps);
 
 			// Initialize the uninitialized state, if there's one
 			if(!m_stateInit && m_stateStack.size() > 0)
@@ -86,6 +91,50 @@ namespace cc
 				m_stateStack.back()->render();
 
 			m_window.display();
+		}
+	}
+
+	void Engine::parseArgs(int argc, char const *args[])
+	{
+		int argtype = -1;
+
+		for(int i = 0; i < argc; i++)
+		{
+
+			std::string arg = args[i];
+
+			if(arg == "--int")
+				argtype = 0;
+			else if(arg == "--double")
+				argtype = 1;
+			else if(arg == "--bool")
+				argtype = 2;
+			else if(arg == "--string")
+				argtype = 3;
+			else
+			{
+				// Just scan the argument for an equal sign and attempt to parse data from it
+				if(argtype != -1 && arg.find('=') != std::string::npos)
+				{
+					// Splits the argument to name and value, from the form: "name=value"
+					std::string name = arg.substr(0, arg.find('='));
+					std::string value = arg.substr(arg.find('=')+1, arg.size()+1);
+
+					if(argtype == 0) // Integer settings
+						Settings::setInt(name, Util::convertData<std::string, int>(value));
+					else if(argtype == 1) // Double settings
+						Settings::setDouble(name, Util::convertData<std::string, double>(value));
+					else if(argtype == 2) // Bool settings
+						Settings::setBool(name, Util::convertData<std::string, bool>(value));
+					else if(argtype == 3) // String settings
+						Settings::setString(name, value);
+
+					argtype = -1;
+				}
+				else
+					continue;
+			}
+
 		}
 	}
 

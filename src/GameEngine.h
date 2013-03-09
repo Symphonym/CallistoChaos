@@ -1,5 +1,5 @@
-#ifndef GAMEENGINE_H
-#define GAMEENGINE_H
+#ifndef CC_GAMEENGINE_H
+#define CC_GAMEENGINE_H
 
 #include "Engine.h"
 
