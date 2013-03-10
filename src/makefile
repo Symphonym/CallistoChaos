@@ -43,7 +43,8 @@ EngineInfo.o: Engine.h
 GameEngine.o: Engine.h
 AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
 TextureAsset.o: Asset.h
-FontAsset.h: Asset.h
-SoundBufferAsset.h: Asset.h
-MusicAsset.h: Asset.h
+FontAsset.o: Asset.h
+SoundBufferAsset.o: Asset.h
+MusicAsset.o: Asset.h
+SoundManager.o: EngineInfo.h
 

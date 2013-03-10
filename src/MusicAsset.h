@@ -15,7 +15,9 @@ namespace cc
 	public:
 
 		bool loadAsset(const std::string &filepath);
-		sf::Music &getMusic();
+
+		// Returns the managed asset
+		sf::Music &get();
 	};
 };
 

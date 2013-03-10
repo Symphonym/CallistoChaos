@@ -7,7 +7,7 @@ namespace cc
 	{
 		return m_soundbuffer.loadFromFile(filepath);
 	}
-	sf::SoundBuffer &SoundBufferAsset::getSoundBuffer()
+	sf::SoundBuffer &SoundBufferAsset::get()
 	{
 		return m_soundbuffer;
 	}

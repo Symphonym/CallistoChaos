@@ -1,26 +1,23 @@
-#ifndef CC_GAMEENGINE_H
-#define CC_GAMEENGINE_H
+#ifndef GAMEENGINE_H
+#define GAMEENGINE_H
 
 #include "Engine.h"
 #include <SFML/Graphics.hpp>
 
-namespace cc
+class GameEngine : public cc::Engine
 {
-	class GameEngine : public Engine
-	{
-	public:
+public:
 
-		sf::Texture texture;
-		sf::Sprite sprite;
-		sf::View view;
+	sf::Texture texture;
+	sf::Sprite sprite;
+	sf::View view;
 
-		explicit GameEngine();
+	explicit GameEngine();
 
-		void init();
-		void events();
-		void update();
-		void render();
-	};
+	void init();
+	void events();
+	void update();
+	void render();
 };
 
 #endif

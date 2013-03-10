@@ -5,7 +5,7 @@ int main(int argc, char const *args[])
 {
 	// Create a new game engine object
 	// Initialize default settings
-	cc::GameEngine game;
+	GameEngine game;
 
 	// Allow editing of settings through command line
 	game.parseArgs(argc, args);

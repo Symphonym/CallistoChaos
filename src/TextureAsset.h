@@ -15,7 +15,9 @@ namespace cc
 	public:
 
 		bool loadAsset(const std::string &filepath);
-		sf::Texture &getTexture();
+
+		// Returns the managed asset
+		sf::Texture &get();
 	};
 };
 

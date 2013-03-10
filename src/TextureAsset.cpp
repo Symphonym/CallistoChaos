@@ -8,7 +8,7 @@ namespace cc
 		return m_texture.loadFromFile(filepath);
 	}
 
-	sf::Texture &TextureAsset::getTexture()
+	sf::Texture &TextureAsset::get()
 	{
 		return m_texture;
 	}

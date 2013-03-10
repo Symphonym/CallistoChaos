@@ -7,7 +7,7 @@ namespace cc
 		return m_font.loadFromFile(filepath);
 	}
 	
-	sf::Font &FontAsset::getFont()
+	sf::Font &FontAsset::get()
 	{
 		return m_font;
 	}

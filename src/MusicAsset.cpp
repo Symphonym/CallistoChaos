@@ -7,7 +7,7 @@ namespace cc
 	{
 		return m_music.openFromFile(filepath);
 	}
-	sf::Music &MusicAsset::getMusic()
+	sf::Music &MusicAsset::get()
 	{
 		return m_music;
 	}

@@ -15,7 +15,9 @@ namespace cc
 	public:
 
 		bool loadAsset(const std::string &filepath);
-		sf::Font &getFont();
+
+		// Returns the managed asset
+		sf::Font &get();
 	};
 };
 
