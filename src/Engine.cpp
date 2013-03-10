@@ -1,7 +1,7 @@
 #include "Engine.h"
-#include "Locator.h"
 #include "Settings.h"
 #include "Utility.h"
+#include "EngineInfo.h"
 
 namespace cc
 {
@@ -11,10 +11,6 @@ namespace cc
 	 m_fps(0),
 	 m_deltaTime(0)
 	{
-		// Provide locator with services
-		Locator::provide(&m_events);
-		Locator::provide(&m_renderer);
-
 		// Initialize default settings
 		Settings::setString("infoAuthor", "Programmed by Jakob Larsson 8/3-2013, aged 17");
 		Settings::setString("infoOS", "Supports: Linux and Windows");
@@ -29,6 +25,10 @@ namespace cc
 
 		// Initialize data
 		m_renderer.setRenderTarget(m_window);
+
+		// Checks if there is an active Engine, if not, makes THIS Engine the active one
+		if(EngineInfo::m_engine == nullptr)
+			setActive();
 	}	
 
 
@@ -45,6 +45,9 @@ namespace cc
 			m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
 			m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
 			m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
+
+			// Initialize additional game engine data
+			init();
 
 			// Start gameloop
 			gameloop();
@@ -107,6 +110,11 @@ namespace cc
 		}
 	}
 
+	void Engine::setActive()
+	{
+		EngineInfo::m_engine = this;
+	}
+
 	void Engine::parseArgs(int argc, char const *args[])
 	{
 		int argtype = -1;
@@ -150,8 +158,6 @@ namespace cc
 
 		}
 	}
-	double Engine::getFps(){ return m_fps; }
-	double Engine::getDelta() { return m_deltaTime; }
 
 	void Engine::changeState(std::unique_ptr<State> state)
 	{

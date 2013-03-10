@@ -1,5 +1,5 @@
 #include "GameEngine.h"
-#include "Locator.h"
+#include "EngineInfo.h"
 
 namespace cc
 {
@@ -11,12 +11,12 @@ namespace cc
 
 		sprite.setTexture(texture);
 		sprite.setPosition(0,0);
-
-		view = Locator::getRender()->createView(0.5);
-
-		Locator::getRender()->setView(view);
 	}
 
+	void GameEngine::init()
+	{
+		view = EngineInfo::getRender().createView(0.5);
+	}
 	void GameEngine::events()
 	{
 
@@ -24,23 +24,23 @@ namespace cc
 	void GameEngine::update()
 	{
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			sprite.move(0, -100*getDelta());
+			sprite.move(0, -100*EngineInfo::getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			sprite.move(0, 100*getDelta());
+			sprite.move(0, 100*EngineInfo::getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			sprite.move(-100*getDelta(), 0);
+			sprite.move(-100*EngineInfo::getDelta(), 0);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			sprite.move(100*getDelta(), 0);
+			sprite.move(100*EngineInfo::getDelta(), 0);
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-			view.zoom(1.0 - getDelta());
+			view.zoom(1.0 - EngineInfo::getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-			view.zoom(1.0 + getDelta());
+			view.zoom(1.0 + EngineInfo::getDelta());
 
-		Locator::getRender()->setView(view);
+		EngineInfo::getRender().setView(view);
 	}
 	void GameEngine::render()
 	{
-		Locator::getRender()->render(sprite);
+		EngineInfo::getRender().render(sprite);
 	}
 };

@@ -16,6 +16,7 @@ namespace cc
 
 		explicit GameEngine();
 
+		void init();
 		void events();
 		void update();
 		void render();

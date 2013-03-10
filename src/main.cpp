@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "Locator.h"
 #include "Settings.h"
 
 int main(int argc, char const *args[])

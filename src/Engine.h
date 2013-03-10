@@ -12,6 +12,8 @@ namespace cc
 	{
 	private:
 
+		friend class EngineInfo;
+
 		// State machine data
 		std::vector<std::unique_ptr<State>> m_stateStack;
 		bool m_stateInit;
@@ -26,11 +28,22 @@ namespace cc
 		sf::Event m_events;
 		Renderer m_renderer;
 
+		// Methods for communicating with the state machine
+
+		// Overwrite any existing states, clear the stack and set new state
+		void changeState(std::unique_ptr<State> state);
+		// Push new state ontop of the stack
+		void pushState(std::unique_ptr<State> state);
+		// Pop current state and resume the previous
+		void popState();
 
 		// Keep base methods private to prevent them from being called by
 		// anyone other than the Engine itself
 		// These base methods are run on every state, as a global place of control
 
+		// Handle initialization, at this point the Engine is
+		// guaranteed to have it's initial data initialized
+		virtual void init(){};
 		// Handle events, window closing etc
 		virtual void events(){};
 		// Handle updating
@@ -54,20 +67,8 @@ namespace cc
 		// format of: "settingName=value"
 		void parseArgs(int argc, char const* args[]);
 
-		// Get fps and deltatime
-		double getFps();
-		double getDelta();
-
-	protected:
-
-		// Methods for communicating with the state machine
-
-		// Overwrite any existing states, clear the stack and set new state
-		void changeState(std::unique_ptr<State> state);
-		// Push new state ontop of the stack
-		void pushState(std::unique_ptr<State> state);
-		// Pop current state and resume the previous
-		void popState();
+		// Sets the Engine to be the active one, allowing data access from the EngineInfo class
+		void setActive();
 	};
 };
 
