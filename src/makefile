@@ -38,8 +38,12 @@ clean:
 # objectfile.o: headerfile.h
 
 main.o: GameEngine.h Settings.h
-Engine.o: Settings.h State.h Utility.h EngineInfo.h
+Engine.o: Settings.h State.h Utility.h EngineInfo.h AssetManager.h
 EngineInfo.o: Engine.h
 GameEngine.o: Engine.h
-Locator.o: Engine.h Renderer.h
+AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
+TextureAsset.o: Asset.h
+FontAsset.h: Asset.h
+SoundBufferAsset.h: Asset.h
+MusicAsset.h: Asset.h
 

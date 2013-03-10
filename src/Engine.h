@@ -5,6 +5,7 @@
 #include <memory>
 #include "State.h"
 #include "Renderer.h"
+#include "AssetManager.h"
 
 namespace cc
 {
@@ -27,6 +28,7 @@ namespace cc
 		sf::RenderWindow m_window;
 		sf::Event m_events;
 		Renderer m_renderer;
+		AssetManager m_assets;
 
 		// Methods for communicating with the state machine
 

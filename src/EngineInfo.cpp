@@ -13,6 +13,10 @@ namespace cc
 	{
 		return m_engine->m_renderer;
 	}
+	AssetManager &EngineInfo::getAssets()
+	{
+		return m_engine->m_assets;
+	}
 
 	double EngineInfo::getDelta()
 	{

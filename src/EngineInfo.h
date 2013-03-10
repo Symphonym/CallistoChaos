@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Engine.h"
-#include "Renderer.h"
 
 namespace cc
 {	
@@ -20,6 +19,7 @@ namespace cc
 
 		static sf::Event &getEvent();
 		static Renderer &getRender();
+		static AssetManager &getAssets();
 
 		static double getDelta();
 		static double getFps();

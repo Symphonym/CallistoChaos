@@ -5,16 +5,14 @@ namespace cc
 {
 	GameEngine::GameEngine()
 	{
-		sf::Image image;
-		image.create(50, 50, sf::Color::Green);
-		texture.loadFromImage(image);
-
-		sprite.setTexture(texture);
-		sprite.setPosition(0,0);
 	}
 
 	void GameEngine::init()
 	{
+		EngineInfo::getAssets().addAsset<TextureAsset>("wow.png");
+
+		sprite.setTexture(EngineInfo::getAssets().getAsset<TextureAsset>("wow.png")->getTexture());
+		sprite.setPosition(0,0);
 		view = EngineInfo::getRender().createView(0.5);
 	}
 	void GameEngine::events()
@@ -36,6 +34,9 @@ namespace cc
 			view.zoom(1.0 - EngineInfo::getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			view.zoom(1.0 + EngineInfo::getDelta());
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			view.rotate(100*EngineInfo::getDelta());
 
 		EngineInfo::getRender().setView(view);
 	}
