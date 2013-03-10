@@ -2,13 +2,20 @@
 
 namespace cc
 {
-	// Defining static members
-	sf::RenderTarget* Locator::m_renderService;
-	sf::Event* Locator::m_eventService;
+	namespace Locator
+	{
+		// Defining and declaring services
+		Renderer *m_renderService = nullptr;
+		sf::Event *m_eventService = nullptr;
+		Engine *m_engineService = nullptr;
 
-	void Locator::provide(sf::RenderTarget* service){ Locator::m_renderService = service; }
-	void Locator::provide(sf::Event* service){ Locator::m_eventService = service; }
 
-	sf::RenderTarget* Locator::getRender(){ return m_renderService; }
-	sf::Event* Locator::getEvent(){ return m_eventService; }
+		void provide(Renderer *service){ m_renderService = service; }
+		void provide(sf::Event *service){ m_eventService = service; }
+		void provide(Engine *service){ m_engineService = service; }
+
+		Renderer *getRender(){ return m_renderService; }
+		sf::Event *getEvent(){ return m_eventService; }
+		Engine *getEngine(){ return m_engineService; }
+	};
 };

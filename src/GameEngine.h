@@ -2,6 +2,7 @@
 #define CC_GAMEENGINE_H
 
 #include "Engine.h"
+#include <SFML/Graphics.hpp>
 
 namespace cc
 {
@@ -9,9 +10,15 @@ namespace cc
 	{
 	public:
 
-		void events(){};
-		void update(){};
-		void render(){};
+		sf::Texture texture;
+		sf::Sprite sprite;
+		sf::View view;
+
+		explicit GameEngine();
+
+		void events();
+		void update();
+		void render();
 	};
 };
 

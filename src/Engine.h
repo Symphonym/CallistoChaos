@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "State.h"
+#include "Renderer.h"
 
 namespace cc
 {
@@ -23,13 +24,14 @@ namespace cc
 		// Extra engine data
 		sf::RenderWindow m_window;
 		sf::Event m_events;
+		Renderer m_renderer;
 
 
 		// Keep base methods private to prevent them from being called by
 		// anyone other than the Engine itself
 		// These base methods are run on every state, as a global place of control
 
-		// Handle events, window closing, input etc
+		// Handle events, window closing etc
 		virtual void events(){};
 		// Handle updating
 		virtual void update(){};
@@ -51,6 +53,10 @@ namespace cc
 		// Allows Game settings to be set through command line in the
 		// format of: "settingName=value"
 		void parseArgs(int argc, char const* args[]);
+
+		// Get fps and deltatime
+		double getFps();
+		double getDelta();
 
 	protected:
 

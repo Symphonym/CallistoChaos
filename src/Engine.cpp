@@ -12,8 +12,8 @@ namespace cc
 	 m_deltaTime(0)
 	{
 		// Provide locator with services
-		Locator::provide(&m_window);
 		Locator::provide(&m_events);
+		Locator::provide(&m_renderer);
 
 		// Initialize default settings
 		Settings::setString("infoAuthor", "Programmed by Jakob Larsson 8/3-2013, aged 17");
@@ -26,11 +26,15 @@ namespace cc
 		Settings::setInt("windowWidth", 800);
 		Settings::setInt("windowHeight", 600);
 		Settings::setInt("windowStyle", sf::Style::Close);
+
+		// Initialize data
+		m_renderer.setRenderTarget(m_window);
 	}	
 
 
 	void Engine::run()
 	{
+		// Only allow running this method if the game isn't already running
 		if(!m_window.isOpen())
 		{
 			// Initialize renderwindow and load extra window settings
@@ -77,11 +81,17 @@ namespace cc
 				// Handle events in current state
 				if(m_stateInit)
 					m_stateStack.back()->events();
+
+				// Global events
+				events();
 			}
 
 			// Handle updating in current state
 			if(m_stateInit)
 				m_stateStack.back()->update();
+
+			// Global update
+			update();
 
 
 			m_window.clear();
@@ -89,6 +99,9 @@ namespace cc
 			// Handle rendering in current state
 			if(m_stateInit)
 				m_stateStack.back()->render();
+
+			// Global rendering
+			render();
 
 			m_window.display();
 		}
@@ -137,6 +150,8 @@ namespace cc
 
 		}
 	}
+	double Engine::getFps(){ return m_fps; }
+	double Engine::getDelta() { return m_deltaTime; }
 
 	void Engine::changeState(std::unique_ptr<State> state)
 	{

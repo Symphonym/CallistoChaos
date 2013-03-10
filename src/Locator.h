@@ -1,23 +1,21 @@
 #ifndef CC_LOCATOR_H
 #define CC_LOCATOR_H
 
-#include "Settings.h"
 #include <SFML/Graphics.hpp>
+#include "Engine.h"
+#include "Renderer.h"
 
 namespace cc
 {
-	class Locator
+	namespace Locator
 	{
-	private:
-		static sf::RenderTarget* m_renderService;
-		static sf::Event* m_eventService;
+		void provide(Renderer *service);
+		void provide(sf::Event *service);
+		void provide(Engine *service);
 
-	public:
-		static void provide(sf::RenderTarget* service);
-		static void provide(sf::Event* service);
-
-		static sf::RenderTarget* getRender();
-		static sf::Event* getEvent();
+		Renderer *getRender();
+		sf::Event *getEvent();
+		Engine *getEngine();
 	};
 };
 

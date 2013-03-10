@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"Ren",
+				"RenderTarget"
+			],
+			[
+				"REnder",
+				"Renderer"
+			],
+			[
+				"Re",
+				"Rendertarget"
+			],
+			[
+				"g",
+				"getRender"
+			],
+			[
+				"draw",
+				"drawable"
+			],
+			[
+				"zo",
+				"zoomFactor"
+			],
+			[
+				"R",
+				"Renderer"
+			],
+			[
+				"RE",
+				"RenderTarget"
+			],
+			[
+				"CXX",
+				"CXXFLAGS"
+			],
+			[
+				"SRC",
+				"SRCS_OBJECT"
+			],
+			[
 				"argtyp",
 				"argtype"
 			],
@@ -44,10 +84,6 @@
 				"errorMsg"
 			],
 			[
-				"CXX",
-				"CXXFLAGS"
-			],
-			[
 				"CXX_",
 				"CXX_DEBUG_FLAGS"
 			]
@@ -59,7 +95,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 1729,
+				"buffer_size": 443,
 				"line_ending": "Unix"
 			}
 		},
@@ -67,7 +103,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 997,
+				"buffer_size": 1280,
 				"line_ending": "Unix"
 			}
 		},
@@ -75,7 +111,7 @@
 			"file": "src/Engine.h",
 			"settings":
 			{
-				"buffer_size": 1530,
+				"buffer_size": 1761,
 				"line_ending": "Unix"
 			}
 		},
@@ -83,12 +119,36 @@
 			"file": "src/Engine.cpp",
 			"settings":
 			{
-				"buffer_size": 3107,
+				"buffer_size": 4527,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/GameEngine.h",
+			"settings":
+			{
+				"buffer_size": 314,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/GameEngine.cpp",
+			"settings":
+			{
+				"buffer_size": 1023,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/State.h",
+			"settings":
+			{
+				"buffer_size": 192,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "Packages/User/MakeRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -132,27 +192,30 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Utility.h",
+		"/home/jakob/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/jakob/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/jakob/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/makefile",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GameEngine.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/StateMachine.h",
-		"/home/jakob/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/jakob/.config/sublime-text-2/Packages/User/C++.sublime-settings",
 		"/home/jakob/Skrivbord/Projects/CppTesting/src/main.cpp",
 		"/home/jakob/Skrivbord/Projects/CppTesting/src/Makefile",
 		"/home/jakob/Skrivbord/Projects/CppTesting/main.cpp",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/release/fragment.shader",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/release/vertex.shader",
-		"/home/jakob/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/home/jakob/.config/sublime-text-2/Packages/User/CppRunCommands/CppRunCommands.py",
 		"/home/jakob/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
-		"/home/jakob/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/ShaderProgram.h",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/main.cpp",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/fragment.shader",
@@ -179,6 +242,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"f1",
+			"f4",
 			"C++",
 			"f5",
 			"f8",
@@ -226,7 +291,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -234,21 +299,22 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 1729,
+						"buffer_size": 443,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1658,
-								1658
+								199,
+								199
 							]
 						],
 						"settings":
 						{
 							"auto_name": "",
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -261,15 +327,15 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 997,
+						"buffer_size": 1280,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								912,
-								912
+								873,
+								873
 							]
 						],
 						"settings":
@@ -277,7 +343,7 @@
 							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -287,15 +353,15 @@
 					"file": "src/Engine.h",
 					"settings":
 					{
-						"buffer_size": 1530,
+						"buffer_size": 1761,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								854,
-								854
+								458,
+								458
 							]
 						],
 						"settings":
@@ -304,7 +370,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -314,21 +380,101 @@
 					"file": "src/Engine.cpp",
 					"settings":
 					{
-						"buffer_size": 3107,
+						"buffer_size": 4527,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								232,
-								232
+								211,
+								211
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/GameEngine.h",
+					"settings":
+					{
+						"buffer_size": 314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								221,
+								221
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/GameEngine.cpp",
+					"settings":
+					{
+						"buffer_size": 1023,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								240,
+								240
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/State.h",
+					"settings":
+					{
+						"buffer_size": 192,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -376,7 +522,7 @@
 	},
 	"output.exec":
 	{
-		"height": 150.0
+		"height": 130.0
 	},
 	"replace":
 	{
