@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"m_frame",
+				"m_frameIndex"
+			],
+			[
 				"Frame",
 				"FrameAnimation"
 			],
@@ -25,10 +29,6 @@
 			],
 			[
 				"m_fram",
-				"m_frameDuration"
-			],
-			[
-				"m_frame",
 				"m_frameDuration"
 			],
 			[
@@ -192,26 +192,10 @@
 			}
 		},
 		{
-			"file": "src/FrameAnimation.h",
-			"settings":
-			{
-				"buffer_size": 1613,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/FrameAnimation.cpp",
-			"settings":
-			{
-				"buffer_size": 2148,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "src/GameEngine.h",
 			"settings":
 			{
-				"buffer_size": 297,
+				"buffer_size": 351,
 				"line_ending": "Unix"
 			}
 		},
@@ -219,7 +203,7 @@
 			"file": "src/GameEngine.cpp",
 			"settings":
 			{
-				"buffer_size": 1192,
+				"buffer_size": 2149,
 				"line_ending": "Unix"
 			}
 		},
@@ -232,7 +216,7 @@
 			}
 		}
 	],
-	"build_system": "Packages/User/OpenDirectory.sublime-build",
+	"build_system": "Packages/User/RunRelease.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -276,6 +260,8 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
@@ -346,6 +332,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".size",
+			">=",
 			"f1",
 			"f4",
 			"C++",
@@ -395,7 +383,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -438,8 +426,8 @@
 						"selection":
 						[
 							[
-								1133,
-								1133
+								1486,
+								1486
 							]
 						],
 						"settings":
@@ -454,18 +442,45 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/FrameAnimation.h",
+					"file": "src/GameEngine.h",
 					"settings":
 					{
-						"buffer_size": 1613,
+						"buffer_size": 351,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1613,
-								1613
+								42,
+								42
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/GameEngine.cpp",
+					"settings":
+					{
+						"buffer_size": 2149,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								431,
+								431
 							]
 						],
 						"settings":
@@ -480,88 +495,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/FrameAnimation.cpp",
-					"settings":
-					{
-						"buffer_size": 2148,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1724,
-								1725
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 720.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 4,
-					"file": "src/GameEngine.h",
-					"settings":
-					{
-						"buffer_size": 297,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								139,
-								139
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/GameEngine.cpp",
-					"settings":
-					{
-						"buffer_size": 1192,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								102,
-								102
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
 					"file": "src/Engine.cpp",
 					"settings":
 					{
