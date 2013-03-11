@@ -4,6 +4,90 @@
 		"selected_items":
 		[
 			[
+				"Frame",
+				"FrameAnimation"
+			],
+			[
+				"m_fr",
+				"m_frameIndex"
+			],
+			[
+				"m_f",
+				"m_frameIndex"
+			],
+			[
+				"m_Fra",
+				"m_frameIndex"
+			],
+			[
+				"m_Fr",
+				"m_frameIndex"
+			],
+			[
+				"m_fram",
+				"m_frameDuration"
+			],
+			[
+				"m_frame",
+				"m_frameDuration"
+			],
+			[
+				"m_a",
+				"m_activeAnimation"
+			],
+			[
+				"m_",
+				"m_animations"
+			],
+			[
+				"Fram",
+				"FrameAnimation"
+			],
+			[
+				"getA",
+				"getAsset"
+			],
+			[
+				"fi",
+				"filepath"
+			],
+			[
+				"Asset",
+				"AssetType"
+			],
+			[
+				"Ass",
+				"AssetType"
+			],
+			[
+				"M",
+				"MusicAsset"
+			],
+			[
+				"Sound",
+				"SoundBufferAsset"
+			],
+			[
+				"Sou",
+				"SoundBufferAsset"
+			],
+			[
+				"Font",
+				"FontAsset"
+			],
+			[
+				"Text",
+				"TextureAsset"
+			],
+			[
+				"Engi",
+				"EngineInfo"
+			],
+			[
+				"map",
+				"assetMap"
+			],
+			[
 				"En",
 				"EngineInfo"
 			],
@@ -56,10 +140,6 @@
 				"m_deltaTime"
 			],
 			[
-				"m_",
-				"m_renderService"
-			],
-			[
 				"scal",
 				"scalingLocation"
 			],
@@ -99,7 +179,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 422,
+				"buffer_size": 418,
 				"line_ending": "Unix"
 			}
 		},
@@ -107,7 +187,23 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 1297,
+				"buffer_size": 1488,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FrameAnimation.h",
+			"settings":
+			{
+				"buffer_size": 1613,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FrameAnimation.cpp",
+			"settings":
+			{
+				"buffer_size": 2148,
 				"line_ending": "Unix"
 			}
 		},
@@ -115,7 +211,7 @@
 			"file": "src/GameEngine.h",
 			"settings":
 			{
-				"buffer_size": 329,
+				"buffer_size": 297,
 				"line_ending": "Unix"
 			}
 		},
@@ -123,7 +219,15 @@
 			"file": "src/GameEngine.cpp",
 			"settings":
 			{
-				"buffer_size": 1094,
+				"buffer_size": 1192,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.cpp",
+			"settings":
+			{
+				"buffer_size": 4661,
 				"line_ending": "Unix"
 			}
 		}
@@ -172,11 +276,29 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TextureAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TextureAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/MusicAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/MusicAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Asset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetData.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Asset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetData.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.cpp",
@@ -273,7 +395,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -281,15 +403,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 422,
+						"buffer_size": 418,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								254,
-								254
+								174,
+								174
 							]
 						],
 						"settings":
@@ -309,15 +431,15 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 1297,
+						"buffer_size": 1488,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								747,
-								747
+								1133,
+								1133
 							]
 						],
 						"settings":
@@ -325,25 +447,79 @@
 							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 495.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/GameEngine.h",
+					"file": "src/FrameAnimation.h",
 					"settings":
 					{
-						"buffer_size": 329,
+						"buffer_size": 1613,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								263,
-								263
+								1613,
+								1613
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/FrameAnimation.cpp",
+					"settings":
+					{
+						"buffer_size": 2148,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1724,
+								1725
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/GameEngine.h",
+					"settings":
+					{
+						"buffer_size": 297,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								139,
+								139
 							]
 						],
 						"settings":
@@ -358,19 +534,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "src/GameEngine.cpp",
 					"settings":
 					{
-						"buffer_size": 1094,
+						"buffer_size": 1192,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								783,
-								783
+								102,
+								102
 							]
 						],
 						"settings":
@@ -379,7 +555,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 379.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 4661,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1477,
+								1477
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -424,7 +627,7 @@
 	},
 	"output.exec":
 	{
-		"height": 130.0
+		"height": 183.0
 	},
 	"replace":
 	{
@@ -459,6 +662,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 238.0,
 	"status_bar_visible": true
 }

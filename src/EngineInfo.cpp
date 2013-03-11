@@ -39,4 +39,9 @@ namespace cc
 	{
 		m_engine->popState();
 	}
+
+	void EngineInfo::render(const sf::Drawable &drawable, const sf::RenderStates &states)
+	{
+		getRender().render(drawable, states);
+	}
 };

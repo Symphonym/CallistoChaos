@@ -17,16 +17,32 @@ namespace cc
 
 	public:
 
+		// Getter methods to access data within the Engine
+
 		static sf::Event &getEvent();
 		static Renderer &getRender();
 		static AssetManager &getAssets();
 
+
 		static double getDelta();
 		static double getFps();
 
+		// Controlling methods communicating with the Engine
+
+		// Controlls the state machine
 		static void changeState(std::unique_ptr<State> state);
 		static void pushState(std::unique_ptr<State> state);
 		static void popState();
+
+		// Controlls rendering drawables onto the screen
+		static void render(const sf::Drawable &drawable, const sf::RenderStates &states = sf::RenderStates::Default);
+
+		// Controlls acquiring assets from the AssetManager
+		template<typename AssetType> static AssetType* acquire(const std::string &filepath)
+		{
+			return getAssets().getAsset<AssetType>(filepath);
+		};
+
 	};
 };
 

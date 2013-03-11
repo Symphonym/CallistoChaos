@@ -9,7 +9,7 @@ void GameEngine::init()
 {
 	cc::EngineInfo::getAssets().addAsset<cc::TextureAsset>("wow.png");
 
-	sprite.setTexture(cc::EngineInfo::getAssets().getAsset<cc::TextureAsset>("wow.png")->get());
+	sprite.setTexture(cc::EngineInfo::acquire<cc::TextureAsset>("wow.png")->get());
 	sprite.setPosition(0,0);
 	view = cc::EngineInfo::getRender().createView(0.5);
 }
@@ -40,5 +40,5 @@ void GameEngine::update()
 }
 void GameEngine::render()
 {
-	cc::EngineInfo::getRender().render(sprite);
+	cc::EngineInfo::render(sprite);
 }

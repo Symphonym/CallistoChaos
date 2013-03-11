@@ -22,6 +22,7 @@ namespace cc
 		Settings::setInt("windowWidth", 800);
 		Settings::setInt("windowHeight", 600);
 		Settings::setInt("windowStyle", sf::Style::Close);
+		Settings::setInt("gameGlobalVolume", 100);
 
 		// Initialize data
 		m_renderer.setRenderTarget(m_window);
@@ -37,7 +38,7 @@ namespace cc
 		// Only allow running this method if the game isn't already running
 		if(!m_window.isOpen())
 		{
-			// Initialize renderwindow and load extra window settings
+			// Initialize renderwindow and load settings
 			m_window.create(
 				sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
 				 Settings::getString("windowTitle"),
@@ -45,6 +46,7 @@ namespace cc
 			m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
 			m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
 			m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
+			sf::Listener::setGlobalVolume(Settings::getInt("gameGlobalVolume"));
 
 			// Initialize additional game engine data
 			init();
@@ -59,7 +61,6 @@ namespace cc
 		{
 			m_deltaTime = m_deltaClock.restart().asSeconds();
 			m_fps = 1.0 / m_deltaTime;
-			Settings::setInt("gameFps", m_fps);
 
 			// Initialize the uninitialized state, if there's one
 			if(!m_stateInit && m_stateStack.size() > 0)
