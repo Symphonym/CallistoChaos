@@ -18,22 +18,21 @@ namespace cc
 			// The texture subrect
 			sf::IntRect frame;
 			// Duration of the frame in seconds
+			double frameMaxDuration;
+			// How long the frame has been active, in seconds
 			double frameDuration;
 		};
 
 		// All the Animations
 		std::map<std::string, std::vector<Frame>> m_animations;
 
-		// How long the current frame has been active
-		double m_frameDuration;
 		// Index of the current frame
 		std::size_t m_frameIndex;
 		// String ID of the active animation
 		std::string m_activeAnimation;
-		// Boolean for when switching between animations,
-		// to make sure when an animation is switched it will
-		// immediately switch frame and not wait for the frameDuration
-		bool m_hasChangedAnimation;
+
+		// Returns the active frame, m_animations[m_activeAnimation][m_frameIndex]
+		Frame &getFrame();
 
 	public:
 
@@ -44,6 +43,10 @@ namespace cc
 		void createAnimation(const std::string &name);
 		// Deletes the specified animation
 		void deleteAnimation(const std::string &name);
+		// Initializes the shape to the first frame of the animation
+		void initAnimation(sf::Shape &shape, const std::string &name);
+		// Initializes the sprite to the first frame of the animation
+		void initAnimation(sf::Sprite &sprite, const std::string &name);
 
 		// Pushes a new frame onto the active animation, returns this to allow chaining calls
 		FrameAnimation &pushFrame(const sf::IntRect &frame, double frameDuration);

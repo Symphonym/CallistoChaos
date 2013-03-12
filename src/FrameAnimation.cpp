@@ -1,16 +1,13 @@
 #include "FrameAnimation.h"
 #include <stdexcept>
 #include "EngineInfo.h"
-#include <iostream>
 
 namespace cc
 {
 	FrameAnimation::FrameAnimation()
 	 :
-	 m_frameDuration(0),
 	 m_frameIndex(0),
-	 m_activeAnimation(""),
-	 m_hasChangedAnimation(true)
+	 m_activeAnimation("")
 	{
 
 	}
@@ -28,6 +25,16 @@ namespace cc
 		if(m_animations.find(name) != m_animations.end())
 			m_animations.erase(m_animations.find(name));
 	}
+	void FrameAnimation::initAnimation(sf::Shape &shape, const std::string &name)
+	{
+		if(m_animations.find(name) != m_animations.end() && m_animations[name].size() > 0)
+			shape.setTextureRect(m_animations[name][0].frame);
+	}
+	void FrameAnimation::initAnimation(sf::Sprite &sprite, const std::string &name)
+	{
+		if(m_animations.find(name) != m_animations.end() && m_animations[name].size() > 0)
+			sprite.setTextureRect(m_animations[name][0].frame);
+	}
 
 	FrameAnimation &FrameAnimation::pushFrame(const sf::IntRect &frame, double frameDuration)
 	{
@@ -35,7 +42,8 @@ namespace cc
 		{
 			Frame data;
 			data.frame = frame;
-			data.frameDuration = frameDuration;
+			data.frameDuration = 0;
+			data.frameMaxDuration = frameDuration;
 			m_animations[m_activeAnimation].push_back(data);
 
 		}
@@ -48,9 +56,7 @@ namespace cc
 	void FrameAnimation::removeFrame(const std::string& name, std::size_t frame)
 	{
 		if(m_animations.find(name) != m_animations.end())
-		{
 			m_animations[name].erase(m_animations[name].begin() + frame);
-		}
 	}
 	void FrameAnimation::clearFrames(const std::string &name)
 	{
@@ -59,25 +65,24 @@ namespace cc
 
 	void FrameAnimation::animate(sf::Shape &shape, const std::string &name)
 	{
+		// Shortened access to the frame
+		Frame &frame = m_animations[m_activeAnimation][m_frameIndex];
+
 		// Increment counter with delta time
-		m_frameDuration += EngineInfo::getDelta();
+		frame.frameDuration += EngineInfo::getDelta();
 
 		// Check if the animation has changed, if so,
 		// set first frame of new animation at once
 		if(name != m_activeAnimation)
-		{
-			m_frameDuration = m_animations[m_activeAnimation][m_frameIndex].frameDuration;
-			std::cout << "First animation: " << name << std::endl;
-		}
+			frame.frameDuration = frame.frameMaxDuration;
 
 		// Set this animation to the active one
 		m_activeAnimation = name;
 
-		if(m_frameDuration >= m_animations[m_activeAnimation][m_frameIndex].frameDuration)
+		if(frame.frameDuration >= frame.frameMaxDuration)
 		{
-			std::cout << "Switched frame: " << name << std::endl;
 			// Get remainder
-			m_frameDuration = m_frameDuration - m_animations[m_activeAnimation][m_frameIndex].frameDuration;
+			frame.frameDuration = frame.frameMaxDuration - frame.frameDuration;
 
 			// Increment frame index
 			++m_frameIndex;
@@ -86,27 +91,31 @@ namespace cc
 			if(m_frameIndex >= m_animations[m_activeAnimation].size())
 				m_frameIndex = 0;
 
-			// Change to new frame
+			// Change to new frame, don't use "frame" shortener as index has changed
 			shape.setTextureRect(m_animations[m_activeAnimation][m_frameIndex].frame);
 		}
 	}
 	void FrameAnimation::animate(sf::Sprite &sprite, const std::string &name)
 	{
-		// Increment counter with delta time
-		m_frameDuration += EngineInfo::getDelta();
-
 		// Check if the animation has changed, if so,
 		// set first frame of new animation at once
 		if(name != m_activeAnimation)
-			m_frameDuration = m_animations[m_activeAnimation][m_frameIndex].frameDuration;
+		{
+			// Switch active animation
+			m_activeAnimation = name;
 
-		// Set this animation to the active one
-		m_activeAnimation = name;
+			if(m_frameIndex >= m_animations[m_activeAnimation].size())
+				m_frameIndex = 0;
+			
+			sprite.setTextureRect(getFrame().frame);
+			//getFrame().frameDuration = getFrame().frameMaxDuration;
+		}
 
-		if(m_frameDuration >= m_animations[m_activeAnimation][m_frameIndex].frameDuration)
+
+		if(getFrame().frameDuration >= getFrame().frameMaxDuration)
 		{
 			// Get remainder
-			m_frameDuration = m_frameDuration - m_animations[m_activeAnimation][m_frameIndex].frameDuration;
+			getFrame().frameDuration = getFrame().frameMaxDuration - getFrame().frameDuration;
 
 			// Increment frame index
 			++m_frameIndex;
@@ -115,8 +124,19 @@ namespace cc
 			if(m_frameIndex >= m_animations[m_activeAnimation].size())
 				m_frameIndex = 0;
 
-			// Change to new frame
-			sprite.setTextureRect(m_animations[m_activeAnimation][m_frameIndex].frame);
+			// Change to new frame, don't use "frame" shortener as index has changed
+			sprite.setTextureRect(getFrame().frame);
 		}
+
+		// Increment counter with delta time
+		else
+			m_animations[m_activeAnimation][m_frameIndex].frameDuration += EngineInfo::getDelta();
+	}
+
+
+
+	FrameAnimation::Frame &FrameAnimation::getFrame()
+	{
+		return m_animations[m_activeAnimation][m_frameIndex];
 	}
 };

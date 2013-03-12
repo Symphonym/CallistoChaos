@@ -25,6 +25,7 @@ void GameEngine::init()
 	anim.pushFrame(sf::IntRect(0, 0, 32, 32), duration).
 		 pushFrame(sf::IntRect(32, 0, 32, 32), duration).
 		 pushFrame(sf::IntRect(64, 0, 32, 32), duration);
+	anim.initAnimation(sprite, "down");
 
 
 
