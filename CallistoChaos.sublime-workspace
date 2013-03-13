@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"TM",
+				"Tmax"
+			],
+			[
+				"sound",
+				"soundFilePath"
+			],
+			[
+				"m_has",
+				"m_hasChangedAnim"
+			],
+			[
+				"has",
+				"m_hasRequested"
+			],
+			[
 				"m_h",
 				"m_hasChangedAnim"
 			],
@@ -191,7 +207,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 1488,
+				"buffer_size": 1534,
 				"line_ending": "Unix"
 			}
 		},
@@ -207,7 +223,7 @@
 			"file": "src/GameEngine.cpp",
 			"settings":
 			{
-				"buffer_size": 2490,
+				"buffer_size": 2712,
 				"line_ending": "Unix"
 			}
 		},
@@ -223,7 +239,7 @@
 			"file": "src/FrameAnimation.h",
 			"settings":
 			{
-				"buffer_size": 2836,
+				"buffer_size": 3116,
 				"line_ending": "Unix"
 			}
 		},
@@ -231,12 +247,20 @@
 			"file": "src/FrameAnimation.cpp",
 			"settings":
 			{
-				"buffer_size": 6158,
+				"buffer_size": 4821,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Utility.h",
+			"settings":
+			{
+				"buffer_size": 932,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "Packages/User/RunRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -280,10 +304,11 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
@@ -297,7 +322,6 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Asset.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetData.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.h",
@@ -404,7 +428,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -440,15 +464,15 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 1488,
+						"buffer_size": 1534,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1486,
-								1486
+								1263,
+								1263
 							]
 						],
 						"settings":
@@ -493,15 +517,15 @@
 					"file": "src/GameEngine.cpp",
 					"settings":
 					{
-						"buffer_size": 2490,
+						"buffer_size": 2712,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1723,
-								1723
+								922,
+								922
 							]
 						],
 						"settings":
@@ -510,7 +534,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 556.0,
+						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -547,15 +571,15 @@
 					"file": "src/FrameAnimation.h",
 					"settings":
 					{
-						"buffer_size": 2836,
+						"buffer_size": 3116,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								843,
-								843
+								1455,
+								1455
 							]
 						],
 						"settings":
@@ -564,7 +588,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 990.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -574,15 +598,15 @@
 					"file": "src/FrameAnimation.cpp",
 					"settings":
 					{
-						"buffer_size": 6158,
+						"buffer_size": 4821,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4944,
-								4944
+								4157,
+								4157
 							]
 						],
 						"settings":
@@ -591,7 +615,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2295.0,
+						"translation.y": 90.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/Utility.h",
+					"settings":
+					{
+						"buffer_size": 932,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								692,
+								692
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 138.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

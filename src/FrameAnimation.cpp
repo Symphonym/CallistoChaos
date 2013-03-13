@@ -1,6 +1,7 @@
 #include "FrameAnimation.h"
 #include <stdexcept>
 #include "EngineInfo.h"
+#include "SoundManager.h"
 
 namespace cc
 {
@@ -38,13 +39,14 @@ namespace cc
 			sprite.setTextureRect(m_animations[name][0].frame);
 	}
 
-	FrameAnimation &FrameAnimation::pushFrame(const sf::IntRect &frame, double frameDuration)
+	FrameAnimation &FrameAnimation::pushFrame(const sf::IntRect &frame, double frameDuration, const std::string &soundFilePath)
 	{
 		if(m_animations.find(m_activeAnimation) != m_animations.end())
 		{
 			Frame data;
 			data.frame = frame;
 			data.frameMaxDuration = frameDuration;
+			data.soundPath = soundFilePath;
 			m_animations[m_activeAnimation].push_back(data);
 
 		}
@@ -156,6 +158,10 @@ namespace cc
 			// Make sure index is within bounds
 			if(m_frameIndex >= m_animations[m_activeAnimation].size())
 				m_frameIndex = 0;
+
+			// Play frame sound, if any
+			if(!getFrame().soundPath.empty())
+				SoundManager::playSound(getFrame().soundPath);
 
 			return true;
 		}

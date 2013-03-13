@@ -12,12 +12,12 @@ namespace cc
 	{
 		// Attempts to convert between datatypes using std::stringstream,  convert from <this, to this>
 		// Only works on built-in types, std::string included
-		template<typename inputtype, typename targettype> targettype convertData(const inputtype& input)
+		template<typename Tin, typename Tout> Tout convertData(const Tin& input)
 		{
 			std::stringstream ss;
 			ss << input;
 
-			targettype data;
+			Tout data;
 			ss >> data;
 
 			// Throw exception if invalid input was given
@@ -27,6 +27,15 @@ namespace cc
 			return data;
 		};
 	};
+
+	namespace Math
+	{
+		// Clamps a value to be >= min and <= max
+		template<typename T, typename Tmin, typename Tmax> T clamp(const T &value, const Tmin &min, const Tmax &max)
+		{
+			return value < min ? min : (value > max ? max : value);
+		};
+	}
 };
 
 #endif

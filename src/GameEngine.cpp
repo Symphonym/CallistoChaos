@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "EngineInfo.h"
 #include <iostream>
+#include "SoundManager.h"
 
 GameEngine::GameEngine()
 {
@@ -9,7 +10,6 @@ GameEngine::GameEngine()
 void GameEngine::init()
 {
 	const double duration = 0.1;
-	cc::EngineInfo::getAssets().addAsset<cc::TextureAsset>("rpgmaker.png");
 	anim.createAnimation("right");
 	anim.pushFrame(sf::IntRect(0, 64, 32, 32), duration).
 		 pushFrame(sf::IntRect(32, 64, 32, 32), duration).
@@ -23,12 +23,14 @@ void GameEngine::init()
 		 pushFrame(sf::IntRect(32, 96, 32, 32), duration).
 		 pushFrame(sf::IntRect(64, 96, 32, 32), duration);
 	anim.createAnimation("down");
-	anim.pushFrame(sf::IntRect(0, 0, 32, 32), duration).
+	anim.pushFrame(sf::IntRect(0, 0, 32, 32), duration, "button.wav").
 		 pushFrame(sf::IntRect(32, 0, 32, 32), duration).
 		 pushFrame(sf::IntRect(64, 0, 32, 32), duration);
 	anim.initAnimation(sprite, "down");
 
-
+	// Load sound
+	cc::EngineInfo::acquire<cc::SoundBufferAsset>("button.wav");
+	cc::SoundManager::addSound("button.wav");
 
 	sprite.setTexture(cc::EngineInfo::acquire<cc::TextureAsset>("rpgmaker.png")->get());
 	sprite.setPosition(0,0);

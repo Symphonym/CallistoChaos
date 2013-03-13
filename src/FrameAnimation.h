@@ -19,6 +19,8 @@ namespace cc
 			// Frame and lifetime of the frame
 			sf::IntRect frame;
 			double frameMaxDuration;
+			// Path to sound file to be played at the frame, if any
+			std::string soundPath;
 		};
 
 		// All the Animations
@@ -55,7 +57,7 @@ namespace cc
 		void initAnimation(sf::Sprite &sprite, const std::string &name);
 
 		// Pushes a new frame onto the active animation, returns this to allow chaining calls
-		FrameAnimation &pushFrame(const sf::IntRect &frame, double frameDuration);
+		FrameAnimation &pushFrame(const sf::IntRect &frame, double frameDuration, const std::string &soundFilePath = "");
 		// Removes the specified frame from the specified animation
 		void removeFrame(const std::string& name, std::size_t frameIndex);
 		// Removes all frames from the specified animation

@@ -24,23 +24,23 @@ namespace cc
 
 	public:
 
-		template<typename AssetType> void addAsset(const std::string &filepath)
-		{
-			// Create new asset
-			auto asset = std::unique_ptr<AssetType>(new AssetType());
-
-			// Run asset's load method
-			if(!asset->loadAsset(filepath))
-				throw std::runtime_error("The asset \"" + filepath + "\" could not be loaded properly.");
-
-			// Store asset
-			m_assets[filepath] = std::move(asset);
-		}
+		// Returns asset converted to the specified AssetType, attempts to load
+		// the asset from the filepath if it could not be found.
 		template<typename AssetType> AssetType* getAsset(const std::string &filepath)
 		{
 			// Check if assets exists, if not; blame the user
 			if(m_assets.find(filepath) == m_assets.end())
-				throw std::runtime_error("The asset \"" + filepath + "\" could not be found.");
+			{
+				// Create new asset
+				auto asset = std::unique_ptr<AssetType>(new AssetType());
+
+				// Run asset's load method
+				if(!asset->loadAsset(filepath))
+					throw std::runtime_error("The asset \"" + filepath + "\" could not be loaded properly.");
+
+				// Store asset
+				m_assets[filepath] = std::move(asset);
+			}
 
 			return dynamic_cast<AssetType*>(&(*m_assets[filepath]));
 		};

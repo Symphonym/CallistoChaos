@@ -47,4 +47,5 @@ FontAsset.o: Asset.h
 SoundBufferAsset.o: Asset.h
 MusicAsset.o: Asset.h
 SoundManager.o: EngineInfo.h
+FrameAnimation.o: SoundManager.h EngineInfo.h
 
