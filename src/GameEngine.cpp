@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "EngineInfo.h"
+#include <iostream>
 
 GameEngine::GameEngine()
 {
@@ -39,26 +40,39 @@ void GameEngine::events()
 }
 void GameEngine::update()
 {
+	std::string animstring = "";
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		anim.animate(sprite, "up");
+		//animstring = "up";
+		anim.request("up");
 		sprite.move(0, -100*cc::EngineInfo::getDelta());
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		anim.animate(sprite, "down");
+		//animstring = "down";
+		anim.request("down");
 		sprite.move(0, 100*cc::EngineInfo::getDelta());
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		anim.animate(sprite, "left");
+		//animstring = "left";
+		anim.request("left");
 		sprite.move(-100*cc::EngineInfo::getDelta(), 0);
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		anim.animate(sprite, "right");
+		//animstring = "right";
+		anim.request("right");
 		sprite.move(100*cc::EngineInfo::getDelta(), 0);
 	}
+
+	//anim.animate(sprite, animstring);
+	anim.commit(sprite);
+
+	if(sprite.getPosition().x > (view.getSize().x - sprite.getGlobalBounds().width))
+		sprite.setPosition((view.getSize().x - sprite.getGlobalBounds().width), sprite.getPosition().y);
+	if(sprite.getPosition().y < 0)
+		sprite.setPosition(sprite.getPosition().x, 0);
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		view.zoom(1.0 - cc::EngineInfo::getDelta());

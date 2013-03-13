@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"m_h",
+				"m_hasChangedAnim"
+			],
+			[
+				"m_",
+				"m_hasChangedAnim"
+			],
+			[
 				"m_frame",
 				"m_frameIndex"
 			],
@@ -34,10 +42,6 @@
 			[
 				"m_a",
 				"m_activeAnimation"
-			],
-			[
-				"m_",
-				"m_animations"
 			],
 			[
 				"Fram",
@@ -203,7 +207,7 @@
 			"file": "src/GameEngine.cpp",
 			"settings":
 			{
-				"buffer_size": 2149,
+				"buffer_size": 2490,
 				"line_ending": "Unix"
 			}
 		},
@@ -212,6 +216,22 @@
 			"settings":
 			{
 				"buffer_size": 4661,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FrameAnimation.h",
+			"settings":
+			{
+				"buffer_size": 2836,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FrameAnimation.cpp",
+			"settings":
+			{
+				"buffer_size": 6158,
 				"line_ending": "Unix"
 			}
 		}
@@ -332,6 +352,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"frameDurationMax",
 			".size",
 			">=",
 			"f1",
@@ -383,7 +404,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -472,15 +493,15 @@
 					"file": "src/GameEngine.cpp",
 					"settings":
 					{
-						"buffer_size": 2149,
+						"buffer_size": 2490,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								431,
-								431
+								1723,
+								1723
 							]
 						],
 						"settings":
@@ -489,7 +510,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 556.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -516,7 +537,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1980.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/FrameAnimation.h",
+					"settings":
+					{
+						"buffer_size": 2836,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								843,
+								843
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/FrameAnimation.cpp",
+					"settings":
+					{
+						"buffer_size": 6158,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4944,
+								4944
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2295.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
