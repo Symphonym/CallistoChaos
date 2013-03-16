@@ -1,6 +1,6 @@
 #include "SoundBufferAsset.h"
 
-namespace cc
+namespace jl
 {
 
 	bool SoundBufferAsset::loadAsset(const std::string &filepath)

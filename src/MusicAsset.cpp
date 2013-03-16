@@ -1,6 +1,6 @@
 #include "MusicAsset.h"
 
-namespace cc
+namespace jl
 {
 
 	bool MusicAsset::loadAsset(const std::string &filepath)

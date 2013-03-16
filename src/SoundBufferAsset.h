@@ -1,10 +1,10 @@
-#ifndef CC_SOUNDBUFFERASSET_H
-#define CC_SOUNDBUFFERASSET_H
+#ifndef JL_SOUNDBUFFERASSET_H
+#define JL_SOUNDBUFFERASSET_H
 
 #include <SFML/Audio.hpp>
 #include "Asset.h"
 
-namespace cc
+namespace jl
 {
 	class SoundBufferAsset : public Asset
 	{

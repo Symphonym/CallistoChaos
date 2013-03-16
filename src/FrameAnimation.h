@@ -1,9 +1,9 @@
-#ifndef CC_FRAMEANIMATION_H
-#define CC_FRAMEANIMATION_H
+#ifndef JL_FRAMEANIMATION_H
+#define JL_FRAMEANIMATION_H
 
 #include <SFML/Graphics.hpp>
 
-namespace cc
+namespace jl
 {
 	// Allows to create FrameAnimation using an sf::Shape to
 	// change it's subrect in order to render different parts
@@ -40,7 +40,7 @@ namespace cc
 		Frame &getFrame();
 
 		// Updates the animation, returns true if frame was changed
-		bool progress();
+		bool progress(double deltaTime);
 
 	public:
 
@@ -71,8 +71,8 @@ namespace cc
 		// "animate". Cannot run multiple "animate" calls
 		// in the same tick, use a string to set, and run
 		// "animate" once at the end.
-		void animate(sf::Shape &shape, const std::string &name);
-		void animate(sf::Sprite &sprite, const std::string &name);
+		void animate(sf::Shape &shape, const std::string &name, double deltaTime);
+		void animate(sf::Sprite &sprite, const std::string &name, double deltaTime);
 
 		// Animation method 2
 		// Animates the sprite/shape indirectly by first
@@ -87,8 +87,8 @@ namespace cc
 
 		// Updates the the animation with the last animation
 		// which was specified through "request"
-		void commit(sf::Shape &shape);
-		void commit(sf::Sprite &sprite);
+		void commit(sf::Shape &shape, double deltaTime);
+		void commit(sf::Sprite &sprite, double deltaTime);
 	};
 };
 

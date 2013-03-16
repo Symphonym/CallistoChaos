@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"m_",
+				"m_delete"
+			],
+			[
+				"push",
+				"push_back"
+			],
+			[
+				"pop",
+				"pop_back"
+			],
+			[
+				"get",
+				"getActiveState"
+			],
+			[
+				"m_p",
+				"m_elapsedClock"
+			],
+			[
+				"m_pause",
+				"m_pausedClock"
+			],
+			[
 				"TM",
 				"Tmax"
 			],
@@ -21,10 +45,6 @@
 			],
 			[
 				"m_h",
-				"m_hasChangedAnim"
-			],
-			[
-				"m_",
 				"m_hasChangedAnim"
 			],
 			[
@@ -199,7 +219,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 418,
+				"buffer_size": 456,
 				"line_ending": "Unix"
 			}
 		},
@@ -207,7 +227,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 1534,
+				"buffer_size": 1564,
 				"line_ending": "Unix"
 			}
 		},
@@ -215,7 +235,7 @@
 			"file": "src/GameEngine.h",
 			"settings":
 			{
-				"buffer_size": 351,
+				"buffer_size": 387,
 				"line_ending": "Unix"
 			}
 		},
@@ -223,44 +243,63 @@
 			"file": "src/GameEngine.cpp",
 			"settings":
 			{
-				"buffer_size": 2712,
+				"buffer_size": 2723,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/Engine.cpp",
+			"file": "src/StateManager.h",
 			"settings":
 			{
-				"buffer_size": 4661,
+				"buffer_size": 1297,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/FrameAnimation.h",
+			"file": "src/StateManager.cpp",
 			"settings":
 			{
-				"buffer_size": 3116,
+				"buffer_size": 1229,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/FrameAnimation.cpp",
+			"file": "src/State.h",
 			"settings":
 			{
-				"buffer_size": 4821,
+				"buffer_size": 1483,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/Utility.h",
+			"file": "src/State.cpp",
 			"settings":
 			{
-				"buffer_size": 932,
+				"buffer_size": 767,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.h",
+			"settings":
+			{
+				"buffer_size": 2641,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#ifndef JL_SOUNDMANAGER_H\n#define JL_SOUNDMANAGER_H\n\n#include <SFML/Audio.hpp>\n#include <string>\n\nnamespace jl\n{\n	class AssetManager;\n\n	// \"SoundManager\" provides a global namespace for playing sounds, using the\n	// assets stored in the Engine.\n	namespace SoundManager\n	{\n		// \"registerAssets\" registers the AssetManager from which the\n		// SoundManager can acquire it's sf::SoundBuffer objects.\n		void registerAssets(AssetManager* assets);\n\n		void addSound(const std::string &filepath);\n		void removeSound(const std::string &filepath);\n\n		void playSound(const std::string &filepath);\n		void pauseSound(const std::string &filepath);\n		void stopSound(const std::string &filepath);\n\n		sf::Sound &getSound(const std::string &filepath);\n	};\n};\n\n#endif",
+			"file": "src/SoundManager.h",
+			"file_size": 636,
+			"file_write_time": 1363391729000000,
+			"settings":
+			{
+				"buffer_size": 747,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "Packages/User/OpenDirectory.sublime-build",
+	"build_system": "Packages/User/RunRelease.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -304,38 +343,45 @@
 	},
 	"file_history":
 	[
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FrameAnimation.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TextureAsset.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EngineInfo.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/StopWatch.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Exception.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/StopWatch.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/main.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Utility.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TextureAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TextureAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/StateManager.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/MusicAsset.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/MusicAsset.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundBufferAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/FontAsset.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Asset.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Exceptions.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetData.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetCache.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Asset.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AssetData.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/State.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Locator.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Renderer.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Settings.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Utility.h",
 		"/home/jakob/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/jakob/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/home/jakob/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
@@ -376,6 +422,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Util::",
+			"EngineInfo",
+			"State",
+			"cc",
 			"frameDurationMax",
 			".size",
 			">=",
@@ -414,6 +464,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"jl",
 			"[",
 			"1E",
 			"}\n",
@@ -428,7 +479,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -436,20 +487,19 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 418,
+						"buffer_size": 456,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								174,
-								174
+								398,
+								398
 							]
 						],
 						"settings":
 						{
-							"auto_name": "",
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -464,15 +514,15 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 1534,
+						"buffer_size": 1564,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1263,
-								1263
+								1235,
+								1235
 							]
 						],
 						"settings":
@@ -490,15 +540,15 @@
 					"file": "src/GameEngine.h",
 					"settings":
 					{
-						"buffer_size": 351,
+						"buffer_size": 387,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								42,
-								42
+								185,
+								185
 							]
 						],
 						"settings":
@@ -517,15 +567,15 @@
 					"file": "src/GameEngine.cpp",
 					"settings":
 					{
-						"buffer_size": 2712,
+						"buffer_size": 2723,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								922,
-								922
+								1135,
+								1135
 							]
 						],
 						"settings":
@@ -534,52 +584,53 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 315.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "src/Engine.cpp",
+					"file": "src/StateManager.h",
 					"settings":
 					{
-						"buffer_size": 4661,
+						"buffer_size": 1297,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1477,
-								1477
+								446,
+								446
 							]
 						],
 						"settings":
 						{
+							"auto_name": "",
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1980.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "src/FrameAnimation.h",
+					"file": "src/StateManager.cpp",
 					"settings":
 					{
-						"buffer_size": 3116,
+						"buffer_size": 1229,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1455,
-								1455
+								1015,
+								1015
 							]
 						],
 						"settings":
@@ -588,25 +639,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 990.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "src/FrameAnimation.cpp",
+					"file": "src/State.h",
 					"settings":
 					{
-						"buffer_size": 4821,
+						"buffer_size": 1483,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4157,
-								4157
+								193,
+								193
 							]
 						],
 						"settings":
@@ -615,25 +666,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "src/Utility.h",
+					"file": "src/State.cpp",
 					"settings":
 					{
-						"buffer_size": 932,
+						"buffer_size": 767,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								692,
-								692
+								153,
+								153
 							]
 						],
 						"settings":
@@ -642,7 +693,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 138.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/Engine.h",
+					"settings":
+					{
+						"buffer_size": 2641,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								69,
+								69
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/SoundManager.h",
+					"settings":
+					{
+						"buffer_size": 747,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								584,
+								584
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -691,7 +796,7 @@
 	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -699,6 +804,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"exce",
+				"src/Exception.h"
+			],
+			[
+				"exc",
+				"src/Exception.h"
+			],
+			[
+				"main",
+				"src/main.cpp"
+			],
 			[
 				"sto",
 				"src/Storage.cpp"

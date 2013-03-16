@@ -1,12 +1,12 @@
-#ifndef CC_UTILITY_H
-#define CC_UTILITY_H
+#ifndef JL_UTILITY_H
+#define JL_UTILITY_H
 
 #include <sstream>
 #include <string>
 #include <typeinfo>
 #include <stdexcept>
 
-namespace cc
+namespace jl
 {
 	namespace Util
 	{

@@ -1,10 +1,10 @@
-#ifndef CC_FONTASSET_H
-#define CC_FONTASSET_H
+#ifndef JL_FONTASSET_H
+#define JL_FONTASSET_H
 
 #include <SFML/Graphics.hpp>
 #include "Asset.h"
 
-namespace cc
+namespace jl
 {
 	class FontAsset : public Asset
 	{

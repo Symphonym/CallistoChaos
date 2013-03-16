@@ -1,7 +1,7 @@
 #include "Settings.h"
 #include <stdexcept>
 
-namespace cc
+namespace jl
 {
 	namespace Settings
 	{

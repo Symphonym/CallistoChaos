@@ -1,9 +1,8 @@
 #include "FrameAnimation.h"
 #include <stdexcept>
-#include "EngineInfo.h"
 #include "SoundManager.h"
 
-namespace cc
+namespace jl
 {
 	FrameAnimation::FrameAnimation()
 	 :
@@ -66,7 +65,7 @@ namespace cc
 		m_animations[name].clear();
 	}
 
-	void FrameAnimation::animate(sf::Shape &shape, const std::string &name)
+	void FrameAnimation::animate(sf::Shape &shape, const std::string &name, double deltaTime)
 	{
 		// Make sure the animation exists
 		if(m_animations.find(name) == m_animations.end())
@@ -87,10 +86,10 @@ namespace cc
 		}
 
 		// If no new animation, simply continue updating the animation
-		else if(progress())
+		else if(progress(deltaTime))
 			shape.setTextureRect(getFrame().frame);
 	}
-	void FrameAnimation::animate(sf::Sprite &sprite, const std::string &name)
+	void FrameAnimation::animate(sf::Sprite &sprite, const std::string &name, double deltaTime)
 	{
 		// Make sure the animation exists
 		if(m_animations.find(name) == m_animations.end())
@@ -111,7 +110,7 @@ namespace cc
 		}
 
 		// If no new animation, simply continue updating the animation
-		else if(progress())
+		else if(progress(deltaTime))
 			sprite.setTextureRect(getFrame().frame);
 	}
 
@@ -121,33 +120,33 @@ namespace cc
 		// "commit" call
 		m_requestedAnimation = name;
 	}
-	void FrameAnimation::commit(sf::Shape &shape)
+	void FrameAnimation::commit(sf::Shape &shape, double deltaTime)
 	{
 		// Make sure the animation exists and has been requested
 		if(m_animations.find(m_requestedAnimation) == m_animations.end() || m_requestedAnimation.empty())
 			return;
 
 		// Animate sprite with requested animation
-		animate(shape, m_requestedAnimation);
+		animate(shape, m_requestedAnimation, deltaTime);
 
 		// Reset requested animation
 		m_requestedAnimation = "";
 	}
-	void FrameAnimation::commit(sf::Sprite &sprite)
+	void FrameAnimation::commit(sf::Sprite &sprite, double deltaTime)
 	{
 		// Make sure the animation exists and has been requested
 		if(m_animations.find(m_requestedAnimation) == m_animations.end() || m_requestedAnimation.empty())
 			return;
 
 		// Animate sprite with requested animation
-		animate(sprite, m_requestedAnimation);
+		animate(sprite, m_requestedAnimation, deltaTime);
 
 		// Reset requested animation
 		m_requestedAnimation = "";
 	}
 
 
-	bool FrameAnimation::progress()
+	bool FrameAnimation::progress(double deltaTime)
 	{
 		if(m_frameDuration >= getFrame().frameMaxDuration)
 		{
@@ -167,7 +166,7 @@ namespace cc
 		}
 		else
 		{
-			m_frameDuration += EngineInfo::getDelta();
+			m_frameDuration += deltaTime;
 			return false;
 		}
 	}

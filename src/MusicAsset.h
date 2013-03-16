@@ -1,10 +1,10 @@
-#ifndef CC_MUSICASSET_H
-#define CC_MUSICASSET_H
+#ifndef JL_MUSICASSET_H
+#define JL_MUSICASSET_H
 
 #include <SFML/Audio.hpp>
 #include "Asset.h"
 
-namespace cc
+namespace jl
 {
 	class MusicAsset : public Asset
 	{

@@ -1,6 +1,6 @@
 #include "TextureAsset.h"
 #include <iostream>
-namespace cc
+namespace jl
 {
 
 	bool TextureAsset::loadAsset(const std::string &filepath)

@@ -1,5 +1,5 @@
-#ifndef CC_ASSETCACHE_H
-#define CC_ASSETCACHE_H
+#ifndef JL_ASSETCACHE_H
+#define JL_ASSETCACHE_H
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -14,7 +14,7 @@
 #include "SoundBufferAsset.h"
 #include "MusicAsset.h"
 
-namespace cc
+namespace jl
 {
 
 	class AssetManager

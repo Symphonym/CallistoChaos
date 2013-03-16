@@ -1,6 +1,6 @@
 #include "FontAsset.h"
 
-namespace cc
+namespace jl
 {
 	bool FontAsset::loadAsset(const std::string &filepath)
 	{

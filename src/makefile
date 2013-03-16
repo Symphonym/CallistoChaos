@@ -38,7 +38,7 @@ clean:
 # objectfile.o: headerfile.h
 
 main.o: GameEngine.h Settings.h
-Engine.o: Settings.h State.h Utility.h EngineInfo.h AssetManager.h
+Engine.o: Settings.h State.h Utility.h AssetManager.h StateManager.h
 EngineInfo.o: Engine.h
 GameEngine.o: Engine.h
 AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
@@ -46,6 +46,8 @@ TextureAsset.o: Asset.h
 FontAsset.o: Asset.h
 SoundBufferAsset.o: Asset.h
 MusicAsset.o: Asset.h
-SoundManager.o: EngineInfo.h
-FrameAnimation.o: SoundManager.h EngineInfo.h
+SoundManager.o:
+FrameAnimation.o: SoundManager.h
+StateManager.o: State.h
+State.o: StopWatch.h Engine.h
 

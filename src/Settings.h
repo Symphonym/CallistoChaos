@@ -1,10 +1,10 @@
-#ifndef CC_SETTINGS_H
-#define CC_SETTINGS_H
+#ifndef JL_SETTINGS_H
+#define JL_SETTINGS_H
 
 #include <map>
 #include <string>
 
-namespace cc
+namespace jl
 {
 	namespace Settings
 	{

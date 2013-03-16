@@ -1,9 +1,9 @@
-#ifndef CC_ASSET_H
-#define CC_ASSET_H
+#ifndef JL_ASSET_H
+#define JL_ASSET_H
 
 #include <string>
 
-namespace cc
+namespace jl
 {
 	// Abstract class for handling Assets
 	class Asset

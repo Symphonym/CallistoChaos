@@ -1,16 +1,22 @@
 #include "SoundManager.h"
-#include "EngineInfo.h"
+#include "AssetManager.h"
 #include <map>
 
-namespace cc
+namespace jl
 {
 	namespace SoundManager
 	{
 		std::map<std::string, sf::Sound> m_sounds;
+		AssetManager* m_assets;
+
+		void registerAssets(AssetManager* assets)
+		{
+			m_assets = assets;
+		}
 
 		void addSound(const std::string &filepath)
 		{
-			sf::Sound sound(EngineInfo::getAssets().getAsset<SoundBufferAsset>(filepath)->get());
+			sf::Sound sound(m_assets->getAsset<SoundBufferAsset>(filepath)->get());
 			m_sounds[filepath] = sound;
 		}
 		void removeSound(const std::string &filepath)

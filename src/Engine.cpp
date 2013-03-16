@@ -1,20 +1,22 @@
 #include "Engine.h"
-#include "Settings.h"
 #include "Utility.h"
-#include "EngineInfo.h"
+#include "SoundManager.h"
 
-namespace cc
+namespace jl
 {
 	Engine::Engine()
 	 : 
-	 m_stateInit(false),
 	 m_fps(0),
-	 m_deltaTime(0)
+	 m_delta(0),
+	 m_deltaClock(),
+	 m_window(),
+	 m_assets(),
+	 m_stack()
 	{
 		// Initialize default settings
 		Settings::setString("infoAuthor", "Programmed by Jakob Larsson 8/3-2013, aged 17");
 		Settings::setString("infoOS", "Supports: Linux and Windows");
-		Settings::setString("infoName", "Callisto Chaos");
+		Settings::setString("infoName", "Jakob Larsson Game Engine");
 		Settings::setString("windowTitle", "--> Jakob Larsson Game Engine <--");
 		Settings::setBool("windowShowCursor", true);
 		Settings::setBool("windowVsync", false);
@@ -24,57 +26,30 @@ namespace cc
 		Settings::setInt("windowStyle", sf::Style::Close);
 		Settings::setInt("gameGlobalVolume", 100);
 
-		// Initialize data
-		m_renderer.setRenderTarget(m_window);
-
-		// Checks if there is an active Engine, if not, makes THIS Engine the active one
-		if(EngineInfo::m_engine == nullptr)
-			setActive();
+		// Register Engine data to those who need it
+		SoundManager::registerAssets(&m_assets);
 	}	
 
-
-	void Engine::run()
-	{
-		// Only allow running this method if the game isn't already running
-		if(!m_window.isOpen())
-		{
-			// Initialize renderwindow and load settings
-			m_window.create(
-				sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
-				 Settings::getString("windowTitle"),
-				 Settings::getInt("windowStyle"));
-			m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
-			m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
-			m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
-			sf::Listener::setGlobalVolume(Settings::getInt("gameGlobalVolume"));
-
-			// Initialize additional game engine data
-			init();
-
-			// Start gameloop
-			gameloop();
-		}
-	}
 	void Engine::gameloop()
 	{
 		while(m_window.isOpen())
 		{
-			m_deltaTime = m_deltaClock.restart().asSeconds();
-			m_fps = 1.0 / m_deltaTime;
+			m_delta = m_deltaClock.restart().asSeconds();
+			m_fps = 1 / m_delta;
 
-			// Initialize the uninitialized state, if there's one
-			if(!m_stateInit && m_stateStack.size() > 0)
+			// Do delete requests
+			m_stack.processDeletes();
+
+			// Finish loop if Stack is empty
+			if(m_stack.isEmpty())
 			{
-				// Handle extra initialzation of the current state
-				// Default initialization should be handled in the ctor
-				m_stateStack.back()->init();
-				m_stateInit = true;
+				m_window.close();
+				break;
 			}
 
-
-			while(m_window.pollEvent(m_events))
+			while(m_window.pollEvent(m_event))
 			{
-				if(m_events.type == sf::Event::Closed ||
+				if(m_event.type == sf::Event::Closed ||
 					(sf::Keyboard::isKeyPressed(sf::Keyboard::J) &&
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::K) &&
@@ -82,38 +57,30 @@ namespace cc
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::B)))
 					m_window.close();
 
-				// Handle events in current state
-				if(m_stateInit)
-					m_stateStack.back()->events();
+				// State events
+				m_stack.getActiveState()->events();
 
 				// Global events
 				events();
 			}
 
-			// Handle updating in current state
-			if(m_stateInit)
-				m_stateStack.back()->update();
+			// State updating
+			m_stack.getActiveState()->update();
 
 			// Global update
 			update();
 
-
 			m_window.clear();
 
-			// Handle rendering in current state
-			if(m_stateInit)
-				m_stateStack.back()->render();
+			// State rendering
+			m_stack.getActiveState()->render();
 
 			// Global rendering
 			render();
 
+
 			m_window.display();
 		}
-	}
-
-	void Engine::setActive()
-	{
-		EngineInfo::m_engine = this;
 	}
 
 	void Engine::parseArgs(int argc, char const *args[])
@@ -160,23 +127,40 @@ namespace cc
 		}
 	}
 
-	void Engine::changeState(std::unique_ptr<State> state)
-	{
-		while(m_stateStack.size() > 0)
-			m_stateStack.pop_back();
 
-		pushState(std::move(state));
-	}
-	void Engine::pushState(std::unique_ptr<State> state)
+	sf::View Engine::createView(double zoomFactor)
 	{
-		m_stateInit = true;
-		m_stateStack.push_back(std::move(state));
-	}
-	void Engine::popState()
-	{
-		m_stateStack.pop_back();
+		sf::View view(m_window.getDefaultView());
+		view.zoom(zoomFactor);
+		view.setCenter(view.getSize().x/2, view.getSize().y/2);
 
-		if(m_stateStack.size() <= 0)
-			m_stateInit = false;
+		return view;
+	}
+
+
+	int Engine::getFps() const
+	{
+		return m_fps;
+	}
+	double Engine::getDelta() const
+	{
+		return m_delta;
+	}
+
+	AssetManager &Engine::getAssets()
+	{
+		return m_assets;
+	}
+	StateManager &Engine::getStack()
+	{
+		return m_stack;
+	}
+	sf::Event &Engine::getEvent()
+	{
+		return m_event;
+	}
+	sf::RenderWindow &Engine::getWindow()
+	{
+		return m_window;
 	}
 };

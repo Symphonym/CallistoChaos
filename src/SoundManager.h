@@ -1,13 +1,18 @@
-#ifndef CC_SOUNDMANAGER_H
-#define CC_SOUNDMANAGER_H
+#ifndef JL_SOUNDMANAGER_H
+#define JL_SOUNDMANAGER_H
 
 #include <SFML/Audio.hpp>
 #include <string>
 
-namespace cc
+namespace jl
 {
+	class AssetManager;
 	namespace SoundManager
 	{
+		// "registerAssets" registers the AssetManager from which the
+		// SoundManager can acquire it's sf::SoundBuffer objects.
+		void registerAssets(AssetManager* assets);
+
 		void addSound(const std::string &filepath);
 		void removeSound(const std::string &filepath);
 

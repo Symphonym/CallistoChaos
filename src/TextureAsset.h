@@ -1,10 +1,10 @@
-#ifndef CC_TEXTUREASSET_H
-#define CC_TEXTUREASSET_H
+#ifndef JL_TEXTUREASSET_H
+#define JL_TEXTUREASSET_H
 
 #include <SFML/Graphics.hpp>
 #include "Asset.h"
 
-namespace cc
+namespace jl
 {
 	class TextureAsset : public Asset
 	{

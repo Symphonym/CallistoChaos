@@ -1,6 +1,6 @@
 #include "AssetManager.h"
 
-namespace cc
+namespace jl
 {
 	void AssetManager::deleteAsset(const std::string& filepath)
 	{
