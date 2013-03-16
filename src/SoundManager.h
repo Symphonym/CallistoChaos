@@ -7,6 +7,9 @@
 namespace jl
 {
 	class AssetManager;
+
+	// "SoundManager" provides a global namespace for playing sounds, using the
+	// assets stored in the Engine.
 	namespace SoundManager
 	{
 		// "registerAssets" registers the AssetManager from which the

@@ -127,6 +127,14 @@ namespace jl
 		}
 	}
 
+	void Engine::render(const sf::Drawable &drawable, const sf::RenderStates &states)
+	{
+		m_window.draw(drawable, states);
+	}
+	void Engine::render(const sf::Vertex *vertices, unsigned int vertexCount, sf::PrimitiveType type, const sf::RenderStates &states)
+	{
+		m_window.draw(vertices, vertexCount, type, states);
+	}
 
 	sf::View Engine::createView(double zoomFactor)
 	{
@@ -145,22 +153,5 @@ namespace jl
 	double Engine::getDelta() const
 	{
 		return m_delta;
-	}
-
-	AssetManager &Engine::getAssets()
-	{
-		return m_assets;
-	}
-	StateManager &Engine::getStack()
-	{
-		return m_stack;
-	}
-	sf::Event &Engine::getEvent()
-	{
-		return m_event;
-	}
-	sf::RenderWindow &Engine::getWindow()
-	{
-		return m_window;
 	}
 };

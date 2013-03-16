@@ -12,7 +12,7 @@ namespace jl
 	private:
 
 		// Allow only the StateManager to access
-		// the private init method.
+		// the private "init" method.
 		friend class StateManager;
 
 		jl::Engine *m_engine;
@@ -47,9 +47,6 @@ namespace jl
 		// "getEngine" returns a pointer to the Engine that 
 		// manages the State.
 		jl::Engine *const getEngine() const;
-		// "getDelta" returns the delta time since the last tick,
-		// provided by the Engine.
-		double getDelta() const; 
 
 		// "getElapsedTime" returns total elapsed time in seconds
 		// that the State has been active(unpaused) since the

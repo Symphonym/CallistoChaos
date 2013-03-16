@@ -32,11 +32,7 @@ namespace jl
 	{
 		return m_engine;
 	}
-	double State::getDelta() const
-	{
-		return m_engine->getDelta();
-	}
-
+	
 	float State::getElapsedTime() const
 	{
 		return m_elapsedClock.getElapsedTime().asSeconds();

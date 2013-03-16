@@ -18,12 +18,6 @@ namespace jl
 		sf::Clock m_deltaClock;
 		void gameloop();
 
-		// Extra engine data
-		sf::RenderWindow m_window;
-		sf::Event m_event;
-		AssetManager m_assets;
-		StateManager m_stack;
-
 		// Keep base methods private to prevent them from being called by
 		// anyone other than the Engine itself
 		// These base methods are run on every state, as a global place of control
@@ -40,6 +34,12 @@ namespace jl
 
 	public:
 
+		// Extra engine data
+		sf::RenderWindow m_window;
+		sf::Event m_event;
+		AssetManager m_assets;
+		StateManager m_stack;
+
 		// "Engine" constructor provides the game with default settings,
 		// most of which can be overloaded.
 		explicit Engine();
@@ -54,7 +54,7 @@ namespace jl
 			{
 				// Initialize startup state with type T
 				auto startupState = std::unique_ptr<State>(new T(this));
-				getStack().pushState(std::move(startupState));
+				m_stack.pushState(std::move(startupState));
 
 				// Initialize renderwindow and load settings
 				m_window.create(
@@ -78,17 +78,16 @@ namespace jl
 		// in the format of: settingName=value
 		void parseArgs(int argc, char const* args[]);
 
+
+		void render(const sf::Drawable &drawable, const sf::RenderStates &states = sf::RenderStates::Default);
+		void render(const sf::Vertex *vertices, unsigned int vertexCount, sf::PrimitiveType type, const sf::RenderStates &states = sf::RenderStates::Default);
+
 		// "createView" is a factory function using the sf::RenderWindow's
 		// default and the specified zoomFactor to return a custom sf::View.
 		sf::View createView(double zoomFactor = 1.0);
 
 		double getDelta() const;
 		int getFps() const;
-
-		AssetManager &getAssets();
-		StateManager &getStack();
-		sf::Event &getEvent();
-		sf::RenderWindow &getWindow();
 	};
 };
 
