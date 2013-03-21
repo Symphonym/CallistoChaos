@@ -16,6 +16,10 @@ namespace jl
 		// so that the AssetCache knows how to load this 
 		// asset.
 		virtual bool loadAsset(const std::string &filepath) = 0;
+
+	public:
+
+		virtual ~Asset();
 	};
 };
 

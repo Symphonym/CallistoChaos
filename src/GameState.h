@@ -6,7 +6,7 @@
 #include "FrameAnimation.h"
 #include "Engine.h"
 
-class GameEngine : public jl::State
+class GameState : public jl::State
 {
 public:
 
@@ -15,7 +15,7 @@ public:
 	sf::View view;
 	jl::FrameAnimation anim;
 
-	explicit GameEngine(jl::Engine *engine);
+	explicit GameState(jl::Engine *engine);
 
 	void init();
 	void events();
