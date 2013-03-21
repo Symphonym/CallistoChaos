@@ -296,7 +296,7 @@
 			}
 		}
 	],
-	"build_system": "Packages/User/RunRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -598,8 +598,8 @@
 						"selection":
 						[
 							[
-								1623,
-								1623
+								1266,
+								1266
 							]
 						],
 						"settings":
