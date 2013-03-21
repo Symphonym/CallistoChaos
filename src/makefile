@@ -6,17 +6,17 @@ CXX := g++
 CXXFLAGS := -Iinclude -std=c++11 -Wall
 
 CXX_DEBUG_FLAGS := -Wl,-R,'$$ORIGIN/lib' -L../debug/lib	\
-	-lsfml-graphics-d -lsfml-audio-d -lsfml-window-d -lsfml-network-d -lsfml-system-d
+	-lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-network-d -lsfml-system-d
 
 CXX_RELEASE_FLAGS := -Wl,-R,'$$ORIGIN/lib' -L../release/lib	\
-	-lsfml-graphics -lsfml-audio -lsfml-window -lsfml-network -lsfml-system
+	-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-network -lsfml-system
 
 # List of source files
 SRCS := $(wildcard *.cpp)
 SRCS_OBJECT := ${SRCS:.cpp=.o}
 
 # release target, for maximum performance
-.PHONY: release
+.PHONY: release<<
 release: ${SRCS_OBJECT}
 	${CXX} -o ../release/${PROJ_NAME} ${SRCS_OBJECT} ${CXX_RELEASE_FLAGS}
 

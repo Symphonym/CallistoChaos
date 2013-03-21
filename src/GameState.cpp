@@ -1,12 +1,12 @@
-#include "GameEngine.h"
+#include "GameState.h"
 #include <iostream>
 #include "SoundManager.h"
 
-GameEngine::GameEngine(jl::Engine *engine) : jl::State(engine)
+GameState::GameState(jl::Engine *engine) : jl::State(engine)
 {
 }
 
-void GameEngine::init()
+void Game::init()
 {
 	const double duration = 0.1;
 	anim.createAnimation("right");
@@ -35,11 +35,11 @@ void GameEngine::init()
 	sprite.setPosition(0,0);
 	view = getEngine()->createView(0.2);
 }
-void GameEngine::events()
+void GameState::events()
 {
 
 }
-void GameEngine::update()
+void GameState::update()
 {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
@@ -82,7 +82,7 @@ void GameEngine::update()
 
 	getEngine()->m_window.setView(view);
 }
-void GameEngine::render()
+void GameState::render()
 {
 	getEngine()->render(sprite);
 }

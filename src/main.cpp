@@ -1,6 +1,7 @@
-#include "GameEngine.h"
+#include "GameState.h"
 #include "Engine.h"
 #include "Settings.h"
+#include <SFML/Graphics.hpp>
 
 int main(int argc, char const *args[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char const *args[])
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
 
 	// Run the game engine with default values
-	engine.run<GameEngine>();
+	engine.run<GameState>();
 
 	return 0;
 }
