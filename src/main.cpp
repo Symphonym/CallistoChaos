@@ -1,10 +1,12 @@
 #include "GameState.h"
 #include "Engine.h"
-#include "Settings.h"
 #include <SFML/Graphics.hpp>
 
 int main(int argc, char const *args[])
 {
+	// Initialize random number generator with TIME as seed
+	std::srand(time(NULL));
+
 	// Create a new game engine object
 	// Initialize default settings
 	jl::Engine engine;
@@ -14,6 +16,7 @@ int main(int argc, char const *args[])
 
 	// Set non-changeable settings
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
+	jl::Settings::setBool("windowFullscreen", true);
 
 	// Run the game engine with default values
 	engine.run<GameState>();

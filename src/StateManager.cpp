@@ -45,9 +45,6 @@ namespace jl
 	}
 	void StateManager::pushState(std::unique_ptr<State> state)
 	{
-		// Initialize the state
-		state->init();
-
 		// Pause active state, if there is one
 		if(!isEmpty())
 			getActiveState()->pause();

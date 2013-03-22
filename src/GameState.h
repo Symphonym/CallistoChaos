@@ -1,13 +1,20 @@
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
 
-#include "State.h"
 #include <SFML/Graphics.hpp>
-#include "FrameAnimation.h"
+#include <vector>
 #include "Engine.h"
+#include "TileMap.h"
+#include "State.h"
+#include "CharacterManager.h"
 
 class GameState : public jl::State
 {
+private:
+
+	TileMap m_tileMap;
+	CharacterManager m_characters;
+
 public:
 
 	sf::Texture texture;
@@ -17,7 +24,6 @@ public:
 
 	explicit GameState(jl::Engine *engine);
 
-	void init();
 	void events();
 	void update();
 	void render();

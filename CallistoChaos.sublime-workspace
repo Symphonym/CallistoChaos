@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"tilecharac",
+				"tilecharacter"
+			],
+			[
+				"tilech",
+				"tilecharacter"
+			],
+			[
+				"Vector",
+				"Vector2f"
+			],
+			[
 				"m_",
 				"m_delete"
 			],
@@ -219,15 +231,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 483,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/makefile",
-			"settings":
-			{
-				"buffer_size": 1566,
+				"buffer_size": 594,
 				"line_ending": "Unix"
 			}
 		},
@@ -235,31 +239,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 385,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Tilemap.h",
-			"settings":
-			{
-				"buffer_size": 1229,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Tilemap.cpp",
-			"settings":
-			{
-				"buffer_size": 1190,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Engine.h",
-			"settings":
-			{
-				"buffer_size": 2782,
+				"buffer_size": 475,
 				"line_ending": "Unix"
 			}
 		},
@@ -267,16 +247,117 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 2627,
+				"buffer_size": 2817,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/TileMap.h",
+			"settings":
+			{
+				"buffer_size": 959,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/TileMap.cpp",
+			"settings":
+			{
+				"buffer_size": 2132,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/makefile",
+			"settings":
+			{
+				"buffer_size": 1685,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/CharacterManager.h",
+			"settings":
+			{
+				"buffer_size": 806,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/CharacterManager.cpp",
+			"settings":
+			{
+				"buffer_size": 3267,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Player.h",
+			"settings":
+			{
+				"buffer_size": 352,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Player.cpp",
+			"settings":
+			{
+				"buffer_size": 1335,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/TileCharacter.h",
+			"settings":
+			{
+				"buffer_size": 1394,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/TileCharacter.cpp",
+			"settings":
+			{
+				"buffer_size": 3719,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Tile.h",
+			"settings":
+			{
+				"buffer_size": 501,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Tile.cpp",
+			"settings":
+			{
+				"buffer_size": 735,
+				"line_ending": "Unix",
+				"name": "#include \"Tile.h\""
+			}
+		},
+		{
+			"file": "src/Engine.cpp",
+			"settings":
+			{
+				"buffer_size": 4174,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.h",
+			"settings":
+			{
+				"buffer_size": 2999,
 				"line_ending": "Unix"
 			}
 		}
 	],
-<<<<<<< HEAD
-	"build_system": "Packages/User/OpenDirectory.sublime-build",
-=======
-	"build_system": "Packages/User/OpenProject.sublime-build",
->>>>>>> 5bab3618f1d528ed76b8744d0cea9b445d63beeb
+	"build_system": "Packages/User/RunRelease.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -320,13 +401,16 @@
 	},
 	"file_history":
 	[
+		"/home/felix/Desktop/CallistoChaos/src/TileCharacter.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/Engine.h",
 		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
-		"/home/felix/Desktop/CallistoChaos/src/State.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Asset.h",
 		"/home/felix/Desktop/CallistoChaos/src/State.h",
 		"/home/felix/Desktop/CallistoChaos/src/StateManager.cpp",
-		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
 		"/home/felix/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/felix/.config/sublime-text-2/Packages/User/DebugProject.sublime-build",
+		"/home/felix/Desktop/CallistoChaos/src/State.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
 		"/home/felix/.config/sublime-text-2/Packages/User/CleanProject.sublime-build",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SoundManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
@@ -397,7 +481,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"~/Desktop/CallistoChaos/"
@@ -408,6 +492,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"for(int x = 0; (std::size_t)x < gameLevel.size(); x++)\n		for(int y = 0; (std::size_t)y < 5; y++)\n			gameLevel[x][y] = std::rand() % 100 < 10 ? 1 : 0;",
+			"Tilemap",
 			"GameEngine",
 			"Util::",
 			"EngineInfo",
@@ -451,6 +537,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"TileMap",
 			"GameState",
 			"jl",
 			"[",
@@ -467,7 +554,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -475,15 +562,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 483,
+						"buffer_size": 594,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								224,
-								224
+								113,
+								113
 							]
 						],
 						"settings":
@@ -499,23 +586,24 @@
 				},
 				{
 					"buffer": 1,
-					"file": "src/makefile",
+					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 1566,
+						"buffer_size": 475,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								356,
-								356
+								280,
+								280
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -525,18 +613,45 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/GameState.h",
+					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 385,
+						"buffer_size": 2817,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								139,
-								139
+								1679,
+								1679
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/TileMap.h",
+					"settings":
+					{
+						"buffer_size": 959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								837,
+								837
 							]
 						],
 						"settings":
@@ -551,55 +666,25 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/Tilemap.h",
-					"settings":
-					{
-						"buffer_size": 1229,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								897,
-								897
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 78.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 4,
-					"file": "src/Tilemap.cpp",
+					"file": "src/TileMap.cpp",
 					"settings":
 					{
-						"buffer_size": 1190,
+						"buffer_size": 2132,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-<<<<<<< HEAD
-								1266,
-								1266
-=======
-								204,
-								204
->>>>>>> 5bab3618f1d528ed76b8744d0cea9b445d63beeb
+								260,
+								260
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -609,45 +694,176 @@
 				},
 				{
 					"buffer": 5,
-					"file": "src/Engine.h",
+					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 2782,
+						"buffer_size": 1685,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1766,
-								1766
+								1106,
+								1106
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 468.0,
+						"translation.y": 312.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "src/GameState.cpp",
+					"file": "src/CharacterManager.h",
 					"settings":
 					{
-						"buffer_size": 2627,
+						"buffer_size": 806,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								134,
-								134
+								185,
+								185
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 117.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/CharacterManager.cpp",
+					"settings":
+					{
+						"buffer_size": 3267,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2074,
+								2074
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 507.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/Player.h",
+					"settings":
+					{
+						"buffer_size": 352,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								169,
+								169
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Player.cpp",
+					"settings":
+					{
+						"buffer_size": 1335,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								508,
+								508
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/TileCharacter.h",
+					"settings":
+					{
+						"buffer_size": 1394,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1072,
+								1072
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 479.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/TileCharacter.cpp",
+					"settings":
+					{
+						"buffer_size": 3719,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								632,
+								632
 							]
 						],
 						"settings":
@@ -656,7 +872,115 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/Tile.h",
+					"settings":
+					{
+						"buffer_size": 501,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								71,
+								71
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "src/Tile.cpp",
+					"settings":
+					{
+						"buffer_size": 735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								349,
+								349
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#include \"Tile.h\"",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 4174,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3566,
+								3566
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1638.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "src/Engine.h",
+					"settings":
+					{
+						"buffer_size": 2999,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2371,
+								2371
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 897.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -701,7 +1025,7 @@
 	},
 	"output.exec":
 	{
-		"height": 183.0
+		"height": 252.0
 	},
 	"replace":
 	{

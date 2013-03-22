@@ -20,10 +20,10 @@ namespace jl
 		Settings::setString("windowTitle", "--> Jakob Larsson Game Engine <--");
 		Settings::setBool("windowShowCursor", true);
 		Settings::setBool("windowVsync", false);
+		Settings::setBool("windowFullscreen", false);
 		Settings::setInt("windowFpsLimit", 0);
 		Settings::setInt("windowWidth", 800);
-		Settings::setInt("windowHeight", 600);
-		Settings::setInt("windowStyle", sf::Style::Close);
+		Settings::setInt("windowHeight", 800);
 		Settings::setInt("gameGlobalVolume", 100);
 
 		// Register Engine data to those who need it
@@ -56,6 +56,10 @@ namespace jl
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::O) &&
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::B)))
 					m_window.close();
+				else if(m_event.type == sf::Event::LostFocus)
+					m_stack.getActiveState()->pause();
+				else if(m_event.type == sf::Event::GainedFocus)
+					m_stack.getActiveState()->resume();
 
 				// State events
 				m_stack.getActiveState()->events();
@@ -153,5 +157,22 @@ namespace jl
 	double Engine::getDelta() const
 	{
 		return m_delta;
+	}
+
+	sf::RenderWindow &Engine::getWindow()
+	{
+		return m_window;
+	}
+	sf::Event &Engine::getEvent()
+	{
+		return m_event;
+	}
+	AssetManager &Engine::getAssets()
+	{
+		return m_assets;
+	}
+	StateManager &Engine::getStack()
+	{
+		return m_stack;
 	}
 };

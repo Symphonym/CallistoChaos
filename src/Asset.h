@@ -18,8 +18,6 @@ namespace jl
 		virtual bool loadAsset(const std::string &filepath) = 0;
 
 	public:
-
-		virtual ~Asset();
 	};
 };
 

@@ -1,73 +1,66 @@
 #include "GameState.h"
-#include <iostream>
 #include "SoundManager.h"
+#include "Player.h"
 
 GameState::GameState(jl::Engine *engine) : jl::State(engine)
 {
+	std::vector<std::vector<int>> gameLevel = {
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+	// Throw in some random flowers at certain intervalls
+	for(int x = 0; (std::size_t)x < gameLevel.size(); x++)
+		for(int y = 0; (std::size_t)y < gameLevel[x].size(); y++)
+			if(!(x >= 4 && x <= 12 && y >= 5 && y <= 12)) // Set an area not have bushes generated
+				gameLevel[x][y] = std::rand() % 100 < 10 ? (std::rand() % 100 < 40 ? 1 : 2) : 0;
+
+	// Set camera zoom
+	view = getEngine()->createView(0.32);
+
+	// Specify tilemap data
+	m_tileMap.setData(
+		getEngine()->getAssets().getAsset<jl::TextureAsset>("Tiles.png")->get(),
+		sf::Vector2i(20, 20),
+		16);
+	m_tileMap.addTileType(0, sf::IntRect(0,0, 16, 16)); // Ground
+	m_tileMap.addTileType(1, sf::IntRect(16,0, 16, 16)); // Flower
+	m_tileMap.addTileType(2, sf::IntRect(32,0, 16, 16), true); // Bush
+	m_tileMap.loadFromData(gameLevel);
+
+
+
+	// Register character manager
+	m_characters.registerTileMap(m_tileMap);
+	std::unique_ptr<Player> player(new Player(m_tileMap));
+	player->getSprite().setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("rpgmaker.png")->get());
+	player->setIndex(0,0);
+	m_characters.addCharacter(std::move(player));
 }
 
-void Game::init()
-{
-	const double duration = 0.1;
-	anim.createAnimation("right");
-	anim.pushFrame(sf::IntRect(0, 64, 32, 32), duration).
-		 pushFrame(sf::IntRect(32, 64, 32, 32), duration).
-		 pushFrame(sf::IntRect(64, 64, 32, 32), duration);
-	anim.createAnimation("left");
-	anim.pushFrame(sf::IntRect(0, 32, 32, 32), duration).
-		 pushFrame(sf::IntRect(32, 32, 32, 32), duration).
-		 pushFrame(sf::IntRect(64, 32, 32, 32), duration);
-	anim.createAnimation("up");
-	anim.pushFrame(sf::IntRect(0, 96, 32, 32), duration).
-		 pushFrame(sf::IntRect(32, 96, 32, 32), duration).
-		 pushFrame(sf::IntRect(64, 96, 32, 32), duration);
-	anim.createAnimation("down");
-	anim.pushFrame(sf::IntRect(0, 0, 32, 32), duration, "button.wav").
-		 pushFrame(sf::IntRect(32, 0, 32, 32), duration).
-		 pushFrame(sf::IntRect(64, 0, 32, 32), duration);
-	anim.initAnimation(sprite, "down");
-
-	// Load sound
-	getEngine()->m_assets.getAsset<jl::SoundBufferAsset>("button.wav");
-	jl::SoundManager::addSound("button.wav");
-
-	sprite.setTexture(getEngine()->m_assets.getAsset<jl::TextureAsset>("rpgmaker.png")->get());
-	sprite.setPosition(0,0);
-	view = getEngine()->createView(0.2);
-}
 void GameState::events()
 {
 
 }
 void GameState::update()
 {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		anim.request("up");
-		sprite.move(0, -100*getEngine()->getDelta());
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		anim.request("down");
-		sprite.move(0, 100*getEngine()->getDelta());
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		anim.request("left");
-		sprite.move(-100*getEngine()->getDelta(), 0);
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		anim.request("right");
-		sprite.move(100*getEngine()->getDelta(), 0);
-	}
-
-	anim.commit(sprite, getEngine()->getDelta());
-
-	if(sprite.getPosition().x > (view.getSize().x - sprite.getGlobalBounds().width))
-		sprite.setPosition((view.getSize().x - sprite.getGlobalBounds().width), sprite.getPosition().y);
-	if(sprite.getPosition().y < 0)
-		sprite.setPosition(sprite.getPosition().x, 0);
+	m_characters.update(getEngine()->getDelta());
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		view.zoom(1.0 - getEngine()->getDelta());
@@ -78,11 +71,13 @@ void GameState::update()
 		view.rotate(100*getEngine()->getDelta());
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-		getEngine()->m_stack.popState();
+		getEngine()->getStack().popState();
 
-	getEngine()->m_window.setView(view);
+	// Update view
+	getEngine()->getWindow().setView(view);
 }
 void GameState::render()
 {
-	getEngine()->render(sprite);
+	m_tileMap.render(getEngine()->getWindow());
+	m_characters.render(getEngine()->getWindow());
 }

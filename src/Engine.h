@@ -18,6 +18,12 @@ namespace jl
 		sf::Clock m_deltaClock;
 		void gameloop();
 
+		// Extra engine data
+		sf::RenderWindow m_window;
+		sf::Event m_event;
+		AssetManager m_assets;
+		StateManager m_stack;
+
 		// Keep base methods private to prevent them from being called by
 		// anyone other than the Engine itself
 		// These base methods are run on every state, as a global place of control
@@ -33,12 +39,6 @@ namespace jl
 		virtual void render(){};
 
 	public:
-
-		// Extra engine data
-		sf::RenderWindow m_window;
-		sf::Event m_event;
-		AssetManager m_assets;
-		StateManager m_stack;
 
 		// "Engine" constructor provides the game with default settings,
 		// most of which can be overloaded.
@@ -57,10 +57,11 @@ namespace jl
 				m_stack.pushState(std::move(startupState));
 
 				// Initialize renderwindow and load settings
+				unsigned int windowStyle = Settings::getBool("windowFullscreen") == true ? sf::Style::Fullscreen : sf::Style::Close;
 				m_window.create(
 					sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
 					 Settings::getString("windowTitle"),
-					 Settings::getInt("windowStyle"));
+					 windowStyle);
 				m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
 				m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
 				m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
@@ -88,6 +89,11 @@ namespace jl
 
 		double getDelta() const;
 		int getFps() const;
+
+		sf::RenderWindow &getWindow();
+		sf::Event &getEvent();
+		AssetManager &getAssets();
+		StateManager &getStack();
 	};
 };
 

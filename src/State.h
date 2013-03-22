@@ -19,8 +19,6 @@ namespace jl
 		jl::StopWatch m_elapsedClock, m_pausedClock;
 		bool m_paused;
 
-		virtual void init(){};
-
 	public:
 
 		virtual ~State(){};

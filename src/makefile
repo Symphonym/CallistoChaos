@@ -37,17 +37,19 @@ clean:
 # form of:
 # objectfile.o: headerfile.h
 
-main.o: GameEngine.h Settings.h
-Engine.o: Settings.h State.h Utility.h AssetManager.h StateManager.h
-EngineInfo.o: Engine.h
-GameEngine.o: Engine.h
+main.o: GameState.h Engine.h
+Engine.o: Settings.h Utility.h AssetManager.h StateManager.h SoundManager.h
+GameState.o: Engine.h FrameAnimation.h State.h SoundManager.h
 AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
 TextureAsset.o: Asset.h
 FontAsset.o: Asset.h
 SoundBufferAsset.o: Asset.h
 MusicAsset.o: Asset.h
-SoundManager.o:
+SoundManager.o: AssetManager.h
 FrameAnimation.o: SoundManager.h
 StateManager.o: State.h
 State.o: StopWatch.h Engine.h
+TileMap.o: Tile.h
+Tile.o: TileCharacter.h
+TileCharacter: FrameAnimation.h TileMap.h
 
