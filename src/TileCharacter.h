@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "FrameAnimation.h"
+#include "AssetManager.h"
 
 class TileMap;
 class TileCharacter
@@ -10,21 +11,15 @@ class TileCharacter
 public:
 	enum Directions
 	{
-		Right = 0,
-		Left = 1,
-		Up = 2,
-		Down = 3,
+		WalkRight = 0,
+		WalkLeft = 1,
+		WalkUp = 2,
+		WalkDown = 3,
 		IdleRight = 4,
 		IdleLeft = 5,
 		IdleUp = 6,
 		IdleDown = 7
 	};
-private:
-
-	virtual void doWalkRight(){};
-	virtual void doWalkLeft(){};
-	virtual void doWalkUp(){};
-	virtual void doWalkDown(){};
 
 protected:
 	TileMap *m_tileMap;
@@ -37,7 +32,10 @@ protected:
 	Directions m_direction;
 
 	// Make it an abstract class by making constructor protected
-	explicit TileCharacter(TileMap &tilemap);
+	// Pass Tilemap to allow for move operations
+	// Pass AssetManager to allow sprite/animation data to be set in the constructor
+	// Pass Tileindex to specify where the Character should be created
+	explicit TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 public:
 
@@ -49,7 +47,6 @@ public:
 	void setSpeed(double speed);
 	void setWalking(bool walking);
 	void setDirection(TileCharacter::Directions direction);
-	void setIndex(std::size_t x, std::size_t y);
 	void damage(int damage);
 
 	void walkRight();
@@ -57,8 +54,19 @@ public:
 	void walkUp();
 	void walkDown();
 
+	virtual void duringWalkRight(){};
+	virtual void duringWalkLeft(){};
+	virtual void duringWalkUp(){};
+	virtual void duringWalkDown(){};
+
+	virtual void duringIdleRight(){};
+	virtual void duringIdleLeft(){};
+	virtual void duringIdleUp(){};
+	virtual void duringIdleDown(){};
+
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
+	TileMap &getTileMap();
 	sf::Vector2i getIndex() const;
 	TileCharacter::Directions getDirection() const;
 	double getSpeed() const;

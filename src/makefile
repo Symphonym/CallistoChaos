@@ -37,9 +37,9 @@ clean:
 # form of:
 # objectfile.o: headerfile.h
 
-main.o: GameState.h Engine.h
+#Engine object files
 Engine.o: Settings.h Utility.h AssetManager.h StateManager.h SoundManager.h
-GameState.o: Engine.h FrameAnimation.h State.h SoundManager.h
+Asset.o:
 AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
 TextureAsset.o: Asset.h
 FontAsset.o: Asset.h
@@ -49,7 +49,16 @@ SoundManager.o: AssetManager.h
 FrameAnimation.o: SoundManager.h
 StateManager.o: State.h
 State.o: StopWatch.h Engine.h
+Settings.o:
+StopWatch.o:
+
+#Game object files
+main.o: GameState.h Engine.h
 TileMap.o: Tile.h
 Tile.o: TileCharacter.h
-TileCharacter: FrameAnimation.h TileMap.h
-
+TileCharacter.o: FrameAnimation.h TileMap.h AssetManager.h
+TileOptionManager.o: TileCharacter.h AssetManager.h TileMap.h Utility.h
+Player.o: TileCharacter.h
+CharacterManager.o: TileCharacter.h TileMap.h
+GameState.o: Engine.h TileMap.h Player.h State.h CharacterManager.h TileOptionManager.h MessageLog.h
+MessageLog.o: AssetManager.h

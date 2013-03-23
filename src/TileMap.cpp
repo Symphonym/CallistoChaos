@@ -44,23 +44,6 @@ void TileMap::loadFromData(std::vector<std::vector<int>> &mapData)
 	}
 }
 
-Tile &TileMap::getTile(std::size_t x, std::size_t y)
-{
-	return m_tiles[x][y];
-}
-sf::Vector2f TileMap::getTilePosition(std::size_t x, std::size_t y) const
-{
-	return  sf::Vector2f(x * m_tileSize, y * m_tileSize);
-}
-std::size_t TileMap::getTileSize() const
-{
-	return m_tileSize;
-}
-sf::Vector2i TileMap::getMapSize() const
-{
-	return m_mapSize;
-}
-
 void TileMap::render(sf::RenderTarget& target)
 {
 	for(int x = 0; x < m_mapSize.x; x++)
@@ -79,4 +62,21 @@ void TileMap::render(sf::RenderTarget& target)
 			target.draw(m_tileSprite);
 		}
 	}
+}
+
+Tile &TileMap::getTile(std::size_t x, std::size_t y)
+{
+	return m_tiles[x][y];
+}
+sf::Vector2f TileMap::getTilePosition(std::size_t x, std::size_t y) const
+{
+	return  sf::Vector2f(x * m_tileSize, y * m_tileSize);
+}
+std::size_t TileMap::getTileSize() const
+{
+	return m_tileSize;
+}
+sf::Vector2i TileMap::getMapSize() const
+{
+	return m_mapSize;
 }

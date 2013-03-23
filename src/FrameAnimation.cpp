@@ -123,8 +123,9 @@ namespace jl
 	void FrameAnimation::commit(sf::Shape &shape, double deltaTime)
 	{
 		// Make sure the animation exists and has been requested
-		if(m_animations.find(m_requestedAnimation) == m_animations.end() || m_requestedAnimation.empty())
+		if(m_requestedAnimation.empty())
 			return;
+
 
 		// Animate sprite with requested animation
 		animate(shape, m_requestedAnimation, deltaTime);
@@ -135,7 +136,7 @@ namespace jl
 	void FrameAnimation::commit(sf::Sprite &sprite, double deltaTime)
 	{
 		// Make sure the animation exists and has been requested
-		if(m_animations.find(m_requestedAnimation) == m_animations.end() || m_requestedAnimation.empty())
+		if(m_requestedAnimation.empty())
 			return;
 
 		// Animate sprite with requested animation

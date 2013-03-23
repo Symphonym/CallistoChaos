@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "State.h"
 #include "CharacterManager.h"
+#include "TileOptionManager.h"
 
 class GameState : public jl::State
 {
@@ -14,13 +15,11 @@ private:
 
 	TileMap m_tileMap;
 	CharacterManager m_characters;
+	TileOptionManager m_tileOptions;
+	sf::View m_view;
+
 
 public:
-
-	sf::Texture texture;
-	sf::Sprite sprite;
-	sf::View view;
-	jl::FrameAnimation anim;
 
 	explicit GameState(jl::Engine *engine);
 

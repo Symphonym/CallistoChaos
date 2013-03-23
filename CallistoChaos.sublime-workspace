@@ -231,7 +231,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 594,
+				"buffer_size": 544,
 				"line_ending": "Unix"
 			}
 		},
@@ -239,7 +239,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 475,
+				"buffer_size": 409,
 				"line_ending": "Unix"
 			}
 		},
@@ -247,7 +247,7 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 2817,
+				"buffer_size": 3272,
 				"line_ending": "Unix"
 			}
 		},
@@ -271,7 +271,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 1685,
+				"buffer_size": 1853,
 				"line_ending": "Unix"
 			}
 		},
@@ -287,7 +287,7 @@
 			"file": "src/CharacterManager.cpp",
 			"settings":
 			{
-				"buffer_size": 3267,
+				"buffer_size": 4395,
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +295,7 @@
 			"file": "src/Player.h",
 			"settings":
 			{
-				"buffer_size": 352,
+				"buffer_size": 425,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +303,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 1335,
+				"buffer_size": 1853,
 				"line_ending": "Unix"
 			}
 		},
@@ -311,7 +311,7 @@
 			"file": "src/TileCharacter.h",
 			"settings":
 			{
-				"buffer_size": 1394,
+				"buffer_size": 1786,
 				"line_ending": "Unix"
 			}
 		},
@@ -319,7 +319,7 @@
 			"file": "src/TileCharacter.cpp",
 			"settings":
 			{
-				"buffer_size": 3719,
+				"buffer_size": 3784,
 				"line_ending": "Unix"
 			}
 		},
@@ -353,6 +353,14 @@
 			"settings":
 			{
 				"buffer_size": 2999,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FrameAnimation.cpp",
+			"settings":
+			{
+				"buffer_size": 4783,
 				"line_ending": "Unix"
 			}
 		}
@@ -401,6 +409,7 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/TileCharacter.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Engine.h",
 		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
@@ -492,6 +501,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			";\n",
+			"[i].",
+			"setIndex",
+			"[i]->",
 			"for(int x = 0; (std::size_t)x < gameLevel.size(); x++)\n		for(int y = 0; (std::size_t)y < 5; y++)\n			gameLevel[x][y] = std::rand() % 100 < 10 ? 1 : 0;",
 			"Tilemap",
 			"GameEngine",
@@ -537,6 +550,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"[i]->",
+			"[i].",
 			"TileMap",
 			"GameState",
 			"jl",
@@ -554,7 +569,7 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -562,15 +577,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 594,
+						"buffer_size": 544,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								113,
-								113
+								196,
+								196
 							]
 						],
 						"settings":
@@ -589,15 +604,15 @@
 					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 475,
+						"buffer_size": 409,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								280,
-								280
+								179,
+								179
 							]
 						],
 						"settings":
@@ -616,15 +631,15 @@
 					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 2817,
+						"buffer_size": 3272,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1679,
-								1679
+								107,
+								107
 							]
 						],
 						"settings":
@@ -633,7 +648,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 390.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -697,15 +712,15 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 1685,
+						"buffer_size": 1853,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1106,
-								1106
+								1157,
+								1157
 							]
 						],
 						"settings":
@@ -730,17 +745,18 @@
 						"selection":
 						[
 							[
-								185,
-								185
+								197,
+								197
 							]
 						],
 						"settings":
 						{
 							"auto_name": "",
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 117.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -750,23 +766,24 @@
 					"file": "src/CharacterManager.cpp",
 					"settings":
 					{
-						"buffer_size": 3267,
+						"buffer_size": 4395,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2074,
-								2074
+								434,
+								434
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 507.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -776,15 +793,15 @@
 					"file": "src/Player.h",
 					"settings":
 					{
-						"buffer_size": 352,
+						"buffer_size": 425,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								169,
-								169
+								159,
+								159
 							]
 						],
 						"settings":
@@ -803,23 +820,24 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 1335,
+						"buffer_size": 1853,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								508,
-								508
+								1076,
+								1076
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -829,23 +847,24 @@
 					"file": "src/TileCharacter.h",
 					"settings":
 					{
-						"buffer_size": 1394,
+						"buffer_size": 1786,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1072,
-								1072
+								1218,
+								1218
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 479.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -855,15 +874,15 @@
 					"file": "src/TileCharacter.cpp",
 					"settings":
 					{
-						"buffer_size": 3719,
+						"buffer_size": 3784,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								632,
-								632
+								743,
+								743
 							]
 						],
 						"settings":
@@ -872,7 +891,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 195.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -896,7 +915,8 @@
 						"settings":
 						{
 							"auto_name": "",
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -923,7 +943,8 @@
 						"settings":
 						{
 							"auto_name": "#include \"Tile.h\"",
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -943,8 +964,8 @@
 						"selection":
 						[
 							[
-								3566,
-								3566
+								149,
+								149
 							]
 						],
 						"settings":
@@ -953,7 +974,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1638.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -980,7 +1001,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 897.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "src/FrameAnimation.cpp",
+					"settings":
+					{
+						"buffer_size": 4783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4084,
+								4084
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1935.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1025,7 +1073,7 @@
 	},
 	"output.exec":
 	{
-		"height": 252.0
+		"height": 149.0
 	},
 	"replace":
 	{

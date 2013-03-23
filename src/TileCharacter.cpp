@@ -1,17 +1,16 @@
 #include "TileCharacter.h"
 #include "TileMap.h"
 
-TileCharacter::TileCharacter(TileMap &tilemap) :
+TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	m_tileMap(&tilemap),
 	m_animation(),
-	m_tileIndex(0,0),
+	m_tileIndex(tileIndex),
 	m_sprite(),
 	m_isWalking(false),
 	m_maxHealth(0),
 	m_health(0),
-	m_direction(TileCharacter::Down)
+	m_direction(TileCharacter::IdleDown)
 {
-
 }
 
 void TileCharacter::setMaxHealth(int health)
@@ -31,10 +30,6 @@ void TileCharacter::setDirection(TileCharacter::Directions direction)
 {
 	m_direction = direction;
 }
-void TileCharacter::setIndex(std::size_t x, std::size_t y)
-{
-	m_tileIndex = sf::Vector2i(x, y);
-}
 void TileCharacter::damage(int damage)
 {
 	m_health -= damage;
@@ -42,97 +37,101 @@ void TileCharacter::damage(int damage)
 
 void TileCharacter::walkRight()
 {
-	int x = m_tileIndex.x + 1, y = m_tileIndex.y;
-	if(x < m_tileMap->getMapSize().x)
+	if(!isWalking())
 	{
-		if(!m_tileMap->getTile(x, y).isOccupied() &&
-		   !m_tileMap->getTile(x, y).isSolid())
+		int x = m_tileIndex.x + 1, y = m_tileIndex.y;
+		if(x < m_tileMap->getMapSize().x)
 		{
-			// Deoccupy previous tile
-			m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
-			m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
-			// Occupy new tile
-			++m_tileIndex.x;
-			m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
-			m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
-			
-			// Set walking data
-			setWalking(true);
-			m_direction = TileCharacter::Right;
-
-			doWalkRight();
+			if(!m_tileMap->getTile(x, y).isOccupied() &&
+			   !m_tileMap->getTile(x, y).isSolid())
+			{
+				// Deoccupy previous tile
+				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
+				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
+				// Occupy new tile
+				++m_tileIndex.x;
+				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
+				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
+				
+				// Set walking data
+				setWalking(true);
+				m_direction = TileCharacter::WalkRight;
+			}
 		}
 	}
 }
 void TileCharacter::walkLeft()
 {
-	int x = m_tileIndex.x - 1, y = m_tileIndex.y;
-	if(x >= 0)
+	if(!isWalking())
 	{
-		if(!m_tileMap->getTile(x, y).isOccupied() &&
-		   !m_tileMap->getTile(x, y).isSolid())
+		int x = m_tileIndex.x - 1, y = m_tileIndex.y;
+		if(x >= 0)
 		{
-			// Deoccupy previous tile
-			m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
-			m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
-			// Occupy new tile
-			--m_tileIndex.x;
-			m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
-			m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
-						
-			// Set walking data
-			setWalking(true);
-			m_direction = TileCharacter::Left;
-
-			doWalkLeft();
+			if(!m_tileMap->getTile(x, y).isOccupied() &&
+			   !m_tileMap->getTile(x, y).isSolid())
+			{
+				// Deoccupy previous tile
+				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
+				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
+				// Occupy new tile
+				--m_tileIndex.x;
+				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
+				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
+							
+				// Set walking data
+				setWalking(true);
+				m_direction = TileCharacter::WalkLeft;
+			}
 		}
 	}
 }
 void TileCharacter::walkUp()
 {
-	int x = m_tileIndex.x, y = m_tileIndex.y - 1;
-	if(y >= 0)
+	if(!isWalking())
 	{
-		if(!m_tileMap->getTile(x, y).isOccupied() &&
-		   !m_tileMap->getTile(x, y).isSolid())
+		int x = m_tileIndex.x, y = m_tileIndex.y - 1;
+		if(y >= 0)
 		{
-			// Deoccupy previous tile
-			m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
-			m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
-			// Occupy new tile
-			--m_tileIndex.y;
-			m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
-			m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
-						
-			// Set walking data
-			setWalking(true);
-			m_direction = TileCharacter::Up;
-
-			doWalkUp();
+			if(!m_tileMap->getTile(x, y).isOccupied() &&
+			   !m_tileMap->getTile(x, y).isSolid())
+			{
+				// Deoccupy previous tile
+				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
+				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
+				// Occupy new tile
+				--m_tileIndex.y;
+				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
+				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
+							
+				// Set walking data
+				setWalking(true);
+				m_direction = TileCharacter::WalkUp;
+			}
 		}
 	}
 }
 void TileCharacter::walkDown()
 {
-	int x = m_tileIndex.x, y = m_tileIndex.y + 1;
-	if(y < m_tileMap->getMapSize().y)
+	if(!isWalking())
 	{
-		if(!m_tileMap->getTile(x, y).isOccupied() &&
-		   !m_tileMap->getTile(x, y).isSolid())
+		int x = m_tileIndex.x, y = m_tileIndex.y + 1;
+		if(y < m_tileMap->getMapSize().y)
 		{
-			// Deoccupy previous tile
-			m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
-			m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
-			// Occupy new tile
-			++m_tileIndex.y;
-			m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
-			m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
-						
-			// Set walking data
-			setWalking(true);
-			m_direction = TileCharacter::Down;
-
-			doWalkDown();
+			if(!m_tileMap->getTile(x, y).isOccupied() &&
+			   !m_tileMap->getTile(x, y).isSolid())
+			{
+				// Deoccupy previous tile
+				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
+				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
+				// Occupy new tile
+				++m_tileIndex.y;
+				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
+				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
+							
+				// Set walking data
+				setWalking(true);
+				m_direction = TileCharacter::WalkDown;
+			}
 		}
 	}
 }
@@ -144,6 +143,10 @@ sf::Sprite &TileCharacter::getSprite()
 jl::FrameAnimation &TileCharacter::getAnim()
 {
 	return m_animation;
+}
+TileMap &TileCharacter::getTileMap()
+{
+	return *m_tileMap;
 }
 sf::Vector2i TileCharacter::getIndex() const
 {
