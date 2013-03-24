@@ -12,7 +12,7 @@ namespace jl
 	{
 		// Attempts to convert between datatypes using std::stringstream,  convert from <this, to this>
 		// Only works on built-in types, std::string included
-		template<typename Tin, typename Tout> Tout convertData(const Tin& input)
+		template<typename Tin, typename Tout> Tout convertData(Tin input)
 		{
 			std::stringstream ss;
 			ss << input;
@@ -26,6 +26,13 @@ namespace jl
 			
 			return data;
 		};
+		template<typename T> std::string toString(const T &input)
+		{
+			std::stringstream ss;
+			ss << input;
+
+			return ss.str();
+		}
 	};
 
 	namespace Math

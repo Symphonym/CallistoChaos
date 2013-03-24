@@ -5,15 +5,18 @@
 #include <map>
 #include <vector>
 #include <functional>
-#include "TileCharacter.h"
+#include "Player.h"
 #include "AssetManager.h"
 
+class Tile;
 class TileOptionManager
 {
 private:
 
-	std::map<int, std::vector<std::pair<std::string, std::function<void()>>>> m_tileOptions;
-	TileCharacter *m_tileCharacter;
+	typedef std::function<void(TileMap *tileMap, const sf::Vector2i &tileIndex)> ActionPtr;
+
+	std::map<int, std::vector<std::pair<std::string, ActionPtr>>> m_tileOptions;
+	static Player *m_player;
 
 	// Whether or not to render the options
 	bool m_displayOptions;
@@ -32,6 +35,10 @@ private:
 
 	// Gets the index of the tile that the character is facing
 	sf::Vector2i getFacingTile();
+	// Gets the type of the tile at the m_tileIndex pos
+	int getTileType();
+	// Sets all data to display the list
+	void displayList();
 
 public:
 
@@ -40,10 +47,10 @@ public:
 	void loadAssets(jl::AssetManager &assets);
 
 	// Map an option to a tiletype
-	void addOption(int tileTypeIndex, const std::string &title, std::function<void()> action);
+	void addOption(int tileTypeIndex, const std::string &title, ActionPtr action);
 
-	// The character that will interact with the tiles
-	void provideCharacter(TileCharacter *tilecharacter);
+	// The Player that will interact with the tiles
+	static void provideCharacter(Player *player);
 
 	// Update input
 	void events(sf::Event &events);
@@ -52,6 +59,8 @@ public:
 
 	// Returns whether or not the tile options are visible
 	bool isVisible();
+
+	static Player *getPlayer();
 };
 
 #endif

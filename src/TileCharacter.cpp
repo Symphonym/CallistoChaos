@@ -46,11 +46,9 @@ void TileCharacter::walkRight()
 			   !m_tileMap->getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
 				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
 				// Occupy new tile
 				++m_tileIndex.x;
-				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
 				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
 				
 				// Set walking data
@@ -71,11 +69,9 @@ void TileCharacter::walkLeft()
 			   !m_tileMap->getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(false);
 				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
 				// Occupy new tile
 				--m_tileIndex.x;
-				m_tileMap->getTile(m_tileIndex.x, y).setOccupied(true);
 				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
 							
 				// Set walking data
@@ -96,11 +92,10 @@ void TileCharacter::walkUp()
 			   !m_tileMap->getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
 				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
 				// Occupy new tile
 				--m_tileIndex.y;
-				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
+
 				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
 							
 				// Set walking data
@@ -121,11 +116,9 @@ void TileCharacter::walkDown()
 			   !m_tileMap->getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(false);
 				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
 				// Occupy new tile
 				++m_tileIndex.y;
-				m_tileMap->getTile(x, m_tileIndex.y).setOccupied(true);
 				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
 							
 				// Set walking data
