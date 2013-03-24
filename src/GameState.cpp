@@ -43,15 +43,15 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 		16);
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
-	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(32,0, 16, 16), 100, true); // Bush
-	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true); // Wall side
-	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true); // Wall top
-	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 5, true); // Window
-	m_tileMap.addDType(6, sf::IntRect(0, 32, 16, 16), sf::IntRect(48, 32, 16, 16), 10, true); // Door closed
+	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(32,0, 16, 16), 100, true, true); // Bush
+	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
+	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
+	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 5, false, true); // Window
+	m_tileMap.addDType(6, sf::IntRect(0, 32, 16, 16), sf::IntRect(48, 32, 16, 16), 10, true, true); // Door closed
 	m_tileMap.addType(7, sf::IntRect(16, 32, 16, 16)); // Door open
 	m_tileMap.addType(8, sf::IntRect(32, 32, 16, 16)); // Floor
-	m_tileMap.addType(9, sf::IntRect(32, 48, 16, 16), true); // Currency box
-	m_tileMap.addType(10, sf::IntRect(48, 48, 16, 16), true); // Ammo box
+	m_tileMap.addType(9, sf::IntRect(32, 48, 16, 16), false, true); // Currency box
+	m_tileMap.addType(10, sf::IntRect(48, 48, 16, 16), false, true); // Ammo box
 	m_tileMap.loadFromData(gameLevel);
 
 	// Load assets
@@ -60,9 +60,10 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 
 	// Load character manager
 	m_characters.registerTileMap(m_tileMap);
-	std::unique_ptr<Player> player(new Player(m_tileMap, getEngine()->getAssets(), sf::Vector2i(0,0)));
+	std::unique_ptr<Player> player(new Player(m_tileMap, getEngine()->getAssets(), sf::Vector2i(8,11)));
 	// Set player to be used for the Tile options
 	TileOptionManager::provideCharacter(player.get());
+	// Give player to manager
 	m_characters.addCharacter(std::move(player));
 
 
@@ -84,7 +85,6 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	// Closed door
 	m_tileOptions.addOption(6, "Open", TileOptionActions::openDoor);
 	m_tileOptions.addOption(6, "Repair", TileOptionActions::repair);
-	m_tileOptions.addOption(6, "Damage", TileOptionActions::damageDoor);
 	m_tileOptions.addOption(6, "Look At", std::bind(&MessageLog::addMessage, "A solid wooden door"));
 	m_tileOptions.addOption(6, "Examine", std::bind(&MessageLog::addMessage, "I could probably smash it open after a few hits"));
 	m_tileOptions.addOption(6, "Durability", TileOptionActions::examineHealth);

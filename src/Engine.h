@@ -53,7 +53,7 @@ namespace jl
 			if(!m_window.isOpen())
 			{
 				// Initialize startup state with type T
-				auto startupState = std::unique_ptr<State>(new T(this));
+				std::unique_ptr<State> startupState = std::unique_ptr<State>(new T(this));
 				m_stack.pushState(std::move(startupState));
 
 				// Initialize renderwindow and load settings

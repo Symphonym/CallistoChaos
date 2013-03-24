@@ -40,6 +40,9 @@ void TileOptionManager::provideCharacter(Player *player)
 
 void TileOptionManager::events(sf::Event &events)
 {
+	if(m_player->isWalking())
+		m_displayOptions = false;
+
 	// Interact with tile
 	if(events.type == sf::Event::KeyPressed)
 	{
@@ -83,6 +86,9 @@ void TileOptionManager::events(sf::Event &events)
 }
 void TileOptionManager::render(sf::RenderTarget &target)
 {
+	if(m_player->isWalking())
+		m_displayOptions = false;
+
 	if(m_displayOptions)
 	{
 		for(int i = 0; i < (int)m_tileOptions[m_tileType].size(); i++)

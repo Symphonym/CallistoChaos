@@ -1,57 +1,65 @@
 #include "GunWeapon.h"
+#include "TileMap.h"
 
-GunWeapon::GunWeapon(TileCharacter *tileCharacter, jl::AssetManager &assets) :
-	Weapon(tileCharacter, assets)
+GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
+	Weapon(name, tileCharacter, assets)
 {
-	setAmmoCost(0);
+	setAmmoCost(10);
 	setFireRate(0.5);
-	setBulletSpeed(100);
+	setBulletSpeed(200);
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),
 		assets.getAsset<jl::TextureAsset>("res/bullets.png")->get());
 
-	addStance("right", sf::Vector2f(0,0), sf::IntRect(0,0,16,16));
-	setStance("right");
+	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,0,16,16));
+	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,0,16,16));
+	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,0,16,16));
+	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,0,16,16), sf::Vector2f(0.5,0));
+	setStance("down");
 
-	m_bulletSprite.setTextureRect(sf::IntRect(0,0,16,16));
+	jl::FrameAnimation anim;
+	anim.createAnimation("default");
+	anim.pushFrame(sf::IntRect(0,0,16,16), 0.05).
+		pushFrame(sf::IntRect(16,0,16,16), 0.05).
+		pushFrame(sf::IntRect(32,0,16,16), 0.05).
+		pushFrame(sf::IntRect(48,0,16,16), 0.05);
+	setBulletAnimation(anim);
+
 
 }
-
-void GunWeapon::update(double deltaTime)
-{
-	for(std::size_t i = 0; i < m_bullets.size(); i++)
+void GunWeapon::update(std::size_t i, double deltaTime)
+{	
+	sf::Vector2i index(getBulletIndex(m_bullets[i]));
+	switch(m_bullets[i].direction)
 	{
-		switch(m_bullets[i].second)
-		{
-			case Weapon::Right:
-				m_bullets[i].first.x += m_bulletSpeed*deltaTime;
-			break;
-			case Weapon::Left:
-				m_bullets[i].first.y -= m_bulletSpeed*deltaTime;
-			break;
-			case Weapon::Up:
-				m_bullets[i].first.y -= m_bulletSpeed*deltaTime;
-			break;
-			case Weapon::Down:
-				m_bullets[i].first.y += m_bulletSpeed*deltaTime;
-			break;
-		}
+		case Weapon::Right:
+			m_bullets[i].sprite.move(m_bulletSpeed*deltaTime, 0);
+		break;
+		case Weapon::Left:
+			m_bullets[i].sprite.move(-m_bulletSpeed*deltaTime, 0);
+		break;
+		case Weapon::Up:
+			m_bullets[i].sprite.move(0, -m_bulletSpeed*deltaTime);
+		break;
+		case Weapon::Down:
+			m_bullets[i].sprite.move(0, m_bulletSpeed*deltaTime);
+		break;
 	}
+
+	Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
+
+	// Collision with solid tile
+	if(tile->isSolid() && tile->isPlayerAttackable())
+	{	
+		tile->damage(1);
+		m_bullets.erase(m_bullets.begin() + i);
+		return;
+	}
+
+
+	m_bullets[i].animation.animate(m_bullets[i].sprite, "default", deltaTime);
 }
-void GunWeapon::render(sf::RenderTarget &target)
+void GunWeapon::render(std::size_t i, sf::RenderTarget &target)
 {
-	// Keep in mind that origin is at center
-	float xPos = m_trackedCharacter->getSprite().getPosition().x +
-	(m_stances[m_activeStance].position.x + m_stances[m_activeStance].subRect.width/2);
-	float yPos = m_trackedCharacter->getSprite().getPosition().y +
-	(m_stances[m_activeStance].position.y + m_stances[m_activeStance].subRect.height/2);
-
-	m_weaponSprite.setPosition(xPos, yPos);
-	target.draw(m_weaponSprite);
-
-	for(std::size_t i = 0; i < m_bullets.size(); i++)
-	{
-		m_bulletSprite.setPosition(m_bullets[i].first);
-		target.draw(m_bulletSprite);
-	}
+	target.draw(m_bullets[i].sprite);
 }

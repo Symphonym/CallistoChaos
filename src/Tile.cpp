@@ -3,6 +3,7 @@
 Tile::Tile() :
 	m_isSolid(false),
 	m_isImmortal(false),
+	m_isPlayerAttackable(false),
 	m_tileType(0),
 	m_health(0),
 	m_maxHealth(0),
@@ -18,6 +19,10 @@ void Tile::setSolid(bool solid)
 void Tile::setImmortal(bool immortal)
 {
 	m_isImmortal = immortal;
+}
+void Tile::setPlayerAttackable(bool attackable)
+{
+	m_isPlayerAttackable = attackable;
 }
 
 void Tile::setMaxHealth(int maxHealth)
@@ -91,6 +96,10 @@ bool Tile::isOccupied() const
 bool Tile::isImmortal() const
 {
 	return m_isImmortal;
+}
+bool Tile::isPlayerAttackable() const
+{
+	return m_isPlayerAttackable;
 }
 bool Tile::isDestroyed() const
 {

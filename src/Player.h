@@ -16,17 +16,12 @@ private:
 	void duringWalkUp();
 	void duringWalkDown();
 
-	static const int maxCurrency = 300;
-	static const int maxAmmo = 300;
-
 	std::vector<std::unique_ptr<Weapon>> m_weapons;
 
 	sf::Text m_resourceText;
 
-	// How much currency the player has
-	int m_currencyAmount;
-	// How much ammo the plyaer has
-	int m_ammoAmount;
+	// Selected weapon
+	int m_selectedWeapon;
 
 public:
 
@@ -35,8 +30,6 @@ public:
 	void events(sf::Event &events);
 	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
-
-	bool pay(int currency);
 };
 
 #endif

@@ -13,6 +13,7 @@ private:
 		sf::IntRect subRect, destroyedSubRect;
 		bool isSolid;
 		bool isImmortal;
+		bool isPlayerAttackable;
 		int maxHealth;
 	};
 
@@ -34,9 +35,9 @@ public:
 	void setData(const sf::Texture &tilesheet, const sf::Vector2i &mapSize, std::size_t tileSize);
 
 	// Add Tile type
-	void addType(int tiletypeIndex, const sf::IntRect &subrect, bool isSolid = false);
+	void addType(int tiletypeIndex, const sf::IntRect &subrect, bool playerAttackable = false, bool isSolid = false);
 	// Add Destructable Tile type
-	void addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::IntRect &destroyedSubRect, int maxHealth, bool isSolid = false);
+	void addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::IntRect &destroyedSubRect, int maxHealth, bool playerAttackable = false, bool isSolid = false);
 
 	void loadFromData(std::vector<std::vector<int>> &mapData);
 

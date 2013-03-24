@@ -12,8 +12,6 @@ namespace TileOptionActions
 	void examineHealth(TileMap *tileMap, const sf::Vector2i &tileIndex);
 	void repair(TileMap *tileMap, const sf::Vector2i &tileIndex);
 	void build(TileMap *tileMap, const sf::Vector2i &tileIndex);
-
-	void damageDoor(TileMap *tileMap, const sf::Vector2i &tileIndex);
 };
 
 #endif

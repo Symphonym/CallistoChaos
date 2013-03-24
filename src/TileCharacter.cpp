@@ -9,8 +9,13 @@ TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const s
 	m_isWalking(false),
 	m_maxHealth(0),
 	m_health(0),
-	m_direction(TileCharacter::IdleDown)
+	m_direction(TileCharacter::IdleDown),
+	m_currencyAmount(0),
+	m_ammoAmount(0)
 {
+	m_sprite.setPosition(
+		tilemap.getTileSize()*tileIndex.x,
+		tilemap.getTileSize()*tileIndex.y);
 }
 
 void TileCharacter::setMaxHealth(int health)
@@ -29,6 +34,39 @@ void TileCharacter::setWalking(bool walking)
 void TileCharacter::setDirection(TileCharacter::Directions direction)
 {
 	m_direction = direction;
+}
+
+bool TileCharacter::affordCurrency(int currencyCost)
+{
+	return (m_currencyAmount - currencyCost) >= 0;
+}
+bool TileCharacter::affordAmmo(int ammoCost)
+{
+	return (m_ammoAmount - ammoCost) >= 0;
+}
+void TileCharacter::addCurrency(int currency)
+{
+	m_currencyAmount += currency;
+	if(m_currencyAmount > TileCharacter::maxCurrency)
+		m_currencyAmount = TileCharacter::maxCurrency;
+}
+void TileCharacter::addAmmo(int ammo)
+{
+	m_ammoAmount += ammo;
+	if(m_ammoAmount > TileCharacter::maxAmmo)
+		m_ammoAmount = TileCharacter::maxAmmo;
+}
+void TileCharacter::removeCurrency(int currency)
+{
+	m_currencyAmount -= currency;
+		if(m_currencyAmount < 0)
+			m_currencyAmount = 0;
+}
+void TileCharacter::removeAmmo(int ammo)
+{
+	m_ammoAmount -= ammo;
+	if(m_ammoAmount < 0)
+		m_ammoAmount = 0;
 }
 void TileCharacter::damage(int damage)
 {
@@ -129,6 +167,23 @@ void TileCharacter::walkDown()
 	}
 }
 
+bool TileCharacter::lookingRight()
+{
+	return m_direction == TileCharacter::WalkRight || m_direction == TileCharacter::IdleRight;
+}
+bool TileCharacter::lookingLeft()
+{
+	return m_direction == TileCharacter::WalkLeft || m_direction == TileCharacter::IdleLeft;
+}
+bool TileCharacter::lookingUp()
+{
+	return m_direction == TileCharacter::WalkUp || m_direction == TileCharacter::IdleUp;
+}
+bool TileCharacter::lookingDown()
+{
+	return m_direction == TileCharacter::WalkDown || m_direction == TileCharacter::IdleDown;
+}
+
 sf::Sprite &TileCharacter::getSprite()
 {
 	return m_sprite;
@@ -153,6 +208,15 @@ double TileCharacter::getSpeed() const
 {
 	return m_speed;
 }
+int TileCharacter::getCurrency() const
+{
+	return m_currencyAmount;
+}
+int TileCharacter::getAmmo() const
+{
+	return m_ammoAmount;
+}
+
 bool TileCharacter::isWalking() const
 {
 	return m_isWalking;

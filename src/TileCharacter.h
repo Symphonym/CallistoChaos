@@ -29,7 +29,12 @@ protected:
 	bool m_isWalking;
 	int m_maxHealth, m_health;
 	double m_speed;
+	// Looking/Walking direction
 	Directions m_direction;
+	// How much currency the character has
+	int m_currencyAmount;
+	// How much ammo the character has
+	int m_ammoAmount;
 
 	// Make it an abstract class by making constructor protected
 	// Pass Tilemap to allow for move operations
@@ -39,20 +44,14 @@ protected:
 
 public:
 
+	// Maximum currency
+	static const int maxCurrency = 300;
+	// Maximum ammo
+	static const int maxAmmo = 300;
+
 	virtual void events(sf::Event &events) = 0;
 	virtual void update(double deltaTime) = 0;
 	virtual void render(sf::RenderTarget &target) = 0;
-
-	void setMaxHealth(int health);
-	void setSpeed(double speed);
-	void setWalking(bool walking);
-	void setDirection(TileCharacter::Directions direction);
-	void damage(int damage);
-
-	void walkRight();
-	void walkLeft();
-	void walkUp();
-	void walkDown();
 
 	virtual void duringWalkRight(){};
 	virtual void duringWalkLeft(){};
@@ -64,12 +63,40 @@ public:
 	virtual void duringIdleUp(){};
 	virtual void duringIdleDown(){};
 
+	void setMaxHealth(int health);
+	void setSpeed(double speed);
+	void setWalking(bool walking);
+	void setDirection(TileCharacter::Directions direction);
+
+	// Checks if the Character can afford the currency cost
+	bool affordCurrency(int currencyCost);
+	// Check if the Character can afford the ammo cost
+	bool affordAmmo(int ammoCost);
+	void addCurrency(int currency);
+	void addAmmo(int ammo);
+	void removeCurrency(int currency);
+	void removeAmmo(int ammo);
+
+	void damage(int damage);
+
+	void walkRight();
+	void walkLeft();
+	void walkUp();
+	void walkDown();
+
+	bool lookingRight();
+	bool lookingLeft();
+	bool lookingUp();
+	bool lookingDown();
+
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
 	TileMap &getTileMap();
 	sf::Vector2i getIndex() const;
 	TileCharacter::Directions getDirection() const;
-	double getSpeed() const;
+	double getSpeed() const;	
+	int getCurrency() const;
+	int getAmmo() const;
 	bool isWalking() const;
 	bool isDead() const;
 };

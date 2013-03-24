@@ -17,7 +17,7 @@ void TileMap::setData(const sf::Texture &tilesheet, const sf::Vector2i &mapSize,
 	Tile tile;
 	m_tiles.resize(m_mapSize.y, std::vector<Tile>(m_mapSize.x, tile));
 }
-void TileMap::addType(int tiletypeIndex, const sf::IntRect &subrect, bool isSolid)
+void TileMap::addType(int tiletypeIndex, const sf::IntRect &subrect, bool playerAttackable, bool isSolid)
 {
 	TileData data;
 	data.subRect = subrect;
@@ -25,10 +25,11 @@ void TileMap::addType(int tiletypeIndex, const sf::IntRect &subrect, bool isSoli
 	data.isSolid = isSolid;
 	data.isImmortal = true;
 	data.maxHealth = 0;
+	data.isPlayerAttackable = playerAttackable;
 
 	m_tileTypes[tiletypeIndex] = data;
 }
-void TileMap::addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::IntRect &destroyedSubRect, int maxHealth, bool isSolid)
+void TileMap::addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::IntRect &destroyedSubRect, int maxHealth, bool playerAttackable, bool isSolid)
 {
 	TileData data;
 	data.subRect = subrect;
@@ -36,6 +37,7 @@ void TileMap::addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::
 	data.isSolid = isSolid;
 	data.isImmortal = false;
 	data.maxHealth = maxHealth;
+	data.isPlayerAttackable = playerAttackable;
 
 	m_tileTypes[tiletypeIndex] = data;
 }
@@ -58,6 +60,7 @@ void TileMap::loadFromData(std::vector<std::vector<int>> &mapData)
 			{
 				tile->setSolid(m_tileTypes[tile->getTileType()].isSolid);
 				tile->setImmortal(m_tileTypes[tile->getTileType()].isImmortal);
+				tile->setPlayerAttackable(m_tileTypes[tile->getTileType()].isPlayerAttackable);
 				tile->setMaxHealth(m_tileTypes[tile->getTileType()].maxHealth);
 			}
 		}
@@ -73,6 +76,7 @@ void TileMap::changeTile(int tileType, std::size_t x, std::size_t y, bool resetH
 
 	getTile(x, y).setImmortal(m_tileTypes[tileType].isImmortal);
 	getTile(x, y).setSolid(m_tileTypes[tileType].isSolid);
+	getTile(x, y).setPlayerAttackable(m_tileTypes[tileType].isPlayerAttackable);
 }
 void TileMap::changeTile(int tileType, Tile *tile, bool resetHealth)
 {
@@ -83,6 +87,7 @@ void TileMap::changeTile(int tileType, Tile *tile, bool resetHealth)
 
 	tile->setImmortal(m_tileTypes[tileType].isImmortal);
 	tile->setSolid(m_tileTypes[tileType].isSolid);
+	tile->setPlayerAttackable(m_tileTypes[tileType].isPlayerAttackable);
 }
 
 void TileMap::render(sf::RenderTarget& target)

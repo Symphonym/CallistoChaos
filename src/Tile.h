@@ -6,7 +6,7 @@
 class Tile
 {
 private:
-	bool m_isSolid, m_isImmortal;
+	bool m_isSolid, m_isImmortal, m_isPlayerAttackable;
 	int m_tileType;
 	int m_health, m_maxHealth;
 	TileCharacter *m_character;
@@ -17,6 +17,7 @@ public:
 
 	void setSolid(bool solid);
 	void setImmortal(bool immortal);
+	void setPlayerAttackable(bool attackable);
 	
 	void setMaxHealth(int maxHealth);
 	void setTileType(int tiletype);
@@ -34,6 +35,7 @@ public:
 	bool isSolid() const;
 	bool isOccupied() const;
 	bool isImmortal() const;
+	bool isPlayerAttackable() const;
 	bool isDestroyed() const;
 };
 

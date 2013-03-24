@@ -8,10 +8,10 @@ class GunWeapon : public Weapon
 {
 
 public:
-	explicit GunWeapon(TileCharacter *tileCharacter, jl::AssetManager &assets);
+	explicit GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets);
 
-	void update(double deltaTime);
-	void render(sf::RenderTarget &target);
+	virtual void update(std::size_t index, double deltaTime);
+	virtual void render(std::size_t index, sf::RenderTarget &target);
 };
 
 #endif

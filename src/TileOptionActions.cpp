@@ -51,8 +51,9 @@ namespace TileOptionActions
 			return;
 		}
 
-		if(TileOptionManager::getPlayer()->pay(repairCost))
+		if(TileOptionManager::getPlayer()->affordCurrency(5))
 		{
+			TileOptionManager::getPlayer()->removeCurrency(5);
 			tileMap->getTile(tileIndex).repair(1);
 			MessageLog::addMessage("*Spent 5 materials on repairing*");
 			return;
@@ -62,20 +63,14 @@ namespace TileOptionActions
 	}
 	void build(TileMap *tileMap, const sf::Vector2i &tileIndex)
 	{
-		if(TileOptionManager::getPlayer()->pay(repairCost*2))
+		if(TileOptionManager::getPlayer()->affordCurrency(10))
 		{
-			MessageLog::addMessage("*Spent 5 materials on building a Window*");
+			TileOptionManager::getPlayer()->removeCurrency(10);
+			MessageLog::addMessage("*Spent 10 materials on building a Window*");
 			tileMap->changeTile(5, tileIndex.x, tileIndex.y, true);
 			return;
 		}
 		else
 			MessageLog::addMessage("I don't have enough material to build a window");
-	}
-
-
-	// TODO: TESTING
-	void damageDoor(TileMap *tileMap, const sf::Vector2i &tileIndex)
-	{
-		tileMap->getTile(tileIndex).damage(1);
 	}
 };

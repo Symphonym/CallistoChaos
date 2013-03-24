@@ -6,11 +6,12 @@
 
 Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(tilemap, assets, tileIndex),
-	m_currencyAmount(100),
-	m_ammoAmount(100)
+	m_selectedWeapon(0)
 {
 	setSpeed(100);
 	setMaxHealth(5);
+	m_currencyAmount = 100;
+	m_ammoAmount = 100;
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
@@ -35,7 +36,7 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_resourceText.setCharacterSize(8);
 
-	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon(this, assets))));
+	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Pistol", this, assets))));
 }
 
 void Player::duringWalkRight()
@@ -56,11 +57,30 @@ void Player::duringWalkDown()
 }
 void Player::events(sf::Event &events)
 {
-	if(events.type == sf::Event::KeyPressed)
+	// Scroll through weapons
+	bool changedWeapon = false;
+	if(events.type == sf::Event::MouseWheelMoved)
 	{
-		if(events.key.code == sf::Keyboard::C && m_direction == TileCharacter::IdleRight)
-			m_weapons[0]->fire();
+		if(events.mouseWheel.delta < 0)
+			--m_selectedWeapon; changedWeapon = true;
+		if(events.mouseWheel.delta > 0)
+			++m_selectedWeapon; changedWeapon = true;
 	}
+
+	if(m_selectedWeapon < 0)
+		m_selectedWeapon = m_weapons.size() - 1;
+	else if(m_selectedWeapon >= m_weapons.size())
+		m_selectedWeapon = 0;
+
+	if(changedWeapon)
+		MessageLog::addMessage("Changed to weapon: " + m_weapons[m_selectedWeapon]->getName());
+
+	// Fire weapon
+	if(events.type == sf::Event::KeyPressed)
+		if(events.key.code == sf::Keyboard::C)
+			m_weapons[m_selectedWeapon]->fire();
+
+
 	// Changing direction of player
 	if(events.type == sf::Event::KeyPressed && !isWalking())
 	{
@@ -98,6 +118,15 @@ void Player::update(double deltaTime)
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		walkRight();
 
+	if(lookingRight())
+		m_weapons[m_selectedWeapon]->setStance("right");
+	else if(lookingLeft())
+		m_weapons[m_selectedWeapon]->setStance("left");
+	else if(lookingUp())
+		m_weapons[m_selectedWeapon]->setStance("up");
+	else if(lookingDown())
+		m_weapons[m_selectedWeapon]->setStance("down");
+
 	m_animation.commit(m_sprite, deltaTime);
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
@@ -124,16 +153,4 @@ void Player::render(sf::RenderTarget &target)
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
 		m_weapons[i]->render(target);
-}
-
-
-bool Player::pay(int currency)
-{
-	if(m_currencyAmount - currency >= 0)
-	{
-		m_currencyAmount -= currency;
-		return true;
-	}
-	else
-		return false;
 }
