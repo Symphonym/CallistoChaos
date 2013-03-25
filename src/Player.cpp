@@ -3,6 +3,7 @@
 #include "MessageLog.h"
 #include "Utility.h"
 #include "GunWeapon.h"
+#include "RifleWeapon.h"
 
 Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(tilemap, assets, tileIndex),
@@ -36,7 +37,8 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_resourceText.setCharacterSize(8);
 
-	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Pistol", this, assets))));
+	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
+	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
 }
 
 void Player::duringWalkRight()
@@ -130,7 +132,7 @@ void Player::update(double deltaTime)
 	m_animation.commit(m_sprite, deltaTime);
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
-		m_weapons[i]->update(deltaTime);
+		m_weapons[i]->updateBullets(deltaTime);
 }
 void Player::render(sf::RenderTarget &target)
 {
@@ -151,6 +153,11 @@ void Player::render(sf::RenderTarget &target)
 
 	target.setView(tempView);
 
+
+	// Render weapon bullets
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
-		m_weapons[i]->render(target);
+		m_weapons[i]->renderBullets(target);
+
+	// Render weapon
+	m_weapons[m_selectedWeapon]->render(target);
 }

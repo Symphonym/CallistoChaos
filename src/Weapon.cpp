@@ -108,7 +108,7 @@ void Weapon::fire()
 	}
 }
 
-void Weapon::update(double deltaTime)
+void Weapon::updateBullets(double deltaTime)
 {
 	for(std::size_t i = 0; i < m_bullets.size(); i++)
 	{
@@ -125,13 +125,15 @@ void Weapon::update(double deltaTime)
 	}
 
 }
+void Weapon::renderBullets(sf::RenderTarget &target)
+{
+	for(std::size_t i = 0; i < m_bullets.size(); i++)
+		render(i, target);
+}
 void Weapon::render(sf::RenderTarget &target)
 {
 	m_weaponSprite.setPosition(getWeaponPos());
 	target.draw(m_weaponSprite);
-
-	for(std::size_t i = 0; i < m_bullets.size(); i++)
-		render(i, target);
 }
 
 std::string Weapon::getStance() const

@@ -78,7 +78,8 @@ public:
 
 	void fire();
 
-	void update(double deltaTime);
+	void updateBullets(double deltaTime);
+	void renderBullets(sf::RenderTarget &target);
 	void render(sf::RenderTarget &target);
 
 	std::string getStance() const;

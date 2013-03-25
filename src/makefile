@@ -65,3 +65,4 @@ GameState.o: Engine.h TileMap.h Player.h State.h CharacterManager.h TileOptionMa
 MessageLog.o: AssetManager.h
 Weapon.o: TileCharacter.h AssetManager.h Weapon.h FrameAnimation.h TileMap.h
 GunWeapon.o: Weapon.h TileMap.h
+RifleWeapon.o: Weapon.h TileMap.h
