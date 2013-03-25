@@ -6,6 +6,7 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 {
 	setAmmo(1, 50);
 	setFireRate(0.1);
+	setDamage(1);
 	setBulletSpeed(250);
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),
@@ -24,30 +25,4 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 		pushFrame(sf::IntRect(32,0,16,16), 0.05).
 		pushFrame(sf::IntRect(48,0,16,16), 0.05);
 	setBulletAnimation(anim);
-}
-
-void RifleWeapon::update(BulletData &bullet, double deltaTime)
-{	
-	sf::Vector2i index(getBulletIndex(bullet));
-	switch(bullet.direction)
-	{
-		case Weapon::Right:
-			bullet.sprite.move(getSpeed(deltaTime), 0);
-		break;
-		case Weapon::Left:
-			bullet.sprite.move(-getSpeed(deltaTime), 0);
-		break;
-		case Weapon::Up:
-			bullet.sprite.move(0, -getSpeed(deltaTime));
-		break;
-		case Weapon::Down:
-			bullet.sprite.move(0, getSpeed(deltaTime));
-		break;
-	}
-
-	bullet.animation.animate(bullet.sprite, "default", deltaTime);
-}
-void RifleWeapon::render(BulletData &bullet, sf::RenderTarget &target)
-{
-	target.draw(bullet.sprite);
 }

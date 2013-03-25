@@ -38,7 +38,7 @@ namespace MessageLog
 		for(std::size_t i = 0; i < m_messages.size(); i++)
 		{
 			m_text.setString(m_messages[i].first);
-			m_text.setPosition(0, i * m_text.getGlobalBounds().height);
+			m_text.setPosition(0, i * 15);
 
 			sf::Color color = sf::Color::White;
 			color.a = 255 - m_messages[i].second * 50;

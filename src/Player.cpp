@@ -36,8 +36,25 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_resourceText.setCharacterSize(8);
+
+
+	// Transparent color
+	sf::Color transparentColor(sf::Color::White); 
+	transparentColor.a = 150;
+
+	// Set color of playerText to semi transparent to minimize gameplay interfering
 	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_playerText.setCharacterSize(24);
+	m_playerText.setColor(transparentColor);
+
+	m_ammoSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_ammoSprite.setTextureRect(sf::IntRect(49, 8, 6, 8));
+	m_ammoSprite.setScale(5, 5);
+	m_ammoSprite.setColor(transparentColor);
+	m_healthSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_healthSprite.setTextureRect(sf::IntRect(49, 17, 7, 7));
+	m_healthSprite.setScale(5, 5);
+	m_healthSprite.setColor(transparentColor);
 
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
@@ -138,8 +155,6 @@ void Player::update(double deltaTime)
 }
 void Player::render(sf::RenderTarget &target)
 {
-	target.draw(m_sprite);
-
 	sf::View tempView(target.getView());
 	target.setView(target.getDefaultView());
 
@@ -154,17 +169,27 @@ void Player::render(sf::RenderTarget &target)
 	target.draw(m_resourceText);
 
 	// Draw player hp
-	m_playerText.setPosition(250, 5);
+	m_playerText.setPosition(250, target.getView().getSize().y - 50);
 	m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
 	target.draw(m_playerText);
 
 
 	// Draw player weapon ammo
-	m_playerText.setPosition(400, 5);
+	m_playerText.setPosition(400, target.getView().getSize().y - 50);
 	m_playerText.setString(getActiveWeapon()->toAmmoString());
 	target.draw(m_playerText);
 
+	// Draw ammo icon
+	m_ammoSprite.setPosition(360, target.getView().getSize().y - 50);
+	target.draw(m_ammoSprite);
+
+	// Draw health icon
+	m_healthSprite.setPosition(200, target.getView().getSize().y - 50);
+	target.draw(m_healthSprite);
+
 	target.setView(tempView);
+
+	target.draw(m_sprite);
 
 
 	// Render weapon bullets

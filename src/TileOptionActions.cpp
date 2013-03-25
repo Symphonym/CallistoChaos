@@ -23,7 +23,7 @@ namespace TileOptionActions
 		Tile *tile = &tileMap->getTile(tileIndex);
 
 		if(tile->isImmortal())
-			MessageLog::addMessage("It can't possibly be destroyed");
+			MessageLog::addMessage("It can't possibly be destroyed (inf%%)");
 		else
 		{
 			double healthRatio = 
@@ -31,17 +31,17 @@ namespace TileOptionActions
 			(double)tile->getMaxHealth();
 
 			if(healthRatio <= 0.0)
-				MessageLog::addMessage("There's nothing left, it's completely destroyed");
+				MessageLog::addMessage("There's nothing left, it's completely destroyed (0\%)");
 			else if(healthRatio <= 0.1)
-				MessageLog::addMessage("It's on the brink of destruction");
+				MessageLog::addMessage("It's on the brink of destruction (10\%)");
 			else if(healthRatio <= 0.3)
-				MessageLog::addMessage("It can only take a few more bruises");
+				MessageLog::addMessage("It can only take a few more bruises (30\%)");
 			else if(healthRatio <= 0.5)
-				MessageLog::addMessage("It can probably take as many hits more");
+				MessageLog::addMessage("It can probably take as many hits more (50\%)");
 			else if(healthRatio <= 0.7)
-				MessageLog::addMessage("There's just a few scratches here and there");
+				MessageLog::addMessage("There's just a few scratches here and there (70\%)");
 			else
-				MessageLog::addMessage("Doesn't look like anything has touched it");
+				MessageLog::addMessage("Doesn't look like anything has touched it (100\%)");
 		}
 	}
 	void repair(TileMap *tileMap, const sf::Vector2i &tileIndex)

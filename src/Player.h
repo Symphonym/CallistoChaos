@@ -19,6 +19,7 @@ private:
 	std::vector<std::unique_ptr<Weapon>> m_weapons;
 
 	sf::Text m_resourceText, m_playerText;
+	sf::Sprite m_healthSprite, m_ammoSprite;
 
 	// Selected weapon
 	int m_selectedWeapon;
