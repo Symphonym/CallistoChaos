@@ -112,35 +112,42 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_tileOptions.addOption(9, "Look at", std::bind(&MessageLog::addMessage, "A box full of metal scrap"));
 	m_tileOptions.addOption(9, "Examine", std::bind(&MessageLog::addMessage, "The box displays the quantity of it's contents"));
 
-	// Currency box
+	// Ammo box
+	m_tileOptions.addOption(10, "Reload", TileOptionActions::reload);
 	m_tileOptions.addOption(10, "Look at", std::bind(&MessageLog::addMessage, "A box full of batteries"));
 	m_tileOptions.addOption(10, "Examine", std::bind(&MessageLog::addMessage, "The display on top keeps track of the battery quantity"));
 }
 
 void GameState::events()
 {
-	m_characters.events(getEngine()->getEvent());
-	m_tileOptions.events(getEngine()->getEvent());
+	if(!isPaused())
+	{
+		m_characters.events(getEngine()->getEvent());
+		m_tileOptions.events(getEngine()->getEvent());
+	}
 }
 void GameState::update()
 {
-	m_characters.update(getEngine()->getDelta());
+	if(!isPaused())
+	{
+		m_characters.update(getEngine()->getDelta());
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		m_view.zoom(1.0 - getEngine()->getDelta());
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		m_view.zoom(1.0 + getEngine()->getDelta());
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			m_view.zoom(1.0 - getEngine()->getDelta());
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			m_view.zoom(1.0 + getEngine()->getDelta());
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		m_view.rotate(100*getEngine()->getDelta());
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			m_view.rotate(100*getEngine()->getDelta());
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-		getEngine()->getStack().popState();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+			getEngine()->getStack().popState();
 
-	// Update view
-	getEngine()->getWindow().setView(m_view);
+		// Update view
+		getEngine()->getWindow().setView(m_view);
 
-	MessageLog::update(getEngine()->getDelta());
+		MessageLog::update(getEngine()->getDelta());
+	}
 }
 void GameState::render()
 {

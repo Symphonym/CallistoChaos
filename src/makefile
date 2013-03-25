@@ -57,12 +57,12 @@ main.o: GameState.h Engine.h
 TileMap.o: Tile.h
 Tile.o: TileCharacter.h TileMap.h
 TileCharacter.o: FrameAnimation.h TileMap.h AssetManager.h
-TileOptionManager.o: TileCharacter.h AssetManager.h TileMap.h Utility.h
-TileOptionActions.o: TileMap.h MessageLog.h TileOptionManager.h
+TileOptionManager.o: Player.h AssetManager.h TileMap.h Utility.h
+TileOptionActions.o: TileMap.h MessageLog.h TileOptionManager.h Utility.h
 Player.o: TileCharacter.h TileMap.h MessageLog.h Utility.h Weapon.h
 CharacterManager.o: TileCharacter.h TileMap.h
 GameState.o: Engine.h TileMap.h Player.h State.h CharacterManager.h TileOptionManager.h MessageLog.h TileOptionActions.h
 MessageLog.o: AssetManager.h
-Weapon.o: TileCharacter.h AssetManager.h Weapon.h FrameAnimation.h TileMap.h
+Weapon.o: TileCharacter.h AssetManager.h Weapon.h FrameAnimation.h TileMap.h Utility.h
 GunWeapon.o: Weapon.h TileMap.h
 RifleWeapon.o: Weapon.h TileMap.h

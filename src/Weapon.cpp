@@ -1,14 +1,21 @@
 #include "Weapon.h"
 #include "TileMap.h"
 #include "TileCharacter.h"
+#include "Utility.h"
+#include <sstream>
 
 Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
-	m_trackedCharacter(tileCharacter),
+	m_name(name),
 	m_activeStance(""),
+	m_trackedCharacter(tileCharacter),
+	m_bulletSheet(nullptr),
 	m_ammoCost(0),
-	m_fireRate(0),
-	m_bulletSpeed(0),
-	m_name(name)
+	m_ammo(0),
+	m_maxAmmo(0),
+	m_damage(0),
+	m_upgradeLevel(1),
+	m_fireRate(0.5),
+	m_bulletSpeed(100)
 {
 
 }
@@ -21,6 +28,23 @@ void Weapon::addStance(const std::string &name, const sf::Vector2f &pos, const s
 	stance.bulletPosition = bulletPos;
 	stance.subRect = subRect;
 	m_stances[name] = stance;
+}
+void Weapon::upgrade()
+{
+	m_upgradeLevel += 1;
+}
+int Weapon::reload(int ammo)
+{
+	m_ammo += ammo;
+
+	if(m_ammo > calculateMaxAmmo())
+	{
+		int leftOvers = (m_ammo - calculateMaxAmmo());
+		m_ammo -= leftOvers;
+		return leftOvers;
+	}
+	else
+		return 0;
 }
 
 void Weapon::setStance(const std::string &name)
@@ -36,9 +60,18 @@ void Weapon::setStance(const std::string &name)
 		m_trackedCharacter->getSprite().getPosition().y + m_stances[name].position.y + + m_weaponSprite.getGlobalBounds().height/2);
 
 }
-void Weapon::setAmmoCost(int cost)
+void Weapon::setAmmo(int cost, int maxAmmo)
 {
 	m_ammoCost = cost;
+	m_maxAmmo = maxAmmo;
+
+	// Set unlimited ammo
+	if(m_maxAmmo < 0)
+		m_ammo = -1;
+}
+void Weapon::setDamage(int damage)
+{
+	m_damage = damage;
 }
 void Weapon::setFireRate(double delay)
 {
@@ -60,54 +93,85 @@ void Weapon::setBulletAnimation(const jl::FrameAnimation &animation)
 
 void Weapon::fire()
 {
-	if(m_fireRateClock.getElapsedTime().asSeconds() >= m_fireRate && m_trackedCharacter->affordAmmo(m_ammoCost))
-	{
-		m_trackedCharacter->removeAmmo(m_ammoCost);
-		m_fireRateClock.restart();
-
-		// Place bullet at weapon
-		sf::Vector2f weaponPos(getWeaponPos());
-		weaponPos.x += m_stances[m_activeStance].bulletPosition.x;
-		weaponPos.y += m_stances[m_activeStance].bulletPosition.y;
-
-
-
-		BulletData data;
-		data.sprite.setTexture(*m_bulletSheet);
-		data.animation = m_bulletAnimation;
-		data.animation.initAnimation(data.sprite, "default");
-		data.sprite.setOrigin(
-			data.sprite.getGlobalBounds().width/2,
-			data.sprite.getGlobalBounds().height/2);
-		data.sprite.setPosition(weaponPos);
-
-		switch(m_trackedCharacter->getDirection())
+	if(m_fireRateClock.getElapsedTime().asSeconds() >= calculateFireRate())
+	{		
+		// Check if enough ammo, or if unlimited ammo was provided
+		if((m_ammo - calculateCost()) >= 0 || calculateMaxAmmo() < 0)
 		{
-			case TileCharacter::WalkRight:
-			case TileCharacter::IdleRight:
-				data.direction = Weapon::Right;
-				data.sprite.setRotation(90);
-			break;
-			case TileCharacter::WalkLeft:
-			case TileCharacter::IdleLeft:
-				data.direction = Weapon::Left;
-				data.sprite.setRotation(270);
-			break;
-			case TileCharacter::WalkUp:
-			case TileCharacter::IdleUp:
-				data.direction = Weapon::Up;
-			break;
-			case TileCharacter::WalkDown:
-			case TileCharacter::IdleDown:
-				data.direction = Weapon::Down;
-				data.sprite.setRotation(180);
-			break;
-		}
 
-		m_bullets.push_back(data);
+			m_ammo -= calculateCost();
+
+			m_fireRateClock.restart();
+
+			// Place bullet at weapon
+			sf::Vector2f weaponPos(getWeaponPos());
+			weaponPos.x += m_stances[m_activeStance].bulletPosition.x;
+			weaponPos.y += m_stances[m_activeStance].bulletPosition.y;
+
+
+
+			BulletData data;
+			data.sprite.setTexture(*m_bulletSheet);
+			data.animation = m_bulletAnimation;
+			data.animation.initAnimation(data.sprite, "default");
+			data.sprite.setOrigin(
+				data.sprite.getGlobalBounds().width/2,
+				data.sprite.getGlobalBounds().height/2);
+			data.sprite.setPosition(weaponPos);
+
+			switch(m_trackedCharacter->getDirection())
+			{
+				case TileCharacter::WalkRight:
+				case TileCharacter::IdleRight:
+					data.direction = Weapon::Right;
+					data.sprite.setRotation(90);
+				break;
+				case TileCharacter::WalkLeft:
+				case TileCharacter::IdleLeft:
+					data.direction = Weapon::Left;
+					data.sprite.setRotation(270);
+				break;
+				case TileCharacter::WalkUp:
+				case TileCharacter::IdleUp:
+					data.direction = Weapon::Up;
+				break;
+				case TileCharacter::WalkDown:
+				case TileCharacter::IdleDown:
+					data.direction = Weapon::Down;
+					data.sprite.setRotation(180);
+				break;
+			}
+
+			m_bullets.push_back(data);
+		}
 	}
 }
 
+void Weapon::update(BulletData &bullet, double deltaTime)
+{
+	sf::Vector2i index(getBulletIndex(bullet));
+	switch(bullet.direction)
+	{
+		case Weapon::Right:
+			bullet.sprite.move(getSpeed(deltaTime), 0);
+		break;
+		case Weapon::Left:
+			bullet.sprite.move(-getSpeed(deltaTime), 0);
+		break;
+		case Weapon::Up:
+			bullet.sprite.move(0, -getSpeed(deltaTime));
+		break;
+		case Weapon::Down:
+			bullet.sprite.move(0, getSpeed(deltaTime));
+		break;
+	}
+
+	bullet.animation.animate(bullet.sprite, "default", deltaTime);
+}
+void Weapon::render(BulletData &bullet, sf::RenderTarget &target)
+{
+	target.draw(bullet.sprite);
+}
 void Weapon::updateBullets(double deltaTime)
 {
 	for(std::size_t i = 0; i < m_bullets.size(); i++)
@@ -121,14 +185,26 @@ void Weapon::updateBullets(double deltaTime)
 			m_bullets.erase(m_bullets.begin() + i);
 			continue;
 		}
-		update(i, deltaTime);
+
+		Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
+
+		// Collision with solid tile
+		if(tile->isSolid() && tile->isPlayerAttackable())
+		{	
+			tile->damage(calculateDamage());
+			m_bullets.erase(m_bullets.begin() + i);
+			return;
+		}
+
+
+		update(m_bullets[i], deltaTime);
 	}
 
 }
 void Weapon::renderBullets(sf::RenderTarget &target)
 {
 	for(std::size_t i = 0; i < m_bullets.size(); i++)
-		render(i, target);
+		render(m_bullets[i], target);
 }
 void Weapon::render(sf::RenderTarget &target)
 {
@@ -143,6 +219,50 @@ std::string Weapon::getStance() const
 std::string Weapon::getName() const
 {
 	return m_name;
+}
+int Weapon::getLevel() const
+{
+	return m_upgradeLevel;
+}
+int Weapon::getAmmo() const
+{
+	return m_ammo;
+}
+int Weapon::getMaxAmmo() const
+{
+	return m_maxAmmo;
+}
+
+bool Weapon::hasUnlimitedAmmo() const
+{
+	return m_ammo < 0;
+}
+bool Weapon::hasFullAmmo() const
+{
+	return m_ammo >= m_maxAmmo;
+}
+
+
+
+int Weapon::calculateDamage() const
+{
+	return m_damage;
+}
+int Weapon::calculateCost() const
+{
+	return m_ammoCost;
+}
+int Weapon::calculateMaxAmmo() const
+{
+	return m_maxAmmo;
+}
+double Weapon::calculateFireRate() const
+{
+	return m_fireRate;
+}
+double Weapon::calculateSpeed() const
+{
+	return m_bulletSpeed;
 }
 
 
@@ -160,4 +280,33 @@ sf::Vector2f Weapon::getWeaponPos()
 		m_trackedCharacter->getSprite().getPosition().y +
 		(m_stances[m_activeStance].position.y + m_stances[m_activeStance].subRect.height/2));
 
+}
+double Weapon::getSpeed(double deltaTime) const
+{
+	return calculateSpeed()*deltaTime;
+}
+
+
+std::string Weapon::toAmmoString()
+{
+	std::stringstream ss;
+	std::string ammoString = "", maxAmmoString = "";
+
+	if(m_maxAmmo < 0)
+	{
+		ammoString = "inf";
+		maxAmmoString = "inf";
+	}
+	else
+	{
+		ss << m_ammo;
+		ss >> ammoString;
+
+		ss.clear();
+
+		ss << m_maxAmmo;
+		ss >> maxAmmoString;
+	}
+
+	return ammoString + "/" + maxAmmoString;
 }

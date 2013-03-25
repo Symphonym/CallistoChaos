@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include "MessageLog.h"
 #include "TileOptionManager.h"
+#include "Utility.h"
 
 namespace TileOptionActions
 {
@@ -45,17 +46,19 @@ namespace TileOptionActions
 	}
 	void repair(TileMap *tileMap, const sf::Vector2i &tileIndex)
 	{
+		const int repairCost = 5;
+
 		if(tileMap->getTile(tileIndex).getHealth() == tileMap->getTile(tileIndex).getMaxHealth())
 		{
 			MessageLog::addMessage("It's already fully repaired");
 			return;
 		}
 
-		if(TileOptionManager::getPlayer()->affordCurrency(5))
+		else if(TileOptionManager::getPlayer()->affordCurrency(repairCost))
 		{
-			TileOptionManager::getPlayer()->removeCurrency(5);
+			TileOptionManager::getPlayer()->removeCurrency(repairCost);
 			tileMap->getTile(tileIndex).repair(1);
-			MessageLog::addMessage("*Spent 5 materials on repairing*");
+			MessageLog::addMessage("*Spent " + jl::Util::toString(repairCost) +  " materials on repairing*");
 			return;
 		}
 		else
@@ -63,14 +66,67 @@ namespace TileOptionActions
 	}
 	void build(TileMap *tileMap, const sf::Vector2i &tileIndex)
 	{
-		if(TileOptionManager::getPlayer()->affordCurrency(10))
+		const int buildCost = 10;
+
+		if(TileOptionManager::getPlayer()->affordCurrency(buildCost))
 		{
-			TileOptionManager::getPlayer()->removeCurrency(10);
-			MessageLog::addMessage("*Spent 10 materials on building a Window*");
+			TileOptionManager::getPlayer()->removeCurrency(buildCost);
+			MessageLog::addMessage("*Spent " + jl::Util::toString(buildCost) + " materials on building a Window*");
 			tileMap->changeTile(5, tileIndex.x, tileIndex.y, true);
 			return;
 		}
 		else
 			MessageLog::addMessage("I don't have enough material to build a window");
+	}
+
+	void reload(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	{
+		const int reloadAmount = 10;
+
+		Player *player = TileOptionManager::getPlayer();
+
+		// Player has unlimited ammo
+		if(player->getActiveWeapon()->hasUnlimitedAmmo())
+		{
+			MessageLog::addMessage("The " + player->getActiveWeapon()->getName() + " can't be reloaded");
+			return;
+		}
+
+		// Player out of ammo to reload with
+		if(player->getAmmo() == 0)
+		{
+			MessageLog::addMessage("There's no ammo to reload with");
+			return;
+		}
+
+		// Player has full ammo already
+		if(player->getActiveWeapon()->hasFullAmmo())
+		{
+			MessageLog::addMessage("The weapon is already fully loaded");
+			return;
+		}
+
+		if(player->affordAmmo(reloadAmount))
+		{
+			player->removeAmmo(reloadAmount);
+
+			// Give back leftovers to player
+			int leftOvers = player->getActiveWeapon()->reload(reloadAmount);
+			player->addAmmo(leftOvers);
+
+			MessageLog::addMessage("Reloaded " + player->getActiveWeapon()->getName() +
+				" with " + jl::Util::toString(reloadAmount - leftOvers) + " bullets");
+		}
+		else if(player->getAmmo() < reloadAmount)
+		{
+			// Give back leftovers to player
+			player->addAmmo(player->getActiveWeapon()->reload(player->getAmmo()));
+
+			MessageLog::addMessage("Reloaded " + player->getActiveWeapon()->getName() +
+				" with " + jl::Util::toString(player->getAmmo()) + " bullets");
+
+			player->removeAmmo(player->getAmmo());
+
+		}
 	}
 };

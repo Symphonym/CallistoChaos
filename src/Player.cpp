@@ -11,8 +11,8 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 {
 	setSpeed(100);
 	setMaxHealth(5);
-	m_currencyAmount = 100;
-	m_ammoAmount = 100;
+	addAmmo(76);
+	addCurrency(100);
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
@@ -36,6 +36,8 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_resourceText.setCharacterSize(8);
+	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_playerText.setCharacterSize(24);
 
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
@@ -75,12 +77,12 @@ void Player::events(sf::Event &events)
 		m_selectedWeapon = 0;
 
 	if(changedWeapon)
-		MessageLog::addMessage("Changed to weapon: " + m_weapons[m_selectedWeapon]->getName());
+		MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
 
 	// Fire weapon
 	if(events.type == sf::Event::KeyPressed)
 		if(events.key.code == sf::Keyboard::C)
-			m_weapons[m_selectedWeapon]->fire();
+			getActiveWeapon()->fire();
 
 
 	// Changing direction of player
@@ -121,13 +123,13 @@ void Player::update(double deltaTime)
 		walkRight();
 
 	if(lookingRight())
-		m_weapons[m_selectedWeapon]->setStance("right");
+		getActiveWeapon()->setStance("right");
 	else if(lookingLeft())
-		m_weapons[m_selectedWeapon]->setStance("left");
+		getActiveWeapon()->setStance("left");
 	else if(lookingUp())
-		m_weapons[m_selectedWeapon]->setStance("up");
+		getActiveWeapon()->setStance("up");
 	else if(lookingDown())
-		m_weapons[m_selectedWeapon]->setStance("down");
+		getActiveWeapon()->setStance("down");
 
 	m_animation.commit(m_sprite, deltaTime);
 
@@ -141,15 +143,26 @@ void Player::render(sf::RenderTarget &target)
 	sf::View tempView(target.getView());
 	target.setView(target.getDefaultView());
 
-	// Draw currency text
+	// Draw currency box text
 	m_resourceText.setPosition(331, 305);
 	m_resourceText.setString(jl::Util::toString(m_currencyAmount));
 	target.draw(m_resourceText);
 
-	// Draw ammo text
+	// Draw ammo box text
 	m_resourceText.setPosition(371, 305);
 	m_resourceText.setString(jl::Util::toString(m_ammoAmount));
 	target.draw(m_resourceText);
+
+	// Draw player hp
+	m_playerText.setPosition(250, 5);
+	m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
+	target.draw(m_playerText);
+
+
+	// Draw player weapon ammo
+	m_playerText.setPosition(400, 5);
+	m_playerText.setString(getActiveWeapon()->toAmmoString());
+	target.draw(m_playerText);
 
 	target.setView(tempView);
 
@@ -160,4 +173,10 @@ void Player::render(sf::RenderTarget &target)
 
 	// Render weapon
 	m_weapons[m_selectedWeapon]->render(target);
+}
+
+
+Weapon *Player::getActiveWeapon()
+{
+	return m_weapons[m_selectedWeapon].get();
 }

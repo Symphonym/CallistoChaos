@@ -4,7 +4,7 @@
 RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	Weapon(name, tileCharacter, assets)
 {
-	setAmmoCost(1);
+	setAmmo(1, 50);
 	setFireRate(0.1);
 	setBulletSpeed(250);
 	setWeaponSheet(
@@ -26,39 +26,28 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 	setBulletAnimation(anim);
 }
 
-void RifleWeapon::update(std::size_t i, double deltaTime)
+void RifleWeapon::update(BulletData &bullet, double deltaTime)
 {	
-	sf::Vector2i index(getBulletIndex(m_bullets[i]));
-	switch(m_bullets[i].direction)
+	sf::Vector2i index(getBulletIndex(bullet));
+	switch(bullet.direction)
 	{
 		case Weapon::Right:
-			m_bullets[i].sprite.move(m_bulletSpeed*deltaTime, 0);
+			bullet.sprite.move(getSpeed(deltaTime), 0);
 		break;
 		case Weapon::Left:
-			m_bullets[i].sprite.move(-m_bulletSpeed*deltaTime, 0);
+			bullet.sprite.move(-getSpeed(deltaTime), 0);
 		break;
 		case Weapon::Up:
-			m_bullets[i].sprite.move(0, -m_bulletSpeed*deltaTime);
+			bullet.sprite.move(0, -getSpeed(deltaTime));
 		break;
 		case Weapon::Down:
-			m_bullets[i].sprite.move(0, m_bulletSpeed*deltaTime);
+			bullet.sprite.move(0, getSpeed(deltaTime));
 		break;
 	}
 
-	Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
-
-	// Collision with solid tile
-	if(tile->isSolid() && tile->isPlayerAttackable())
-	{	
-		tile->damage(1);
-		m_bullets.erase(m_bullets.begin() + i);
-		return;
-	}
-
-
-	m_bullets[i].animation.animate(m_bullets[i].sprite, "default", deltaTime);
+	bullet.animation.animate(bullet.sprite, "default", deltaTime);
 }
-void RifleWeapon::render(std::size_t i, sf::RenderTarget &target)
+void RifleWeapon::render(BulletData &bullet, sf::RenderTarget &target)
 {
-	target.draw(m_bullets[i].sprite);
+	target.draw(bullet.sprite);
 }

@@ -10,8 +10,8 @@ class RifleWeapon : public Weapon
 public:
 	explicit RifleWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets);
 
-	virtual void update(std::size_t index, double deltaTime);
-	virtual void render(std::size_t index, sf::RenderTarget &target);
+	virtual void update(BulletData &bullet, double deltaTime);
+	virtual void render(BulletData &bullet, sf::RenderTarget &target);
 };
 
 #endif

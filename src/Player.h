@@ -18,7 +18,7 @@ private:
 
 	std::vector<std::unique_ptr<Weapon>> m_weapons;
 
-	sf::Text m_resourceText;
+	sf::Text m_resourceText, m_playerText;
 
 	// Selected weapon
 	int m_selectedWeapon;
@@ -30,6 +30,8 @@ public:
 	void events(sf::Event &events);
 	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
+
+	Weapon* getActiveWeapon();
 };
 
 #endif
