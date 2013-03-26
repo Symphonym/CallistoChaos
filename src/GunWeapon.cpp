@@ -7,6 +7,7 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 	setAmmo(10, -1);
 	setFireRate(0.5);
 	setBulletSpeed(200);
+	setBulletSpread(5);
 	setDamage(1);
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),

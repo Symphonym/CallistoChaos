@@ -13,6 +13,22 @@ namespace MessageLog
 		if(m_messages.size() > 5)
 			m_messages.erase(m_messages.begin());
 	}
+	void addSingleMessage(const std::string &message)
+	{
+		bool messageExists = false;
+
+		// Make sure the message dosen't exist in the log
+		for(std::size_t i = 0; i < m_messages.size(); i++)
+		{
+			if(m_messages[i].first == message)
+			{
+				messageExists = true;
+				return;
+			}
+		}
+
+		addMessage(message);
+	}
 	void loadAssets(jl::AssetManager &assets)
 	{
 		m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());

@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include "TileCharacter.h"
 #include "Utility.h"
+#include "MessageLog.h"
 #include <sstream>
 
 Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
@@ -15,7 +16,8 @@ Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetM
 	m_damage(0),
 	m_upgradeLevel(1),
 	m_fireRate(0.5),
-	m_bulletSpeed(100)
+	m_bulletSpeed(100),
+	m_bulletSpread(0)
 {
 
 }
@@ -77,6 +79,10 @@ void Weapon::setFireRate(double delay)
 {
 	m_fireRate = delay;
 }
+void Weapon::setBulletSpread(double angle)
+{
+	m_bulletSpread = angle;
+}
 void Weapon::setBulletSpeed(double speed)
 {
 	m_bulletSpeed = speed;
@@ -119,52 +125,59 @@ void Weapon::fire()
 				data.sprite.getGlobalBounds().height/2);
 			data.sprite.setPosition(weaponPos);
 
+			// Calculate bulletspread angle
+			int angle = 0;
+			if(m_bulletSpread != 0)
+			{
+				// Equation provided by Lukas Hagman
+				angle = -m_bulletSpread+((double)std::rand() / (double)RAND_MAX)*m_bulletSpread*2;	
+			}
+
 			switch(m_trackedCharacter->getDirection())
 			{
 				case TileCharacter::WalkRight:
 				case TileCharacter::IdleRight:
-					data.direction = Weapon::Right;
-					data.sprite.setRotation(90);
+					data.sprite.setRotation(90 - angle);
+					data.direction = sf::Vector2f(
+						std::sin(jl::Math::degToRad<double>(90 + angle)),
+						std::cos(jl::Math::degToRad<double>(90 + angle)));
 				break;
 				case TileCharacter::WalkLeft:
 				case TileCharacter::IdleLeft:
-					data.direction = Weapon::Left;
-					data.sprite.setRotation(270);
+					data.sprite.setRotation(270 - angle);
+					data.direction = sf::Vector2f(
+						std::sin(jl::Math::degToRad<double>(270 + angle)),
+						std::cos(jl::Math::degToRad<double>(270 + angle)));
 				break;
 				case TileCharacter::WalkUp:
 				case TileCharacter::IdleUp:
-					data.direction = Weapon::Up;
+					data.sprite.setRotation(angle);
+					data.direction = sf::Vector2f(
+						std::sin(jl::Math::degToRad<double>(angle)),
+						-std::cos(jl::Math::degToRad<double>(angle)));
 				break;
 				case TileCharacter::WalkDown:
 				case TileCharacter::IdleDown:
-					data.direction = Weapon::Down;
-					data.sprite.setRotation(180);
+					data.sprite.setRotation(180 + angle);
+					data.direction = sf::Vector2f(
+						std::sin(jl::Math::degToRad<double>(180 + angle)),
+						-std::cos(jl::Math::degToRad<double>(180 + angle)));
 				break;
 			}
 
+
 			m_bullets.push_back(data);
 		}
+		else
+			MessageLog::addSingleMessage(getName() +  " is out of ammunition");
 	}
 }
 
 void Weapon::update(BulletData &bullet, double deltaTime)
 {
-	sf::Vector2i index(getBulletIndex(bullet));
-	switch(bullet.direction)
-	{
-		case Weapon::Right:
-			bullet.sprite.move(getSpeed(deltaTime), 0);
-		break;
-		case Weapon::Left:
-			bullet.sprite.move(-getSpeed(deltaTime), 0);
-		break;
-		case Weapon::Up:
-			bullet.sprite.move(0, -getSpeed(deltaTime));
-		break;
-		case Weapon::Down:
-			bullet.sprite.move(0, getSpeed(deltaTime));
-		break;
-	}
+	bullet.sprite.move(
+		bullet.direction.x*calculateSpeed()*deltaTime,
+		bullet.direction.y*calculateSpeed()*deltaTime);
 
 	bullet.animation.animate(bullet.sprite, "default", deltaTime);
 }

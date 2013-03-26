@@ -7,6 +7,7 @@
 namespace MessageLog
 {
 	void addMessage(const std::string &message);
+	void addSingleMessage(const std::string &message);
 	void loadAssets(jl::AssetManager &assets);
 
 	void update(double deltaTime);

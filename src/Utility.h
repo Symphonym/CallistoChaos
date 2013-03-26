@@ -6,6 +6,8 @@
 #include <typeinfo>
 #include <stdexcept>
 
+#define PI_VALUE 3.14159265359
+
 namespace jl
 {
 	namespace Util
@@ -32,7 +34,7 @@ namespace jl
 			ss << input;
 
 			return ss.str();
-		}
+		};
 	};
 
 	namespace Math
@@ -41,6 +43,14 @@ namespace jl
 		template<typename T, typename Tmin, typename Tmax> T clamp(const T &value, const Tmin &min, const Tmax &max)
 		{
 			return value < min ? min : (value > max ? max : value);
+		};
+		template<typename T> T radToDeg(const T &radians)
+		{
+			return radians * (180/PI_VALUE);
+		};
+		template<typename T> T degToRad(const T &degrees)
+		{
+			return degrees * (PI_VALUE/180);
 		};
 	}
 };

@@ -97,9 +97,9 @@ void Player::events(sf::Event &events)
 		MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
 
 	// Fire weapon
-	if(events.type == sf::Event::KeyPressed)
-		if(events.key.code == sf::Keyboard::C)
-			getActiveWeapon()->fire();
+	//if(events.type == sf::Event::KeyPressed)
+	//	if(events.key.code == sf::Keyboard::C)
+	//		getActiveWeapon()->fire();
 
 
 	// Changing direction of player
@@ -130,6 +130,10 @@ void Player::events(sf::Event &events)
 
 void Player::update(double deltaTime)
 {
+	// Fire weapon
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		getActiveWeapon()->fire();
+
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		walkUp();
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))

@@ -28,7 +28,8 @@ public:
 	struct BulletData
 	{
 		sf::Sprite sprite;
-		BulletDirections direction;
+		sf::Vector2f direction;
+		//BulletDirections direction;
 		jl::FrameAnimation animation;
 	};
 
@@ -53,8 +54,7 @@ private:
 
 
 	int m_ammoCost, m_ammo, m_maxAmmo, m_damage, m_upgradeLevel;
-	double m_fireRate;
-	double m_bulletSpeed;
+	double m_fireRate, m_bulletSpeed, m_bulletSpread;
 	sf::Clock m_fireRateClock;
 
 	virtual void update(BulletData &bullet, double deltaTime);
@@ -87,6 +87,7 @@ public:
 	void setAmmo(int cost, int maxAmmo);
 	void setDamage(int damage);
 	void setFireRate(double delay);
+	void setBulletSpread(double angle);
 	void setBulletSpeed(double speed);
 	void setWeaponSheet(const sf::Texture &weaponSheet, const sf::Texture &bulletSheet);
 	void setBulletAnimation(const jl::FrameAnimation &animation);
