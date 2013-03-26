@@ -19,6 +19,7 @@ namespace jl
 			m_running = false;
 		}
 	}
+
 	void StopWatch::restart()
 	{
 		reset();

@@ -23,7 +23,7 @@ namespace jl
 		Settings::setBool("windowFullscreen", false);
 		Settings::setInt("windowFpsLimit", 0);
 		Settings::setInt("windowWidth", 800);
-		Settings::setInt("windowHeight", 800);
+		Settings::setInt("windowHeight", 600);
 		Settings::setInt("gameGlobalVolume", 100);
 
 		// Register Engine data to those who need it

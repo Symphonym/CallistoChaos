@@ -7,20 +7,22 @@
 #include "TileMap.h"
 #include "State.h"
 #include "CharacterManager.h"
+#include "TileOptionManager.h"
 
 class GameState : public jl::State
 {
 private:
 
+	// Stores level data
 	TileMap m_tileMap;
+	// Stores characters on the TileMap
 	CharacterManager m_characters;
+	// Stores options for different tiletypes
+	TileOptionManager m_tileOptions;
+	sf::View m_view;
+
 
 public:
-
-	sf::Texture texture;
-	sf::Sprite sprite;
-	sf::View view;
-	jl::FrameAnimation anim;
 
 	explicit GameState(jl::Engine *engine);
 

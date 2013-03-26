@@ -6,8 +6,9 @@
 class Tile
 {
 private:
-	bool m_isOccupied, m_isSolid;
+	bool m_isSolid, m_isImmortal, m_isPlayerAttackable;
 	int m_tileType;
+	int m_health, m_maxHealth;
 	TileCharacter *m_character;
 
 public:
@@ -15,18 +16,27 @@ public:
 	explicit Tile();
 
 	void setSolid(bool solid);
-	void setOccupied(bool occupied);
-
+	void setImmortal(bool immortal);
+	void setPlayerAttackable(bool attackable);
+	
+	void setMaxHealth(int maxHealth);
 	void setTileType(int tiletype);
 
 	void setCharacter(TileCharacter *character);
 	void clearCharacter();
-	bool hasCharacter() const;
+
+	void damage(int damage);
+	void repair(int repair);
 
 	TileCharacter *getCharacter();
 	int getTileType() const;
+	int getHealth() const;
+	int getMaxHealth() const;
 	bool isSolid() const;
 	bool isOccupied() const;
+	bool isImmortal() const;
+	bool isPlayerAttackable() const;
+	bool isDestroyed() const;
 };
 
 #endif

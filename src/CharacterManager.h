@@ -2,7 +2,7 @@
 #define CHARACTERMANAGER_H
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <map>
 #include <memory>
 #include "TileCharacter.h"
 
@@ -12,10 +12,12 @@ class CharacterManager
 private:
 
 	// Vector of all the characters
-	std::vector<std::unique_ptr<TileCharacter>> m_characters;
+	std::map<int, std::unique_ptr<TileCharacter>> m_characters;
 
 	// Pointer to the Tilemap that the characters are in
 	TileMap *m_tileMap;
+
+	int m_charId;
 
 	// Stops a certain character at a certain Tile
 	void stopCharacter(TileCharacter &tilecharacter, const sf::Vector2f &tilePosition);
