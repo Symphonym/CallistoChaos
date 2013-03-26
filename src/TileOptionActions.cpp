@@ -129,4 +129,9 @@ namespace TileOptionActions
 
 		}
 	}
+	void sleep(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	{
+		TileOptionManager::getPlayer()->sleepInBed(tileIndex);
+		MessageLog::addMessage("You are now resting");
+	} 
 };

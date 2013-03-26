@@ -14,6 +14,7 @@ namespace TileOptionActions
 	void build(TileMap *tileMap, const sf::Vector2i &tileIndex);
 
 	void reload(TileMap *tileMap, const sf::Vector2i &tileIndex);
+	void sleep(TileMap *tileMap, const sf::Vector2i &tileIndex);
 };
 
 #endif

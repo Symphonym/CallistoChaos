@@ -7,7 +7,8 @@
 
 Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(tilemap, assets, tileIndex),
-	m_selectedWeapon(0)
+	m_selectedWeapon(0),
+	m_isResting(false)
 {
 	setSpeed(100);
 	setMaxHealth(5);
@@ -56,6 +57,9 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_healthSprite.setScale(5, 5);
 	m_healthSprite.setColor(transparentColor);
 
+	// Give player to becControl
+	m_bedControl.providePlayer(this);
+
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
 }
@@ -78,81 +82,89 @@ void Player::duringWalkDown()
 }
 void Player::events(sf::Event &events)
 {
-	// Scroll through weapons
-	bool changedWeapon = false;
-	if(events.type == sf::Event::MouseWheelMoved)
+	if(!m_bedControl.isInUse())
 	{
-		if(events.mouseWheel.delta < 0)
-			--m_selectedWeapon; changedWeapon = true;
-		if(events.mouseWheel.delta > 0)
-			++m_selectedWeapon; changedWeapon = true;
-	}
 
-	if(m_selectedWeapon < 0)
-		m_selectedWeapon = m_weapons.size() - 1;
-	else if(m_selectedWeapon >= m_weapons.size())
-		m_selectedWeapon = 0;
-
-	if(changedWeapon)
-		MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
-
-	// Fire weapon
-	//if(events.type == sf::Event::KeyPressed)
-	//	if(events.key.code == sf::Keyboard::C)
-	//		getActiveWeapon()->fire();
-
-
-	// Changing direction of player
-	if(events.type == sf::Event::KeyPressed && !isWalking())
-	{
-		if(events.key.code == sf::Keyboard::Right)
+		// Scroll through weapons
+		bool changedWeapon = false;
+		if(events.type == sf::Event::MouseWheelMoved)
 		{
-			setDirection(TileCharacter::IdleRight);
-			m_animation.request("right");
+			if(events.mouseWheel.delta < 0)
+				--m_selectedWeapon; changedWeapon = true;
+			if(events.mouseWheel.delta > 0)
+				++m_selectedWeapon; changedWeapon = true;
 		}
-		else if (events.key.code == sf::Keyboard::Left)
+
+		if(m_selectedWeapon < 0)
+			m_selectedWeapon = m_weapons.size() - 1;
+		else if(m_selectedWeapon >= m_weapons.size())
+			m_selectedWeapon = 0;
+
+		if(changedWeapon)
+			MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
+
+		// Fire weapon
+		//if(events.type == sf::Event::KeyPressed)
+		//	if(events.key.code == sf::Keyboard::C)
+		//		getActiveWeapon()->fire();
+
+
+		// Changing direction of player
+		if(events.type == sf::Event::KeyPressed && !isWalking())
 		{
-			setDirection(TileCharacter::IdleLeft);
-			m_animation.request("left");
-		}
-		else if (events.key.code == sf::Keyboard::Up)
-		{
-			setDirection(TileCharacter::IdleUp);
-			m_animation.request("up");
-		}
-		else if (events.key.code == sf::Keyboard::Down)
-		{
-			setDirection(TileCharacter::IdleDown);
-			m_animation.request("down");
+			if(events.key.code == sf::Keyboard::Right)
+			{
+				setDirection(TileCharacter::IdleRight);
+				m_animation.request("right");
+			}
+			else if (events.key.code == sf::Keyboard::Left)
+			{
+				setDirection(TileCharacter::IdleLeft);
+				m_animation.request("left");
+			}
+			else if (events.key.code == sf::Keyboard::Up)
+			{
+				setDirection(TileCharacter::IdleUp);
+				m_animation.request("up");
+			}
+			else if (events.key.code == sf::Keyboard::Down)
+			{
+				setDirection(TileCharacter::IdleDown);
+				m_animation.request("down");
+			}
 		}
 	}
 }
 
 void Player::update(double deltaTime)
 {
-	// Fire weapon
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-		getActiveWeapon()->fire();
+	if(!m_bedControl.isInUse())
+	{
+		// Fire weapon
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+			getActiveWeapon()->fire();
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		walkUp();
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		walkDown();
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		walkLeft();
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		walkRight();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			walkUp();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			walkDown();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			walkLeft();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			walkRight();
 
-	if(lookingRight())
-		getActiveWeapon()->setStance("right");
-	else if(lookingLeft())
-		getActiveWeapon()->setStance("left");
-	else if(lookingUp())
-		getActiveWeapon()->setStance("up");
-	else if(lookingDown())
-		getActiveWeapon()->setStance("down");
+		if(lookingRight())
+			getActiveWeapon()->setStance("right");
+		else if(lookingLeft())
+			getActiveWeapon()->setStance("left");
+		else if(lookingUp())
+			getActiveWeapon()->setStance("up");
+		else if(lookingDown())
+			getActiveWeapon()->setStance("down");
 
-	m_animation.commit(m_sprite, deltaTime);
+		m_animation.commit(m_sprite, deltaTime);
+
+	}
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
 		m_weapons[i]->updateBullets(deltaTime);
@@ -204,6 +216,10 @@ void Player::render(sf::RenderTarget &target)
 	m_weapons[m_selectedWeapon]->render(target);
 }
 
+void Player::sleepInBed(const sf::Vector2i &tileIndex)
+{
+	m_bedControl.toggleBed(tileIndex);
+}
 
 Weapon *Player::getActiveWeapon()
 {

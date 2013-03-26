@@ -19,7 +19,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	{0,0,0,0,0,0,0,3,4,4,6,4,3,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,3,9,10,8,8,3,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,3,8,8,8,8,3,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,3,8,8,8,8,3,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,3,11,8,8,8,3,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -52,6 +52,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_tileMap.addType(8, sf::IntRect(32, 32, 16, 16)); // Floor
 	m_tileMap.addType(9, sf::IntRect(32, 48, 16, 16), false, true); // Currency box
 	m_tileMap.addType(10, sf::IntRect(48, 48, 16, 16), false, true); // Ammo box
+	m_tileMap.addType(11, sf::IntRect(0, 48, 16, 16), false, true); // Bed
 	m_tileMap.loadFromData(gameLevel);
 
 	// Load assets
@@ -116,6 +117,9 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_tileOptions.addOption(10, "Reload", TileOptionActions::reload);
 	m_tileOptions.addOption(10, "Look at", std::bind(&MessageLog::addMessage, "A box full of batteries"));
 	m_tileOptions.addOption(10, "Examine", std::bind(&MessageLog::addMessage, "The display on top keeps track of the battery quantity"));
+
+	// Bed
+	m_tileOptions.addOption(11, "Sleep", TileOptionActions::sleep);
 }
 
 void GameState::events()
