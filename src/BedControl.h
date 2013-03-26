@@ -9,7 +9,6 @@ class BedControl
 private:
 
 	Player *m_player;
-	sf::Vector2i m_tileIndex;
 	bool m_inBed;
 
 public:
