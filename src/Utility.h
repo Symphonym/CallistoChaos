@@ -52,6 +52,10 @@ namespace jl
 		{
 			return degrees * (PI_VALUE/180);
 		};
+		template<typename T, typename Tmiddle, typename Trange> bool valueInRange(const T &value, const Tmiddle &maxValue, const Trange &range)
+		{
+			return value <= (maxValue + range) ? (value >= (maxValue - range) ? true : false) : false;
+		}
 	}
 };
 

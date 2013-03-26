@@ -44,12 +44,14 @@ void TileOptionManager::events(sf::Event &events)
 		m_displayOptions = false;
 
 	// Interact with tile
-	if(events.type == sf::Event::KeyPressed)
+	if(events.type == sf::Event::KeyPressed || 
+		events.type == sf::Event::JoystickButtonPressed)
 	{
 		int tileType = getTileType();
 
 		// Display list
-		if(events.key.code == sf::Keyboard::G && !m_tileOptions[tileType].empty())
+		if((sf::Keyboard::isKeyPressed(sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
+			(sf::Joystick::isButtonPressed(0,0) && !m_tileOptions[tileType].empty()))
 		{
 			if(!m_displayOptions)
 				displayList();
@@ -82,6 +84,18 @@ void TileOptionManager::events(sf::Event &events)
 
 			m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 		}
+	}
+
+	if(events.type == sf::Event::JoystickMoved && m_displayOptions)
+	{
+		// Scroll up
+		if(events.joystickMove.axis == sf::Joystick::PovY && events.joystickMove.position == -100)
+			--m_optionIndex;
+		// Scroll down
+		else if(events.joystickMove.axis == sf::Joystick::PovY && events.joystickMove.position == 100)
+			++m_optionIndex;
+
+		m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 	}
 }
 void TileOptionManager::render(sf::RenderTarget &target)

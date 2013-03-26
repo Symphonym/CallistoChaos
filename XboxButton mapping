@@ -1,0 +1,29 @@
+Button Index = Button
+0 = A
+1 = B
+2 = X
+3 = Y
+
+4 = Left Button
+5 = Right Button
+
+6 = Back
+7 = Start
+8 = Xbox button
+
+9 = Left joystick
+10 = Right joystick
+
+Axis = Button
+
+R = Right Trigger
+Z = Left Trigger
+
+X = Left Joystick (X wise)
+Y = Left Joystick (Y wise)
+
+U = Right Joystick (X wise)
+V = Right Joystick (Y wise)
+
+PovX = Keypad (X wise)
+PovY = Keypad (Y wise)

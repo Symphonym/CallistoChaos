@@ -2,10 +2,9 @@
 #include "Player.h"
 #include "MessageLog.h"
 #include "TileOptionActions.h"
-
+#include <iostream>
 GameState::GameState(jl::Engine *engine) : jl::State(engine)
 {
-
 	std::vector<std::vector<int>> gameLevel = {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -43,7 +42,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 		16);
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
-	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(32,0, 16, 16), 100, true, true); // Bush
+	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 100, true, true); // Bush
 	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
 	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
 	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 5, false, true); // Window
@@ -132,6 +131,9 @@ void GameState::events()
 }
 void GameState::update()
 {
+	std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovX) << std::endl;
+		//std::cout << "Button pressed!!!!!!" << std::endl;
+
 	if(!isPaused())
 	{
 		m_characters.update(getEngine()->getDelta());

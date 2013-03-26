@@ -6,7 +6,7 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 {
 	setAmmo(1, 50);
 	setFireRate(0.1);
-	setDamage(1);
+	setDamage(10);
 	setBulletSpeed(250);
 	setBulletSpread(10);
 	setWeaponSheet(

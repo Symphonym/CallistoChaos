@@ -958,7 +958,13 @@
 						],
 						"settings":
 						{
+<<<<<<< HEAD
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+=======
 							"syntax": "Packages/C++/C++.tmLanguage"
+>>>>>>> e0704a194b4bce834b71b2fbab9f009351e147af
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -984,7 +990,16 @@
 						],
 						"settings":
 						{
+<<<<<<< HEAD
 							"syntax": "Packages/C++/C++.tmLanguage"
+=======
+<<<<<<< HEAD
+=======
+							"auto_name": "#include \"RifleWeapon.h\"",
+>>>>>>> e0704a194b4bce834b71b2fbab9f009351e147af
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+>>>>>>> e3271e5789b0c4c712f2b31394d1282299c81f78
 						},
 						"translation.x": 0.0,
 						"translation.y": 450.0,
@@ -1031,8 +1046,72 @@
 						"selection":
 						[
 							[
+<<<<<<< HEAD
 								130,
 								130
+=======
+<<<<<<< HEAD
+								545,
+								545
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/TileCharacter.h",
+					"settings":
+					{
+						"buffer_size": 1394,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1072,
+								1072
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 479.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/TileCharacter.cpp",
+					"settings":
+					{
+						"buffer_size": 3719,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								632,
+								632
+=======
+								5120,
+								5120
+>>>>>>> e0704a194b4bce834b71b2fbab9f009351e147af
+>>>>>>> e3271e5789b0c4c712f2b31394d1282299c81f78
 							]
 						],
 						"settings":
@@ -1040,7 +1119,43 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
+<<<<<<< HEAD
 						"translation.y": 0.0,
+=======
+<<<<<<< HEAD
+						"translation.y": 195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/Tile.h",
+					"settings":
+					{
+						"buffer_size": 501,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								71,
+								71
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+=======
+						"translation.y": 2154.0,
+>>>>>>> e0704a194b4bce834b71b2fbab9f009351e147af
+>>>>>>> e3271e5789b0c4c712f2b31394d1282299c81f78
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1063,9 +1178,19 @@
 						],
 						"settings":
 						{
+<<<<<<< HEAD
 							"auto_name": "#include \"RifleWeapon.h\"",
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
+=======
+<<<<<<< HEAD
+							"auto_name": "#include \"Tile.h\"",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+=======
+							"syntax": "Packages/C++/C++.tmLanguage"
+>>>>>>> e0704a194b4bce834b71b2fbab9f009351e147af
+>>>>>>> e3271e5789b0c4c712f2b31394d1282299c81f78
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

@@ -87,12 +87,18 @@ void Player::events(sf::Event &events)
 
 		// Scroll through weapons
 		bool changedWeapon = false;
-		if(events.type == sf::Event::MouseWheelMoved)
+
+		if((events.mouseWheel.delta < 0 && events.type == sf::Event::MouseWheelMoved) || 
+			(events.type == sf::Event::JoystickButtonPressed && events.joystickButton.button == 2))
 		{
-			if(events.mouseWheel.delta < 0)
-				--m_selectedWeapon; changedWeapon = true;
-			if(events.mouseWheel.delta > 0)
-				++m_selectedWeapon; changedWeapon = true;
+			--m_selectedWeapon; 
+			changedWeapon = true;
+		}
+		if((events.mouseWheel.delta > 0 && events.type == sf::Event::MouseWheelMoved) || 
+			(events.type == sf::Event::JoystickButtonPressed && events.joystickButton.button == 3))
+		{
+			++m_selectedWeapon; 
+			changedWeapon = true;
 		}
 
 		if(m_selectedWeapon < 0)
@@ -103,31 +109,30 @@ void Player::events(sf::Event &events)
 		if(changedWeapon)
 			MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
 
-		// Fire weapon
-		//if(events.type == sf::Event::KeyPressed)
-		//	if(events.key.code == sf::Keyboard::C)
-		//		getActiveWeapon()->fire();
-
-
 		// Changing direction of player
-		if(events.type == sf::Event::KeyPressed && !isWalking())
+		if((events.type == sf::Event::KeyPressed && !isWalking()) || 
+			(events.type == sf::Event::JoystickMoved && !isWalking()))
 		{
-			if(events.key.code == sf::Keyboard::Right)
+			if(events.key.code == sf::Keyboard::Right || 
+				(events.joystickMove.axis == sf::Joystick::Axis::U && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, 100, 25)))
 			{
 				setDirection(TileCharacter::IdleRight);
 				m_animation.request("right");
 			}
-			else if (events.key.code == sf::Keyboard::Left)
+			else if (events.key.code == sf::Keyboard::Left || 
+				(events.joystickMove.axis == sf::Joystick::Axis::U && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, -100, 25)))
 			{
 				setDirection(TileCharacter::IdleLeft);
 				m_animation.request("left");
 			}
-			else if (events.key.code == sf::Keyboard::Up)
+			else if (events.key.code == sf::Keyboard::Up || 
+				(events.joystickMove.axis == sf::Joystick::Axis::V && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, -100, 25)))
 			{
 				setDirection(TileCharacter::IdleUp);
 				m_animation.request("up");
 			}
-			else if (events.key.code == sf::Keyboard::Down)
+			else if (events.key.code == sf::Keyboard::Down || 
+				(events.joystickMove.axis == sf::Joystick::Axis::V && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, 100, 25)))
 			{
 				setDirection(TileCharacter::IdleDown);
 				m_animation.request("down");
@@ -141,16 +146,20 @@ void Player::update(double deltaTime)
 	if(!m_bedControl.isInUse())
 	{
 		// Fire weapon
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
 			getActiveWeapon()->fire();
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
+			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
 			walkUp();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
+			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
 			walkDown();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
+			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
 			walkLeft();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
+			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
 			walkRight();
 
 		if(lookingRight())

@@ -4,7 +4,6 @@
 
 BedControl::BedControl() :
 	m_player(nullptr),
-	m_tileIndex(0,0),
 	m_inBed(false)
 {
 
@@ -16,42 +15,45 @@ void BedControl::providePlayer(Player *player)
 }
 void BedControl::toggleBed(const sf::Vector2i &tileIndex)
 {
+
+	TileMap *map = &m_player->getTileMap();
 	if(!m_inBed)
 	{
-		m_tileIndex = tileIndex;
 		m_inBed = true;
 
-		TileMap *map = &m_player->getTileMap();
 		m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y));
 	}
 	else if(m_inBed)
 	{
+		m_player->getSprite().setPosition(map->getTilePosition(m_player->getIndex().x, m_player->getIndex().y));
+		m_inBed = false;
+		/*
 		TileMap *map = &m_player->getTileMap();
 
 		// Attempt to place player above bed
-		if(m_tileIndex.y - 1 >= 0 && !map->getTile(m_tileIndex.x, m_tileIndex.y - 1).isSolid())
+		if(tileIndex.y - 1 >= 0 && !map->getTile(tileIndex.x, tileIndex.y - 1).isSolid())
 		{
-			m_player->getSprite().setPosition(map->getTilePosition(m_tileIndex.x, m_tileIndex.y - 1));
+			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y - 1));
 			m_inBed = false;
 		}
 		// Attempt to place plaver below bed
-		else if(m_tileIndex.y + 1 < map->getMapSize().y && !map->getTile(m_tileIndex.x, m_tileIndex.y + 1).isSolid())
+		else if(tileIndex.y + 1 < map->getMapSize().y && !map->getTile(tileIndex.x, tileIndex.y + 1).isSolid())
 		{
-			m_player->getSprite().setPosition(map->getTilePosition(m_tileIndex.x, m_tileIndex.y + 1));
+			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y + 1));
 			m_inBed = false;
 		}
 		// Attempt to place player to the left of the bed
-		else if(m_tileIndex.x - 1 >= 0 && !map->getTile(m_tileIndex.x - 1, m_tileIndex.y).isSolid())
+		else if(tileIndex.x - 1 >= 0 && !map->getTile(tileIndex.x - 1, tileIndex.y).isSolid())
 		{
-			m_player->getSprite().setPosition(map->getTilePosition(m_tileIndex.x - 1, m_tileIndex.y));
+			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x - 1, tileIndex.y));
 			m_inBed = false;
 		}
 		// Attempt to place player to the right of the bed
-		else if(m_tileIndex.x + 1 < map->getMapSize().x && !map->getTile(m_tileIndex.x + 1, m_tileIndex.y).isSolid())
+		else if(tileIndex.x + 1 < map->getMapSize().x && !map->getTile(tileIndex.x + 1, tileIndex.y).isSolid())
 		{
-			m_player->getSprite().setPosition(map->getTilePosition(m_tileIndex.x + 1, m_tileIndex.y));
+			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x + 1, tileIndex.y));
 			m_inBed = false;
-		}
+		}*/
 	}
 }
 
