@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "MessageLog.h"
 #include "TileOptionActions.h"
-#include <iostream>
+
 GameState::GameState(jl::Engine *engine) : jl::State(engine)
 {
 	std::vector<std::vector<int>> gameLevel = {
@@ -67,6 +67,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_characters.addCharacter(std::move(player));
 
 
+	
 
 	// Add interactive options for tiles
 	// Flower
@@ -131,8 +132,6 @@ void GameState::events()
 }
 void GameState::update()
 {
-	std::cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovX) << std::endl;
-		//std::cout << "Button pressed!!!!!!" << std::endl;
 
 	if(!isPaused())
 	{

@@ -9,6 +9,7 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 	setDamage(10);
 	setBulletSpeed(250);
 	setBulletSpread(10);
+	setKnockBack(sf::Vector2f(5, 5));
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),
 		assets.getAsset<jl::TextureAsset>("res/bullets.png")->get());

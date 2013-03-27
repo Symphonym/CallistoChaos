@@ -5,20 +5,25 @@
 #include "FrameAnimation.h"
 #include "AssetManager.h"
 
+
 class TileMap;
 class TileCharacter
 {
 public:
-	enum Directions
+	enum Event
 	{
-		WalkRight = 0,
-		WalkLeft = 1,
-		WalkUp = 2,
-		WalkDown = 3,
-		IdleRight = 4,
-		IdleLeft = 5,
-		IdleUp = 6,
-		IdleDown = 7
+		WalkingRight = 0,
+		WalkingLeft = 1,
+		WalkingUp = 2,
+		WalkingDown = 3,
+		LookingRight = 4,
+		LookingLeft = 5,
+		LookingUp = 6,
+		LookingDown = 7,
+		GoRight = 8,
+		GoLeft = 9,
+		GoUp = 10,
+		GoDown = 11
 	};
 
 protected:
@@ -30,7 +35,7 @@ protected:
 	int m_maxHealth, m_health;
 	double m_speed;
 	// Looking/Walking direction
-	Directions m_direction;
+	Event m_direction;
 	// How much currency the character has
 	int m_currencyAmount;
 	// How much ammo the character has
@@ -44,6 +49,7 @@ protected:
 
 public:
 
+
 	// Maximum currency
 	static const int maxCurrency = 300;
 	// Maximum ammo
@@ -53,20 +59,12 @@ public:
 	virtual void update(double deltaTime) = 0;
 	virtual void render(sf::RenderTarget &target) = 0;
 
-	virtual void duringWalkRight(){};
-	virtual void duringWalkLeft(){};
-	virtual void duringWalkUp(){};
-	virtual void duringWalkDown(){};
-
-	virtual void duringIdleRight(){};
-	virtual void duringIdleLeft(){};
-	virtual void duringIdleUp(){};
-	virtual void duringIdleDown(){};
+	virtual void characterEvents(TileCharacter::Event events){};
 
 	void setMaxHealth(int health);
 	void setSpeed(double speed);
 	void setWalking(bool walking);
-	void setDirection(TileCharacter::Directions direction);
+	void setDirection(TileCharacter::Event direction);
 
 	// Checks if the Character can afford the currency cost
 	bool affordCurrency(int currencyCost);
@@ -93,7 +91,7 @@ public:
 	jl::FrameAnimation &getAnim();
 	TileMap &getTileMap();
 	sf::Vector2i getIndex() const;
-	TileCharacter::Directions getDirection() const;
+	TileCharacter::Event getDirection() const;
 	double getSpeed() const;	
 	int getCurrency() const;
 	int getAmmo() const;

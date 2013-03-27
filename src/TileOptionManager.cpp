@@ -49,9 +49,10 @@ void TileOptionManager::events(sf::Event &events)
 	{
 		int tileType = getTileType();
 
+
 		// Display list
-		if((sf::Keyboard::isKeyPressed(sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
-			(sf::Joystick::isButtonPressed(0,0) && !m_tileOptions[tileType].empty()))
+		if((jl::Input::isKeyDown(events, sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
+			(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty()))
 		{
 			if(!m_displayOptions)
 				displayList();
@@ -89,10 +90,10 @@ void TileOptionManager::events(sf::Event &events)
 	if(events.type == sf::Event::JoystickMoved && m_displayOptions)
 	{
 		// Scroll up
-		if(events.joystickMove.axis == sf::Joystick::PovY && events.joystickMove.position == -100)
+		if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
 			--m_optionIndex;
 		// Scroll down
-		else if(events.joystickMove.axis == sf::Joystick::PovY && events.joystickMove.position == 100)
+		else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
 			++m_optionIndex;
 
 		m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
@@ -144,15 +145,15 @@ bool TileOptionManager::isVisible()
 sf::Vector2i TileOptionManager::getFacingTile()
 {
 	sf::Vector2i charIndex(TileOptionManager::getPlayer()->getIndex());
-	TileCharacter::Directions direction = TileOptionManager::getPlayer()->getDirection();
+	TileCharacter::Event direction = TileOptionManager::getPlayer()->getDirection();
 
-	if(direction == TileCharacter::IdleRight)
+	if(direction == TileCharacter::LookingRight)
 		return sf::Vector2i(charIndex.x + 1, charIndex.y);
-	else if(direction == TileCharacter::IdleLeft)
+	else if(direction == TileCharacter::LookingLeft)
 		return sf::Vector2i(charIndex.x - 1, charIndex.y);
-	else if(direction == TileCharacter::IdleUp)
+	else if(direction == TileCharacter::LookingUp)
 		return sf::Vector2i(charIndex.x, charIndex.y - 1);
-	else if(direction == TileCharacter::IdleDown)
+	else if(direction == TileCharacter::LookingDown)
 		return sf::Vector2i(charIndex.x, charIndex.y + 1);
 	else
 		return sf::Vector2i(-1, -1);
