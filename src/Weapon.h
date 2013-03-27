@@ -55,6 +55,7 @@ private:
 
 	int m_ammoCost, m_ammo, m_maxAmmo, m_damage, m_upgradeLevel;
 	double m_fireRate, m_bulletSpeed, m_bulletSpread;
+	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
 	virtual void update(BulletData &bullet, double deltaTime);
@@ -82,12 +83,13 @@ public:
 	// Puts ammo into weapon, returns leftovers
 	int reload(int ammo);
 
-	void setStance(const std::string &name);
+	void setStance(const std::string &name, const sf::Vector2f &customPosition = sf::Vector2f(0,0));
 	// Set ammoCost and maxAmmo, maxAmmo below 0 means unlimited ammo
 	void setAmmo(int cost, int maxAmmo);
 	void setDamage(int damage);
 	void setFireRate(double delay);
 	void setBulletSpread(double angle);
+	void setKnockBack(const sf::Vector2f &knockBack);
 	void setBulletSpeed(double speed);
 	void setWeaponSheet(const sf::Texture &weaponSheet, const sf::Texture &bulletSheet);
 	void setBulletAnimation(const jl::FrameAnimation &animation);

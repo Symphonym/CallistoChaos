@@ -17,7 +17,8 @@ Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetM
 	m_upgradeLevel(1),
 	m_fireRate(0.5),
 	m_bulletSpeed(100),
-	m_bulletSpread(0)
+	m_bulletSpread(0),
+	m_knockBack(0,0)
 {
 
 }
@@ -49,7 +50,7 @@ int Weapon::reload(int ammo)
 		return 0;
 }
 
-void Weapon::setStance(const std::string &name)
+void Weapon::setStance(const std::string &name, const sf::Vector2f &customPosition)
 {
 	m_activeStance = name;
 	m_weaponSprite.setTextureRect(m_stances[name].subRect);
@@ -57,9 +58,13 @@ void Weapon::setStance(const std::string &name)
 		m_weaponSprite.getGlobalBounds().width/2,
 		m_weaponSprite.getGlobalBounds().height/2);
 	m_weaponSprite.setRotation(m_stances[name].rotation);
-	m_weaponSprite.setPosition(
-		m_trackedCharacter->getSprite().getPosition().x + m_stances[name].position.x + m_weaponSprite.getGlobalBounds().width/2,
-		m_trackedCharacter->getSprite().getPosition().y + m_stances[name].position.y + + m_weaponSprite.getGlobalBounds().height/2);
+
+	if(customPosition == sf::Vector2f(0,0))
+		m_weaponSprite.setPosition(
+			m_trackedCharacter->getSprite().getPosition().x + m_stances[name].position.x + m_weaponSprite.getGlobalBounds().width/2,
+			m_trackedCharacter->getSprite().getPosition().y + m_stances[name].position.y + m_weaponSprite.getGlobalBounds().height/2);
+	else
+		m_weaponSprite.setPosition(customPosition);
 
 }
 void Weapon::setAmmo(int cost, int maxAmmo)
@@ -82,6 +87,10 @@ void Weapon::setFireRate(double delay)
 void Weapon::setBulletSpread(double angle)
 {
 	m_bulletSpread = angle;
+}
+void Weapon::setKnockBack(const sf::Vector2f &knockBack)
+{
+	m_knockBack = knockBack;
 }
 void Weapon::setBulletSpeed(double speed)
 {
@@ -132,36 +141,39 @@ void Weapon::fire()
 				// Equation provided by Lukas Hagman
 				angle = -m_bulletSpread+((double)std::rand() / (double)RAND_MAX)*m_bulletSpread*2;	
 			}
-
 			switch(m_trackedCharacter->getDirection())
 			{
-				case TileCharacter::WalkRight:
-				case TileCharacter::IdleRight:
+				case TileCharacter::WalkingRight:
+				case TileCharacter::LookingRight:
 					data.sprite.setRotation(90 - angle);
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(90 + angle)),
 						std::cos(jl::Math::degToRad<double>(90 + angle)));
+					m_weaponSprite.move(-m_knockBack.x, 0);
 				break;
-				case TileCharacter::WalkLeft:
-				case TileCharacter::IdleLeft:
+				case TileCharacter::WalkingLeft:
+				case TileCharacter::LookingLeft:
 					data.sprite.setRotation(270 - angle);
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(270 + angle)),
 						std::cos(jl::Math::degToRad<double>(270 + angle)));
+					m_weaponSprite.move(m_knockBack.x, 0);
 				break;
-				case TileCharacter::WalkUp:
-				case TileCharacter::IdleUp:
+				case TileCharacter::WalkingUp:
+				case TileCharacter::LookingUp:
 					data.sprite.setRotation(angle);
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(angle)),
 						-std::cos(jl::Math::degToRad<double>(angle)));
+					m_weaponSprite.move(0, m_knockBack.y);
 				break;
-				case TileCharacter::WalkDown:
-				case TileCharacter::IdleDown:
+				case TileCharacter::WalkingDown:
+				case TileCharacter::LookingDown:
 					data.sprite.setRotation(180 + angle);
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(180 + angle)),
 						-std::cos(jl::Math::degToRad<double>(180 + angle)));
+					m_weaponSprite.move(0, -m_knockBack.y);
 				break;
 			}
 
@@ -221,6 +233,7 @@ void Weapon::renderBullets(sf::RenderTarget &target)
 }
 void Weapon::render(sf::RenderTarget &target)
 {
+	//m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 0.1));
 	m_weaponSprite.setPosition(getWeaponPos());
 	target.draw(m_weaponSprite);
 }

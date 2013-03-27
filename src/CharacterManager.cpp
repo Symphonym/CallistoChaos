@@ -16,14 +16,14 @@ void CharacterManager::stopCharacter(TileCharacter &tilecharacter, const sf::Vec
 	tilecharacter.setWalking(false);
 
 	// Switch to corresponding idle state
-	if(tilecharacter.getDirection() == TileCharacter::WalkRight)
-		tilecharacter.setDirection(TileCharacter::IdleRight);
-	else if(tilecharacter.getDirection() == TileCharacter::WalkLeft)
-		tilecharacter.setDirection(TileCharacter::IdleLeft);
-	else if(tilecharacter.getDirection() == TileCharacter::WalkUp)
-		tilecharacter.setDirection(TileCharacter::IdleUp);
-	else if(tilecharacter.getDirection() == TileCharacter::WalkDown)
-		tilecharacter.setDirection(TileCharacter::IdleDown);
+	if(tilecharacter.getDirection() == TileCharacter::WalkingRight)
+		tilecharacter.setDirection(TileCharacter::LookingRight);
+	else if(tilecharacter.getDirection() == TileCharacter::WalkingLeft)
+		tilecharacter.setDirection(TileCharacter::LookingLeft);
+	else if(tilecharacter.getDirection() == TileCharacter::WalkingUp)
+		tilecharacter.setDirection(TileCharacter::LookingUp);
+	else if(tilecharacter.getDirection() == TileCharacter::WalkingDown)
+		tilecharacter.setDirection(TileCharacter::LookingDown);
 }
 
 void CharacterManager::registerTileMap(TileMap &tilemap)
@@ -72,25 +72,25 @@ void CharacterManager::update(double deltaTime)
 		// Update walking of character
 		if(m_characters[i]->isWalking())
 		{
-			if(m_characters[i]->getDirection() == TileCharacter::WalkRight)
+			if(m_characters[i]->getDirection() == TileCharacter::WalkingRight)
 			{
 				m_characters[i]->getSprite().move(m_characters[i]->getSpeed()*deltaTime, 0);
-				m_characters[i]->duringWalkRight();
+				m_characters[i]->characterEvents(TileCharacter::WalkingRight);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkLeft)
+			else if(m_characters[i]->getDirection() == TileCharacter::WalkingLeft)
 			{
 				m_characters[i]->getSprite().move(-m_characters[i]->getSpeed()*deltaTime, 0);
-				m_characters[i]->duringWalkLeft();
+				m_characters[i]->characterEvents(TileCharacter::WalkingLeft);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkUp)
+			else if(m_characters[i]->getDirection() == TileCharacter::WalkingUp)
 			{	
 				m_characters[i]->getSprite().move(0, -m_characters[i]->getSpeed()*deltaTime);
-				m_characters[i]->duringWalkUp();
+				m_characters[i]->characterEvents(TileCharacter::WalkingUp);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkDown)
+			else if(m_characters[i]->getDirection() == TileCharacter::WalkingDown)
 			{
 				m_characters[i]->getSprite().move(0, m_characters[i]->getSpeed()*deltaTime);
-				m_characters[i]->duringWalkDown();
+				m_characters[i]->characterEvents(TileCharacter::WalkingDown);
 			}
 
 			// Position of the tile that the Character is walking towards
@@ -99,27 +99,27 @@ void CharacterManager::update(double deltaTime)
 			std::size_t tileSize = m_tileMap->getTileSize();
 			// Character data
 			sf::FloatRect characterBounds = m_characters[i]->getSprite().getGlobalBounds();
-			TileCharacter::Directions characterDirection = m_characters[i]->getDirection();
+			TileCharacter::Event characterDirection = m_characters[i]->getDirection();
 
 			// Check if the walking Character has reached it's target
-			if(((characterBounds.left + characterBounds.width) >= (targetPosition.x + tileSize) && characterDirection == TileCharacter::WalkRight) || // RIGHT
-				(characterBounds.left <= targetPosition.x && characterDirection == TileCharacter::WalkLeft) || // LEFT
-				(characterBounds.top <= targetPosition.y && characterDirection == TileCharacter::WalkUp) || // UP
-				((characterBounds.top + characterBounds.height) >= (targetPosition.y + tileSize) && characterDirection == TileCharacter::WalkDown)) // DOWN
+			if(((characterBounds.left + characterBounds.width) >= (targetPosition.x + tileSize) && characterDirection == TileCharacter::WalkingRight) || // RIGHT
+				(characterBounds.left <= targetPosition.x && characterDirection == TileCharacter::WalkingLeft) || // LEFT
+				(characterBounds.top <= targetPosition.y && characterDirection == TileCharacter::WalkingUp) || // UP
+				((characterBounds.top + characterBounds.height) >= (targetPosition.y + tileSize) && characterDirection == TileCharacter::WalkingDown)) // DOWN
 					stopCharacter(*m_characters[i], targetPosition);
 		}
 
 		// Update idle actions
 		else if(!m_characters[i]->isWalking())
 		{
-			if(m_characters[i]->getDirection() == TileCharacter::IdleRight)
-				m_characters[i]->duringIdleRight();
-			else if(m_characters[i]->getDirection() == TileCharacter::IdleLeft)
-				m_characters[i]->duringIdleLeft();
-			else if(m_characters[i]->getDirection() == TileCharacter::IdleUp)
-				m_characters[i]->duringIdleUp();
-			else if(m_characters[i]->getDirection() == TileCharacter::IdleDown)
-				m_characters[i]->duringIdleDown();
+			if(m_characters[i]->getDirection() == TileCharacter::LookingRight)
+				m_characters[i]->characterEvents(TileCharacter::LookingRight);
+			else if(m_characters[i]->getDirection() == TileCharacter::LookingLeft)
+				m_characters[i]->characterEvents(TileCharacter::LookingLeft);
+			else if(m_characters[i]->getDirection() == TileCharacter::LookingUp)
+				m_characters[i]->characterEvents(TileCharacter::LookingUp);
+			else if(m_characters[i]->getDirection() == TileCharacter::LookingDown)
+				m_characters[i]->characterEvents(TileCharacter::LookingDown);
 		}
 
 		m_characters[i]->update(deltaTime);

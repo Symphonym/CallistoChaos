@@ -39,7 +39,10 @@ public:
 	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
 
+	virtual void characterEvents(TileCharacter::Event events);
+
 	void sleepInBed(const sf::Vector2i &tileIndex);
+	void turn(TileCharacter::Event direction, bool weaponOnly = false);
 
 	Weapon* getActiveWeapon();
 };

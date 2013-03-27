@@ -9,7 +9,7 @@ TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const s
 	m_isWalking(false),
 	m_maxHealth(0),
 	m_health(0),
-	m_direction(TileCharacter::IdleDown),
+	m_direction(TileCharacter::LookingDown),
 	m_currencyAmount(0),
 	m_ammoAmount(0)
 {
@@ -31,7 +31,7 @@ void TileCharacter::setWalking(bool walking)
 {
 	m_isWalking = walking;
 }
-void TileCharacter::setDirection(TileCharacter::Directions direction)
+void TileCharacter::setDirection(TileCharacter::Event direction)
 {
 	m_direction = direction;
 }
@@ -91,7 +91,8 @@ void TileCharacter::walkRight()
 				
 				// Set walking data
 				setWalking(true);
-				m_direction = TileCharacter::WalkRight;
+				m_direction = TileCharacter::WalkingRight;
+				characterEvents(TileCharacter::GoRight);
 			}
 		}
 	}
@@ -114,7 +115,8 @@ void TileCharacter::walkLeft()
 							
 				// Set walking data
 				setWalking(true);
-				m_direction = TileCharacter::WalkLeft;
+				m_direction = TileCharacter::WalkingLeft;
+				characterEvents(TileCharacter::GoLeft);
 			}
 		}
 	}
@@ -138,7 +140,8 @@ void TileCharacter::walkUp()
 							
 				// Set walking data
 				setWalking(true);
-				m_direction = TileCharacter::WalkUp;
+				m_direction = TileCharacter::WalkingUp;
+				characterEvents(TileCharacter::GoUp);
 			}
 		}
 	}
@@ -161,7 +164,8 @@ void TileCharacter::walkDown()
 							
 				// Set walking data
 				setWalking(true);
-				m_direction = TileCharacter::WalkDown;
+				m_direction = TileCharacter::WalkingDown;
+				characterEvents(TileCharacter::GoDown);
 			}
 		}
 	}
@@ -169,19 +173,19 @@ void TileCharacter::walkDown()
 
 bool TileCharacter::lookingRight()
 {
-	return m_direction == TileCharacter::WalkRight || m_direction == TileCharacter::IdleRight;
+	return m_direction == TileCharacter::WalkingRight || m_direction == TileCharacter::LookingRight;
 }
 bool TileCharacter::lookingLeft()
 {
-	return m_direction == TileCharacter::WalkLeft || m_direction == TileCharacter::IdleLeft;
+	return m_direction == TileCharacter::WalkingLeft || m_direction == TileCharacter::LookingLeft;
 }
 bool TileCharacter::lookingUp()
 {
-	return m_direction == TileCharacter::WalkUp || m_direction == TileCharacter::IdleUp;
+	return m_direction == TileCharacter::WalkingUp || m_direction == TileCharacter::LookingUp;
 }
 bool TileCharacter::lookingDown()
 {
-	return m_direction == TileCharacter::WalkDown || m_direction == TileCharacter::IdleDown;
+	return m_direction == TileCharacter::WalkingDown || m_direction == TileCharacter::LookingDown;
 }
 
 sf::Sprite &TileCharacter::getSprite()
@@ -200,7 +204,7 @@ sf::Vector2i TileCharacter::getIndex() const
 {
 	return m_tileIndex;
 }
-TileCharacter::Directions TileCharacter::getDirection() const
+TileCharacter::Event TileCharacter::getDirection() const
 {
 	return m_direction;
 }

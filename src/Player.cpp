@@ -64,38 +64,40 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
 }
 
-void Player::duringWalkRight()
+void Player::characterEvents(TileCharacter::Event events)
 {
-	m_animation.request("right");
+	if(events == TileCharacter::WalkingRight)
+		m_animation.request("right");
+	else if(events == TileCharacter::WalkingLeft)
+		m_animation.request("left");
+	else if(events == TileCharacter::WalkingUp)
+		m_animation.request("up");
+	else if(events == TileCharacter::WalkingDown)
+		m_animation.request("down");
+
+	if(events == TileCharacter::GoRight)
+		getActiveWeapon()->setStance("right");
+	else if(events == TileCharacter::GoLeft)
+		getActiveWeapon()->setStance("left");
+	else if(events == TileCharacter::GoUp)
+		getActiveWeapon()->setStance("up");
+	else if(events == TileCharacter::GoDown)
+		getActiveWeapon()->setStance("down");
 }
-void Player::duringWalkLeft()
-{
-	m_animation.request("left");
-}
-void Player::duringWalkUp()
-{
-	m_animation.request("up");
-}
-void Player::duringWalkDown()
-{
-	m_animation.request("down");
-}
+
 void Player::events(sf::Event &events)
 {
 	if(!m_bedControl.isInUse())
 	{
-
 		// Scroll through weapons
 		bool changedWeapon = false;
 
-		if((events.mouseWheel.delta < 0 && events.type == sf::Event::MouseWheelMoved) || 
-			(events.type == sf::Event::JoystickButtonPressed && events.joystickButton.button == 2))
+		if((jl::Input::scrollDirection(events) < 0) || jl::Input::isButtonDown(events, 2))
 		{
 			--m_selectedWeapon; 
 			changedWeapon = true;
 		}
-		if((events.mouseWheel.delta > 0 && events.type == sf::Event::MouseWheelMoved) || 
-			(events.type == sf::Event::JoystickButtonPressed && events.joystickButton.button == 3))
+		if((jl::Input::scrollDirection(events) > 0) || jl::Input::isButtonDown(events, 3))
 		{
 			++m_selectedWeapon; 
 			changedWeapon = true;
@@ -107,36 +109,33 @@ void Player::events(sf::Event &events)
 			m_selectedWeapon = 0;
 
 		if(changedWeapon)
+		{
+			sf::Vector2f playerCenter(
+				m_sprite.getPosition().x + m_sprite.getGlobalBounds().width/2,
+				m_sprite.getPosition().y + m_sprite.getGlobalBounds().height/2);
+
 			MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
+			if(lookingRight())
+				turn(TileCharacter::LookingRight, true);
+			else if(lookingLeft())
+				turn(TileCharacter::LookingLeft, true);
+			else if(lookingUp())
+				turn(TileCharacter::LookingUp, true);
+			else if(lookingDown())
+				turn(TileCharacter::LookingDown, true);
+		}
 
 		// Changing direction of player
-		if((events.type == sf::Event::KeyPressed && !isWalking()) || 
-			(events.type == sf::Event::JoystickMoved && !isWalking()))
+		if(!isWalking())
 		{
-			if(events.key.code == sf::Keyboard::Right || 
-				(events.joystickMove.axis == sf::Joystick::Axis::U && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, 100, 25)))
-			{
-				setDirection(TileCharacter::IdleRight);
-				m_animation.request("right");
-			}
-			else if (events.key.code == sf::Keyboard::Left || 
-				(events.joystickMove.axis == sf::Joystick::Axis::U && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, -100, 25)))
-			{
-				setDirection(TileCharacter::IdleLeft);
-				m_animation.request("left");
-			}
-			else if (events.key.code == sf::Keyboard::Up || 
-				(events.joystickMove.axis == sf::Joystick::Axis::V && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, -100, 25)))
-			{
-				setDirection(TileCharacter::IdleUp);
-				m_animation.request("up");
-			}
-			else if (events.key.code == sf::Keyboard::Down || 
-				(events.joystickMove.axis == sf::Joystick::Axis::V && jl::Math::valueInRange<float, float, float>(events.joystickMove.position, 100, 25)))
-			{
-				setDirection(TileCharacter::IdleDown);
-				m_animation.request("down");
-			}
+			if(jl::Input::isKeyDown(events, sf::Keyboard::Right) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, 100))
+				turn(TileCharacter::LookingRight);
+			else if (jl::Input::isKeyDown(events, sf::Keyboard::Left) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, -100))
+				turn(TileCharacter::LookingLeft);
+			else if (jl::Input::isKeyDown(events, sf::Keyboard::Up) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, -100))
+				turn(TileCharacter::LookingUp);
+			else if (jl::Input::isKeyDown(events, sf::Keyboard::Down) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, 100))
+				turn(TileCharacter::LookingDown);
 		}
 	}
 }
@@ -150,26 +149,17 @@ void Player::update(double deltaTime)
 			getActiveWeapon()->fire();
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
-			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
-			walkUp();
+    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
+     		walkUp();
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
-			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
-			walkDown();
+     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
+       		walkDown();
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
-			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
-			walkLeft();
+	   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
+       		walkLeft();
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
-			jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
-			walkRight();
-
-		if(lookingRight())
-			getActiveWeapon()->setStance("right");
-		else if(lookingLeft())
-			getActiveWeapon()->setStance("left");
-		else if(lookingUp())
-			getActiveWeapon()->setStance("up");
-		else if(lookingDown())
-			getActiveWeapon()->setStance("down");
+	  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
+       		walkRight();
 
 		m_animation.commit(m_sprite, deltaTime);
 
@@ -228,6 +218,56 @@ void Player::render(sf::RenderTarget &target)
 void Player::sleepInBed(const sf::Vector2i &tileIndex)
 {
 	m_bedControl.toggleBed(tileIndex);
+}
+void Player::turn(TileCharacter::Event direction, bool weaponOnly)
+{
+
+	if(!isWalking())
+	{
+		sf::Vector2f playerCenter(
+			m_sprite.getPosition().x + m_sprite.getGlobalBounds().width/2,
+			m_sprite.getPosition().y + m_sprite.getGlobalBounds().height/2);
+
+		if(!weaponOnly)
+			setDirection(direction);
+
+		if(lookingRight())
+		{
+			getActiveWeapon()->setStance("right", playerCenter);
+			if(!weaponOnly)
+			{
+				m_animation.initAnimation(m_sprite, "right");
+				m_animation.request("right");
+			}
+		}
+		else if(lookingLeft())
+		{
+			getActiveWeapon()->setStance("left", playerCenter);
+			if(!weaponOnly)
+			{
+				m_animation.initAnimation(m_sprite, "left");
+				m_animation.request("left");
+			}
+		}
+		else if(lookingUp())
+		{
+			getActiveWeapon()->setStance("up", playerCenter);
+			if(!weaponOnly)
+			{
+				m_animation.initAnimation(m_sprite, "up");
+				m_animation.request("up");
+			}
+		}
+		else if(lookingDown())
+		{
+			getActiveWeapon()->setStance("down", playerCenter);
+			if(!weaponOnly)
+			{
+				m_animation.initAnimation(m_sprite, "down");
+				m_animation.request("down");
+			}
+		}
+	}
 }
 
 Weapon *Player::getActiveWeapon()
