@@ -15,12 +15,12 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 		assets.getAsset<jl::TextureAsset>("res/bullets.png")->get());
 
 	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,16,16,16), sf::Vector2f(6, -2.7), sf::Vector2f(7, -1.5));
-	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,16,16,16), sf::Vector2f(-6, -2.7), sf::Vector2f(-7, -1.5));
+	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,16,16,16), sf::Vector2f(-6, -2.7), sf::Vector2f(-7.5, -1.5));
 	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,16,16,16));
 	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,16,16,16), sf::Vector2f(0.5,0));
 	setStance("down");
 
-		jl::FrameAnimation anim;
+	jl::FrameAnimation anim;
 	anim.createAnimation("default");
 	anim.pushFrame(sf::IntRect(0,0,16,16), 0.05).
 		pushFrame(sf::IntRect(16,0,16,16), 0.05).
@@ -29,7 +29,7 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 	addBulletAnimation("default");
 	anim.createAnimation("bulletFire");
 	anim.pushFrame(sf::IntRect(0,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(16,32,16,16), 0.0001).
+		pushFrame(sf::IntRect(16,32,16,16), 0.001).
 		pushFrame(sf::IntRect(32,32,16,16), 0.0001).
 		pushFrame(sf::IntRect(48,32,16,16), 0.0001).
 		pushFrame(sf::IntRect(64,32,16,16), 0.0001).

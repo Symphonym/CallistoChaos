@@ -216,6 +216,8 @@ void Player::update(double deltaTime)
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
 		m_weapons[i]->updateBullets(deltaTime);
+
+	getActiveWeapon()->update(deltaTime);
 }
 void Player::render(sf::RenderTarget &target)
 {
@@ -261,7 +263,7 @@ void Player::render(sf::RenderTarget &target)
 		m_weapons[i]->renderBullets(target);
 
 	// Render weapon
-	m_weapons[m_selectedWeapon]->render(target);
+	getActiveWeapon()->render(target);
 }
 
 void Player::sleepInBed(const sf::Vector2i &tileIndex)

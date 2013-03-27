@@ -25,16 +25,10 @@ public:
 		double rotation;
 		sf::IntRect subRect;
 	};
-	struct BulletData
+	struct AnimatedSpriteData
 	{
 		sf::Sprite sprite;
 		sf::Vector2f direction;
-		jl::FrameAnimation animation;
-		std::string animationName;
-	};
-	struct BulletFireData
-	{
-		sf::Sprite sprite;
 		jl::FrameAnimation animation;
 		std::string animationName;
 	};
@@ -45,9 +39,9 @@ private:
 	std::string m_name;
 
 	// Bullets
-	std::vector<BulletData> m_bullets;
+	std::vector<AnimatedSpriteData> m_bullets;
 	std::vector<std::string> m_bulletAnimations;
-	std::vector<BulletFireData> m_bulletFires;
+	std::vector<AnimatedSpriteData> m_bulletFires;
 	std::vector<std::string> m_bulletFireAnimations;
 
 	jl::FrameAnimation m_bulletAnimation;
@@ -68,11 +62,11 @@ private:
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
-	virtual void update(BulletData &bullet, double deltaTime);
-	virtual void render(BulletData &bullet, sf::RenderTarget &target);
+	virtual void update(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void render(AnimatedSpriteData &bullet, sf::RenderTarget &target);
 
 protected:
-	sf::Vector2i getBulletIndex(const BulletData &bullet) const;
+	sf::Vector2i getBulletIndex(const AnimatedSpriteData &bullet) const;
 	sf::Vector2f getWeaponPos();
 	double getSpeed(double deltaTime) const;
 
@@ -113,6 +107,7 @@ public:
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
+	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
 
 	std::string getStance() const;
