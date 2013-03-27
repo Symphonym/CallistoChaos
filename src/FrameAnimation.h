@@ -36,6 +36,9 @@ namespace jl
 		// Animation method 2 variables
 		std::string m_requestedAnimation;
 
+		// Animation tracking data
+		bool m_hasPlayed;
+
 		// Returns the active frame, m_animations[m_activeAnimation][m_frameIndex]
 		Frame &getFrame();
 
@@ -89,6 +92,11 @@ namespace jl
 		// which was specified through "request"
 		void commit(sf::Shape &shape, double deltaTime);
 		void commit(sf::Sprite &sprite, double deltaTime);
+
+		// Reset tracking of when animation is played, is called internally when animation is created
+		bool resetPlayed();
+		// Returns true if the animation has finished since "resetPlayed" was called
+		bool hasPlayed() const;
 	};
 };
 

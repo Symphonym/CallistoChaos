@@ -23,14 +23,23 @@ Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetM
 
 }
 
-void Weapon::addStance(const std::string &name, const sf::Vector2f &pos, const sf::IntRect &subRect, const sf::Vector2f &bulletPos, double rotation)
+void Weapon::addStance(const std::string &name, const sf::Vector2f &pos, const sf::IntRect &subRect, const sf::Vector2f &bulletPos, const sf::Vector2f &firePos, double rotation)
 {
 	StanceData stance;
 	stance.position = pos;
 	stance.rotation = rotation;
 	stance.bulletPosition = bulletPos;
+	stance.firePosition = firePos;
 	stance.subRect = subRect;
 	m_stances[name] = stance;
+}
+void Weapon::addBulletFireAnimation(const std::string &animationName)
+{
+	m_bulletFireAnimations.push_back(animationName);
+}
+void Weapon::addBulletAnimation(const std::string &animationName)
+{
+	m_bulletAnimations.push_back(animationName);
 }
 void Weapon::upgrade()
 {
@@ -128,7 +137,38 @@ void Weapon::fire()
 			BulletData data;
 			data.sprite.setTexture(*m_bulletSheet);
 			data.animation = m_bulletAnimation;
-			data.animation.initAnimation(data.sprite, "default");
+
+			if(!m_bulletFireAnimations.empty())
+			{
+				sf::Vector2f firePos(getWeaponPos());
+				firePos.x += m_stances[m_activeStance].firePosition.x;
+				firePos.y += m_stances[m_activeStance].firePosition.y;
+
+
+				BulletFireData fireData;
+				fireData.sprite.setTexture(*m_bulletSheet);
+				fireData.animation = m_bulletAnimation;
+				fireData.animationName = m_bulletFireAnimations[std::rand() % m_bulletFireAnimations.size()];
+				fireData.animation.initAnimation(fireData.sprite, fireData.animationName);
+				fireData.sprite.setOrigin(
+					fireData.sprite.getGlobalBounds().width/2,
+					fireData.sprite.getGlobalBounds().height/2);
+				fireData.sprite.setPosition(firePos);
+				if(m_trackedCharacter->lookingRight())
+					fireData.sprite.setRotation(90);
+				else if(m_trackedCharacter->lookingLeft())
+					fireData.sprite.setRotation(270);
+				else if(m_trackedCharacter->lookingDown())
+					fireData.sprite.setRotation(180);
+				m_bulletFires.push_back(fireData);
+
+			}
+			if(!m_bulletAnimations.empty())
+			{
+				data.animationName = m_bulletAnimations[std::rand() % m_bulletAnimations.size()];
+				data.animation.initAnimation(data.sprite, data.animationName);
+			}
+
 			data.sprite.setOrigin(
 				data.sprite.getGlobalBounds().width/2,
 				data.sprite.getGlobalBounds().height/2);
@@ -141,6 +181,14 @@ void Weapon::fire()
 				// Equation provided by Lukas Hagman
 				angle = -m_bulletSpread+((double)std::rand() / (double)RAND_MAX)*m_bulletSpread*2;	
 			}
+
+			sf::Vector2f knockBack(m_knockBack);
+			if(m_trackedCharacter->isWalking())
+			{
+				knockBack.x /=2;
+				knockBack.y /=2;
+			}
+
 			switch(m_trackedCharacter->getDirection())
 			{
 				case TileCharacter::WalkingRight:
@@ -149,7 +197,7 @@ void Weapon::fire()
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(90 + angle)),
 						std::cos(jl::Math::degToRad<double>(90 + angle)));
-					m_weaponSprite.move(-m_knockBack.x, 0);
+					m_weaponSprite.move(-knockBack.x, 0);
 				break;
 				case TileCharacter::WalkingLeft:
 				case TileCharacter::LookingLeft:
@@ -157,7 +205,7 @@ void Weapon::fire()
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(270 + angle)),
 						std::cos(jl::Math::degToRad<double>(270 + angle)));
-					m_weaponSprite.move(m_knockBack.x, 0);
+					m_weaponSprite.move(knockBack.x, 0);
 				break;
 				case TileCharacter::WalkingUp:
 				case TileCharacter::LookingUp:
@@ -165,7 +213,7 @@ void Weapon::fire()
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(angle)),
 						-std::cos(jl::Math::degToRad<double>(angle)));
-					m_weaponSprite.move(0, m_knockBack.y);
+					m_weaponSprite.move(0, knockBack.y);
 				break;
 				case TileCharacter::WalkingDown:
 				case TileCharacter::LookingDown:
@@ -173,11 +221,9 @@ void Weapon::fire()
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(180 + angle)),
 						-std::cos(jl::Math::degToRad<double>(180 + angle)));
-					m_weaponSprite.move(0, -m_knockBack.y);
+					m_weaponSprite.move(0, -knockBack.y);
 				break;
 			}
-
-
 			m_bullets.push_back(data);
 		}
 		else
@@ -190,17 +236,36 @@ void Weapon::update(BulletData &bullet, double deltaTime)
 	bullet.sprite.move(
 		bullet.direction.x*calculateSpeed()*deltaTime,
 		bullet.direction.y*calculateSpeed()*deltaTime);
-
-	bullet.animation.animate(bullet.sprite, "default", deltaTime);
 }
 void Weapon::render(BulletData &bullet, sf::RenderTarget &target)
 {
 	target.draw(bullet.sprite);
 }
+
 void Weapon::updateBullets(double deltaTime)
 {
+	for(std::size_t i = 0; i  < m_bulletFires.size(); i++)
+	{
+		if(m_bulletFires[i].animation.hasPlayed())
+		{
+			m_bulletFires.erase(m_bulletFires.begin() + i);
+			return;
+		}
+
+		if(!m_bulletFireAnimations.empty() && !m_bulletFires[i].animation.hasPlayed())
+		{
+			// Place fireAnimation at weapon
+			sf::Vector2f firePos(getWeaponPos());
+			firePos.x += m_stances[m_activeStance].firePosition.x;
+			firePos.y += m_stances[m_activeStance].firePosition.y;
+			m_bulletFires[i].sprite.setPosition(firePos);
+			m_bulletFires[i].animation.animate(m_bulletFires[i].sprite, m_bulletFires[i].animationName, deltaTime);
+		}
+
+	}
 	for(std::size_t i = 0; i < m_bullets.size(); i++)
 	{
+
 		sf::Vector2i index(getBulletIndex(m_bullets[i]));
 
 		// Check if bullet is outside map
@@ -221,20 +286,26 @@ void Weapon::updateBullets(double deltaTime)
 			return;
 		}
 
+		if(!m_bulletAnimations.empty())
+			m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
 
 		update(m_bullets[i], deltaTime);
 	}
 
+	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), deltaTime*40));
+
 }
 void Weapon::renderBullets(sf::RenderTarget &target)
-{
+{		
 	for(std::size_t i = 0; i < m_bullets.size(); i++)
 		render(m_bullets[i], target);
+
+	for(std::size_t i = 0; i  < m_bulletFires.size(); i++)
+		target.draw(m_bulletFires[i].sprite);
 }
 void Weapon::render(sf::RenderTarget &target)
-{
-	//m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 0.1));
-	m_weaponSprite.setPosition(getWeaponPos());
+{		
+	//m_weaponSprite.setPosition(getWeaponPos());
 	target.draw(m_weaponSprite);
 }
 

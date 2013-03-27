@@ -170,6 +170,38 @@ void TileCharacter::walkDown()
 		}
 	}
 }
+void TileCharacter::lookRight()
+{
+	if(!isWalking())
+	{
+		m_direction = TileCharacter::LookingRight;
+		characterEvents(TileCharacter::GoRight);
+	}
+}
+void TileCharacter::lookLeft()
+{
+	if(!isWalking())
+	{
+		m_direction = TileCharacter::LookingLeft;
+		characterEvents(TileCharacter::GoLeft);
+	}
+}
+void TileCharacter::lookUp()
+{
+	if(!isWalking())
+	{
+		m_direction = TileCharacter::LookingUp;
+		characterEvents(TileCharacter::GoUp);
+	}
+}
+void TileCharacter::lookDown()
+{
+	if(!isWalking())
+	{
+		m_direction = TileCharacter::LookingDown;
+		characterEvents(TileCharacter::GoDown);
+	}
+}
 
 bool TileCharacter::lookingRight()
 {
