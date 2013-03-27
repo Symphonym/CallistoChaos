@@ -31,12 +31,52 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
 		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
 		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1);
+	m_animation.createAnimation("lookRight");
+	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1);
+	m_animation.createAnimation("lookLeft");
+	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1);
+	m_animation.createAnimation("lookUp");
+	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
+	m_animation.createAnimation("lookDown");
+	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
 
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
 
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_resourceText.setCharacterSize(8);
+/*
+
+m_animation.createAnimation("right");
+	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 32, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1);
+	m_animation.createAnimation("left");
+	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 16, 16, 16), 0.1);
+	m_animation.createAnimation("up");
+	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(48, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(64, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(80, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(96, 16, 16, 16), 0.1).
+		pushFrame(sf::IntRect(112, 16, 16, 16), 0.1);
+	m_animation.createAnimation("down");
+	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(48, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(64, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(80, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(96, 0, 16, 16), 0.1).
+		pushFrame(sf::IntRect(112, 0, 16, 16), 0.1);
+
+	m_animation.initAnimation(m_sprite, "down");
+	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/charsheet.png")->get());
+	*/
 
 
 	// Transparent color
@@ -74,6 +114,15 @@ void Player::characterEvents(TileCharacter::Event events)
 		m_animation.request("up");
 	else if(events == TileCharacter::WalkingDown)
 		m_animation.request("down");
+
+	else if(events == TileCharacter::LookingRight)
+		m_animation.request("lookRight");
+	else if(events == TileCharacter::LookingLeft)
+		m_animation.request("lookLeft");
+	else if(events == TileCharacter::LookingUp)
+		m_animation.request("lookUp");
+	else if(events == TileCharacter::LookingDown)
+		m_animation.request("lookDown");
 
 	if(events == TileCharacter::GoRight)
 		getActiveWeapon()->setStance("right");
@@ -129,13 +178,13 @@ void Player::events(sf::Event &events)
 		if(!isWalking())
 		{
 			if(jl::Input::isKeyDown(events, sf::Keyboard::Right) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, 100))
-				turn(TileCharacter::LookingRight);
+				lookRight();
 			else if (jl::Input::isKeyDown(events, sf::Keyboard::Left) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, -100))
-				turn(TileCharacter::LookingLeft);
+				lookLeft();
 			else if (jl::Input::isKeyDown(events, sf::Keyboard::Up) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, -100))
-				turn(TileCharacter::LookingUp);
+				lookUp();
 			else if (jl::Input::isKeyDown(events, sf::Keyboard::Down) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, 100))
-				turn(TileCharacter::LookingDown);
+				lookDown();
 		}
 	}
 }
@@ -167,6 +216,8 @@ void Player::update(double deltaTime)
 
 	for(std::size_t i = 0; i < m_weapons.size(); i++)
 		m_weapons[i]->updateBullets(deltaTime);
+
+	getActiveWeapon()->update(deltaTime);
 }
 void Player::render(sf::RenderTarget &target)
 {
@@ -212,7 +263,7 @@ void Player::render(sf::RenderTarget &target)
 		m_weapons[i]->renderBullets(target);
 
 	// Render weapon
-	m_weapons[m_selectedWeapon]->render(target);
+	getActiveWeapon()->render(target);
 }
 
 void Player::sleepInBed(const sf::Vector2i &tileIndex)

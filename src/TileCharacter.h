@@ -82,6 +82,11 @@ public:
 	void walkUp();
 	void walkDown();
 
+	void lookRight();
+	void lookLeft();
+	void lookUp();
+	void lookDown();
+
 	bool lookingRight();
 	bool lookingLeft();
 	bool lookingUp();

@@ -9,7 +9,8 @@ namespace jl
 	 m_frameIndex(0),
 	 m_activeAnimation(""),
 	 m_frameDuration(0),
-	 m_requestedAnimation("")
+	 m_requestedAnimation(""),
+	 m_hasPlayed(false)
 	{
 
 	}
@@ -151,13 +152,17 @@ namespace jl
 	{
 		if(m_frameDuration >= getFrame().frameMaxDuration)
 		{
+
 			// Get remainder
 			m_frameDuration = getFrame().frameMaxDuration - m_frameDuration;
 			++m_frameIndex;
 
 			// Make sure index is within bounds
 			if(m_frameIndex >= m_animations[m_activeAnimation].size())
+			{
 				m_frameIndex = 0;
+				m_hasPlayed = true;
+			}
 
 			// Play frame sound, if any
 			if(!getFrame().soundPath.empty())
@@ -174,5 +179,14 @@ namespace jl
 	FrameAnimation::Frame &FrameAnimation::getFrame()
 	{
 		return m_animations[m_activeAnimation][m_frameIndex];
+	}
+
+	bool FrameAnimation::resetPlayed()
+	{
+		m_hasPlayed = false;
+	}
+	bool FrameAnimation::hasPlayed() const
+	{
+		return m_hasPlayed;
 	}
 };

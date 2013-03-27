@@ -21,16 +21,16 @@ public:
 
 	struct StanceData
 	{
-		sf::Vector2f position, bulletPosition;
+		sf::Vector2f position, bulletPosition, firePosition;
 		double rotation;
 		sf::IntRect subRect;
 	};
-	struct BulletData
+	struct AnimatedSpriteData
 	{
 		sf::Sprite sprite;
 		sf::Vector2f direction;
-		//BulletDirections direction;
 		jl::FrameAnimation animation;
+		std::string animationName;
 	};
 
 private:
@@ -39,7 +39,11 @@ private:
 	std::string m_name;
 
 	// Bullets
-	std::vector<BulletData> m_bullets;
+	std::vector<AnimatedSpriteData> m_bullets;
+	std::vector<std::string> m_bulletAnimations;
+	std::vector<AnimatedSpriteData> m_bulletFires;
+	std::vector<std::string> m_bulletFireAnimations;
+
 	jl::FrameAnimation m_bulletAnimation;
 
 	// Different weapon stances
@@ -58,11 +62,11 @@ private:
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
-	virtual void update(BulletData &bullet, double deltaTime);
-	virtual void render(BulletData &bullet, sf::RenderTarget &target);
+	virtual void update(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void render(AnimatedSpriteData &bullet, sf::RenderTarget &target);
 
 protected:
-	sf::Vector2i getBulletIndex(const BulletData &bullet) const;
+	sf::Vector2i getBulletIndex(const AnimatedSpriteData &bullet) const;
 	sf::Vector2f getWeaponPos();
 	double getSpeed(double deltaTime) const;
 
@@ -78,7 +82,11 @@ public:
 	explicit Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets);
 
 	// Add a stance, position is relative to the tracked targe
-	void addStance(const std::string &name, const sf::Vector2f &pos, const sf::IntRect &subRect, const sf::Vector2f &bulletPos = sf::Vector2f(0,0), double rotation = 0);
+	void addStance(const std::string &name, const sf::Vector2f &pos, const sf::IntRect &subRect, const sf::Vector2f &bulletPos = sf::Vector2f(0,0), const sf::Vector2f &firePos = sf::Vector2f(0,0), double rotation = 0);
+	// Add bullet firing animation
+	void addBulletFireAnimation(const std::string &animationName);
+	// Add bullet animation
+	void addBulletAnimation(const std::string &animationName);
 	void upgrade();
 	// Puts ammo into weapon, returns leftovers
 	int reload(int ammo);
@@ -92,12 +100,14 @@ public:
 	void setKnockBack(const sf::Vector2f &knockBack);
 	void setBulletSpeed(double speed);
 	void setWeaponSheet(const sf::Texture &weaponSheet, const sf::Texture &bulletSheet);
+	// Bullet animation and bullet fire animation on this animation
 	void setBulletAnimation(const jl::FrameAnimation &animation);
 
 	void fire();
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
+	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
 
 	std::string getStance() const;
