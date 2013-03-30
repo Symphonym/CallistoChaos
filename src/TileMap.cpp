@@ -44,8 +44,7 @@ void TileMap::addDType(int tiletypeIndex, const sf::IntRect &subrect, const sf::
 
 void TileMap::loadFromData(std::vector<std::vector<int>> &mapData)
 {
-	if(mapData.size() != (std::size_t)m_mapSize.x || mapData[0].size() != (std::size_t)m_mapSize.y ||
-	   mapData.size() > (std::size_t)m_mapSize.x || mapData[0].size() > (std::size_t)m_mapSize.y)
+	if(mapData.size() != (std::size_t)m_mapSize.y || mapData[0].size() != (std::size_t)m_mapSize.x)
 		throw std::runtime_error("TileMap data dit not fit within TileMap.");
 
 	for(int y = 0; y < m_mapSize.y; y++)
@@ -119,6 +118,7 @@ void TileMap::render(sf::RenderTarget& target)
 						m_tiles[y][x].setSolid(m_tileTypes[m_tiles[y][x].getTileType()].isSolid);
 				}
 			}
+
 			target.draw(m_tileSprite);
 		}
 	}

@@ -46,6 +46,12 @@ namespace jl
 			return value < min ? min : (value > max ? max : value);
 		};
 
+		// Round to nearest number
+		template<typename T> T round(const T &value)
+		{
+			return (value > 0.0) ? std::floor(value + 0.5) : std::ceil(value - 0.5);
+		};
+
 		// Converts radians to degrees
 		template<typename T> T radToDeg(const T &radians)
 		{

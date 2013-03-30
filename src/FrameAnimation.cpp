@@ -181,7 +181,7 @@ namespace jl
 		return m_animations[m_activeAnimation][m_frameIndex];
 	}
 
-	bool FrameAnimation::resetPlayed()
+	void FrameAnimation::resetPlayed()
 	{
 		m_hasPlayed = false;
 	}

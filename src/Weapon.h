@@ -62,10 +62,11 @@ private:
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
-	virtual void update(AnimatedSpriteData &bullet, double deltaTime);
-	virtual void render(AnimatedSpriteData &bullet, sf::RenderTarget &target);
+	virtual void updateBullet(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target);
 
 protected:
+
 	sf::Vector2i getBulletIndex(const AnimatedSpriteData &bullet) const;
 	sf::Vector2f getWeaponPos();
 	double getSpeed(double deltaTime) const;
@@ -107,8 +108,8 @@ public:
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
-	void update(double deltaTime);
-	void render(sf::RenderTarget &target);
+	void updateWeapon(double deltaTime);
+	void renderWeapon(sf::RenderTarget &target);
 
 	std::string getStance() const;
 	std::string getName() const;

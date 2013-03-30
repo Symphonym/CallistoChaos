@@ -1,18 +1,38 @@
 #include "BedControl.h"
 #include "Player.h"
 #include "TileMap.h"
+#include "MessageLog.h"
 
-BedControl::BedControl() :
-	m_player(nullptr),
-	m_inBed(false)
+BedControl::BedControl(Player *player) :
+	m_player(player),
+	m_inBed(false),
+	m_regenDelay(1)
 {
 
 }
 
-void BedControl::providePlayer(Player *player)
+void BedControl::update()
 {
-	m_player = player;
+	if(m_inBed)
+	{
+		if(m_regenClock.getElapsedTime().asSeconds() >= m_regenDelay)
+		{
+			m_regenClock.restart();
+			m_player->heal(1);
+
+			if(!m_player->isFullHealth())
+				MessageLog::addMessage("1 health regenerated from sleep.");
+		}
+		else if(m_player->isFullHealth())
+			MessageLog::addSingleMessage("You are fully rested");
+	}
 }
+
+void BedControl::setRegenDelay(double secondDelay)
+{
+	m_regenDelay = secondDelay;
+}
+
 void BedControl::toggleBed(const sf::Vector2i &tileIndex)
 {
 
@@ -20,43 +40,15 @@ void BedControl::toggleBed(const sf::Vector2i &tileIndex)
 	if(!m_inBed)
 	{
 		m_inBed = true;
-
+		m_regenClock.restart();
 		m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y));
 	}
 	else if(m_inBed)
 	{
 		m_player->getSprite().setPosition(map->getTilePosition(m_player->getIndex().x, m_player->getIndex().y));
 		m_inBed = false;
-		/*
-		TileMap *map = &m_player->getTileMap();
-
-		// Attempt to place player above bed
-		if(tileIndex.y - 1 >= 0 && !map->getTile(tileIndex.x, tileIndex.y - 1).isSolid())
-		{
-			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y - 1));
-			m_inBed = false;
-		}
-		// Attempt to place plaver below bed
-		else if(tileIndex.y + 1 < map->getMapSize().y && !map->getTile(tileIndex.x, tileIndex.y + 1).isSolid())
-		{
-			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x, tileIndex.y + 1));
-			m_inBed = false;
-		}
-		// Attempt to place player to the left of the bed
-		else if(tileIndex.x - 1 >= 0 && !map->getTile(tileIndex.x - 1, tileIndex.y).isSolid())
-		{
-			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x - 1, tileIndex.y));
-			m_inBed = false;
-		}
-		// Attempt to place player to the right of the bed
-		else if(tileIndex.x + 1 < map->getMapSize().x && !map->getTile(tileIndex.x + 1, tileIndex.y).isSolid())
-		{
-			m_player->getSprite().setPosition(map->getTilePosition(tileIndex.x + 1, tileIndex.y));
-			m_inBed = false;
-		}*/
 	}
 }
-
 bool BedControl::isInUse() const
 {
 	return m_inBed;

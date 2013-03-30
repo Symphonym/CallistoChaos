@@ -2,6 +2,7 @@
 #define BEDCONTROL_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 class Player;
 class BedControl
@@ -11,10 +12,16 @@ private:
 	Player *m_player;
 	bool m_inBed;
 
-public:
-	explicit BedControl();
+	double m_regenDelay;
+	sf::Clock m_regenClock;
 
-	void providePlayer(Player *player);
+public:
+	explicit BedControl(Player *player);
+
+	void update();
+
+	void setRegenDelay(double secondDelay);
+
 	void toggleBed(const sf::Vector2i &tileIndex = sf::Vector2i(0,0));
 	bool isInUse() const;
 };

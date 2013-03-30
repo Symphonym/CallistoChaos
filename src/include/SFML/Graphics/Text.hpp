@@ -77,7 +77,7 @@ public :
     /// \param characterSize  Base size of characters, in pixels
     ///
     ////////////////////////////////////////////////////////////
-    Text(const String& string, const Font& font, unsigned int characterSize = 30);
+    explicit Text(const String& string, const Font& font, unsigned int characterSize = 30);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the text's string
@@ -337,7 +337,8 @@ private :
 /// font.loadFromFile("arial.ttf");
 /// 
 /// // Create a text
-/// sf::Text text("hello", font);
+/// sf::Text text("hello");
+/// text.setFont(font);
 /// text.setCharacterSize(30);
 /// text.setStyle(sf::Text::Bold);
 /// text.setColor(sf::Color::Red);

@@ -6,40 +6,53 @@
 GameState::GameState(jl::Engine *engine) : jl::State(engine)
 {
 	std::vector<std::vector<int>> gameLevel = {
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,3,4,4,6,4,3,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,3,9,10,8,8,3,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,3,8,8,8,8,3,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,3,11,8,8,8,3,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,3,4,4,6,4,3,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,3,9,10,8,12,3,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,3,8,8,8,8,3,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,3,11,8,8,8,3,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	// Throw in some random flowers at certain intervalls
-	for(int y = 0; (std::size_t)y < gameLevel.size(); y++)
-		for(int x = 0; (std::size_t)x < gameLevel[x].size(); x++)
-			if(!(x > 6 && x < 13 && y > 7 && y < 14)) // Set an area not have bushes generated
-				gameLevel[y][x] = std::rand() % 100 < 15 ? (std::rand() % 100 < 40 ? 1 : 2) : 0;
-
-	// Set camera zoom
-	m_view = getEngine()->createView(0.32);
+	for(std::size_t y = 0; y < gameLevel.size(); y++)
+		for(std::size_t x = 0; (std::size_t)x < gameLevel[x].size(); x++)
+			if(!(x > 9 && x < 16 && y > 7 && y < 14)) // Set an area not have bushes generated
+				gameLevel[y][x] = std::rand() % 100 < 20 ? (std::rand() % 100 < 40 ? 1 : 2) : 0;
 
 	// Specify tilemap data
 	m_tileMap.setData(
 		getEngine()->getAssets().getAsset<jl::TextureAsset>("res/tiles.png")->get(),
-		sf::Vector2i(20, 20),
+		sf::Vector2i(24, 20),
 		16);
+
+	// Set camera data
+	m_view.setSize(gameLevel[0].size()*m_tileMap.getTileSize(), gameLevel.size()*m_tileMap.getTileSize());
+	m_view.setCenter((gameLevel[0].size()*m_tileMap.getTileSize())/2, (gameLevel.size()*m_tileMap.getTileSize())/2);
+
+	// Store ratio between map and window size
+	sf::Vector2f viewSize(
+		(double)m_view.getSize().x,
+		(double)m_view.getSize().y);
+	sf::Vector2f windowSize(
+		(double)getEngine()->getWindow().getSize().x,
+		(double)getEngine()->getWindow().getSize().y);
+	jl::Settings::setDouble("gameRatio", 
+		(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
+
+
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
 	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 100, true, true); // Bush
@@ -52,6 +65,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_tileMap.addType(9, sf::IntRect(32, 48, 16, 16), false, true); // Currency box
 	m_tileMap.addType(10, sf::IntRect(48, 48, 16, 16), false, true); // Ammo box
 	m_tileMap.addType(11, sf::IntRect(0, 48, 16, 16), false, true); // Bed
+	m_tileMap.addType(12, sf::IntRect(0, 64, 16, 16), false, true); // Workbench
 	m_tileMap.loadFromData(gameLevel);
 
 	// Load assets
@@ -62,7 +76,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_characters.registerTileMap(m_tileMap);
 	std::unique_ptr<Player> player(new Player(m_tileMap, getEngine()->getAssets(), sf::Vector2i(8,11)));
 	// Set player to be used for the Tile options
-	TileOptionManager::provideCharacter(player.get());
+	m_tileOptions.provideCharacter(player.get());
 	// Give player to manager
 	m_characters.addCharacter(std::move(player));
 
@@ -120,6 +134,9 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 
 	// Bed
 	m_tileOptions.addOption(11, "Sleep", TileOptionActions::sleep);
+
+	// Workbench
+	m_tileOptions.addOption(12, "Craft", TileOptionActions::craft);
 }
 
 void GameState::events()
@@ -130,11 +147,15 @@ void GameState::events()
 		m_tileOptions.events(getEngine()->getEvent());
 	}
 }
+
 void GameState::update()
 {
+	// Update view
+	getEngine()->getWindow().setView(m_view);
 
 	if(!isPaused())
 	{
+
 		m_characters.update(getEngine()->getDelta());
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -145,14 +166,15 @@ void GameState::update()
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			m_view.rotate(100*getEngine()->getDelta());
 
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+			m_view.zoom(1.0);
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 			getEngine()->getStack().popState();
 
-		// Update view
-		getEngine()->getWindow().setView(m_view);
-
 		MessageLog::update(getEngine()->getDelta());
 	}
+
 }
 void GameState::render()
 {

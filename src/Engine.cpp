@@ -37,6 +37,10 @@ namespace jl
 			m_delta = m_deltaClock.restart().asSeconds();
 			m_fps = 1 / m_delta;
 
+			// Limit deltaTime to avoid "jumpy" behaviour
+			if(m_delta > 0.01)
+				m_delta = 0.01;
+
 			// Do delete requests
 			m_stack.processDeletes();
 
@@ -60,12 +64,21 @@ namespace jl
 					m_stack.getActiveState()->pause();
 				else if(m_event.type == sf::Event::GainedFocus)
 					m_stack.getActiveState()->resume();
+				else if(m_event.type == sf::Event::JoystickConnected)
+					sf::Joystick::update();
 
 				// State events
 				m_stack.getActiveState()->events();
 
 				// Global events
 				events();
+			}
+
+			// Finish loop if Stack is empty
+			if(m_stack.isEmpty())
+			{
+				m_window.close();
+				break;
 			}
 
 			// State updating
@@ -75,6 +88,13 @@ namespace jl
 			update();
 
 			m_window.clear();
+
+			// Finish loop if Stack is empty
+			if(m_stack.isEmpty())
+			{
+				m_window.close();
+				break;
+			}
 
 			// State rendering
 			m_stack.getActiveState()->render();
@@ -144,7 +164,7 @@ namespace jl
 	{
 		sf::View view(m_window.getDefaultView());
 		view.zoom(zoomFactor);
-		view.setCenter(view.getSize().x/2, view.getSize().y/2);
+		view.setCenter(view.getSize().x/2.0, view.getSize().y/2.0);
 
 		return view;
 	}

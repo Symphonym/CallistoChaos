@@ -71,7 +71,18 @@ void TileCharacter::removeAmmo(int ammo)
 void TileCharacter::damage(int damage)
 {
 	m_health -= damage;
+
+	if(m_health < 0)
+		m_health = 0;
 }
+void TileCharacter::heal(int healing)
+{
+	m_health += healing;
+
+	if(m_health > m_maxHealth)
+		m_health = m_maxHealth;
+}
+
 
 void TileCharacter::walkRight()
 {
@@ -260,4 +271,8 @@ bool TileCharacter::isWalking() const
 bool TileCharacter::isDead() const
 {
 	return m_health <= 0;
+}
+bool TileCharacter::isFullHealth() const
+{
+	return m_health >= m_maxHealth;
 }

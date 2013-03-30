@@ -1,11 +1,11 @@
 #include "TileOptionManager.h"
 #include "TileMap.h"
 #include "Utility.h"
-
-Player *TileOptionManager::m_player = nullptr;
+#include "Settings.h"
 
 TileOptionManager::TileOptionManager() :
 	m_tileOptions(),
+	m_player(nullptr),
 	m_displayOptions(false),
 	m_optionIndex(0),
 	m_tileIndex(0,0),
@@ -24,6 +24,7 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 	m_selRect = sf::IntRect(0,6,25,6);
 
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_sprite.setScale(3, 2);
 	m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_text.setCharacterSize(8);
 }
@@ -31,6 +32,14 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 void TileOptionManager::addOption(int tileTypeIndex, const std::string &title, ActionPtr action)
 {
 	m_tileOptions[tileTypeIndex].push_back(std::make_pair(title, action));
+}
+void TileOptionManager::insertOption(int tileTypeIndex, const std::string &title, ActionPtr action, int optionIndex)
+{
+	m_tileOptions[tileTypeIndex].insert(m_tileOptions[tileTypeIndex].begin() + optionIndex, std::make_pair(title, action));
+}
+void TileOptionManager::removeOption(int tileTypeIndex, int optionIndex)
+{
+	m_tileOptions[tileTypeIndex].erase(m_tileOptions[tileTypeIndex].begin() + optionIndex);
 }
 
 void TileOptionManager::provideCharacter(Player *player)
@@ -62,7 +71,8 @@ void TileOptionManager::events(sf::Event &events)
 			{
 				m_tileOptions[m_tileType][m_optionIndex].second(
 					&TileOptionManager::m_player->getTileMap(),
-					m_tileIndex);
+					m_tileIndex,
+					this);
 
 				// Check if the aciton changed type of the Tile
 				if(tileType != getTileType())
@@ -108,10 +118,10 @@ void TileOptionManager::render(sf::RenderTarget &target)
 	{
 		for(int i = 0; i < (int)m_tileOptions[m_tileType].size(); i++)
 		{
-			std::size_t tileSize(TileOptionManager::getPlayer()->getTileMap().getTileSize());
-			sf::Vector2i mapSize(TileOptionManager::getPlayer()->getTileMap().getMapSize());
+			std::size_t tileSize(getPlayer()->getTileMap().getTileSize());
+			sf::Vector2i mapSize(getPlayer()->getTileMap().getMapSize());
 
-			sf::Vector2f tilePos(TileOptionManager::getPlayer()->getTileMap().getTilePosition(m_tileIndex.x, m_tileIndex.y));
+			sf::Vector2f tilePos(getPlayer()->getTileMap().getTilePosition(m_tileIndex.x, m_tileIndex.y));
 			sf::Vector2f listPos(tilePos.x + tileSize, tilePos.y);
 
 			// Place list to the left of tile if there's no right side
@@ -119,17 +129,19 @@ void TileOptionManager::render(sf::RenderTarget &target)
 				listPos.x -= tileSize * 2;
 
 			m_sprite.setTextureRect(i == m_optionIndex ? m_selRect : m_nonRect);
-			m_sprite.setPosition(listPos.x,listPos.y + (i * m_sprite.getTextureRect().height));
 
-			// Converted text position
-			sf::Vector2i textPos(target.mapCoordsToPixel(m_sprite.getPosition(), target.getView()));
-			m_text.setPosition(textPos.x + 3, textPos.y + 1);
+			// Convert position to pixel
+			sf::Vector2i convertedPos(target.mapCoordsToPixel(listPos, target.getView()));
+			convertedPos.y += (i * m_sprite.getGlobalBounds().height);
+			m_sprite.setPosition(convertedPos.x, convertedPos.y);
+
+			m_text.setPosition(convertedPos.x + 3, convertedPos.y + 1);
 			m_text.setString(m_tileOptions[m_tileType][i].first);
-
-			target.draw(m_sprite);
 
 			sf::View tempView = target.getView();
 			target.setView(target.getDefaultView());
+
+			target.draw(m_sprite);
 
 			target.draw(m_text);
 			target.setView(tempView);
@@ -137,6 +149,13 @@ void TileOptionManager::render(sf::RenderTarget &target)
 	}
 }
 
+void TileOptionManager::setVisible(bool visible)
+{
+	if(visible)
+		displayList();
+	else
+		m_displayOptions = visible;
+}
 bool TileOptionManager::isVisible()
 {
 	return m_displayOptions;

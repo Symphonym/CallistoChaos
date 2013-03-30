@@ -76,6 +76,7 @@ public:
 	void removeAmmo(int ammo);
 
 	void damage(int damage);
+	void heal(int healing);
 
 	void walkRight();
 	void walkLeft();
@@ -102,6 +103,7 @@ public:
 	int getAmmo() const;
 	bool isWalking() const;
 	bool isDead() const;
+	bool isFullHealth() const;
 };
 
 #endif

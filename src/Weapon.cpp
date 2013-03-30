@@ -64,17 +64,14 @@ void Weapon::setStance(const std::string &name, const sf::Vector2f &customPositi
 	m_activeStance = name;
 	m_weaponSprite.setTextureRect(m_stances[name].subRect);
 	m_weaponSprite.setOrigin(
-		m_weaponSprite.getGlobalBounds().width/2,
-		m_weaponSprite.getGlobalBounds().height/2);
+		m_weaponSprite.getTextureRect().width/2,
+		m_weaponSprite.getTextureRect().height/2);
 	m_weaponSprite.setRotation(m_stances[name].rotation);
-
+	
 	if(customPosition == sf::Vector2f(0,0))
-		m_weaponSprite.setPosition(
-			m_trackedCharacter->getSprite().getPosition().x + m_stances[name].position.x + m_weaponSprite.getGlobalBounds().width/2,
-			m_trackedCharacter->getSprite().getPosition().y + m_stances[name].position.y + m_weaponSprite.getGlobalBounds().height/2);
+		m_weaponSprite.setPosition(getWeaponPos());
 	else
-		m_weaponSprite.setPosition(customPosition);
-
+		m_weaponSprite.setPosition(customPosition);;
 }
 void Weapon::setAmmo(int cost, int maxAmmo)
 {
@@ -138,6 +135,7 @@ void Weapon::fire()
 			data.sprite.setTexture(*m_bulletSheet);
 			data.animation = m_bulletAnimation;
 
+			// Add bullet fire animation
 			if(!m_bulletFireAnimations.empty())
 			{
 				sf::Vector2f firePos(getWeaponPos());
@@ -231,83 +229,79 @@ void Weapon::fire()
 	}
 }
 
-void Weapon::update(AnimatedSpriteData &bullet, double deltaTime)
+void Weapon::updateBullet(AnimatedSpriteData &bullet, double deltaTime)
 {
 	bullet.sprite.move(
 		bullet.direction.x*calculateSpeed()*deltaTime,
 		bullet.direction.y*calculateSpeed()*deltaTime);
 }
-void Weapon::render(AnimatedSpriteData &bullet, sf::RenderTarget &target)
+void Weapon::renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target)
 {
 	target.draw(bullet.sprite);
 }
 
 void Weapon::updateBullets(double deltaTime)
 {
-	for(std::size_t i = 0; i < m_bullets.size(); i++)
+	for(std::size_t i = 0; i < m_bullets.size() || i < m_bulletFires.size(); i++)
 	{
-
-		sf::Vector2i index(getBulletIndex(m_bullets[i]));
-
-		// Check if bullet is outside map
-		if(index.x < 0 || index.x >= m_trackedCharacter->getTileMap().getMapSize().x ||
-			index.y < 0 || index.y >= m_trackedCharacter->getTileMap().getMapSize().y)
-		{
-			m_bullets.erase(m_bullets.begin() + i);
-			continue;
-		}
-
-		Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
-
-		// Collision with solid tile
-		if(tile->isSolid() && tile->isPlayerAttackable())
-		{	
-			tile->damage(calculateDamage());
-			m_bullets.erase(m_bullets.begin() + i);
-			return;
-		}
-
-		if(!m_bulletAnimations.empty())
-			m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
-
-		if(i < m_bulletFireAnimations.size())
+		if(i < m_bulletFires.size())
 		{
 			if(m_bulletFires[i].animation.hasPlayed())
-			{
 				m_bulletFires.erase(m_bulletFires.begin() + i);
-				return;
-			}
 
-			if(!m_bulletFireAnimations.empty() && !m_bulletFires[i].animation.hasPlayed())
+			else if(!m_bulletFires[i].animation.hasPlayed())
 			{
 				// Place fireAnimation at weapon
 				sf::Vector2f firePos(getWeaponPos());
 				firePos.x += m_stances[m_activeStance].firePosition.x;
 				firePos.y += m_stances[m_activeStance].firePosition.y;
 				m_bulletFires[i].sprite.setPosition(firePos);
+				// Animated bullet fire
 				m_bulletFires[i].animation.animate(m_bulletFires[i].sprite, m_bulletFires[i].animationName, deltaTime);
 			}
 		}
 
-		update(m_bullets[i], deltaTime);
+		if(i < m_bullets.size())
+		{
+			sf::Vector2i index(getBulletIndex(m_bullets[i]));
+			Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
+
+			// Check if bullet is outside map, delete bullet
+			if(index.x < 0 || index.x >= m_trackedCharacter->getTileMap().getMapSize().x ||
+				index.y < 0 || index.y >= m_trackedCharacter->getTileMap().getMapSize().y)
+				m_bullets.erase(m_bullets.begin() + i);
+
+			// Collision with solid tile, delete bullet
+			else if(tile->isSolid() && tile->isPlayerAttackable())
+			{	
+				tile->damage(calculateDamage());
+				m_bullets.erase(m_bullets.begin() + i);
+			}
+
+			else if(!m_bulletAnimations.empty())
+				m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
+		}
+
+		updateBullet(m_bullets[i], deltaTime);
 	}
 
 }
 void Weapon::renderBullets(sf::RenderTarget &target)
 {		
-	for(std::size_t i = 0; i < m_bullets.size(); i++)
+	for(std::size_t i = 0; i < m_bullets.size() || i < m_bulletFires.size(); i++)
 	{
-		render(m_bullets[i], target);
+		if(i < m_bullets.size())
+			renderBullet(m_bullets[i], target);
 
-		if(i < m_bulletFireAnimations.size())
+		if(i < m_bulletFires.size())
 			target.draw(m_bulletFires[i].sprite);
 	}
 }
-void Weapon::update(double deltaTime)
+void Weapon::updateWeapon(double deltaTime)
 {
-	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), deltaTime*40));
+	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 0.1));
 }
-void Weapon::render(sf::RenderTarget &target)
+void Weapon::renderWeapon(sf::RenderTarget &target)
 {		
 	//m_weaponSprite.setPosition(getWeaponPos());
 	target.draw(m_weaponSprite);
@@ -377,9 +371,9 @@ sf::Vector2f Weapon::getWeaponPos()
 {
 	return sf::Vector2f(
 		m_trackedCharacter->getSprite().getPosition().x +
-		(m_stances[m_activeStance].position.x + m_stances[m_activeStance].subRect.width/2),
+		(m_stances[m_activeStance].position.x + m_weaponSprite.getGlobalBounds().width/2),
 		m_trackedCharacter->getSprite().getPosition().y +
-		(m_stances[m_activeStance].position.y + m_stances[m_activeStance].subRect.height/2));
+		(m_stances[m_activeStance].position.y + m_weaponSprite.getGlobalBounds().height/2));
 
 }
 double Weapon::getSpeed(double deltaTime) const

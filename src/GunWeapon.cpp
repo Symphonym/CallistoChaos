@@ -28,18 +28,17 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 		pushFrame(sf::IntRect(48,0,16,16), 0.05);
 	addBulletAnimation("default");
 	anim.createAnimation("bulletFire");
-	anim.pushFrame(sf::IntRect(0,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(16,32,16,16), 0.001).
-		pushFrame(sf::IntRect(32,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(48,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(64,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(80,32,16,16), 0.0001).
-		pushFrame(sf::IntRect(96,32,16,16), 0.0001);
+	anim.pushFrame(sf::IntRect(0,32,16,16), 0.01).
+		pushFrame(sf::IntRect(16,32,16,16), 0.01).
+		pushFrame(sf::IntRect(32,32,16,16), 0.01).
+		pushFrame(sf::IntRect(48,32,16,16), 0.01).
+		pushFrame(sf::IntRect(64,32,16,16), 0.01).
+		pushFrame(sf::IntRect(80,32,16,16), 0.01).
+		pushFrame(sf::IntRect(96,32,16,16), 0.01);
 	addBulletFireAnimation("bulletFire");
 
 	setBulletAnimation(anim);
 
 	setBulletAnimation(anim);
-
 
 }

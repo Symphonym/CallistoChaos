@@ -94,7 +94,7 @@ namespace jl
 		void commit(sf::Sprite &sprite, double deltaTime);
 
 		// Reset tracking of when animation is played, is called internally when animation is created
-		bool resetPlayed();
+		void resetPlayed();
 		// Returns true if the animation has finished since "resetPlayed" was called
 		bool hasPlayed() const;
 	};

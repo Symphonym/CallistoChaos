@@ -4,16 +4,20 @@
 #include "Utility.h"
 #include "GunWeapon.h"
 #include "RifleWeapon.h"
+#include "Settings.h"
 
 Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(tilemap, assets, tileIndex),
-	m_selectedWeapon(0),
-	m_isResting(false)
+	m_workbench(assets),
+	m_bedControl(this),
+	m_selectedWeapon(0)
 {
 	setSpeed(100);
 	setMaxHealth(5);
-	addAmmo(76);
+	m_health = 2;
+	addAmmo(100);
 	addCurrency(100);
+	m_bedControl.setRegenDelay(2);
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
@@ -42,42 +46,8 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
-
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_resourceText.setCharacterSize(8);
-/*
-
-m_animation.createAnimation("right");
-	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 32, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1);
-	m_animation.createAnimation("left");
-	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 16, 16, 16), 0.1);
-	m_animation.createAnimation("up");
-	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(48, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(64, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(80, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(96, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(112, 16, 16, 16), 0.1);
-	m_animation.createAnimation("down");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(48, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(64, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(80, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(96, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(112, 0, 16, 16), 0.1);
-
-	m_animation.initAnimation(m_sprite, "down");
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/charsheet.png")->get());
-	*/
-
+	m_resourceText.setCharacterSize(std::floor(8*jl::Settings::getDouble("gameRatio")));
 
 	// Transparent color
 	sf::Color transparentColor(sf::Color::White); 
@@ -85,23 +55,20 @@ m_animation.createAnimation("right");
 
 	// Set color of playerText to semi transparent to minimize gameplay interfering
 	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_playerText.setCharacterSize(24);
+	m_playerText.setCharacterSize(std::floor(30*jl::Settings::getDouble("gameRatio")));
 	m_playerText.setColor(transparentColor);
 
 	m_ammoSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
 	m_ammoSprite.setTextureRect(sf::IntRect(49, 8, 6, 8));
-	m_ammoSprite.setScale(5, 5);
+	m_ammoSprite.setScale(5.0*jl::Settings::getDouble("gameRatio"), 5.0*jl::Settings::getDouble("gameRatio"));
 	m_ammoSprite.setColor(transparentColor);
 	m_healthSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
 	m_healthSprite.setTextureRect(sf::IntRect(49, 17, 7, 7));
-	m_healthSprite.setScale(5, 5);
+	m_healthSprite.setScale(5*jl::Settings::getDouble("gameRatio"), 5*jl::Settings::getDouble("gameRatio"));
 	m_healthSprite.setColor(transparentColor);
 
-	// Give player to becControl
-	m_bedControl.providePlayer(this);
-
-	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
-	m_weapons.push_back(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
+	addWeapon(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
+	addWeapon(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
 }
 
 void Player::characterEvents(TileCharacter::Event events)
@@ -136,7 +103,9 @@ void Player::characterEvents(TileCharacter::Event events)
 
 void Player::events(sf::Event &events)
 {
-	if(!m_bedControl.isInUse())
+	m_workbench.events(events);
+
+	if(!m_bedControl.isInUse() && !m_workbench.isVisible())
 	{
 		// Scroll through weapons
 		bool changedWeapon = false;
@@ -165,13 +134,13 @@ void Player::events(sf::Event &events)
 
 			MessageLog::addMessage("Changed to weapon: " + getActiveWeapon()->getName());
 			if(lookingRight())
-				turn(TileCharacter::LookingRight, true);
+				getActiveWeapon()->setStance("right", playerCenter);
 			else if(lookingLeft())
-				turn(TileCharacter::LookingLeft, true);
+				getActiveWeapon()->setStance("left", playerCenter);
 			else if(lookingUp())
-				turn(TileCharacter::LookingUp, true);
+				getActiveWeapon()->setStance("up", playerCenter);
 			else if(lookingDown())
-				turn(TileCharacter::LookingDown, true);
+				getActiveWeapon()->setStance("down", playerCenter);
 		}
 
 		// Changing direction of player
@@ -191,7 +160,16 @@ void Player::events(sf::Event &events)
 
 void Player::update(double deltaTime)
 {
-	if(!m_bedControl.isInUse())
+	/* SPRINTING
+	if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100)
+		setSpeed(150);
+	else
+		setSpeed(100);*/
+
+	m_workbench.update(deltaTime);
+	m_bedControl.update();
+
+	if(!m_bedControl.isInUse() && !m_workbench.isVisible())
 	{
 		// Fire weapon
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
@@ -214,44 +192,51 @@ void Player::update(double deltaTime)
 
 	}
 
-	for(std::size_t i = 0; i < m_weapons.size(); i++)
-		m_weapons[i]->updateBullets(deltaTime);
+	for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+		it->second->updateBullets(deltaTime);
 
-	getActiveWeapon()->update(deltaTime);
+	getActiveWeapon()->updateWeapon(deltaTime);
 }
 void Player::render(sf::RenderTarget &target)
 {
+
+	sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
+		sf::Vector2f(m_tileMap->getTilePosition(11, 10).x+4,m_tileMap->getTilePosition(11, 10).y+3), target.getView()));
+	sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
+		sf::Vector2f(m_tileMap->getTilePosition(12, 10).x+4,m_tileMap->getTilePosition(12, 10).y+3), target.getView()));
+
 	sf::View tempView(target.getView());
 	target.setView(target.getDefaultView());
 
 	// Draw currency box text
-	m_resourceText.setPosition(331, 305);
+	m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
 	m_resourceText.setString(jl::Util::toString(m_currencyAmount));
 	target.draw(m_resourceText);
 
 	// Draw ammo box text
-	m_resourceText.setPosition(371, 305);
+	m_resourceText.setPosition(ammoBoxPos.x, ammoBoxPos.y);
 	m_resourceText.setString(jl::Util::toString(m_ammoAmount));
 	target.draw(m_resourceText);
 
 	// Draw player hp
-	m_playerText.setPosition(250, target.getView().getSize().y - 50);
+	m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);
 	m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
 	target.draw(m_playerText);
-
+	// Draw health icon
+	m_healthSprite.setPosition(
+		m_playerText.getPosition().x - m_healthSprite.getGlobalBounds().width*1.5,
+		(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_healthSprite.getGlobalBounds().height/2);
+	target.draw(m_healthSprite);
 
 	// Draw player weapon ammo
-	m_playerText.setPosition(400, target.getView().getSize().y - 50);
 	m_playerText.setString(getActiveWeapon()->toAmmoString());
+	m_playerText.setPosition(target.getView().getSize().x * 0.6, target.getView().getSize().y * 0.9);
 	target.draw(m_playerText);
-
 	// Draw ammo icon
-	m_ammoSprite.setPosition(360, target.getView().getSize().y - 50);
+	m_ammoSprite.setPosition(
+		m_playerText.getPosition().x - m_ammoSprite.getGlobalBounds().width*1.5,
+		(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
 	target.draw(m_ammoSprite);
-
-	// Draw health icon
-	m_healthSprite.setPosition(200, target.getView().getSize().y - 50);
-	target.draw(m_healthSprite);
 
 	target.setView(tempView);
 
@@ -259,68 +244,28 @@ void Player::render(sf::RenderTarget &target)
 
 
 	// Render weapon bullets
-	for(std::size_t i = 0; i < m_weapons.size(); i++)
-		m_weapons[i]->renderBullets(target);
+	for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+		it->second->renderBullets(target);
 
 	// Render weapon
-	getActiveWeapon()->render(target);
+	getActiveWeapon()->renderWeapon(target);
+
+	m_workbench.render(target);
 }
 
-void Player::sleepInBed(const sf::Vector2i &tileIndex)
+void Player::addWeapon(std::unique_ptr<Weapon> weapon)
 {
-	m_bedControl.toggleBed(tileIndex);
+	m_weapons[m_weapons.size()] = std::move(weapon);
 }
-void Player::turn(TileCharacter::Event direction, bool weaponOnly)
+
+Workbench &Player::getWorkbench()
 {
-
-	if(!isWalking())
-	{
-		sf::Vector2f playerCenter(
-			m_sprite.getPosition().x + m_sprite.getGlobalBounds().width/2,
-			m_sprite.getPosition().y + m_sprite.getGlobalBounds().height/2);
-
-		if(!weaponOnly)
-			setDirection(direction);
-
-		if(lookingRight())
-		{
-			getActiveWeapon()->setStance("right", playerCenter);
-			if(!weaponOnly)
-			{
-				m_animation.initAnimation(m_sprite, "right");
-				m_animation.request("right");
-			}
-		}
-		else if(lookingLeft())
-		{
-			getActiveWeapon()->setStance("left", playerCenter);
-			if(!weaponOnly)
-			{
-				m_animation.initAnimation(m_sprite, "left");
-				m_animation.request("left");
-			}
-		}
-		else if(lookingUp())
-		{
-			getActiveWeapon()->setStance("up", playerCenter);
-			if(!weaponOnly)
-			{
-				m_animation.initAnimation(m_sprite, "up");
-				m_animation.request("up");
-			}
-		}
-		else if(lookingDown())
-		{
-			getActiveWeapon()->setStance("down", playerCenter);
-			if(!weaponOnly)
-			{
-				m_animation.initAnimation(m_sprite, "down");
-				m_animation.request("down");
-			}
-		}
-	}
+	return m_workbench;
 }
-
+BedControl &Player::getBedControl()
+{
+	return m_bedControl;
+}
 Weapon *Player::getActiveWeapon()
 {
 	return m_weapons[m_selectedWeapon].get();

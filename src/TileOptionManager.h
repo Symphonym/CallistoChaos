@@ -13,10 +13,10 @@ class TileOptionManager
 {
 private:
 
-	typedef std::function<void(TileMap *tileMap, const sf::Vector2i &tileIndex)> ActionPtr;
+	typedef std::function<void(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *tileOptionManager)> ActionPtr;
 
 	std::map<int, std::vector<std::pair<std::string, ActionPtr>>> m_tileOptions;
-	static Player *m_player;
+	Player *m_player;
 
 	// Whether or not to render the options
 	bool m_displayOptions;
@@ -48,19 +48,24 @@ public:
 
 	// Map an option to a tiletype
 	void addOption(int tileTypeIndex, const std::string &title, ActionPtr action);
+	void insertOption(int tileTypeIndex, const std::string &title, ActionPtr action, int insertPos);
+	void removeOption(int tileTypeIndex, int optionIndex);
 
 	// The Player that will interact with the tiles
-	static void provideCharacter(Player *player);
+	void provideCharacter(Player *player);
 
 	// Update input
 	void events(sf::Event &events);
 	// Render the tile options
 	void render(sf::RenderTarget &target);
 
+	// Force close/open the options
+	void setVisible(bool visible);
+
 	// Returns whether or not the tile options are visible
 	bool isVisible();
 
-	static Player *getPlayer();
+	Player *getPlayer();
 };
 
 #endif

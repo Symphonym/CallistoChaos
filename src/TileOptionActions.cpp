@@ -8,17 +8,18 @@ namespace TileOptionActions
 {
 	static const int repairCost = 5;
 
-	void openDoor(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void openDoor(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		if(!tileMap->getTile(tileIndex).isDestroyed())
 			tileMap->changeTile(7, tileIndex.x, tileIndex.y);
+
 	}
-	void closeDoor(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void closeDoor(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		tileMap->changeTile(6, tileIndex.x, tileIndex.y);
 	}
 
-	void examineHealth(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void examineHealth(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		Tile *tile = &tileMap->getTile(tileIndex);
 
@@ -44,7 +45,7 @@ namespace TileOptionActions
 				MessageLog::addMessage("Doesn't look like anything has touched it (100\%)");
 		}
 	}
-	void repair(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void repair(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		const int repairCost = 5;
 
@@ -54,9 +55,9 @@ namespace TileOptionActions
 			return;
 		}
 
-		else if(TileOptionManager::getPlayer()->affordCurrency(repairCost))
+		else if(manager->getPlayer()->affordCurrency(repairCost))
 		{
-			TileOptionManager::getPlayer()->removeCurrency(repairCost);
+			manager->getPlayer()->removeCurrency(repairCost);
 			tileMap->getTile(tileIndex).repair(1);
 			MessageLog::addMessage("*Spent " + jl::Util::toString(repairCost) +  " materials on repairing*");
 			return;
@@ -64,13 +65,13 @@ namespace TileOptionActions
 		else
 			MessageLog::addMessage("I don't have enough material to repair");
 	}
-	void build(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void build(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		const int buildCost = 10;
 
-		if(TileOptionManager::getPlayer()->affordCurrency(buildCost))
+		if(manager->getPlayer()->affordCurrency(buildCost))
 		{
-			TileOptionManager::getPlayer()->removeCurrency(buildCost);
+			manager->getPlayer()->removeCurrency(buildCost);
 			MessageLog::addMessage("*Spent " + jl::Util::toString(buildCost) + " materials on building a Window*");
 			tileMap->changeTile(5, tileIndex.x, tileIndex.y, true);
 			return;
@@ -79,11 +80,11 @@ namespace TileOptionActions
 			MessageLog::addMessage("I don't have enough material to build a window");
 	}
 
-	void reload(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void reload(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		const int reloadAmount = 10;
 
-		Player *player = TileOptionManager::getPlayer();
+		Player *player = manager->getPlayer();
 
 		// Player has unlimited ammo
 		if(player->getActiveWeapon()->hasUnlimitedAmmo())
@@ -129,9 +130,27 @@ namespace TileOptionActions
 
 		}
 	}
-	void sleep(TileMap *tileMap, const sf::Vector2i &tileIndex)
+	void sleep(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
-		TileOptionManager::getPlayer()->sleepInBed(tileIndex);
-		MessageLog::addMessage("You are now resting");
+		manager->getPlayer()->getBedControl().toggleBed(tileIndex);
+
+		// Remove sleep message
+		if(manager->getPlayer()->getBedControl().isInUse())
+		{
+			manager->removeOption(11, 0);
+			manager->addOption(11, "Wake up", TileOptionActions::sleep);
+			MessageLog::addMessage("You are now resting");
+		}
+		else
+		{
+			manager->removeOption(11, 0);
+			manager->addOption(11, "Sleep", TileOptionActions::sleep);
+			MessageLog::addMessage("You woke up from your sleep");
+		}
+	}
+	void craft(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
+	{
+		manager->getPlayer()->getWorkbench().setVisible(true);
+		manager->setVisible(false);
 	} 
 };

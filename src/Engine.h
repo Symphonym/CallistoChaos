@@ -52,12 +52,14 @@ namespace jl
 			// Only allow running this method if the game isn't already running
 			if(!m_window.isOpen())
 			{
-				// Initialize startup state with type T
-				std::unique_ptr<State> startupState = std::unique_ptr<State>(new T(this));
-				m_stack.pushState(std::move(startupState));
-
 				// Initialize renderwindow and load settings
 				unsigned int windowStyle = Settings::getBool("windowFullscreen") == true ? sf::Style::Fullscreen : sf::Style::Close;
+				if(windowStyle == sf::Style::Fullscreen)
+				{
+					Settings::setInt("windowWidth", sf::VideoMode::getDesktopMode().width);
+					Settings::setInt("windowHeight", sf::VideoMode::getDesktopMode().height);
+				}
+
 				m_window.create(
 					sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
 					 Settings::getString("windowTitle"),
@@ -66,6 +68,10 @@ namespace jl
 				m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
 				m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
 				sf::Listener::setGlobalVolume(Settings::getInt("gameGlobalVolume"));
+
+				// Initialize startup state with type T
+				std::unique_ptr<State> startupState = std::unique_ptr<State>(new T(this));
+				m_stack.pushState(std::move(startupState));
 
 				// Initialize additional game engine data
 				init();

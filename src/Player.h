@@ -2,10 +2,11 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <map>
 #include "TileCharacter.h"
 #include "Weapon.h"
 #include "BedControl.h"
+#include "Workbench.h"
 
 class TileMap;
 class Player : public TileCharacter
@@ -17,19 +18,18 @@ private:
 	void duringWalkUp();
 	void duringWalkDown();
 
-	// Control for bed
-	BedControl m_bedControl;
 
-
-	std::vector<std::unique_ptr<Weapon>> m_weapons;
+	std::map<int, std::unique_ptr<Weapon>> m_weapons;
+	Workbench m_workbench;
 
 	sf::Text m_resourceText, m_playerText;
 	sf::Sprite m_healthSprite, m_ammoSprite;
 
+	// Control for bed
+	BedControl m_bedControl;
+
 	// Selected weapon
 	int m_selectedWeapon;
-	// If the player is resting or not
-	bool m_isResting;
 
 public:
 
@@ -41,9 +41,10 @@ public:
 
 	virtual void characterEvents(TileCharacter::Event events);
 
-	void sleepInBed(const sf::Vector2i &tileIndex);
-	void turn(TileCharacter::Event direction, bool weaponOnly = false);
+	void addWeapon(std::unique_ptr<Weapon> weapon);
 
+	Workbench &getWorkbench();
+	BedControl &getBedControl();
 	Weapon* getActiveWeapon();
 };
 

@@ -42,17 +42,18 @@ void CharacterManager::addCharacter(std::unique_ptr<TileCharacter> tilecharacter
 
 void CharacterManager::events(sf::Event &events)
 {
-	for(std::size_t i = 0; i < m_characters.size(); i++)
-		m_characters[i]->events(events);
+	for(auto it = m_characters.begin(); it != m_characters.end(); it++)
+		it->second->events(events);
 }
 void CharacterManager::update(double deltaTime)
 {
-	for(std::size_t i = 0; i < m_characters.size(); i++)
+	for(auto it = m_characters.begin(); it != m_characters.end(); it++)
 	{
 		// Check if character is dead, if so, delete it
-		if(m_characters[i]->isDead())
+		if(it->second->isDead())
 		{
-			m_characters.erase(m_characters.find(i));
+			std::size_t index = it->first;
+			m_characters.erase(it);
 
 			// Move the previous character to this spot
 			if(!m_characters.empty())
@@ -63,66 +64,66 @@ void CharacterManager::update(double deltaTime)
 				std::unique_ptr<TileCharacter> previousChar(std::move(m_characters[m_charId]));
 				m_characters.erase(m_characters.find(m_charId));
 
-				m_characters.insert(std::make_pair(i, std::move(previousChar)));
+				m_characters.insert(std::make_pair(index, std::move(previousChar)));
 			}
 
 			continue;
 		}
 
 		// Update walking of character
-		if(m_characters[i]->isWalking())
+		if(it->second->isWalking())
 		{
-			if(m_characters[i]->getDirection() == TileCharacter::WalkingRight)
+			if(it->second->getDirection() == TileCharacter::WalkingRight)
 			{
-				m_characters[i]->getSprite().move(m_characters[i]->getSpeed()*deltaTime, 0);
-				m_characters[i]->characterEvents(TileCharacter::WalkingRight);
+				it->second->getSprite().move(it->second->getSpeed()*deltaTime, 0);
+				it->second->characterEvents(TileCharacter::WalkingRight);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkingLeft)
+			else if(it->second->getDirection() == TileCharacter::WalkingLeft)
 			{
-				m_characters[i]->getSprite().move(-m_characters[i]->getSpeed()*deltaTime, 0);
-				m_characters[i]->characterEvents(TileCharacter::WalkingLeft);
+				it->second->getSprite().move(-it->second->getSpeed()*deltaTime, 0);
+				it->second->characterEvents(TileCharacter::WalkingLeft);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkingUp)
+			else if(it->second->getDirection() == TileCharacter::WalkingUp)
 			{	
-				m_characters[i]->getSprite().move(0, -m_characters[i]->getSpeed()*deltaTime);
-				m_characters[i]->characterEvents(TileCharacter::WalkingUp);
+				it->second->getSprite().move(0, -it->second->getSpeed()*deltaTime);
+				it->second->characterEvents(TileCharacter::WalkingUp);
 			}
-			else if(m_characters[i]->getDirection() == TileCharacter::WalkingDown)
+			else if(it->second->getDirection() == TileCharacter::WalkingDown)
 			{
-				m_characters[i]->getSprite().move(0, m_characters[i]->getSpeed()*deltaTime);
-				m_characters[i]->characterEvents(TileCharacter::WalkingDown);
+				it->second->getSprite().move(0, it->second->getSpeed()*deltaTime);
+				it->second->characterEvents(TileCharacter::WalkingDown);
 			}
 
-			// Position of the tile that the Character is walking towards
-			sf::Vector2f targetPosition = m_tileMap->getTilePosition(m_characters[i]->getIndex().x, m_characters[i]->getIndex().y);
+			// Position of the tile that the Character is walking towards (Tile index modified in character class)
+			sf::Vector2f targetPosition = m_tileMap->getTilePosition(it->second->getIndex().x, it->second->getIndex().y);
 			// Size of the tiles
 			std::size_t tileSize = m_tileMap->getTileSize();
 			// Character data
-			sf::FloatRect characterBounds = m_characters[i]->getSprite().getGlobalBounds();
-			TileCharacter::Event characterDirection = m_characters[i]->getDirection();
+			sf::FloatRect characterBounds = it->second->getSprite().getGlobalBounds();
+			TileCharacter::Event characterDirection = it->second->getDirection();
 
 			// Check if the walking Character has reached it's target
 			if(((characterBounds.left + characterBounds.width) >= (targetPosition.x + tileSize) && characterDirection == TileCharacter::WalkingRight) || // RIGHT
 				(characterBounds.left <= targetPosition.x && characterDirection == TileCharacter::WalkingLeft) || // LEFT
 				(characterBounds.top <= targetPosition.y && characterDirection == TileCharacter::WalkingUp) || // UP
 				((characterBounds.top + characterBounds.height) >= (targetPosition.y + tileSize) && characterDirection == TileCharacter::WalkingDown)) // DOWN
-					stopCharacter(*m_characters[i], targetPosition);
+					stopCharacter(*it->second, targetPosition);
 		}
 
 		// Update idle actions
-		else if(!m_characters[i]->isWalking())
+		else if(!it->second->isWalking())
 		{
-			if(m_characters[i]->getDirection() == TileCharacter::LookingRight)
-				m_characters[i]->characterEvents(TileCharacter::LookingRight);
-			else if(m_characters[i]->getDirection() == TileCharacter::LookingLeft)
-				m_characters[i]->characterEvents(TileCharacter::LookingLeft);
-			else if(m_characters[i]->getDirection() == TileCharacter::LookingUp)
-				m_characters[i]->characterEvents(TileCharacter::LookingUp);
-			else if(m_characters[i]->getDirection() == TileCharacter::LookingDown)
-				m_characters[i]->characterEvents(TileCharacter::LookingDown);
+			if(it->second->getDirection() == TileCharacter::LookingRight)
+				it->second->characterEvents(TileCharacter::LookingRight);
+			else if(it->second->getDirection() == TileCharacter::LookingLeft)
+				it->second->characterEvents(TileCharacter::LookingLeft);
+			else if(it->second->getDirection() == TileCharacter::LookingUp)
+				it->second->characterEvents(TileCharacter::LookingUp);
+			else if(it->second->getDirection() == TileCharacter::LookingDown)
+				it->second->characterEvents(TileCharacter::LookingDown);
 		}
 
-		m_characters[i]->update(deltaTime);
+		it->second->update(deltaTime);
 	}
 }
 void CharacterManager::render(sf::RenderTarget &target)
