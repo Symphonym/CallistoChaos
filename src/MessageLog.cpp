@@ -1,9 +1,11 @@
 #include "MessageLog.h"
+#include "Settings.h"
 
 namespace MessageLog
 {
 	std::vector<std::pair<std::string, double>> m_messages;
 	sf::Text m_text;
+	int m_textSpacing;
 
 	void addMessage(const std::string &message)
 	{
@@ -32,8 +34,10 @@ namespace MessageLog
 	void loadAssets(jl::AssetManager &assets)
 	{
 		m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-		m_text.setCharacterSize(12);
+		m_text.setCharacterSize(std::floor(12*jl::Settings::getDouble("gameRatio")));
 		m_text.setPosition(0,0);
+
+		m_textSpacing = std::ceil(15*jl::Settings::getDouble("gameRatio"));
 	}
 
 	void update(double deltaTime)
@@ -54,7 +58,7 @@ namespace MessageLog
 		for(std::size_t i = 0; i < m_messages.size(); i++)
 		{
 			m_text.setString(m_messages[i].first);
-			m_text.setPosition(0, i * 15);
+			m_text.setPosition(0, i * m_textSpacing);
 
 			sf::Color color = sf::Color::White;
 			color.a = 255 - m_messages[i].second * 50;

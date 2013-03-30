@@ -43,7 +43,8 @@ JLautodep:
 
 #JLautodep START
 main.o: GameState.h Engine.h
-Workbench.o: Weapon.h AssetManager.h Workbench.h Utility.h
+WorkbenchFunctions.o: WorkbenchFunctions.h Weapon.h Player.h MessageLog.h
+Workbench.o: Weapon.h AssetManager.h WorkbenchFunctions.h Workbench.h Utility.h GunWeapon.h RifleWeapon.h Player.h Settings.h MessageLog.h
 Weapon.o: AssetManager.h FrameAnimation.h Weapon.h TileMap.h TileCharacter.h Utility.h MessageLog.h
 TileOptionManager.o: Player.h AssetManager.h TileOptionManager.h TileMap.h Utility.h Settings.h
 TileOptionActions.o: TileOptionActions.h TileMap.h MessageLog.h TileOptionManager.h Utility.h
@@ -60,7 +61,7 @@ Settings.o: Settings.h
 RifleWeapon.o: Weapon.h RifleWeapon.h TileMap.h
 Player.o: TileCharacter.h Weapon.h BedControl.h Workbench.h Player.h TileMap.h MessageLog.h Utility.h GunWeapon.h RifleWeapon.h Settings.h
 MusicAsset.o: Asset.h MusicAsset.h
-MessageLog.o: AssetManager.h MessageLog.h
+MessageLog.o: AssetManager.h MessageLog.h Settings.h
 GunWeapon.o: Weapon.h GunWeapon.h TileMap.h
 GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h GameState.h Player.h MessageLog.h TileOptionActions.h
 FrameAnimation.o: FrameAnimation.h SoundManager.h

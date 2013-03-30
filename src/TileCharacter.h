@@ -51,9 +51,9 @@ public:
 
 
 	// Maximum currency
-	static const int maxCurrency = 300;
+	static const int maxCurrency = 999;
 	// Maximum ammo
-	static const int maxAmmo = 300;
+	static const int maxAmmo = 999;
 
 	virtual void events(sf::Event &events) = 0;
 	virtual void update(double deltaTime) = 0;

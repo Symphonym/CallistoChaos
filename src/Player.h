@@ -19,7 +19,7 @@ private:
 	void duringWalkDown();
 
 
-	std::map<int, std::unique_ptr<Weapon>> m_weapons;
+	std::map<int, std::shared_ptr<Weapon>> m_weapons;
 	Workbench m_workbench;
 
 	sf::Text m_resourceText, m_playerText;
@@ -41,7 +41,7 @@ public:
 
 	virtual void characterEvents(TileCharacter::Event events);
 
-	void addWeapon(std::unique_ptr<Weapon> weapon);
+	void addWeapon(std::shared_ptr<Weapon> weapon);
 
 	Workbench &getWorkbench();
 	BedControl &getBedControl();

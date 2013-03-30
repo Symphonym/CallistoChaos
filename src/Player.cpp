@@ -8,7 +8,7 @@
 
 Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(tilemap, assets, tileIndex),
-	m_workbench(assets),
+	m_workbench(this, assets),
 	m_bedControl(this),
 	m_selectedWeapon(0)
 {
@@ -16,7 +16,7 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	setMaxHealth(5);
 	m_health = 2;
 	addAmmo(100);
-	addCurrency(100);
+	addCurrency(999);
 	m_bedControl.setRegenDelay(2);
 
 	m_animation.createAnimation("right");
@@ -67,8 +67,7 @@ Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &t
 	m_healthSprite.setScale(5*jl::Settings::getDouble("gameRatio"), 5*jl::Settings::getDouble("gameRatio"));
 	m_healthSprite.setColor(transparentColor);
 
-	addWeapon(std::move(std::unique_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets))));
-	addWeapon(std::move(std::unique_ptr<Weapon>(new RifleWeapon("Pulse Rifle", this, assets))));
+	addWeapon(std::shared_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets)));
 }
 
 void Player::characterEvents(TileCharacter::Event events)
@@ -200,9 +199,9 @@ void Player::update(double deltaTime)
 void Player::render(sf::RenderTarget &target)
 {
 
-	sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
-		sf::Vector2f(m_tileMap->getTilePosition(11, 10).x+4,m_tileMap->getTilePosition(11, 10).y+3), target.getView()));
 	sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
+		sf::Vector2f(m_tileMap->getTilePosition(11, 10).x+4,m_tileMap->getTilePosition(11, 10).y+3), target.getView()));
+	sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
 		sf::Vector2f(m_tileMap->getTilePosition(12, 10).x+4,m_tileMap->getTilePosition(12, 10).y+3), target.getView()));
 
 	sf::View tempView(target.getView());
@@ -253,9 +252,9 @@ void Player::render(sf::RenderTarget &target)
 	m_workbench.render(target);
 }
 
-void Player::addWeapon(std::unique_ptr<Weapon> weapon)
+void Player::addWeapon(std::shared_ptr<Weapon> weapon)
 {
-	m_weapons[m_weapons.size()] = std::move(weapon);
+	m_weapons[m_weapons.size()] = weapon;
 }
 
 Workbench &Player::getWorkbench()

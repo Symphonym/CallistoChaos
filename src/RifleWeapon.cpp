@@ -4,7 +4,7 @@
 RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	Weapon(name, tileCharacter, assets)
 {
-	setAmmo(1, -1);
+	setAmmo(1, 50);
 	setFireRate(0.1);
 	setDamage(10);
 	setBulletSpeed(250);
