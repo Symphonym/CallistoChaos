@@ -99,10 +99,21 @@ void Player::characterEvents(TileCharacter::Event events)
 	else if(events == TileCharacter::GoDown)
 		getActiveWeapon()->setStance("down");
 }
-
+#include "AstarAlgorithm.h"
+#include <iostream>
 void Player::events(sf::Event &events)
 {
 	m_workbench.events(events);
+
+	if(events.type == sf::Event::KeyReleased)
+	{
+		AstarAlgorithm::NodePath path = AstarAlgorithm::findPath(getIndex(), sf::Vector2i(0,0), &getTileMap());
+		for(int i = 0; i < path.size(); i++)
+		{
+			getTileMap().getTile(path[i].index).setTileType(7);
+			//std::cout << i << ": X(" << path[i].index.x << ") Y(" << path[i].index.y << ") " << std::endl;
+		}
+	}
 
 	if(!m_bedControl.isInUse() && !m_workbench.isVisible())
 	{

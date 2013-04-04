@@ -299,11 +299,10 @@ void Weapon::renderBullets(sf::RenderTarget &target)
 }
 void Weapon::updateWeapon(double deltaTime)
 {
-	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 0.1));
+	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 40*deltaTime));
 }
 void Weapon::renderWeapon(sf::RenderTarget &target)
 {		
-	//m_weaponSprite.setPosition(getWeaponPos());
 	target.draw(m_weaponSprite);
 }
 

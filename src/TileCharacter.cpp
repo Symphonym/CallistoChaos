@@ -7,6 +7,7 @@ TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const s
 	m_tileIndex(tileIndex),
 	m_sprite(),
 	m_isWalking(false),
+	m_isBusy(false),
 	m_maxHealth(0),
 	m_health(0),
 	m_direction(TileCharacter::LookingDown),
@@ -30,6 +31,10 @@ void TileCharacter::setSpeed(double speed)
 void TileCharacter::setWalking(bool walking)
 {
 	m_isWalking = walking;
+}
+void TileCharacter::setBusy(bool busy)
+{
+	m_isBusy = busy;
 }
 void TileCharacter::setDirection(TileCharacter::Event direction)
 {
@@ -86,7 +91,7 @@ void TileCharacter::heal(int healing)
 
 void TileCharacter::walkRight()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		int x = m_tileIndex.x + 1, y = m_tileIndex.y;
 		if(x < m_tileMap->getMapSize().x)
@@ -110,7 +115,7 @@ void TileCharacter::walkRight()
 }
 void TileCharacter::walkLeft()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		int x = m_tileIndex.x - 1, y = m_tileIndex.y;
 		if(x >= 0)
@@ -134,7 +139,7 @@ void TileCharacter::walkLeft()
 }
 void TileCharacter::walkUp()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		int x = m_tileIndex.x, y = m_tileIndex.y - 1;
 		if(y >= 0)
@@ -159,7 +164,7 @@ void TileCharacter::walkUp()
 }
 void TileCharacter::walkDown()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		int x = m_tileIndex.x, y = m_tileIndex.y + 1;
 		if(y < m_tileMap->getMapSize().y)
@@ -183,7 +188,7 @@ void TileCharacter::walkDown()
 }
 void TileCharacter::lookRight()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		m_direction = TileCharacter::LookingRight;
 		characterEvents(TileCharacter::GoRight);
@@ -191,7 +196,7 @@ void TileCharacter::lookRight()
 }
 void TileCharacter::lookLeft()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		m_direction = TileCharacter::LookingLeft;
 		characterEvents(TileCharacter::GoLeft);
@@ -199,7 +204,7 @@ void TileCharacter::lookLeft()
 }
 void TileCharacter::lookUp()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		m_direction = TileCharacter::LookingUp;
 		characterEvents(TileCharacter::GoUp);
@@ -207,26 +212,26 @@ void TileCharacter::lookUp()
 }
 void TileCharacter::lookDown()
 {
-	if(!isWalking())
+	if(!isBusy())
 	{
 		m_direction = TileCharacter::LookingDown;
 		characterEvents(TileCharacter::GoDown);
 	}
 }
 
-bool TileCharacter::lookingRight()
+bool TileCharacter::lookingRight() const
 {
 	return m_direction == TileCharacter::WalkingRight || m_direction == TileCharacter::LookingRight;
 }
-bool TileCharacter::lookingLeft()
+bool TileCharacter::lookingLeft() const
 {
 	return m_direction == TileCharacter::WalkingLeft || m_direction == TileCharacter::LookingLeft;
 }
-bool TileCharacter::lookingUp()
+bool TileCharacter::lookingUp() const
 {
 	return m_direction == TileCharacter::WalkingUp || m_direction == TileCharacter::LookingUp;
 }
-bool TileCharacter::lookingDown()
+bool TileCharacter::lookingDown() const
 {
 	return m_direction == TileCharacter::WalkingDown || m_direction == TileCharacter::LookingDown;
 }
@@ -264,6 +269,10 @@ int TileCharacter::getAmmo() const
 	return m_ammoAmount;
 }
 
+bool TileCharacter::isBusy() const
+{
+	return m_isWalking || m_isBusy;
+}
 bool TileCharacter::isWalking() const
 {
 	return m_isWalking;

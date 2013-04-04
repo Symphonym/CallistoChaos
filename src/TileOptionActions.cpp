@@ -150,7 +150,7 @@ namespace TileOptionActions
 	}
 	void craft(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
+		manager->getPlayer()->setBusy(true);
 		manager->getPlayer()->getWorkbench().setVisible(true);
-		manager->setVisible(false);
 	} 
 };

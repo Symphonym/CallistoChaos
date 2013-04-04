@@ -111,6 +111,7 @@ void Workbench::events(sf::Event &events)
 		// B button to leave menu
 		if(jl::Input::isButtonDown(events, 1))
 		{
+			m_player->setBusy(false);
 			m_isVisible = false;
 			return;
 		}

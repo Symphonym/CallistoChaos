@@ -69,5 +69,6 @@ FontAsset.o: Asset.h FontAsset.h
 Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h
 CharacterManager.o: TileCharacter.h CharacterManager.h TileMap.h
 BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h
+AstarAlgorithm.o: AstarAlgorithm.h TileMap.h
 AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h AssetManager.h
 #JLautodep END

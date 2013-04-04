@@ -31,7 +31,7 @@ protected:
 	jl::FrameAnimation m_animation;
 	sf::Vector2i m_tileIndex;
 	sf::Sprite m_sprite;
-	bool m_isWalking;
+	bool m_isWalking, m_isBusy;
 	int m_maxHealth, m_health;
 	double m_speed;
 	// Looking/Walking direction
@@ -63,6 +63,7 @@ public:
 
 	void setMaxHealth(int health);
 	void setSpeed(double speed);
+	void setBusy(bool busy);
 	void setWalking(bool walking);
 	void setDirection(TileCharacter::Event direction);
 
@@ -88,10 +89,10 @@ public:
 	void lookUp();
 	void lookDown();
 
-	bool lookingRight();
-	bool lookingLeft();
-	bool lookingUp();
-	bool lookingDown();
+	bool lookingRight() const;
+	bool lookingLeft() const;
+	bool lookingUp() const;
+	bool lookingDown() const;
 
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
@@ -101,6 +102,7 @@ public:
 	double getSpeed() const;	
 	int getCurrency() const;
 	int getAmmo() const;
+	bool isBusy() const;
 	bool isWalking() const;
 	bool isDead() const;
 	bool isFullHealth() const;
