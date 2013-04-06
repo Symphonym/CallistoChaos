@@ -5,8 +5,9 @@
 #include "FrameAnimation.h"
 #include "AssetManager.h"
 
-
+class GameState;
 class TileMap;
+class CharacterManager;
 class TileCharacter
 {
 public:
@@ -27,7 +28,7 @@ public:
 	};
 
 protected:
-	TileMap *m_tileMap;
+	GameState *m_gameState;
 	jl::FrameAnimation m_animation;
 	sf::Vector2i m_tileIndex;
 	sf::Sprite m_sprite;
@@ -45,7 +46,7 @@ protected:
 	// Pass Tilemap to allow for move operations
 	// Pass AssetManager to allow sprite/animation data to be set in the constructor
 	// Pass Tileindex to specify where the Character should be created
-	explicit TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit TileCharacter(GameState* gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 public:
 
@@ -94,9 +95,12 @@ public:
 	bool lookingUp() const;
 	bool lookingDown() const;
 
+	GameState &getGame();
+	TileMap &getTileMap();
+	CharacterManager &getChars();
+
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
-	TileMap &getTileMap();
 	sf::Vector2i getIndex() const;
 	TileCharacter::Event getDirection() const;
 	double getSpeed() const;	

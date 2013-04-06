@@ -2,8 +2,13 @@
 #include "Player.h"
 #include "MessageLog.h"
 #include "TileOptionActions.h"
+#include "WeakEnemy.h"
+#include "Utility.h"
 
-GameState::GameState(jl::Engine *engine) : jl::State(engine)
+GameState::GameState(jl::Engine *engine) : 
+	jl::State(engine),
+	m_gameRatio(0.0),
+	m_loot(engine->getAssets())
 {
 	std::vector<std::vector<int>> gameLevel = {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -51,6 +56,7 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 		(double)getEngine()->getWindow().getSize().y);
 	jl::Settings::setDouble("gameRatio", 
 		(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
+	m_gameRatio = jl::Settings::getDouble("gameRatio");
 
 
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
@@ -72,14 +78,30 @@ GameState::GameState(jl::Engine *engine) : jl::State(engine)
 	m_tileOptions.loadAssets(getEngine()->getAssets());
 	MessageLog::loadAssets(getEngine()->getAssets());
 
+	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+
 	// Load character manager
 	m_characters.registerTileMap(m_tileMap);
-	std::unique_ptr<Player> player(new Player(m_tileMap, getEngine()->getAssets(), sf::Vector2i(8,11)));
+	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(8,11)));
+
 	// Set player to be used for the Tile options
 	m_tileOptions.provideCharacter(player.get());
-	// Give player to manager
-	m_characters.addCharacter(std::move(player));
+	m_loot.providePlayer(player.get());
+	m_workbench = Workbench(player.get(), getEngine()->getAssets());
+	m_bedControl = BedControl(player.get());
 
+	// Give player to manager
+	m_characters.addPlayer(std::move(player));
+
+
+	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,0))));
+	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,0))));
+	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,8))));
+	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(5,15))));
+	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,15))));
+
+	for(int i = 0; i < 1; i++)
+		m_loot.spawnEntity(sf::Vector2f(50,50));
 
 	
 
@@ -144,6 +166,7 @@ void GameState::events()
 	if(!isPaused())
 	{
 		m_characters.events(getEngine()->getEvent());
+		m_workbench.events(getEngine()->getEvent());
 		m_tileOptions.events(getEngine()->getEvent());
 	}
 }
@@ -155,8 +178,17 @@ void GameState::update()
 
 	if(!isPaused())
 	{
+		sf::Color scoreColor = sf::Color::White;
+		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 150;
+		m_scoreText.setColor(scoreColor);
+		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60*m_gameRatio : 30*m_gameRatio);
+		m_scoreText.setString("Score: " + jl::Util::toString(m_characters.getPlayer().getScore()));
+		m_scoreText.setPosition(getEngine()->getWindow().getSize().x * 0.5 - int(m_scoreText.getGlobalBounds().width/2), getEngine()->getWindow().getSize().y * 0.1);
 
 		m_characters.update(getEngine()->getDelta());
+		m_workbench.update(getEngine()->getDelta());
+		m_loot.update(getEngine()->getDelta());
+		m_bedControl.update();
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			m_view.zoom(1.0 - getEngine()->getDelta());
@@ -180,6 +212,41 @@ void GameState::render()
 {
 	m_tileMap.render(getEngine()->getWindow());
 	m_characters.render(getEngine()->getWindow());
+	m_workbench.render(getEngine()->getWindow());
 	m_tileOptions.render(getEngine()->getWindow());
+	m_loot.render(getEngine()->getWindow());
 	MessageLog::render(getEngine()->getWindow());
+
+	if(m_characters.getPlayer().isDead())
+	{
+		sf::Color blackColor = sf::Color::Black;
+		blackColor.a = 100;
+		sf::Image blackScreen;
+		blackScreen.create(getEngine()->getWindow().getView().getSize().x, getEngine()->getWindow().getView().getSize().y, blackColor);
+
+		sf::Texture blackScreenTexture; blackScreenTexture.loadFromImage(blackScreen);
+		sf::Sprite blackScreenSprite; blackScreenSprite.setTexture(blackScreenTexture);
+		getEngine()->getWindow().draw(blackScreenSprite);
+	}
+
+	getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
+	getEngine()->getWindow().draw(m_scoreText);
+	getEngine()->getWindow().setView(m_view);
+}
+
+TileMap &GameState::getTileMap()
+{
+	return m_tileMap;
+}
+CharacterManager &GameState::getChars()
+{
+	return m_characters;
+}
+BedControl &GameState::getBed()
+{
+	return m_bedControl;
+}
+Workbench &GameState::getWorkbench()
+{
+	return m_workbench;
 }

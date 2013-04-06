@@ -5,19 +5,19 @@
 #include "GunWeapon.h"
 #include "RifleWeapon.h"
 #include "Settings.h"
+#include "GameState.h"
 
-Player::Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
-	TileCharacter(tilemap, assets, tileIndex),
-	m_workbench(this, assets),
-	m_bedControl(this),
-	m_selectedWeapon(0)
+Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+	TileCharacter(gameState, assets, tileIndex),
+	m_selectedWeapon(0),
+	m_score(0)
 {
 	setSpeed(100);
 	setMaxHealth(5);
 	m_health = 2;
 	addAmmo(100);
-	addCurrency(999);
-	m_bedControl.setRegenDelay(2);
+	addCurrency(500);
+	gameState->getBed().setRegenDelay(2);
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
@@ -99,23 +99,10 @@ void Player::characterEvents(TileCharacter::Event events)
 	else if(events == TileCharacter::GoDown)
 		getActiveWeapon()->setStance("down");
 }
-#include "AstarAlgorithm.h"
-#include <iostream>
+
 void Player::events(sf::Event &events)
 {
-	m_workbench.events(events);
-
-	if(events.type == sf::Event::KeyReleased)
-	{
-		AstarAlgorithm::NodePath path = AstarAlgorithm::findPath(getIndex(), sf::Vector2i(0,0), &getTileMap());
-		for(int i = 0; i < path.size(); i++)
-		{
-			getTileMap().getTile(path[i].index).setTileType(7);
-			//std::cout << i << ": X(" << path[i].index.x << ") Y(" << path[i].index.y << ") " << std::endl;
-		}
-	}
-
-	if(!m_bedControl.isInUse() && !m_workbench.isVisible())
+	if(!m_gameState->getBed().isInUse() && !m_gameState->getWorkbench().isVisible())
 	{
 		// Scroll through weapons
 		bool changedWeapon = false;
@@ -176,10 +163,7 @@ void Player::update(double deltaTime)
 	else
 		setSpeed(100);*/
 
-	m_workbench.update(deltaTime);
-	m_bedControl.update();
-
-	if(!m_bedControl.isInUse() && !m_workbench.isVisible())
+	if(!m_gameState->getBed().isInUse() && !m_gameState->getWorkbench().isVisible())
 	{
 		// Fire weapon
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
@@ -209,74 +193,74 @@ void Player::update(double deltaTime)
 }
 void Player::render(sf::RenderTarget &target)
 {
+	if(!isDead())
+	{
+		sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
+			sf::Vector2f(getTileMap().getTilePosition(11, 10).x+4,getTileMap().getTilePosition(11, 10).y+3), target.getView()));
+		sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
+			sf::Vector2f(getTileMap().getTilePosition(12, 10).x+4,getTileMap().getTilePosition(12, 10).y+3), target.getView()));
 
-	sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
-		sf::Vector2f(m_tileMap->getTilePosition(11, 10).x+4,m_tileMap->getTilePosition(11, 10).y+3), target.getView()));
-	sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
-		sf::Vector2f(m_tileMap->getTilePosition(12, 10).x+4,m_tileMap->getTilePosition(12, 10).y+3), target.getView()));
+		sf::View tempView(target.getView());
+		target.setView(target.getDefaultView());
 
-	sf::View tempView(target.getView());
-	target.setView(target.getDefaultView());
+		// Draw currency box text
+		m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
+		m_resourceText.setString(jl::Util::toString(m_currencyAmount));
+		target.draw(m_resourceText);
 
-	// Draw currency box text
-	m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
-	m_resourceText.setString(jl::Util::toString(m_currencyAmount));
-	target.draw(m_resourceText);
+		// Draw ammo box text
+		m_resourceText.setPosition(ammoBoxPos.x, ammoBoxPos.y);
+		m_resourceText.setString(jl::Util::toString(m_ammoAmount));
+		target.draw(m_resourceText);
 
-	// Draw ammo box text
-	m_resourceText.setPosition(ammoBoxPos.x, ammoBoxPos.y);
-	m_resourceText.setString(jl::Util::toString(m_ammoAmount));
-	target.draw(m_resourceText);
+		// Draw player hp
+		m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);
+		m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
+		target.draw(m_playerText);
+		// Draw health icon
+		m_healthSprite.setPosition(
+			m_playerText.getPosition().x - m_healthSprite.getGlobalBounds().width*1.5,
+			(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_healthSprite.getGlobalBounds().height/2);
+		target.draw(m_healthSprite);
 
-	// Draw player hp
-	m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);
-	m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
-	target.draw(m_playerText);
-	// Draw health icon
-	m_healthSprite.setPosition(
-		m_playerText.getPosition().x - m_healthSprite.getGlobalBounds().width*1.5,
-		(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_healthSprite.getGlobalBounds().height/2);
-	target.draw(m_healthSprite);
+		// Draw player weapon ammo
+		m_playerText.setString(getActiveWeapon()->toAmmoString());
+		m_playerText.setPosition(target.getView().getSize().x * 0.6, target.getView().getSize().y * 0.9);
+		target.draw(m_playerText);
+		// Draw ammo icon
+		m_ammoSprite.setPosition(
+			m_playerText.getPosition().x - m_ammoSprite.getGlobalBounds().width*1.5,
+			(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
+		target.draw(m_ammoSprite);
 
-	// Draw player weapon ammo
-	m_playerText.setString(getActiveWeapon()->toAmmoString());
-	m_playerText.setPosition(target.getView().getSize().x * 0.6, target.getView().getSize().y * 0.9);
-	target.draw(m_playerText);
-	// Draw ammo icon
-	m_ammoSprite.setPosition(
-		m_playerText.getPosition().x - m_ammoSprite.getGlobalBounds().width*1.5,
-		(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
-	target.draw(m_ammoSprite);
+		target.setView(tempView);
 
-	target.setView(tempView);
+		target.draw(m_sprite);
+	
 
-	target.draw(m_sprite);
+		// Render weapon bullets
+		for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+			it->second->renderBullets(target);
 
-
-	// Render weapon bullets
-	for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-		it->second->renderBullets(target);
-
-	// Render weapon
-	getActiveWeapon()->renderWeapon(target);
-
-	m_workbench.render(target);
+		// Render weapon
+		getActiveWeapon()->renderWeapon(target);
+	}
 }
 
 void Player::addWeapon(std::shared_ptr<Weapon> weapon)
 {
 	m_weapons[m_weapons.size()] = weapon;
 }
+void Player::addScore(int score)
+{
+	m_score += score;
+}
 
-Workbench &Player::getWorkbench()
-{
-	return m_workbench;
-}
-BedControl &Player::getBedControl()
-{
-	return m_bedControl;
-}
 Weapon *Player::getActiveWeapon()
 {
 	return m_weapons[m_selectedWeapon].get();
+}
+int Player::getScore() const
+{
+	return m_score;
 }

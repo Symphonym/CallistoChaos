@@ -8,10 +8,15 @@
 #include "State.h"
 #include "CharacterManager.h"
 #include "TileOptionManager.h"
+#include "Workbench.h"
+#include "BedControl.h"
+#include "LootManager.h"
 
 class GameState : public jl::State
 {
 private:
+
+	double m_gameRatio;
 
 	// Stores level data
 	TileMap m_tileMap;
@@ -19,7 +24,17 @@ private:
 	CharacterManager m_characters;
 	// Stores options for different tiletypes
 	TileOptionManager m_tileOptions;
+	// Stores the loot on the TileMap
+	LootManager m_loot;
+	
 	sf::View m_view;
+
+	// Bed controller
+	BedControl m_bedControl;
+	// Workbench for crafting/shop
+	Workbench m_workbench;
+
+	sf::Text m_scoreText;
 
 
 public:
@@ -29,6 +44,11 @@ public:
 	void events();
 	void update();
 	void render();
+
+	TileMap &getTileMap();
+	CharacterManager &getChars();
+	BedControl &getBed();
+	Workbench &getWorkbench();
 };
 
 #endif

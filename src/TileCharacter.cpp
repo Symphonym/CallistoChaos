@@ -1,8 +1,9 @@
 #include "TileCharacter.h"
 #include "TileMap.h"
+#include "GameState.h"
 
-TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
-	m_tileMap(&tilemap),
+TileCharacter::TileCharacter(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+	m_gameState(gameState),
 	m_animation(),
 	m_tileIndex(tileIndex),
 	m_sprite(),
@@ -15,8 +16,8 @@ TileCharacter::TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const s
 	m_ammoAmount(0)
 {
 	m_sprite.setPosition(
-		tilemap.getTileSize()*tileIndex.x,
-		tilemap.getTileSize()*tileIndex.y);
+		getTileMap().getTileSize()*tileIndex.x,
+		getTileMap().getTileSize()*tileIndex.y);
 }
 
 void TileCharacter::setMaxHealth(int health)
@@ -94,22 +95,24 @@ void TileCharacter::walkRight()
 	if(!isBusy())
 	{
 		int x = m_tileIndex.x + 1, y = m_tileIndex.y;
-		if(x < m_tileMap->getMapSize().x)
+		if(x < getTileMap().getMapSize().x)
 		{
-			if(!m_tileMap->getTile(x, y).isOccupied() &&
-			   !m_tileMap->getTile(x, y).isSolid())
+			if(!getTileMap().getTile(x, y).isOccupied() &&
+			   !getTileMap().getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
+				getTileMap().getTile(m_tileIndex.x, y).clearCharacter();
 				// Occupy new tile
 				++m_tileIndex.x;
-				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
+				getTileMap().getTile(m_tileIndex.x, y).setCharacter(this);
 				
 				// Set walking data
 				setWalking(true);
 				m_direction = TileCharacter::WalkingRight;
 				characterEvents(TileCharacter::GoRight);
 			}
+			else
+				lookRight();
 		}
 	}
 }
@@ -120,20 +123,22 @@ void TileCharacter::walkLeft()
 		int x = m_tileIndex.x - 1, y = m_tileIndex.y;
 		if(x >= 0)
 		{
-			if(!m_tileMap->getTile(x, y).isOccupied() &&
-			   !m_tileMap->getTile(x, y).isSolid())
+			if(!getTileMap().getTile(x, y).isOccupied() &&
+			   !getTileMap().getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(m_tileIndex.x, y).clearCharacter();
+				getTileMap().getTile(m_tileIndex.x, y).clearCharacter();
 				// Occupy new tile
 				--m_tileIndex.x;
-				m_tileMap->getTile(m_tileIndex.x, y).setCharacter(this);
+				getTileMap().getTile(m_tileIndex.x, y).setCharacter(this);
 							
 				// Set walking data
 				setWalking(true);
 				m_direction = TileCharacter::WalkingLeft;
 				characterEvents(TileCharacter::GoLeft);
 			}
+			else
+				lookLeft();
 		}
 	}
 }
@@ -144,21 +149,23 @@ void TileCharacter::walkUp()
 		int x = m_tileIndex.x, y = m_tileIndex.y - 1;
 		if(y >= 0)
 		{
-			if(!m_tileMap->getTile(x, y).isOccupied() &&
-			   !m_tileMap->getTile(x, y).isSolid())
+			if(!getTileMap().getTile(x, y).isOccupied() &&
+			   !getTileMap().getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
+				getTileMap().getTile(x, m_tileIndex.y).clearCharacter();
 				// Occupy new tile
 				--m_tileIndex.y;
 
-				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
+				getTileMap().getTile(x, m_tileIndex.y).setCharacter(this);
 							
 				// Set walking data
 				setWalking(true);
 				m_direction = TileCharacter::WalkingUp;
 				characterEvents(TileCharacter::GoUp);
 			}
+			else
+				lookUp();
 		}
 	}
 }
@@ -167,22 +174,24 @@ void TileCharacter::walkDown()
 	if(!isBusy())
 	{
 		int x = m_tileIndex.x, y = m_tileIndex.y + 1;
-		if(y < m_tileMap->getMapSize().y)
+		if(y < getTileMap().getMapSize().y)
 		{
-			if(!m_tileMap->getTile(x, y).isOccupied() &&
-			   !m_tileMap->getTile(x, y).isSolid())
+			if(!getTileMap().getTile(x, y).isOccupied() &&
+			   !getTileMap().getTile(x, y).isSolid())
 			{
 				// Deoccupy previous tile
-				m_tileMap->getTile(x, m_tileIndex.y).clearCharacter();
+				getTileMap().getTile(x, m_tileIndex.y).clearCharacter();
 				// Occupy new tile
 				++m_tileIndex.y;
-				m_tileMap->getTile(x, m_tileIndex.y).setCharacter(this);
+				getTileMap().getTile(x, m_tileIndex.y).setCharacter(this);
 							
 				// Set walking data
 				setWalking(true);
 				m_direction = TileCharacter::WalkingDown;
 				characterEvents(TileCharacter::GoDown);
 			}
+			else
+				lookDown();
 		}
 	}
 }
@@ -236,6 +245,19 @@ bool TileCharacter::lookingDown() const
 	return m_direction == TileCharacter::WalkingDown || m_direction == TileCharacter::LookingDown;
 }
 
+GameState &TileCharacter::getGame()
+{
+	return *m_gameState;
+}
+TileMap &TileCharacter::getTileMap()
+{
+	return m_gameState->getTileMap();
+}
+CharacterManager &TileCharacter::getChars()
+{
+	return m_gameState->getChars();
+}
+
 sf::Sprite &TileCharacter::getSprite()
 {
 	return m_sprite;
@@ -243,10 +265,6 @@ sf::Sprite &TileCharacter::getSprite()
 jl::FrameAnimation &TileCharacter::getAnim()
 {
 	return m_animation;
-}
-TileMap &TileCharacter::getTileMap()
-{
-	return *m_tileMap;
 }
 sf::Vector2i TileCharacter::getIndex() const
 {

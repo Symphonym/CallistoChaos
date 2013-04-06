@@ -3,6 +3,7 @@
 #include "MessageLog.h"
 #include "TileOptionManager.h"
 #include "Utility.h"
+#include "GameState.h"
 
 namespace TileOptionActions
 {
@@ -16,7 +17,9 @@ namespace TileOptionActions
 	}
 	void closeDoor(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
-		tileMap->changeTile(6, tileIndex.x, tileIndex.y);
+		// Can't close door if someone stands on it
+		if(!tileMap->getTile(tileIndex).isOccupied())
+			tileMap->changeTile(6, tileIndex.x, tileIndex.y);
 	}
 
 	void examineHealth(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
@@ -132,10 +135,10 @@ namespace TileOptionActions
 	}
 	void sleep(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
-		manager->getPlayer()->getBedControl().toggleBed(tileIndex);
+		manager->getPlayer()->getGame().getBed().toggleBed(tileIndex);
 
 		// Remove sleep message
-		if(manager->getPlayer()->getBedControl().isInUse())
+		if(manager->getPlayer()->getGame().getBed().isInUse())
 		{
 			manager->removeOption(11, 0);
 			manager->addOption(11, "Wake up", TileOptionActions::sleep);
@@ -151,6 +154,6 @@ namespace TileOptionActions
 	void craft(TileMap *tileMap, const sf::Vector2i &tileIndex, TileOptionManager *manager)
 	{
 		manager->getPlayer()->setBusy(true);
-		manager->getPlayer()->getWorkbench().setVisible(true);
+		manager->getPlayer()->getGame().getWorkbench().setVisible(true);
 	} 
 };

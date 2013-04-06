@@ -3,6 +3,13 @@
 #include "TileMap.h"
 #include "MessageLog.h"
 
+BedControl::BedControl() :
+	m_player(nullptr),
+	m_inBed(false),
+	m_regenDelay(1)
+{
+
+}
 BedControl::BedControl(Player *player) :
 	m_player(player),
 	m_inBed(false),

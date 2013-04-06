@@ -60,6 +60,7 @@ private:
 
 public:
 
+	explicit Workbench();
 	explicit Workbench(Player *player, jl::AssetManager &assets);
 
 	void addBuyableWeapon(const sf::IntRect &displaySubRect, int cost, int maxUpgradeLevel, std::shared_ptr<Weapon> weapon, WeaponActionPtr weaponAction = WorkbenchFunctions::defaultPurchase, WeaponCostCalcPtr weaponCostCalc = WorkbenchFunctions::defaultCostCalc);

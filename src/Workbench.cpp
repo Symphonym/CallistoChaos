@@ -6,6 +6,22 @@
 #include "Settings.h"
 #include "MessageLog.h"
 
+Workbench::Workbench() :
+	m_assets(nullptr),
+	m_player(nullptr),
+	m_selectedItem(0),
+	m_isVisible(false),
+	m_itemSpacing(0),
+	m_boughtSelRect(0,0,0,0),
+	m_boughtNonRect(0,0,0,0),
+	m_forsaleSelRect(0,0,0,0),
+	m_forsaleNonRect(0,0,0,0),
+	m_buyBoughtRect(0,0,0,0),
+	m_buyForSaleRect(0,0,0,0)
+{
+
+}
+
 Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	m_assets(&assets),
 	m_player(player),

@@ -4,6 +4,7 @@
 #include "Utility.h"
 #include "MessageLog.h"
 #include <sstream>
+#include "Player.h"
 
 Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	m_name(name),
@@ -242,45 +243,59 @@ void Weapon::renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target)
 
 void Weapon::updateBullets(double deltaTime)
 {
-	for(std::size_t i = 0; i < m_bullets.size() || i < m_bulletFires.size(); i++)
+	for(std::size_t i = 0; i < m_bulletFires.size(); i++)
 	{
-		if(i < m_bulletFires.size())
+		if(m_bulletFires[i].animation.hasPlayed())
 		{
-			if(m_bulletFires[i].animation.hasPlayed())
-				m_bulletFires.erase(m_bulletFires.begin() + i);
-
-			else if(!m_bulletFires[i].animation.hasPlayed())
-			{
-				// Place fireAnimation at weapon
-				sf::Vector2f firePos(getWeaponPos());
-				firePos.x += m_stances[m_activeStance].firePosition.x;
-				firePos.y += m_stances[m_activeStance].firePosition.y;
-				m_bulletFires[i].sprite.setPosition(firePos);
-				// Animated bullet fire
-				m_bulletFires[i].animation.animate(m_bulletFires[i].sprite, m_bulletFires[i].animationName, deltaTime);
-			}
+			m_bulletFires.erase(m_bulletFires.begin() + i);
+			continue;
 		}
 
-		if(i < m_bullets.size())
+		if(!m_bulletFires[i].animation.hasPlayed())
 		{
-			sf::Vector2i index(getBulletIndex(m_bullets[i]));
-			Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
+			// Place fireAnimation at weapon
+			sf::Vector2f firePos(getWeaponPos());
+			firePos.x += m_stances[m_activeStance].firePosition.x;
+			firePos.y += m_stances[m_activeStance].firePosition.y;
+			m_bulletFires[i].sprite.setPosition(firePos);
 
-			// Check if bullet is outside map, delete bullet
-			if(index.x < 0 || index.x >= m_trackedCharacter->getTileMap().getMapSize().x ||
-				index.y < 0 || index.y >= m_trackedCharacter->getTileMap().getMapSize().y)
-				m_bullets.erase(m_bullets.begin() + i);
+			// Animate bullet fire
+			m_bulletFires[i].animation.animate(m_bulletFires[i].sprite, m_bulletFires[i].animationName, deltaTime);
+		}
+	}
+	for(std::size_t i = 0; i < m_bullets.size(); i++)
+	{
+		sf::Vector2i index(getBulletIndex(m_bullets[i]));
+		Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
 
-			// Collision with solid tile, delete bullet
-			else if(tile->isSolid() && tile->isPlayerAttackable())
-			{	
+		// Check if bullet is outside map, delete bullet
+		if(index.x < 0 || index.x >= m_trackedCharacter->getTileMap().getMapSize().x ||
+			index.y < 0 || index.y >= m_trackedCharacter->getTileMap().getMapSize().y)
+		{
+			m_bullets.erase(m_bullets.begin() + i);
+			continue;
+		}
+
+		// Collision with solid tile, delete bullet
+		if(tile->isSolid() && tile->isPlayerAttackable())
+		{	
+			tile->damage(calculateDamage());
+			m_bullets.erase(m_bullets.begin() + i);
+			continue;
+		}
+		// Collision with enemy, delete bullet
+		else if (tile->isOccupied() && !dynamic_cast<Player*>(tile->getCharacter()))
+		{
+			if(m_bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
+			{
 				tile->damage(calculateDamage());
 				m_bullets.erase(m_bullets.begin() + i);
+				continue;
 			}
-
-			else if(!m_bulletAnimations.empty())
-				m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
 		}
+
+		if(!m_bulletAnimations.empty())
+			m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
 
 		updateBullet(m_bullets[i], deltaTime);
 	}
@@ -288,14 +303,10 @@ void Weapon::updateBullets(double deltaTime)
 }
 void Weapon::renderBullets(sf::RenderTarget &target)
 {		
-	for(std::size_t i = 0; i < m_bullets.size() || i < m_bulletFires.size(); i++)
-	{
-		if(i < m_bullets.size())
-			renderBullet(m_bullets[i], target);
-
-		if(i < m_bulletFires.size())
-			target.draw(m_bulletFires[i].sprite);
-	}
+	for(std::size_t i = 0; i < m_bullets.size(); i++)
+		renderBullet(m_bullets[i], target);
+	for(std::size_t i = 0; i < m_bulletFires.size(); i++)
+		target.draw(m_bulletFires[i].sprite);
 }
 void Weapon::updateWeapon(double deltaTime)
 {

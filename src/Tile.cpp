@@ -46,13 +46,13 @@ void Tile::clearCharacter()
 
 void Tile::damage(int damage)
 {
-	if(m_isImmortal)
-		return;
-
 	// Damage character on tile 
 	if(isOccupied())
 		m_character->damage(damage);
 	
+	if(m_isImmortal)
+		return;
+
 	m_health -= damage;
 
 	if(m_health < 0)

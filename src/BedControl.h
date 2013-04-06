@@ -16,6 +16,7 @@ private:
 	sf::Clock m_regenClock;
 
 public:
+	explicit BedControl();
 	explicit BedControl(Player *player);
 
 	void update();

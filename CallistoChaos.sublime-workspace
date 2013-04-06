@@ -4,12 +4,92 @@
 		"selected_items":
 		[
 			[
-				"ope",
-				"m_openList"
+				"ler",
+				"lerpAdd"
+			],
+			[
+				"m_",
+				"m_entities"
+			],
+			[
+				"centerP",
+				"centerPos"
+			],
+			[
+				"VE",
+				"Vector2f"
+			],
+			[
+				"Lot",
+				"LootManager"
+			],
+			[
+				"cen",
+				"centerPos"
 			],
 			[
 				"Ve",
-				"Vector2i"
+				"Vector2f"
+			],
+			[
+				"dire",
+				"directionAngle"
+			],
+			[
+				"spee",
+				"speedAdd"
+			],
+			[
+				"en",
+				"entity"
+			],
+			[
+				"gamerat",
+				"m_gameRatio"
+			],
+			[
+				"blackSc",
+				"blackScreenSprite"
+			],
+			[
+				"black",
+				"blackScreenTexture"
+			],
+			[
+				"blackSC",
+				"blackScreenSprite"
+			],
+			[
+				"getTI",
+				"getTileMap"
+			],
+			[
+				"m_bullet",
+				"m_bullets"
+			],
+			[
+				"WorkBe",
+				"WorkbenchFunctions"
+			],
+			[
+				"m_tile",
+				"m_tileMap"
+			],
+			[
+				"pat",
+				"pathIndex"
+			],
+			[
+				"Chara",
+				"CharacterManager"
+			],
+			[
+				"NodeP",
+				"NodePtr"
+			],
+			[
+				"ope",
+				"m_openList"
 			],
 			[
 				"cure",
@@ -88,10 +168,6 @@
 				"weaponCostCalc"
 			],
 			[
-				"VE",
-				"Vector2i"
-			],
-			[
 				"m_buy",
 				"m_buyForSaleRect"
 			],
@@ -144,10 +220,6 @@
 				"Vector2f"
 			],
 			[
-				"WorkBe",
-				"WorkbenchItem"
-			],
-			[
 				"WorkB",
 				"WorkbenchItem"
 			],
@@ -170,10 +242,6 @@
 			[
 				"curre",
 				"currencyBoxPos"
-			],
-			[
-				"m_",
-				"m_workbenchItems"
 			],
 			[
 				"m",
@@ -282,10 +350,6 @@
 			[
 				"calc",
 				"calculateSpeed"
-			],
-			[
-				"m_bullet",
-				"m_bulletSpread"
 			],
 			[
 				"m_amo",
@@ -416,10 +480,6 @@
 				"m_charId"
 			],
 			[
-				"m_tile",
-				"m_tileOptions"
-			],
-			[
 				"m_opt",
 				"m_optionIndex"
 			],
@@ -454,66 +514,6 @@
 			[
 				"m_p",
 				"m_elapsedClock"
-			],
-			[
-				"m_pause",
-				"m_pausedClock"
-			],
-			[
-				"TM",
-				"Tmax"
-			],
-			[
-				"sound",
-				"soundFilePath"
-			],
-			[
-				"m_has",
-				"m_hasChangedAnim"
-			],
-			[
-				"has",
-				"m_hasRequested"
-			],
-			[
-				"m_frame",
-				"m_frameIndex"
-			],
-			[
-				"Frame",
-				"FrameAnimation"
-			],
-			[
-				"m_fr",
-				"m_frameIndex"
-			],
-			[
-				"m_f",
-				"m_frameIndex"
-			],
-			[
-				"m_Fra",
-				"m_frameIndex"
-			],
-			[
-				"m_Fr",
-				"m_frameIndex"
-			],
-			[
-				"m_fram",
-				"m_frameDuration"
-			],
-			[
-				"m_a",
-				"m_activeAnimation"
-			],
-			[
-				"Fram",
-				"FrameAnimation"
-			],
-			[
-				"fi",
-				"filepath"
 			]
 		]
 	},
@@ -523,15 +523,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 3041,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Workbench.h",
-			"settings":
-			{
-				"buffer_size": 2178,
+				"buffer_size": 3086,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +531,23 @@
 			"file": "src/AstarAlgorithm.h",
 			"settings":
 			{
-				"buffer_size": 1165,
+				"buffer_size": 1364,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/WeakEnemy.h",
+			"settings":
+			{
+				"buffer_size": 565,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/WeakEnemy.cpp",
+			"settings":
+			{
+				"buffer_size": 3750,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +555,7 @@
 			"file": "src/AstarAlgorithm.cpp",
 			"settings":
 			{
-				"buffer_size": 3384,
+				"buffer_size": 3971,
 				"line_ending": "Unix"
 			}
 		},
@@ -563,7 +571,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 576,
+				"buffer_size": 961,
 				"line_ending": "Unix"
 			}
 		},
@@ -571,7 +579,23 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 8248,
+				"buffer_size": 10975,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/LootManager.h",
+			"settings":
+			{
+				"buffer_size": 704,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/LootManager.cpp",
+			"settings":
+			{
+				"buffer_size": 4269,
 				"line_ending": "Unix"
 			}
 		},
@@ -579,7 +603,7 @@
 			"file": "src/Player.h",
 			"settings":
 			{
-				"buffer_size": 1000,
+				"buffer_size": 838,
 				"line_ending": "Unix"
 			}
 		},
@@ -587,7 +611,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 10081,
+				"buffer_size": 9662,
 				"line_ending": "Unix"
 			}
 		},
@@ -595,7 +619,7 @@
 			"file": "src/TileOptionActions.cpp",
 			"settings":
 			{
-				"buffer_size": 4837,
+				"buffer_size": 4971,
 				"line_ending": "Unix"
 			}
 		},
@@ -627,7 +651,7 @@
 			"file": "src/BedControl.h",
 			"settings":
 			{
-				"buffer_size": 433,
+				"buffer_size": 457,
 				"line_ending": "Unix"
 			}
 		},
@@ -635,7 +659,7 @@
 			"file": "src/BedControl.cpp",
 			"settings":
 			{
-				"buffer_size": 1093,
+				"buffer_size": 1179,
 				"line_ending": "Unix"
 			}
 		},
@@ -651,7 +675,7 @@
 			"file": "src/RifleWeapon.cpp",
 			"settings":
 			{
-				"buffer_size": 1563,
+				"buffer_size": 1562,
 				"line_ending": "Unix"
 			}
 		},
@@ -659,7 +683,7 @@
 			"file": "src/TileCharacter.h",
 			"settings":
 			{
-				"buffer_size": 2566,
+				"buffer_size": 2669,
 				"line_ending": "Unix"
 			}
 		},
@@ -667,7 +691,7 @@
 			"file": "src/TileCharacter.cpp",
 			"settings":
 			{
-				"buffer_size": 6097,
+				"buffer_size": 6427,
 				"line_ending": "Unix"
 			}
 		},
@@ -675,7 +699,15 @@
 			"file": "src/CharacterManager.cpp",
 			"settings":
 			{
-				"buffer_size": 5038,
+				"buffer_size": 4996,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/CharacterManager.h",
+			"settings":
+			{
+				"buffer_size": 950,
 				"line_ending": "Unix"
 			}
 		},
@@ -683,7 +715,7 @@
 			"file": "src/Weapon.cpp",
 			"settings":
 			{
-				"buffer_size": 10446,
+				"buffer_size": 10740,
 				"line_ending": "Unix"
 			}
 		},
@@ -694,9 +726,41 @@
 				"buffer_size": 794,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "src/Tile.cpp",
+			"settings":
+			{
+				"buffer_size": 1552,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Workbench.h",
+			"settings":
+			{
+				"buffer_size": 2201,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Workbench.cpp",
+			"settings":
+			{
+				"buffer_size": 11336,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Utility.h",
+			"settings":
+			{
+				"buffer_size": 3326,
+				"line_ending": "Unix"
+			}
 		}
 	],
-	"build_system": "Packages/User/RunRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -740,6 +804,7 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Workbench.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Workbench.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AstarNode.h",
@@ -867,6 +932,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rand",
+			"m_tileMap",
 			"cost",
 			"setScale",
 			"20",
@@ -956,7 +1023,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -964,7 +1031,7 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 3041,
+						"buffer_size": 3086,
 						"regions":
 						{
 						},
@@ -987,18 +1054,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "src/Workbench.h",
+					"file": "src/AstarAlgorithm.h",
 					"settings":
 					{
-						"buffer_size": 2178,
+						"buffer_size": 1364,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								261,
-								261
+								1064,
+								1064
 							]
 						],
 						"settings":
@@ -1007,25 +1074,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/AstarAlgorithm.h",
+					"file": "src/WeakEnemy.h",
 					"settings":
 					{
-						"buffer_size": 1165,
+						"buffer_size": 565,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								193,
-								193
+								253,
+								253
 							]
 						],
 						"settings":
@@ -1040,33 +1107,60 @@
 				},
 				{
 					"buffer": 3,
-					"file": "src/AstarAlgorithm.cpp",
+					"file": "src/WeakEnemy.cpp",
 					"settings":
 					{
-						"buffer_size": 3384,
+						"buffer_size": 3750,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3384,
-								3384
+								1620,
+								1620
 							]
 						],
 						"settings":
 						{
-							"auto_name": "",
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1215.0,
+						"translation.y": 430.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
+					"file": "src/AstarAlgorithm.cpp",
+					"settings":
+					{
+						"buffer_size": 3971,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								159,
+								159
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "src/WorkbenchFunctions.h",
 					"settings":
 					{
@@ -1077,8 +1171,8 @@
 						"selection":
 						[
 							[
-								458,
-								458
+								105,
+								105
 							]
 						],
 						"settings":
@@ -1092,19 +1186,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 576,
+						"buffer_size": 961,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								369,
-								369
+								596,
+								596
 							]
 						],
 						"settings":
@@ -1113,52 +1207,104 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 57.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/GameState.cpp",
-					"settings":
-					{
-						"buffer_size": 8248,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								258,
-								258
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 810.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "src/Player.h",
+					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 1000,
+						"buffer_size": 10975,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								905,
-								905
+								4904,
+								4904
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1315.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/LootManager.h",
+					"settings":
+					{
+						"buffer_size": 704,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								420,
+								420
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/LootManager.cpp",
+					"settings":
+					{
+						"buffer_size": 4269,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1737,
+								1737
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 731.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/Player.h",
+					"settings":
+					{
+						"buffer_size": 838,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								637,
+								637
 							]
 						],
 						"settings":
@@ -1168,25 +1314,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 11,
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 10081,
+						"buffer_size": 9662,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4177,
-								4177
+								421,
+								421
 							]
 						],
 						"settings":
@@ -1195,25 +1341,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2160.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 12,
 					"file": "src/TileOptionActions.cpp",
 					"settings":
 					{
-						"buffer_size": 4837,
+						"buffer_size": 4971,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4773,
-								4773
+								114,
+								114
 							]
 						],
 						"settings":
@@ -1222,13 +1368,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1859.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 13,
 					"file": "src/TileOptionActions.h",
 					"settings":
 					{
@@ -1254,7 +1400,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 14,
 					"file": "src/TileOptionManager.h",
 					"settings":
 					{
@@ -1281,7 +1427,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 15,
 					"file": "src/TileOptionManager.cpp",
 					"settings":
 					{
@@ -1308,19 +1454,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 16,
 					"file": "src/BedControl.h",
 					"settings":
 					{
-						"buffer_size": 433,
+						"buffer_size": 457,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								113,
-								113
+								257,
+								257
 							]
 						],
 						"settings":
@@ -1334,19 +1480,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 17,
 					"file": "src/BedControl.cpp",
 					"settings":
 					{
-						"buffer_size": 1093,
+						"buffer_size": 1179,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								752,
-								752
+								170,
+								170
 							]
 						],
 						"settings":
@@ -1355,13 +1501,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 18,
 					"file": "src/main.cpp",
 					"settings":
 					{
@@ -1388,19 +1534,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 19,
 					"file": "src/RifleWeapon.cpp",
 					"settings":
 					{
-						"buffer_size": 1563,
+						"buffer_size": 1562,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								445,
-								445
+								296,
+								296
 							]
 						],
 						"settings":
@@ -1415,19 +1561,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 17,
+					"buffer": 20,
 					"file": "src/TileCharacter.h",
 					"settings":
 					{
-						"buffer_size": 2566,
+						"buffer_size": 2669,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								538,
-								538
+								2296,
+								2296
 							]
 						],
 						"settings":
@@ -1436,25 +1582,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1205.0,
+						"translation.y": 1244.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 21,
 					"file": "src/TileCharacter.cpp",
 					"settings":
 					{
-						"buffer_size": 6097,
+						"buffer_size": 6427,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4914,
-								4914
+								5506,
+								5506
 							]
 						],
 						"settings":
@@ -1463,25 +1609,106 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3156.0,
+						"translation.y": 3435.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 22,
 					"file": "src/CharacterManager.cpp",
 					"settings":
 					{
-						"buffer_size": 5038,
+						"buffer_size": 4996,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								131,
-								131
+								1987,
+								1987
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 579.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "src/CharacterManager.h",
+					"settings":
+					{
+						"buffer_size": 950,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								612,
+								612
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 90.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "src/Weapon.cpp",
+					"settings":
+					{
+						"buffer_size": 10740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4804,
+								4804
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2374.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "src/Tile.h",
+					"settings":
+					{
+						"buffer_size": 794,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								342,
+								342
 							]
 						],
 						"settings":
@@ -1496,19 +1723,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 20,
-					"file": "src/Weapon.cpp",
+					"buffer": 26,
+					"file": "src/Tile.cpp",
 					"settings":
 					{
-						"buffer_size": 10446,
+						"buffer_size": 1552,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8595,
-								8595
+								1122,
+								1122
 							]
 						],
 						"settings":
@@ -1517,25 +1744,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4284.0,
+						"translation.y": 1113.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 21,
-					"file": "src/Tile.h",
+					"buffer": 27,
+					"file": "src/Workbench.h",
 					"settings":
 					{
-						"buffer_size": 794,
+						"buffer_size": 2201,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								413,
-								413
+								1433,
+								1433
 							]
 						],
 						"settings":
@@ -1544,7 +1771,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"file": "src/Workbench.cpp",
+					"settings":
+					{
+						"buffer_size": 11336,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								951,
+								951
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 524.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 29,
+					"file": "src/Utility.h",
+					"settings":
+					{
+						"buffer_size": 3326,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2156,
+								2156
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1041.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1589,7 +1870,7 @@
 	},
 	"output.exec":
 	{
-		"height": 141.0
+		"height": 189.0
 	},
 	"replace":
 	{
@@ -1602,36 +1883,148 @@
 		"selected_items":
 		[
 			[
-				"as",
-				"CallistoChaos/src/AstarAlgorithm.cpp"
+				"lo",
+				"CallistoChaos/src/LootManager.cpp"
 			],
 			[
-				"p",
-				"CallistoChaos/src/Player.cpp"
+				"wor",
+				"CallistoChaos/src/Workbench.h"
 			],
 			[
-				"al",
-				"CallistoChaos/src/AstarAlgorithm.h"
+				"ut",
+				"CallistoChaos/src/Utility.h"
 			],
 			[
 				"pl",
 				"CallistoChaos/src/Player.cpp"
 			],
 			[
-				"",
+				"chara",
+				"CallistoChaos/src/CharacterManager.cpp"
+			],
+			[
+				"char",
+				"CallistoChaos/src/CharacterManager.cpp"
+			],
+			[
+				"p",
+				"CallistoChaos/src/Player.h"
+			],
+			[
+				"weak",
+				"CallistoChaos/src/WeakEnemy.cpp"
+			],
+			[
+				"wea",
+				"CallistoChaos/src/Weapon.cpp"
+			],
+			[
+				"tileacti",
+				"CallistoChaos/src/TileOptionActions.cpp"
+			],
+			[
+				"rifle",
+				"CallistoChaos/src/RifleWeapon.cpp"
+			],
+			[
+				"games",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"game",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"wo",
+				"CallistoChaos/src/Workbench.h"
+			],
+			[
+				"tileooac",
+				"CallistoChaos/src/TileOptionActions.h"
+			],
+			[
+				"pla",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"tile",
+				"CallistoChaos/src/TileCharacter.h"
+			],
+			[
+				"player",
+				"CallistoChaos/src/Player.h"
+			],
+			[
+				"gam",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"bed",
+				"CallistoChaos/src/BedControl.h"
+			],
+			[
+				"work",
+				"CallistoChaos/src/Workbench.h"
+			],
+			[
+				"playe",
+				"CallistoChaos/src/Player.h"
+			],
+			[
+				"tilechar",
+				"CallistoChaos/src/TileCharacter.cpp"
+			],
+			[
+				"tile.h",
 				"CallistoChaos/src/Tile.h"
+			],
+			[
+				"tilec",
+				"CallistoChaos/src/TileCharacter.h"
 			],
 			[
 				"astar",
 				"CallistoChaos/src/AstarAlgorithm.cpp"
 			],
 			[
-				"tile",
-				"CallistoChaos/src/Tile.h"
+				"c",
+				"CallistoChaos/src/CharacterManager.cpp"
 			],
 			[
-				"work",
-				"CallistoChaos/src/Workbench.cpp"
+				"w",
+				"CallistoChaos/src/Weapon.cpp"
+			],
+			[
+				"t",
+				"CallistoChaos/src/Tile.cpp"
+			],
+			[
+				"ti",
+				"CallistoChaos/src/Tile.cpp"
+			],
+			[
+				"gamest",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"til",
+				"CallistoChaos/src/TileCharacter.h"
+			],
+			[
+				"tie",
+				"CallistoChaos/src/TileCharacter.h"
+			],
+			[
+				"as",
+				"CallistoChaos/src/AstarAlgorithm.cpp"
+			],
+			[
+				"al",
+				"CallistoChaos/src/AstarAlgorithm.h"
+			],
+			[
+				"",
+				"CallistoChaos/src/Tile.h"
 			],
 			[
 				"tileoptionac",
@@ -1650,10 +2043,6 @@
 				"CallistoChaos/src/CharacterManager.cpp"
 			],
 			[
-				"chara",
-				"CallistoChaos/src/CharacterManager.cpp"
-			],
-			[
 				"tilech",
 				"CallistoChaos/src/TileCharacter.h"
 			],
@@ -1662,19 +2051,11 @@
 				"CallistoChaos/src/Engine.cpp"
 			],
 			[
-				"tilec",
-				"CallistoChaos/src/TileCharacter.h"
-			],
-			[
 				"we",
 				"CallistoChaos/src/Weapon.h"
 			],
 			[
 				"weao",
-				"CallistoChaos/src/Weapon.h"
-			],
-			[
-				"wea",
 				"CallistoChaos/src/Weapon.h"
 			],
 			[
@@ -1694,10 +2075,6 @@
 				"CallistoChaos/src/RifleWeapon.cpp"
 			],
 			[
-				"rifle",
-				"CallistoChaos/src/RifleWeapon.cpp"
-			],
-			[
 				"tilem",
 				"CallistoChaos/src/TileMap.h"
 			],
@@ -1714,24 +2091,8 @@
 				"CallistoChaos/src/TileOptionManager.cpp"
 			],
 			[
-				"char",
-				"CallistoChaos/src/CharacterManager.cpp"
-			],
-			[
-				"games",
-				"CallistoChaos/src/GameState.cpp"
-			],
-			[
-				"ti",
-				"CallistoChaos/src/TileCharacter.h"
-			],
-			[
 				"ch",
 				"CallistoChaos/src/CharacterManager.cpp"
-			],
-			[
-				"til",
-				"CallistoChaos/src/TileMap.h"
 			],
 			[
 				"en",
@@ -1746,20 +2107,8 @@
 				"CallistoChaos/src/Engine.h"
 			],
 			[
-				"gamest",
-				"CallistoChaos/src/GameState.cpp"
-			],
-			[
 				"tileoptionmanager",
 				"CallistoChaos/src/TileOptionManager.h"
-			],
-			[
-				"player",
-				"CallistoChaos/src/Player.cpp"
-			],
-			[
-				"ut",
-				"CallistoChaos/src/Utility.h"
 			],
 			[
 				"u",
@@ -1770,16 +2119,8 @@
 				"CallistoChaos/src/TileOptionManager.cpp"
 			],
 			[
-				"w",
-				"CallistoChaos/src/Weapon.cpp"
-			],
-			[
 				"uti",
 				"CallistoChaos/src/Utility.h"
-			],
-			[
-				"game",
-				"CallistoChaos/src/GameState.h"
 			],
 			[
 				"tilemap",
@@ -1792,10 +2133,6 @@
 			[
 				"tilm",
 				"CallistoChaos/src/TileMap.h"
-			],
-			[
-				"tile.h",
-				"CallistoChaos/src/Tile.h"
 			],
 			[
 				"weapon",

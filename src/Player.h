@@ -5,47 +5,37 @@
 #include <map>
 #include "TileCharacter.h"
 #include "Weapon.h"
-#include "BedControl.h"
-#include "Workbench.h"
 
-class TileMap;
+class GameState;
 class Player : public TileCharacter
 {
 private:
 
-	void duringWalkRight();
-	void duringWalkLeft();
-	void duringWalkUp();
-	void duringWalkDown();
-
-
 	std::map<int, std::shared_ptr<Weapon>> m_weapons;
-	Workbench m_workbench;
 
 	sf::Text m_resourceText, m_playerText;
 	sf::Sprite m_healthSprite, m_ammoSprite;
 
-	// Control for bed
-	BedControl m_bedControl;
-
 	// Selected weapon
 	int m_selectedWeapon;
+	// Player score
+	int m_score;
 
 public:
 
-	explicit Player(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
-	void events(sf::Event &events);
-	void update(double deltaTime);
-	void render(sf::RenderTarget &target);
+	virtual void events(sf::Event &events);
+	virtual void update(double deltaTime);
+	virtual void render(sf::RenderTarget &target);
 
 	virtual void characterEvents(TileCharacter::Event events);
 
 	void addWeapon(std::shared_ptr<Weapon> weapon);
+	void addScore(int score);
 
-	Workbench &getWorkbench();
-	BedControl &getBedControl();
 	Weapon* getActiveWeapon();
+	int getScore() const;
 };
 
 #endif

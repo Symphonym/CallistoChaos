@@ -55,6 +55,16 @@ namespace AstarAlgorithm
 	typedef std::vector<NodePtr> NodeList;
 	typedef std::vector<AstarNode> NodePath;
 
+	class AstarFcompare
+	{
+	public:
+		inline bool operator () (const NodePtr lhs, const NodePtr rhs) const
+		{
+			// Inverse comparsion to get smallest value at top
+			return rhs->f < lhs->f;
+		};
+	};
+
 	NodePath findPath(const sf::Vector2i &start, const sf::Vector2i &end, TileMap *tileMap);
 };
 
