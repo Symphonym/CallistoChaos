@@ -18,7 +18,7 @@ private:
 		sf::Vector2f position, direction;
 
 		// Speed and sine wave value
-		float speed, sineWave;
+		float slideSpeed, speed, sineWave;
 	};
 
 	std::vector<LootEntity> m_entities;

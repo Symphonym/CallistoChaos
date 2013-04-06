@@ -26,7 +26,8 @@ void LootManager::spawnEntity(const sf::Vector2f &position)
 	int directionAngle = std::rand() % 360;
 	entity.direction = sf::Vector2f(std::sin(directionAngle), std::cos(directionAngle));
 	entity.direction = jl::Vec::normalize(entity.direction);
-	entity.speed = std::rand() % 50;
+	entity.slideSpeed = std::rand() % 50;
+	entity.speed = 0;
 	entity.sineWave = directionAngle;
 
 	m_entities.push_back(entity);
@@ -38,40 +39,36 @@ void LootManager::update(double deltaTime)
 	{
 		// Initial sliding
 		sf::Vector2f speedAdd(
-			m_entities[i].direction.x*m_entities[i].speed*deltaTime,
-			m_entities[i].direction.y*m_entities[i].speed*deltaTime);
+			m_entities[i].direction.x*m_entities[i].slideSpeed*deltaTime,
+			m_entities[i].direction.y*m_entities[i].slideSpeed*deltaTime);
 
 		m_entities[i].sineWave += 10*deltaTime;
 
-		if(m_entities[i].speed < 0)
-			m_entities[i].speed = 0;
+		if(m_entities[i].slideSpeed < 0)
+			m_entities[i].slideSpeed = 0;
 		if(m_entities[i].sineWave > 360)
 			m_entities[i].sineWave = 0;
 
 		moveEntity(m_entities[i], speedAdd);
-		m_entities[i].speed -= 40*deltaTime;
+		m_entities[i].slideSpeed -= 40*deltaTime;
 
-		sf::Vector2i tileIndex(
-			m_entities[i].position.x / m_player->getTileMap().getTileSize(), 
-			m_entities[i].position.y / m_player->getTileMap().getTileSize());
+		sf::Vector2f centerPlayer(
+			m_player->getSprite().getPosition().x+m_player->getSprite().getGlobalBounds().width/2,
+			m_player->getSprite().getPosition().y+m_player->getSprite().getGlobalBounds().height/2);
 
-		int tileDistance = std::abs(m_player->getIndex().x - tileIndex.x) + std::abs(m_player->getIndex().y - tileIndex.y);
-		if(tileDistance < 5)
+		float exactDistance = jl::Vec::length(centerPlayer - m_entities[i].position);
+
+		if(exactDistance < 60)
 		{
-			sf::Vector2f centerPlayer(
-				m_player->getSprite().getPosition().x+m_player->getSprite().getGlobalBounds().width/2,
-				m_player->getSprite().getPosition().y+m_player->getSprite().getGlobalBounds().height/2);
-			
-			//sf::Vector2f invLe(jl::Vec::invLerp(m_entities[i].position, centerPlayer, deltaTime*0.5)*0.001f);
-			sf::Vector2f lerpAdd(jl::Vec::lerp(m_entities[i].position, centerPlayer, deltaTime*0.5));
-			//m_entities[i].position += invLe;
-			//std::cout << invLe.x << std::endl;
-			moveEntity(m_entities[i], lerpAdd - m_entities[i].position);
+			m_entities[i].speed = 60.0 - exactDistance;
+			sf::Vector2f normalizedDirection(jl::Vec::normalize(centerPlayer - m_entities[i].position));
+			sf::Vector2f speedOffset(m_entities[i].speed*normalizedDirection.x*deltaTime, m_entities[i].speed*normalizedDirection.y*deltaTime);
+			moveEntity(m_entities[i], speedOffset);
 
-			if(jl::Vec::length(centerPlayer - m_entities[i].position) < 1)
+			if(exactDistance < 1.0)
 			{
 				m_player->addCurrency(1);
-				//m_entities.erase(m_entities.begin() + i);
+				m_entities.erase(m_entities.begin() + i);
 				continue;
 			}
 		}

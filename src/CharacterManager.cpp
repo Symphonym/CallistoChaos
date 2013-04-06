@@ -1,6 +1,6 @@
 #include "CharacterManager.h"
 #include "TileMap.h"
-
+#include "GameState.h"
 
 CharacterManager::CharacterManager() :
 	m_tileMap(nullptr)
@@ -25,11 +25,6 @@ void CharacterManager::stopCharacter(TileCharacter &tilecharacter, const sf::Vec
 		tilecharacter.setDirection(TileCharacter::LookingDown);
 }
 
-void CharacterManager::registerTileMap(TileMap &tilemap)
-{
-	m_tileMap = &tilemap;
-}
-
 void CharacterManager::addCharacter(std::unique_ptr<TileCharacter> tilecharacter)
 {
 	m_characters.push_back(std::move(tilecharacter));
@@ -38,6 +33,7 @@ void CharacterManager::addCharacter(std::unique_ptr<TileCharacter> tilecharacter
 void CharacterManager::addPlayer(std::unique_ptr<Player> player)
 {
 	m_player = player.get();
+	m_tileMap = &player.get()->getTileMap();
 	addCharacter(std::move(player));
 }
 
@@ -55,6 +51,12 @@ void CharacterManager::update(double deltaTime)
 		if(m_characters[i]->isDead() && !dynamic_cast<Player*>(m_characters[i].get()))
 		{
 			m_tileMap->getTile(m_characters[i]->getIndex()).clearCharacter();
+
+			for(int e = 0; e < m_characters[i]->getCurrency(); e++)
+				m_player->getGame().getLoot().spawnEntity(sf::Vector2f(
+					m_characters[i]->getSprite().getPosition().x + m_characters[i]->getSprite().getGlobalBounds().width/2,
+					m_characters[i]->getSprite().getPosition().y + m_characters[i]->getSprite().getGlobalBounds().height/2));
+
 			m_characters.erase(m_characters.begin() + i);
 			m_player->addScore(1);
 			continue;

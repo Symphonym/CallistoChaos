@@ -49,6 +49,7 @@ public:
 	CharacterManager &getChars();
 	BedControl &getBed();
 	Workbench &getWorkbench();
+	LootManager &getLoot();
 };
 
 #endif

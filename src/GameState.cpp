@@ -81,7 +81,6 @@ GameState::GameState(jl::Engine *engine) :
 	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 
 	// Load character manager
-	m_characters.registerTileMap(m_tileMap);
 	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(8,11)));
 
 	// Set player to be used for the Tile options
@@ -97,11 +96,11 @@ GameState::GameState(jl::Engine *engine) :
 	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,0))));
 	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,0))));
 	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,8))));
-	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(5,15))));
-	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,15))));
+	m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(5,15))));
+	m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,15))));
 
-	for(int i = 0; i < 1; i++)
-		m_loot.spawnEntity(sf::Vector2f(50,50));
+	//for(int i = 0; i < 10; i++)
+		//m_loot.spawnEntity(sf::Vector2f(50,50));
 
 	
 
@@ -249,4 +248,8 @@ BedControl &GameState::getBed()
 Workbench &GameState::getWorkbench()
 {
 	return m_workbench;
+}
+LootManager &GameState::getLoot()
+{
+	return m_loot;
 }

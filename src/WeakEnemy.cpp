@@ -9,6 +9,7 @@ WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::V
 {
 	setSpeed(50);
 	setMaxHealth(5);
+	addCurrency(5);
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).

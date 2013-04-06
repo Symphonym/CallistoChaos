@@ -28,7 +28,6 @@ public:
 
 	explicit CharacterManager();
 
-	void registerTileMap(TileMap &tilemap);
 	void addCharacter(std::unique_ptr<TileCharacter> tilecharacter);
 	void addPlayer(std::unique_ptr<Player> player);
 
