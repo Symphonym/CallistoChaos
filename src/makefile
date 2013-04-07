@@ -51,7 +51,7 @@ TileOptionManager.o: Player.h AssetManager.h TileOptionManager.h TileMap.h Utili
 TileOptionActions.o: TileOptionActions.h TileMap.h MessageLog.h TileOptionManager.h Utility.h GameState.h
 TileMap.o: Tile.h TileMap.h
 TileCharacter.o: FrameAnimation.h AssetManager.h TileCharacter.h TileMap.h GameState.h
-Tile.o: TileCharacter.h Tile.h
+Tile.o: TileCharacter.h Tile.h ParticleManager.h Utility.h TileMap.h
 TextureAsset.o: Asset.h TextureAsset.h
 StopWatch.o: StopWatch.h
 StateManager.o: State.h StateManager.h

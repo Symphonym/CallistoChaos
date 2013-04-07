@@ -283,7 +283,7 @@ void Weapon::updateBullets(double deltaTime)
 		// Collision with solid tile, delete bullet
 		if(tile->isSolid() && tile->isPlayerAttackable())
 		{	
-			tile->damage(calculateDamage());
+			tile->damage(calculateDamage(), &m_trackedCharacter->getTileMap(), index, m_bullets[i].baseDirection);
 			m_bullets.erase(m_bullets.begin() + i);
 			continue;
 		}
@@ -292,52 +292,7 @@ void Weapon::updateBullets(double deltaTime)
 		{
 			if(m_bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
 			{
-				// Blood splatter
-				int bloodParticles = jl::Math::randInt(2, 4);
-				int baseDirection = m_bullets[i].baseDirection;
-
-				// Adjust color depending on enemy hp, the brighter the more damage
-				sf::Color bloodColor = sf::Color::Red;
-				double bloodRatio = (double)tile->getCharacter()->getHealth()/(double)tile->getCharacter()->getMaxHealth();
-				bloodColor.r = 255 - (125*bloodRatio);
-
-				const int particleSpreadAngle = 40;
-				for(int i = 0; i < bloodParticles; i++)
-				{
-					double particleSpread = -particleSpreadAngle+((double)std::rand() / (double)RAND_MAX)*particleSpreadAngle*2;
-					ParticleManager::addParticle(
-						sf::Vector2f(
-							tile->getCharacter()->getSprite().getPosition().x + tile->getCharacter()->getSprite().getGlobalBounds().width/2,
-							tile->getCharacter()->getSprite().getPosition().y + tile->getCharacter()->getSprite().getGlobalBounds().height/2),
-						jl::Math::randInt(3, 8),
-						jl::Math::randInt(30, 60),
-						0,
-						baseDirection + particleSpread,
-						bloodColor,
-						sf::Vector2f(3, 3),
-						0.4,
-						true);
-
-				}
-				for(int i = 0; i < bloodParticles/2; i++)
-				{
-					double particleSpread = -particleSpreadAngle+((double)std::rand() / (double)RAND_MAX)*particleSpreadAngle*2;
-					ParticleManager::addParticle(
-						sf::Vector2f(
-							tile->getCharacter()->getSprite().getPosition().x + tile->getCharacter()->getSprite().getGlobalBounds().width/2,
-							tile->getCharacter()->getSprite().getPosition().y + tile->getCharacter()->getSprite().getGlobalBounds().height/2),
-						jl::Math::randInt(3, 8),
-						jl::Math::randInt(60, 70),
-						0,
-						std::rand()%360,
-						bloodColor,
-						sf::Vector2f(2, 2),
-						0.4,
-						true);
-
-				}
-
-				tile->damage(calculateDamage());
+				tile->damage(calculateDamage(), &m_trackedCharacter->getTileMap(), index, m_bullets[i].baseDirection);
 				m_bullets.erase(m_bullets.begin() + i);
 				continue;
 			}
