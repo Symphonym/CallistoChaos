@@ -5,6 +5,7 @@
 #include "MessageLog.h"
 #include <sstream>
 #include "Player.h"
+#include "ParticleManager.h"
 
 Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	m_name(name),
@@ -188,40 +189,43 @@ void Weapon::fire()
 				knockBack.y /=2;
 			}
 
-			switch(m_trackedCharacter->getDirection())
+			// Base directions for up and down are inverted to get the intended behaviour, idk why
+			if(m_trackedCharacter->lookingRight())
 			{
-				case TileCharacter::WalkingRight:
-				case TileCharacter::LookingRight:
 					data.sprite.setRotation(90 - angle);
+					data.baseDirection = 90;
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(90 + angle)),
 						std::cos(jl::Math::degToRad<double>(90 + angle)));
 					m_weaponSprite.move(-knockBack.x, 0);
-				break;
-				case TileCharacter::WalkingLeft:
-				case TileCharacter::LookingLeft:
+			}
+			else if(m_trackedCharacter->lookingLeft())
+			{
+
 					data.sprite.setRotation(270 - angle);
+					data.baseDirection = 270; 
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(270 + angle)),
 						std::cos(jl::Math::degToRad<double>(270 + angle)));
 					m_weaponSprite.move(knockBack.x, 0);
-				break;
-				case TileCharacter::WalkingUp:
-				case TileCharacter::LookingUp:
+			}
+			else if(m_trackedCharacter->lookingUp())
+			{
 					data.sprite.setRotation(angle);
+					data.baseDirection = 180;
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(angle)),
 						-std::cos(jl::Math::degToRad<double>(angle)));
 					m_weaponSprite.move(0, knockBack.y);
-				break;
-				case TileCharacter::WalkingDown:
-				case TileCharacter::LookingDown:
+			}
+			else if(m_trackedCharacter->lookingDown())
+			{
 					data.sprite.setRotation(180 + angle);
+					data.baseDirection = 0;
 					data.direction = sf::Vector2f(
 						std::sin(jl::Math::degToRad<double>(180 + angle)),
 						-std::cos(jl::Math::degToRad<double>(180 + angle)));
 					m_weaponSprite.move(0, -knockBack.y);
-				break;
 			}
 			m_bullets.push_back(data);
 		}
@@ -288,6 +292,51 @@ void Weapon::updateBullets(double deltaTime)
 		{
 			if(m_bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
 			{
+				// Blood splatter
+				int bloodParticles = jl::Math::randInt(2, 4);
+				int baseDirection = m_bullets[i].baseDirection;
+
+				// Adjust color depending on enemy hp, the brighter the more damage
+				sf::Color bloodColor = sf::Color::Red;
+				double bloodRatio = (double)tile->getCharacter()->getHealth()/(double)tile->getCharacter()->getMaxHealth();
+				bloodColor.r = 255 - (125*bloodRatio);
+
+				const int particleSpreadAngle = 40;
+				for(int i = 0; i < bloodParticles; i++)
+				{
+					double particleSpread = -particleSpreadAngle+((double)std::rand() / (double)RAND_MAX)*particleSpreadAngle*2;
+					ParticleManager::addParticle(
+						sf::Vector2f(
+							tile->getCharacter()->getSprite().getPosition().x + tile->getCharacter()->getSprite().getGlobalBounds().width/2,
+							tile->getCharacter()->getSprite().getPosition().y + tile->getCharacter()->getSprite().getGlobalBounds().height/2),
+						jl::Math::randInt(3, 8),
+						jl::Math::randInt(30, 60),
+						0,
+						baseDirection + particleSpread,
+						bloodColor,
+						sf::Vector2f(3, 3),
+						0.4,
+						true);
+
+				}
+				for(int i = 0; i < bloodParticles/2; i++)
+				{
+					double particleSpread = -particleSpreadAngle+((double)std::rand() / (double)RAND_MAX)*particleSpreadAngle*2;
+					ParticleManager::addParticle(
+						sf::Vector2f(
+							tile->getCharacter()->getSprite().getPosition().x + tile->getCharacter()->getSprite().getGlobalBounds().width/2,
+							tile->getCharacter()->getSprite().getPosition().y + tile->getCharacter()->getSprite().getGlobalBounds().height/2),
+						jl::Math::randInt(3, 8),
+						jl::Math::randInt(60, 70),
+						0,
+						std::rand()%360,
+						bloodColor,
+						sf::Vector2f(2, 2),
+						0.4,
+						true);
+
+				}
+
 				tile->damage(calculateDamage());
 				m_bullets.erase(m_bullets.begin() + i);
 				continue;

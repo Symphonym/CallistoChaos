@@ -4,6 +4,7 @@
 #include "TileOptionActions.h"
 #include "WeakEnemy.h"
 #include "Utility.h"
+#include "ParticleManager.h"
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
@@ -64,7 +65,7 @@ GameState::GameState(jl::Engine *engine) :
 	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 100, true, true); // Bush
 	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
 	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
-	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 5, false, true); // Window
+	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 15, false, true); // Window
 	m_tileMap.addDType(6, sf::IntRect(0, 32, 16, 16), sf::IntRect(48, 32, 16, 16), 10, true, true); // Door closed
 	m_tileMap.addType(7, sf::IntRect(16, 32, 16, 16)); // Door open
 	m_tileMap.addType(8, sf::IntRect(32, 32, 16, 16)); // Floor
@@ -165,6 +166,20 @@ void GameState::events()
 
 void GameState::update()
 {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	{
+		ParticleManager::addParticle(
+			sf::Vector2f(50, 50),
+			5.0,
+			60,
+			0,
+			std::rand() % 90,
+			sf::Color::Red,
+			sf::Vector2f(5, 5),
+			1,
+			true);
+	}
+
 	// Update view
 	getEngine()->getWindow().setView(m_view);
 
@@ -180,6 +195,7 @@ void GameState::update()
 		m_characters.update(getEngine()->getDelta());
 		m_loot.update(getEngine()->getDelta());
 		m_enemyWaves.update(getEngine()->getDelta());
+		ParticleManager::update(getEngine()->getDelta());
 		if(!m_characters.getPlayer().isDead())
 		{
 			m_workbench.update(getEngine()->getDelta());
@@ -214,7 +230,7 @@ void GameState::render()
 		getEngine()->getWindow().draw(m_scoreText);
 		getEngine()->getWindow().setView(m_view);
 	}
-
+	ParticleManager::render(getEngine()->getWindow());
 	m_characters.render(getEngine()->getWindow());
 
 	if(!m_characters.getPlayer().isDead())

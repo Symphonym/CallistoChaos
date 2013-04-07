@@ -22,7 +22,7 @@ EnemyWaveManager::EnemyWaveManager() :
 EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManager &assets) :
 	m_characters(&characters),
 	m_assets(&assets),
-	m_waveNumber(5),
+	m_waveNumber(0),
 	m_waveEnemies(0),
 	m_waveSpawns(0),
 	m_waveIsActive(false),
@@ -32,7 +32,7 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	m_waveTextColor(sf::Color::White)
 {
 	m_waveBreakTime = 20;
-	m_waveBreakLeft = m_waveBreakTime;
+	m_waveBreakLeft = 20;
 	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_waveText.setCharacterSize(std::ceil(32*jl::Settings::getDouble("gameRatio")));
 	m_waveInfoText = sf::Text(m_waveText);
@@ -44,7 +44,7 @@ void EnemyWaveManager::update(double deltaTime)
 {
 	if(m_waveIsActive)
 	{
-		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay)
+		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 30)
 		{
 			// Get left overs
 			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(m_waveNumber/2.0);
@@ -71,11 +71,13 @@ void EnemyWaveManager::update(double deltaTime)
 
 			std::unique_ptr<WeakEnemy> enemy(new WeakEnemy(&m_characters->getPlayer().getGame(), *m_assets,tileIndex));
 			enemy->setSpeed(50);
-
-			if(std::rand() % 100 <= 20)
-				enemy->setSpeed(jl::Math::randInt(90, 115));
-
 			enemy->setMoveDelay((double)jl::Math::randInt(5, 10)/10.0);
+
+			if(std::rand() % 100 <= m_waveNumber*2)
+			{
+				enemy->setSpeed(jl::Math::randInt(90, 115));
+				enemy->setMoveDelay((double)jl::Math::randInt(2, 7)/10.0);
+			}
 			enemy->addCurrency(jl::Math::randInt(1, 8));
 
 			m_characters->addCharacter(std::move(enemy));
@@ -101,7 +103,7 @@ void EnemyWaveManager::update(double deltaTime)
 			--m_waveBreakLeft;
 		}
 
-		if(m_waveBreakLeft <= 0)
+		if(m_waveBreakLeft <= 0 || (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
 		{
 			m_waveIsActive = true;
 			++m_waveNumber;

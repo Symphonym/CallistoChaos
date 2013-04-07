@@ -45,8 +45,8 @@ JLautodep:
 main.o: GameState.h Engine.h
 WorkbenchFunctions.o: WorkbenchFunctions.h Weapon.h Player.h MessageLog.h
 Workbench.o: AssetManager.h WorkbenchFunctions.h Workbench.h Utility.h Weapon.h GunWeapon.h RifleWeapon.h Player.h Settings.h MessageLog.h
-Weapon.o: AssetManager.h FrameAnimation.h Weapon.h TileMap.h TileCharacter.h Utility.h MessageLog.h Player.h
-WeakEnemy.o: TileCharacter.h WeakEnemy.h AstarAlgorithm.h GameState.h
+Weapon.o: AssetManager.h FrameAnimation.h Weapon.h TileMap.h TileCharacter.h Utility.h MessageLog.h Player.h ParticleManager.h
+WeakEnemy.o: TileCharacter.h WeakEnemy.h AstarAlgorithm.h GameState.h ParticleManager.h Utility.h
 TileOptionManager.o: Player.h AssetManager.h TileOptionManager.h TileMap.h Utility.h Settings.h
 TileOptionActions.o: TileOptionActions.h TileMap.h MessageLog.h TileOptionManager.h Utility.h GameState.h
 TileMap.o: Tile.h TileMap.h
@@ -61,11 +61,12 @@ SoundBufferAsset.o: Asset.h SoundBufferAsset.h
 Settings.o: Settings.h
 RifleWeapon.o: Weapon.h RifleWeapon.h TileMap.h
 Player.o: TileCharacter.h Weapon.h Player.h TileMap.h MessageLog.h Utility.h GunWeapon.h RifleWeapon.h Settings.h GameState.h
+ParticleManager.o: ParticleManager.h Utility.h
 MusicAsset.o: Asset.h MusicAsset.h
 MessageLog.o: AssetManager.h MessageLog.h Settings.h
 LootManager.o: AssetManager.h LootManager.h Utility.h Player.h TileMap.h
 GunWeapon.o: Weapon.h GunWeapon.h TileMap.h
-GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h
+GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h ParticleManager.h
 FrameAnimation.o: FrameAnimation.h SoundManager.h
 FontAsset.o: Asset.h FontAsset.h
 Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h

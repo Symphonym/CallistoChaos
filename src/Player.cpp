@@ -256,7 +256,7 @@ void Player::addScore(int score)
 
 Weapon *Player::getActiveWeapon()
 {
-	return m_weapons.back().get();
+	return m_weapons[m_selectedWeapon].get();
 }
 int Player::getScore() const
 {

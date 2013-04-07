@@ -37,9 +37,9 @@ namespace WorkbenchFunctions
 	void ammoPurchase(WorkbenchItem &item, Player *player)
 	{
 		int cost = item.weaponCostCalc(item.upgradeLevel, item.cost);
-		if(player->getAmmo() + cost <= TileCharacter::maxAmmo)
+		if(player->getAmmo() + cost*5 <= TileCharacter::maxAmmo)
 		{
-			player->addAmmo(cost);
+			player->addAmmo(cost*5);
 			player->removeCurrency(cost);
 		}
 	};

@@ -31,6 +31,7 @@ public:
 		sf::Vector2f direction;
 		jl::FrameAnimation animation;
 		std::string animationName;
+		int baseDirection; // Used for blood splatter mainly
 	};
 
 private:

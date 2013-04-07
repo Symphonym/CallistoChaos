@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"m_wave",
+				"m_waveBreakTime"
+			],
+			[
+				"m_waveBrea",
+				"m_waveBreakLeft"
+			],
+			[
+				"upgrad",
+				"upgradeLevel"
+			],
+			[
+				"upgra",
+				"upgradeLevel"
+			],
+			[
+				"max",
+				"maxUpgradeLevel"
+			],
+			[
 				"upg",
 				"upgradeLevel"
 			],
@@ -34,10 +54,6 @@
 			[
 				"m_spawn",
 				"m_waveSpawnTimer"
-			],
-			[
-				"m_waveBrea",
-				"m_waveBreakTime"
 			],
 			[
 				"m_waveB",
@@ -498,22 +514,6 @@
 			[
 				"m_bul",
 				"m_bullets"
-			],
-			[
-				"BUl",
-				"Bullet"
-			],
-			[
-				"BUll",
-				"BulletDirections"
-			],
-			[
-				"m_fireR",
-				"m_fireRateClock"
-			],
-			[
-				"m_cu",
-				"m_currencyBar"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "src/makefile",
 			"settings":
 			{
-				"buffer_size": 3319,
+				"buffer_size": 3475,
 				"line_ending": "Unix"
 			}
 		},
@@ -579,7 +579,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 4021,
+				"buffer_size": 4359,
 				"line_ending": "Unix"
 			}
 		},
@@ -603,7 +603,7 @@
 			"file": "src/Player.h",
 			"settings":
 			{
-				"buffer_size": 838,
+				"buffer_size": 839,
 				"line_ending": "Unix"
 			}
 		},
@@ -611,15 +611,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 9657,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/TileCharacter.h",
-			"settings":
-			{
-				"buffer_size": 2669,
+				"buffer_size": 9536,
 				"line_ending": "Unix"
 			}
 		},
@@ -627,7 +619,7 @@
 			"file": "src/Workbench.cpp",
 			"settings":
 			{
-				"buffer_size": 13112,
+				"buffer_size": 12963,
 				"line_ending": "Unix"
 			}
 		},
@@ -635,7 +627,7 @@
 			"file": "src/Workbench.h",
 			"settings":
 			{
-				"buffer_size": 2217,
+				"buffer_size": 1588,
 				"line_ending": "Unix"
 			}
 		},
@@ -643,7 +635,7 @@
 			"file": "src/WorkbenchFunctions.h",
 			"settings":
 			{
-				"buffer_size": 619,
+				"buffer_size": 1032,
 				"line_ending": "Unix"
 			}
 		},
@@ -651,12 +643,44 @@
 			"file": "src/WorkbenchFunctions.cpp",
 			"settings":
 			{
-				"buffer_size": 1188,
+				"buffer_size": 1351,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/GunWeapon.cpp",
+			"settings":
+			{
+				"buffer_size": 1722,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/GunWeapon.h",
+			"settings":
+			{
+				"buffer_size": 312,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Weapon.h",
+			"settings":
+			{
+				"buffer_size": 3407,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Weapon.cpp",
+			"settings":
+			{
+				"buffer_size": 10740,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "Packages/User/RunRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -700,9 +724,10 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Weapon.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Weapon.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WeakEnemy.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Utility.h",
@@ -718,7 +743,6 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/BedControl.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/main.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/RifleWeapon.cpp",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/CharacterManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/CharacterManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.cpp",
@@ -829,6 +853,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"calculateFIre",
 			"weaponAction",
 			"RAND_MAX",
 			"rand_max",
@@ -923,7 +948,7 @@
 	"groups":
 	[
 		{
-			"selected": 13,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -931,7 +956,7 @@
 					"file": "src/makefile",
 					"settings":
 					{
-						"buffer_size": 3319,
+						"buffer_size": 3475,
 						"regions":
 						{
 						},
@@ -1056,7 +1081,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 468.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1073,8 +1098,8 @@
 						"selection":
 						[
 							[
-								9633,
-								9633
+								3819,
+								3819
 							]
 						],
 						"settings":
@@ -1083,7 +1108,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3034.0,
+						"translation.y": 1002.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1106,7 +1131,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 90.0,
@@ -1119,23 +1145,24 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 4021,
+						"buffer_size": 4359,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								267,
-								267
+								2700,
+								2700
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 692.0,
+						"translation.y": 1053.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1199,15 +1226,15 @@
 					"file": "src/Player.h",
 					"settings":
 					{
-						"buffer_size": 838,
+						"buffer_size": 839,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								637,
-								637
+								234,
+								234
 							]
 						],
 						"settings":
@@ -1217,7 +1244,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1227,15 +1254,15 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 9657,
+						"buffer_size": 9536,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								357,
-								357
+								2664,
+								2664
 							]
 						],
 						"settings":
@@ -1244,25 +1271,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 27.0,
+						"translation.y": 743.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 12,
-					"file": "src/TileCharacter.h",
+					"file": "src/Workbench.cpp",
 					"settings":
 					{
-						"buffer_size": 2669,
+						"buffer_size": 12963,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2220,
-								2220
+								3010,
+								3010
 							]
 						],
 						"settings":
@@ -1271,25 +1298,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 765.0,
+						"translation.y": 1344.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 13,
-					"file": "src/Workbench.cpp",
+					"file": "src/Workbench.h",
 					"settings":
 					{
-						"buffer_size": 13112,
+						"buffer_size": 1588,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11786,
-								11786
+								214,
+								214
 							]
 						],
 						"settings":
@@ -1298,25 +1325,51 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5018.0,
+						"translation.y": 234.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 14,
-					"file": "src/Workbench.h",
+					"file": "src/WorkbenchFunctions.h",
 					"settings":
 					{
-						"buffer_size": 2217,
+						"buffer_size": 1032,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								835,
-								835
+								58,
+								58
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 234.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "src/WorkbenchFunctions.cpp",
+					"settings":
+					{
+						"buffer_size": 1351,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								426,
+								426
 							]
 						],
 						"settings":
@@ -1325,25 +1378,52 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 15,
-					"file": "src/WorkbenchFunctions.h",
+					"buffer": 16,
+					"file": "src/GunWeapon.cpp",
 					"settings":
 					{
-						"buffer_size": 619,
+						"buffer_size": 1722,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								221,
-								221
+								1689,
+								1689
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 393.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "src/GunWeapon.h",
+					"settings":
+					{
+						"buffer_size": 312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								124,
+								124
 							]
 						],
 						"settings":
@@ -1357,19 +1437,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "src/WorkbenchFunctions.cpp",
+					"buffer": 18,
+					"file": "src/Weapon.h",
 					"settings":
 					{
-						"buffer_size": 1188,
+						"buffer_size": 3407,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								970,
-								970
+								1649,
+								1649
 							]
 						],
 						"settings":
@@ -1378,7 +1458,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "src/Weapon.cpp",
+					"settings":
+					{
+						"buffer_size": 10740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1171,
+								1171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1423,7 +1530,7 @@
 	},
 	"output.exec":
 	{
-		"height": 189.0
+		"height": 190.0
 	},
 	"replace":
 	{
@@ -1435,6 +1542,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"wea",
+				"CallistoChaos/src/Weapon.h"
+			],
+			[
+				"gun",
+				"CallistoChaos/src/GunWeapon.cpp"
+			],
+			[
+				"tilec",
+				"CallistoChaos/src/TileCharacter.h"
+			],
 			[
 				"workb",
 				"CallistoChaos/src/WorkbenchFunctions.h"
@@ -1466,10 +1585,6 @@
 			[
 				"ast",
 				"CallistoChaos/src/AstarAlgorithm.cpp"
-			],
-			[
-				"wea",
-				"CallistoChaos/src/Weapon.cpp"
 			],
 			[
 				"char",
@@ -1550,10 +1665,6 @@
 			[
 				"tile.h",
 				"CallistoChaos/src/Tile.h"
-			],
-			[
-				"tilec",
-				"CallistoChaos/src/TileCharacter.h"
 			],
 			[
 				"c",

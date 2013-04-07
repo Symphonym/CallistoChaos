@@ -1,6 +1,8 @@
 #include "WeakEnemy.h"
 #include "AstarAlgorithm.h"
 #include "GameState.h"
+#include "ParticleManager.h"
+#include "Utility.h"
 
 WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(gameState, assets, tileIndex),
@@ -78,11 +80,69 @@ void WeakEnemy::update(double deltaTime)
 		else if(pathIndex == sf::Vector2i(getIndex().x, getIndex().y + 1))
 			walkDown();
 
+		// Attack tile
 		if(!isWalking())
+		{
 			if(m_gameState->getTileMap().getTile(pathIndex).getTileType() == 5 ||
 				m_gameState->getTileMap().getTile(pathIndex).getTileType() == 6 ||
 				(m_gameState->getTileMap().getTile(pathIndex).isOccupied() && dynamic_cast<Player*>(m_gameState->getTileMap().getTile(pathIndex).getCharacter())))
+			{
+
+				Tile *tile = &m_gameState->getTileMap().getTile(pathIndex);
+
+				int hitParticles = jl::Math::randInt(4, 7);
+
+				// Adjust color depending on hp
+				sf::Color hitColor = sf::Color::Red;
+				double hpRatio = (double)tile->getHealth()/(double)tile->getMaxHealth();
+
+				if(tile->isOccupied())
+				{
+					hpRatio = (double)tile->getCharacter()->getHealth()/(double)tile->getCharacter()->getMaxHealth();
+					hitColor.r = 255 - (125*hpRatio);
+				}
+				else
+					hitColor = sf::Color(160 - (70*hpRatio), 160 - (70*hpRatio), 160 - (70*hpRatio));
+
+				for(int i = 0; i < hitParticles; i++)
+				{
+					ParticleManager::addParticle(
+						sf::Vector2f(
+							m_gameState->getTileMap().getTilePosition(pathIndex.x, pathIndex.y).x + m_gameState->getTileMap().getTileSize()/2,
+							m_gameState->getTileMap().getTilePosition(pathIndex.x, pathIndex.y).y + m_gameState->getTileMap().getTileSize()/2),
+						jl::Math::randInt(3, 8),
+						jl::Math::randInt(30, 60),
+						0,
+						std::rand() % 360,
+						hitColor,
+						sf::Vector2f(3, 3),
+						0.5,
+						true);
+
+				}
+				if(tile->isOccupied())
+				{
+					for(int i = 0; i < hitParticles/2; i++)
+					{
+						ParticleManager::addParticle(
+							sf::Vector2f(
+								tile->getCharacter()->getSprite().getPosition().x + tile->getCharacter()->getSprite().getGlobalBounds().width/2,
+								tile->getCharacter()->getSprite().getPosition().y + tile->getCharacter()->getSprite().getGlobalBounds().height/2),
+							jl::Math::randInt(3, 8),
+							jl::Math::randInt(60, 70),
+							0,
+							std::rand()%360,
+							hitColor,
+							sf::Vector2f(2, 2),
+							0.5,
+							true);
+
+					}
+				}
+
 				m_gameState->getTileMap().getTile(pathIndex).damage(m_damage);
+			}
+		}
 
 	}
 

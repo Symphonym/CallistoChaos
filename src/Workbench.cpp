@@ -78,7 +78,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	ammoItem.displaySubRect = sf::IntRect(23, 49, 6, 8);
 	ammoItem.maxUpgradeLevel = -1;
 	ammoItem.upgradeLevel = -1;
-	ammoItem.cost = 5;
+	ammoItem.cost = 1;
 	m_workbenchItems.push_back(ammoItem);
 
 	// Health purchase
@@ -155,35 +155,40 @@ void Workbench::events(sf::Event &events)
 		// A button to buy
 		else if(jl::Input::isButtonDown(events, 0))
 		{
-			int cost = m_workbenchItems[m_selectedItem].weaponCostCalc(
-				m_workbenchItems[m_selectedItem].upgradeLevel,
-				m_workbenchItems[m_selectedItem].cost);
+			int cost = getSelectedItem()->weaponCostCalc(
+				getSelectedItem()->upgradeLevel,
+				getSelectedItem()->cost);
 
-			if(m_workbenchItems[m_selectedItem].weapon.get() != nullptr)
-				cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].weapon->getLevel(), m_workbenchItems[m_selectedItem].cost);
+			if(getSelectedItem()->weapon.get() != nullptr)
+				cost = getSelectedItem()->weaponCostCalc(getSelectedItem()->weapon->getLevel(), getSelectedItem()->cost);
 			
-			// Check if player can afford
-			if(m_player->affordCurrency(cost))
+			bool canBuy = true;
+
+			// Check if is max upgraded
+			if((getSelectedItem()->weapon.get() != nullptr && getSelectedItem()->isBought && getSelectedItem()->weapon->getLevel() >= getSelectedItem()->maxUpgradeLevel && getSelectedItem()->maxUpgradeLevel > 0) ||
+				(getSelectedItem()->weapon.get() == nullptr && getSelectedItem()->isBought && getSelectedItem()->upgradeLevel >= getSelectedItem()->maxUpgradeLevel && getSelectedItem()->maxUpgradeLevel > 0 && getSelectedItem()->upgradeLevel > 0))
 			{
-				bool canBuy = true;
+					canBuy = false;
 
-				// Check if is max upgraded
-				if(m_workbenchItems[m_selectedItem].weapon.get() != nullptr && m_workbenchItems[m_selectedItem].isBought)
-					if(m_workbenchItems[m_selectedItem].weapon->getLevel() >= m_workbenchItems[m_selectedItem].maxUpgradeLevel)
-					{
-						canBuy = false;
-						MessageLog::addSingleMessage("The " + m_workbenchItems[m_selectedItem].weapon->getName() + " is already fully upgraded");
-					}
+					if(getSelectedItem()->weapon.get() != nullptr)
+						MessageLog::addSingleMessage("The " + getSelectedItem()->weapon->getName() + " is already fully upgraded");
+					else
+						MessageLog::addSingleMessage("This upgrade is already fully upgraded");
+			}
 
+
+			// Check if player can afford
+			if(m_player->affordCurrency(cost) && canBuy)
+			{
 				// Check if it's a non upgradeable, if not, check if it's upgradeable any more otherwise just buy it
 				if(canBuy)
 				{
-					m_workbenchItems[m_selectedItem].weaponAction(m_workbenchItems[m_selectedItem], m_player);
+					getSelectedItem()->weaponAction(*getSelectedItem(), m_player);
 
-					m_workbenchItems[m_selectedItem].isBought = true;
+					getSelectedItem()->isBought = true;
 				}
 			}
-			else
+			else if(canBuy)
 				MessageLog::addSingleMessage("I don't have enough material");
 		}
 
@@ -349,15 +354,15 @@ void Workbench::render(sf::RenderTarget &target)
 				sf::Vector2i convertedCostTextPos(target.mapCoordsToPixel(costTextPos, tempView));
 				m_itemCostText.setPosition(convertedCostTextPos.x, convertedCostTextPos.y);
 
-				if((m_workbenchItems[m_selectedItem].weapon.get() != nullptr && m_workbenchItems[m_selectedItem].weapon->getLevel() >= m_workbenchItems[m_selectedItem].maxUpgradeLevel) ||
-					(m_workbenchItems[m_selectedItem].weapon.get() == nullptr && m_workbenchItems[m_selectedItem].upgradeLevel >= m_workbenchItems[m_selectedItem].maxUpgradeLevel))
+				if((getSelectedItem()->weapon.get() != nullptr && getSelectedItem()->weapon->getLevel() >= getSelectedItem()->maxUpgradeLevel && getSelectedItem()->maxUpgradeLevel > 0) ||
+					(getSelectedItem()->weapon.get() == nullptr && getSelectedItem()->upgradeLevel >= getSelectedItem()->maxUpgradeLevel && getSelectedItem()->upgradeLevel > 0 && getSelectedItem()->maxUpgradeLevel > 0))
 					m_itemCostText.setString("N/A");
 				else
 				{
-					int cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].upgradeLevel, m_workbenchItems[m_selectedItem].cost);
+					int cost = getSelectedItem()->weaponCostCalc(getSelectedItem()->upgradeLevel, getSelectedItem()->cost);
 
-					if(m_workbenchItems[m_selectedItem].weapon.get() != nullptr)
-						cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].weapon->getLevel(), m_workbenchItems[m_selectedItem].cost);
+					if(getSelectedItem()->weapon.get() != nullptr)
+						cost = getSelectedItem()->weaponCostCalc(getSelectedItem()->weapon->getLevel(), getSelectedItem()->cost);
 					
 					m_itemCostText.setString(jl::Util::toString(cost));
 				}
@@ -375,4 +380,8 @@ void Workbench::setVisible(bool visible)
 bool Workbench::isVisible() const
 {
 	return m_isVisible;
+}
+WorkbenchItem *Workbench::getSelectedItem()
+{
+	return &m_workbenchItems[m_selectedItem];
 }

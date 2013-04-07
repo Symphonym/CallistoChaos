@@ -36,6 +36,8 @@ private:
 	sf::IntRect m_buyBoughtRect, m_buyForSaleRect;
 	sf::IntRect m_selUpgradeRect, m_nonUpgradeRect;
 
+	WorkbenchItem *getSelectedItem();
+
 public:
 
 	explicit Workbench();
