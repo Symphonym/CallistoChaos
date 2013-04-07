@@ -29,10 +29,11 @@ void LootManager::spawnEntity(const sf::Vector2f &position)
 	entity.slideSpeed = std::rand() % 50;
 	entity.speed = 0;
 	entity.sineWave = directionAngle;
+	entity.alphaFade = 255;
 
 	m_entities.push_back(entity);
 }
-#include <iostream>
+
 void LootManager::update(double deltaTime)
 {
 	for(int i = 0; i < m_entities.size(); i++)
@@ -72,6 +73,15 @@ void LootManager::update(double deltaTime)
 				continue;
 			}
 		}
+
+		// Fade entity 
+		m_entities[i].alphaFade -= 25.0*deltaTime;
+
+		if(m_entities[i].alphaFade <= 0)
+		{
+			m_entities.erase(m_entities.begin() + i);
+			continue;
+		}
 	}
 }
 void LootManager::render(sf::RenderTarget &target)
@@ -90,6 +100,10 @@ void LootManager::render(sf::RenderTarget &target)
 
 		sf::Vector2f position(m_entities[i].position);
 		position.y += std::sin(m_entities[i].sineWave);
+
+		sf::Color fadeColor = sf::Color::White;
+		fadeColor.a = m_entities[i].alphaFade;
+		m_sprite.setColor(fadeColor);
 
 		m_sprite.setPosition(position);
 		target.draw(m_sprite);

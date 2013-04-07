@@ -132,3 +132,7 @@ TileCharacter &CharacterManager::getCharacter(int index)
 {
 	return *m_characters[index];
 }
+std::size_t CharacterManager::getCount() const
+{
+	return m_characters.size();
+}

@@ -4,40 +4,18 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 #include <vector>
-#include "Weapon.h"
 #include "AssetManager.h"
 #include "WorkbenchFunctions.h"
 
-
+class Weapon;
 class Player;
 class Workbench
 {
+
 private:
 
 	jl::AssetManager *m_assets;
 	Player *m_player;
-
-	typedef std::function<int (Weapon *weapon, int cost)> WeaponCostCalcPtr;
-	typedef std::function<void (std::shared_ptr<Weapon> weapon, Player *player, int cost, bool isFirstTimePurchase, int maxUpgradeLevel)> WeaponActionPtr;
-
-	struct WorkbenchItem
-	{
-		// Cost calculator
-		WeaponCostCalcPtr weaponCostCalc;
-		// Action to do when the weapon is purchased/upgraded
-		WeaponActionPtr weaponAction;
-
-		// The weapon
-		std::shared_ptr<Weapon> weapon;
-
-		std::string name;
-		bool isBought;
-		sf::IntRect displaySubRect;
-
-		int maxUpgradeLevel, cost;
-		sf::Vector2f position;
-		sf::Vector2f targetPosition;
-	};
 
 	// List of workbench items
 	std::vector<WorkbenchItem> m_workbenchItems;

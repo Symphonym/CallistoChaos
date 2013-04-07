@@ -88,19 +88,10 @@ GameState::GameState(jl::Engine *engine) :
 	m_loot.providePlayer(player.get());
 	m_workbench = Workbench(player.get(), getEngine()->getAssets());
 	m_bedControl = BedControl(player.get());
+	m_enemyWaves = EnemyWaveManager(m_characters, getEngine()->getAssets());
 
 	// Give player to manager
 	m_characters.addPlayer(std::move(player));
-
-
-	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,0))));
-	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,0))));
-	//m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(0,8))));
-	m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(5,15))));
-	m_characters.addCharacter(std::unique_ptr<WeakEnemy>(new WeakEnemy(this, getEngine()->getAssets(), sf::Vector2i(15,15))));
-
-	//for(int i = 0; i < 10; i++)
-		//m_loot.spawnEntity(sf::Vector2f(50,50));
 
 	
 
@@ -166,7 +157,9 @@ void GameState::events()
 	{
 		m_characters.events(getEngine()->getEvent());
 		m_workbench.events(getEngine()->getEvent());
-		m_tileOptions.events(getEngine()->getEvent());
+
+		if(!m_characters.getPlayer().isDead())
+			m_tileOptions.events(getEngine()->getEvent());
 	}
 }
 
@@ -178,16 +171,20 @@ void GameState::update()
 	if(!isPaused())
 	{
 		sf::Color scoreColor = sf::Color::White;
-		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 150;
+		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 100;
 		m_scoreText.setColor(scoreColor);
 		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60*m_gameRatio : 30*m_gameRatio);
 		m_scoreText.setString("Score: " + jl::Util::toString(m_characters.getPlayer().getScore()));
 		m_scoreText.setPosition(getEngine()->getWindow().getSize().x * 0.5 - int(m_scoreText.getGlobalBounds().width/2), getEngine()->getWindow().getSize().y * 0.1);
 
 		m_characters.update(getEngine()->getDelta());
-		m_workbench.update(getEngine()->getDelta());
 		m_loot.update(getEngine()->getDelta());
-		m_bedControl.update();
+		m_enemyWaves.update(getEngine()->getDelta());
+		if(!m_characters.getPlayer().isDead())
+		{
+			m_workbench.update(getEngine()->getDelta());
+			m_bedControl.update();
+		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			m_view.zoom(1.0 - getEngine()->getDelta());
@@ -210,11 +207,25 @@ void GameState::update()
 void GameState::render()
 {
 	m_tileMap.render(getEngine()->getWindow());
+
+	if(!m_characters.getPlayer().isDead())
+	{
+		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
+		getEngine()->getWindow().draw(m_scoreText);
+		getEngine()->getWindow().setView(m_view);
+	}
+
 	m_characters.render(getEngine()->getWindow());
-	m_workbench.render(getEngine()->getWindow());
-	m_tileOptions.render(getEngine()->getWindow());
+
+	if(!m_characters.getPlayer().isDead())
+	{
+		m_workbench.render(getEngine()->getWindow());
+		m_tileOptions.render(getEngine()->getWindow());
+	}
 	m_loot.render(getEngine()->getWindow());
 	MessageLog::render(getEngine()->getWindow());
+
+	m_enemyWaves.render(getEngine()->getWindow());
 
 	if(m_characters.getPlayer().isDead())
 	{
@@ -226,11 +237,11 @@ void GameState::render()
 		sf::Texture blackScreenTexture; blackScreenTexture.loadFromImage(blackScreen);
 		sf::Sprite blackScreenSprite; blackScreenSprite.setTexture(blackScreenTexture);
 		getEngine()->getWindow().draw(blackScreenSprite);
-	}
 
-	getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-	getEngine()->getWindow().draw(m_scoreText);
-	getEngine()->getWindow().setView(m_view);
+		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
+		getEngine()->getWindow().draw(m_scoreText);
+		getEngine()->getWindow().setView(m_view);
+	}
 }
 
 TileMap &GameState::getTileMap()

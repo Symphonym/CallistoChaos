@@ -19,6 +19,8 @@ public:
 
 	explicit WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
+	void setMoveDelay(double moveDelay);
+
 	virtual void events(sf::Event &events);
 	virtual void update(double deltaTime);
 	virtual void render(sf::RenderTarget &target);

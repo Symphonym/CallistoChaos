@@ -42,3 +42,12 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 	setBulletAnimation(anim);
 
 }
+
+int GunWeapon::calculateDamage() const
+{
+	return getLevel();
+}
+double GunWeapon::calculateFireRate() const
+{
+	return 1.0 - 0.15*getLevel();
+}

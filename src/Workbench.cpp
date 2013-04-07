@@ -1,5 +1,6 @@
 #include "Workbench.h"
 #include "Utility.h"
+#include "Weapon.h"
 #include "GunWeapon.h"
 #include "RifleWeapon.h"
 #include "Player.h"
@@ -67,19 +68,36 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 
 	m_itemSpacing = 50;
 
+	// Ammo purchase
 	WorkbenchItem ammoItem;
 	ammoItem.weaponCostCalc = WorkbenchFunctions::ammoCostCalc;
 	ammoItem.weaponAction = WorkbenchFunctions::ammoPurchase;
 	ammoItem.weapon = std::shared_ptr<Weapon>(nullptr);
 	ammoItem.name = "Batteries x5";
 	ammoItem.isBought = true;
-	ammoItem.displaySubRect = sf::IntRect(23, 48, 6, 8);
+	ammoItem.displaySubRect = sf::IntRect(23, 49, 6, 8);
 	ammoItem.maxUpgradeLevel = -1;
-	ammoItem.cost = 1;
+	ammoItem.upgradeLevel = -1;
+	ammoItem.cost = 5;
 	m_workbenchItems.push_back(ammoItem);
 
-	addUpgradeableWeapon(sf::IntRect(0,0,16,16),50, 5, std::shared_ptr<Weapon>(new GunWeapon("Pulse Pistol", m_player, *m_assets)));
-	addBuyableWeapon(sf::IntRect(0,48,22,9),50, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
+	// Health purchase
+	WorkbenchItem healthItem;
+	healthItem.weaponCostCalc = WorkbenchFunctions::defaultCostCalc;
+	healthItem.weaponAction = WorkbenchFunctions::healthPurchase;
+	healthItem.weapon = std::shared_ptr<Weapon>(nullptr);
+	healthItem.name = "Health pack";
+	healthItem.isBought = true;
+	healthItem.displaySubRect = sf::IntRect(30, 49, 7, 7);
+	healthItem.maxUpgradeLevel = 4;
+	healthItem.upgradeLevel = 1;
+	healthItem.cost = 50;
+	m_workbenchItems.push_back(healthItem);
+
+	std::shared_ptr<Weapon> defaultWeapon(new GunWeapon("Pulse Pistol", m_player, *m_assets));
+	addUpgradeableWeapon(sf::IntRect(0,0,16,16),100, 5, defaultWeapon);
+	m_player->addWeapon(defaultWeapon);
+	addBuyableWeapon(sf::IntRect(0,48,22,9),200, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
 
 }
 
@@ -94,6 +112,7 @@ void Workbench::addBuyableWeapon(const sf::IntRect &displaySubRect, int cost, in
 	item.isBought = false;
 	item.displaySubRect = displaySubRect;
 	item.maxUpgradeLevel = maxUpgradeLevel;
+	item.upgradeLevel = -1;
 	item.cost = cost;
 	item.position = sf::Vector2f(0,0);
 	item.targetPosition = sf::Vector2f(0,0);
@@ -110,6 +129,7 @@ void Workbench::addUpgradeableWeapon(const sf::IntRect &displaySubRect, int cost
 	item.isBought = true;
 	item.displaySubRect = displaySubRect;
 	item.maxUpgradeLevel = maxUpgradeLevel;
+	item.upgradeLevel = -1;
 	item.cost = cost;
 	item.position = sf::Vector2f(0,0);
 	item.targetPosition = sf::Vector2f(0,0);
@@ -135,7 +155,12 @@ void Workbench::events(sf::Event &events)
 		// A button to buy
 		else if(jl::Input::isButtonDown(events, 0))
 		{
-			int cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].weapon.get(), m_workbenchItems[m_selectedItem].cost);
+			int cost = m_workbenchItems[m_selectedItem].weaponCostCalc(
+				m_workbenchItems[m_selectedItem].upgradeLevel,
+				m_workbenchItems[m_selectedItem].cost);
+
+			if(m_workbenchItems[m_selectedItem].weapon.get() != nullptr)
+				cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].weapon->getLevel(), m_workbenchItems[m_selectedItem].cost);
 			
 			// Check if player can afford
 			if(m_player->affordCurrency(cost))
@@ -153,12 +178,7 @@ void Workbench::events(sf::Event &events)
 				// Check if it's a non upgradeable, if not, check if it's upgradeable any more otherwise just buy it
 				if(canBuy)
 				{
-					m_workbenchItems[m_selectedItem].weaponAction(
-						m_workbenchItems[m_selectedItem].weapon, 
-						m_player, 
-						cost,
-						!m_workbenchItems[m_selectedItem].isBought,
-						m_workbenchItems[m_selectedItem].maxUpgradeLevel);
+					m_workbenchItems[m_selectedItem].weaponAction(m_workbenchItems[m_selectedItem], m_player);
 
 					m_workbenchItems[m_selectedItem].isBought = true;
 				}
@@ -239,8 +259,13 @@ void Workbench::render(sf::RenderTarget &target)
 				m_itemUpgradeSprite.setTextureRect(m_selUpgradeRect);
 
 				// Disregard first upgrade level as it doesn't really do anything
+				int level = m_workbenchItems[i].upgradeLevel;
+
+				if(m_workbenchItems[i].weapon.get() != nullptr)
+					level = m_workbenchItems[i].weapon->getLevel();
+
 				m_itemUpgradeSprite.setScale(
-					((((double)m_workbenchItems[i].weapon->getLevel()-1.0)/((double)m_workbenchItems[i].maxUpgradeLevel-1.0))*upgradeBoxSize.x),
+					((((double)level-1.0)/((double)m_workbenchItems[i].maxUpgradeLevel-1.0))*upgradeBoxSize.x),
 					3.0);
 
 				m_itemUpgradeSprite.setPosition(
@@ -262,12 +287,19 @@ void Workbench::render(sf::RenderTarget &target)
 			m_itemNameText.setString(m_workbenchItems[i].name);
 			target.draw(m_itemNameText);
 
-			if(m_workbenchItems[i].weapon.get() != nullptr)
-				m_itemNameText.setString(
-					jl::Util::toString(m_workbenchItems[i].weapon->getLevel()-1)+"/"
-					+jl::Util::toString(m_workbenchItems[i].maxUpgradeLevel-1));
-			else
+			if((m_workbenchItems[i].weapon.get() == nullptr && m_workbenchItems[i].upgradeLevel < 0) || 
+				(m_workbenchItems[i].weapon.get() == nullptr && m_workbenchItems[i].maxUpgradeLevel < 0))
 				m_itemNameText.setString("N/A");
+			else
+			{
+				int level = m_workbenchItems[i].upgradeLevel;
+				if(m_workbenchItems[i].weapon.get() != nullptr)
+					level = m_workbenchItems[i].weapon->getLevel();
+
+				m_itemNameText.setString(
+					jl::Util::toString(level-1)+"/"
+					+jl::Util::toString(m_workbenchItems[i].maxUpgradeLevel-1));
+			}
 
 			sf::Vector2i convertedLevelPos(target.mapCoordsToPixel(
 				sf::Vector2f(
@@ -317,10 +349,18 @@ void Workbench::render(sf::RenderTarget &target)
 				sf::Vector2i convertedCostTextPos(target.mapCoordsToPixel(costTextPos, tempView));
 				m_itemCostText.setPosition(convertedCostTextPos.x, convertedCostTextPos.y);
 
-				if(m_workbenchItems[i].weapon.get() != nullptr && (m_workbenchItems[m_selectedItem].weapon->getLevel() >= m_workbenchItems[m_selectedItem].maxUpgradeLevel))
+				if((m_workbenchItems[m_selectedItem].weapon.get() != nullptr && m_workbenchItems[m_selectedItem].weapon->getLevel() >= m_workbenchItems[m_selectedItem].maxUpgradeLevel) ||
+					(m_workbenchItems[m_selectedItem].weapon.get() == nullptr && m_workbenchItems[m_selectedItem].upgradeLevel >= m_workbenchItems[m_selectedItem].maxUpgradeLevel))
 					m_itemCostText.setString("N/A");
 				else
-					m_itemCostText.setString(jl::Util::toString(m_workbenchItems[i].weaponCostCalc(m_workbenchItems[i].weapon.get(), m_workbenchItems[i].cost)));
+				{
+					int cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].upgradeLevel, m_workbenchItems[m_selectedItem].cost);
+
+					if(m_workbenchItems[m_selectedItem].weapon.get() != nullptr)
+						cost = m_workbenchItems[m_selectedItem].weaponCostCalc(m_workbenchItems[m_selectedItem].weapon->getLevel(), m_workbenchItems[m_selectedItem].cost);
+					
+					m_itemCostText.setString(jl::Util::toString(cost));
+				}
 				target.draw(m_itemCostText);
 				target.setView(tempView);
 			}

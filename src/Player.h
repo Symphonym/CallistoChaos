@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include <map>
+#include <vector>
 #include "TileCharacter.h"
 #include "Weapon.h"
 
@@ -11,7 +11,7 @@ class Player : public TileCharacter
 {
 private:
 
-	std::map<int, std::shared_ptr<Weapon>> m_weapons;
+	std::vector<std::shared_ptr<Weapon>> m_weapons;
 
 	sf::Text m_resourceText, m_playerText;
 	sf::Sprite m_healthSprite, m_ammoSprite;

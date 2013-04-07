@@ -19,6 +19,9 @@ private:
 
 		// Speed and sine wave value
 		float slideSpeed, speed, sineWave;
+
+		// Alpha fading, as the entity goes away if not looted
+		float alphaFade;
 	};
 
 	std::vector<LootEntity> m_entities;

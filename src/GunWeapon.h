@@ -9,6 +9,9 @@ class GunWeapon : public Weapon
 
 public:
 	explicit GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets);
+
+	int calculateDamage() const;
+	double calculateFireRate() const;
 };
 
 #endif

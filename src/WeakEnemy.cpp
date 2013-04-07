@@ -7,9 +7,8 @@ WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::V
 	m_moveDelay(0.1),
 	m_damage(1)
 {
-	setSpeed(50);
 	setMaxHealth(5);
-	addCurrency(5);
+	heal(5);
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
@@ -38,6 +37,12 @@ WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::V
 
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
+}
+
+
+void WeakEnemy::setMoveDelay(double moveDelay)
+{
+	m_moveDelay = moveDelay;
 }
 
 void WeakEnemy::events(sf::Event &events)

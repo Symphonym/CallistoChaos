@@ -37,6 +37,7 @@ public:
 
 	TileCharacter& getCharacter(int index);
 	Player& getPlayer();
+	std::size_t getCount() const;
 };
 
 #endif

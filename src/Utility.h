@@ -73,6 +73,10 @@ namespace jl
 		{
 			return start + percent*(end - start);
 		};
+		inline int randInt(int min, int max)
+		{
+			return std::rand() % ((max+1) - min) + min;
+		};
 	};
 
 	namespace Vec
@@ -82,10 +86,7 @@ namespace jl
 		{
 			return sf::Vector2f(start + percent*(end - start));
 		};
-		inline sf::Vector2f invLerp(const sf::Vector2f &start, const sf::Vector2f &end, float percent)
-		{
-			return start + lerp(start, end, percent);
-		};
+
 		inline float length(const sf::Vector2f &vec)
 		{
 			return std::sqrt((vec.x*vec.x)+(vec.y*vec.y));

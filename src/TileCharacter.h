@@ -106,6 +106,8 @@ public:
 	double getSpeed() const;	
 	int getCurrency() const;
 	int getAmmo() const;
+	int getMaxHealth() const;
+	int getHealth() const;
 	bool isBusy() const;
 	bool isWalking() const;
 	bool isDead() const;

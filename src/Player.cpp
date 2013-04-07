@@ -14,7 +14,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 {
 	setSpeed(100);
 	setMaxHealth(5);
-	m_health = 2;
+	heal(5);
 	addAmmo(100);
 	addCurrency(500);
 	gameState->getBed().setRegenDelay(2);
@@ -51,7 +51,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 
 	// Transparent color
 	sf::Color transparentColor(sf::Color::White); 
-	transparentColor.a = 150;
+	transparentColor.a = 100;
 
 	// Set color of playerText to semi transparent to minimize gameplay interfering
 	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
@@ -66,8 +66,6 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_healthSprite.setTextureRect(sf::IntRect(49, 17, 7, 7));
 	m_healthSprite.setScale(5*jl::Settings::getDouble("gameRatio"), 5*jl::Settings::getDouble("gameRatio"));
 	m_healthSprite.setColor(transparentColor);
-
-	addWeapon(std::shared_ptr<Weapon>(new GunWeapon("Plasma Gun", this, assets)));
 }
 
 void Player::characterEvents(TileCharacter::Event events)
@@ -186,8 +184,8 @@ void Player::update(double deltaTime)
 
 	}
 
-	for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-		it->second->updateBullets(deltaTime);
+	for(std::size_t i = 0; i < m_weapons.size(); i++)
+		m_weapons[i]->updateBullets(deltaTime);
 
 	getActiveWeapon()->updateWeapon(deltaTime);
 }
@@ -239,8 +237,8 @@ void Player::render(sf::RenderTarget &target)
 	
 
 		// Render weapon bullets
-		for(auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-			it->second->renderBullets(target);
+		for(std::size_t i = 0; i < m_weapons.size(); i++)
+			m_weapons[i]->renderBullets(target);
 
 		// Render weapon
 		getActiveWeapon()->renderWeapon(target);
@@ -249,7 +247,7 @@ void Player::render(sf::RenderTarget &target)
 
 void Player::addWeapon(std::shared_ptr<Weapon> weapon)
 {
-	m_weapons[m_weapons.size()] = weapon;
+	m_weapons.push_back(weapon);
 }
 void Player::addScore(int score)
 {
@@ -258,7 +256,7 @@ void Player::addScore(int score)
 
 Weapon *Player::getActiveWeapon()
 {
-	return m_weapons[m_selectedWeapon].get();
+	return m_weapons.back().get();
 }
 int Player::getScore() const
 {

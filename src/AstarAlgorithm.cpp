@@ -1,6 +1,7 @@
 #include "AstarAlgorithm.h"
 #include "TileMap.h"
 #include <queue>
+#include "Player.h"
 
 namespace AstarAlgorithm
 {
@@ -29,6 +30,15 @@ namespace AstarAlgorithm
 		node.f = node.g + node.h;
 	};
 
+	bool occupiedByEnemy(const sf::Vector2i &index)
+	{
+		return m_tileMap->getTile(index).isOccupied() && !dynamic_cast<Player*>(m_tileMap->getTile(index).getCharacter());
+	}
+	void controlNeighbour(AstarNode *node, const sf::Vector2i &index, NodeList &neighbours)
+	{
+		if((!m_tileMap->getTile(index).isSolid() && !occupiedByEnemy(index)) || (allowedTileType(m_tileMap->getTile(index).getTileType()) && !occupiedByEnemy(index)))
+			neighbours.push_back(NodePtr(new AstarNode(index.x, index.y, node)));
+	}
 	NodeList getNeighbours(AstarNode *node)
 	{
 		NodeList neighbours;
@@ -37,26 +47,22 @@ namespace AstarAlgorithm
 		index = sf::Vector2i(node->index.x - 1, node->index.y);
 		// Left side
 		if(index.x >= 0)
-			if(!m_tileMap->getTile(index).isSolid() || allowedTileType(m_tileMap->getTile(index).getTileType()))
-				neighbours.push_back(NodePtr(new AstarNode(index.x, index.y, node)));
+			controlNeighbour(node, index, neighbours);
 
 		index = sf::Vector2i(node->index.x + 1, node->index.y);
 		// Right side
 		if(index.x < m_tileMap->getMapSize().x)
-			if(!m_tileMap->getTile(index).isSolid() || allowedTileType(m_tileMap->getTile(index).getTileType()))
-				neighbours.push_back(NodePtr(new AstarNode(index.x, index.y, node)));
+			controlNeighbour(node, index, neighbours);
 
 		index = sf::Vector2i(node->index.x, node->index.y - 1);
 		// Top side
 		if(index.y >= 0)
-			if(!m_tileMap->getTile(index).isSolid() || allowedTileType(m_tileMap->getTile(index).getTileType()))
-				neighbours.push_back(NodePtr(new AstarNode(index.x, index.y, node)));
+			controlNeighbour(node, index, neighbours);
 
 		index = sf::Vector2i(node->index.x, node->index.y + 1);
 		// Bottom side
 		if(index.y < m_tileMap->getMapSize().y)
-			if(!m_tileMap->getTile(index).isSolid() || allowedTileType(m_tileMap->getTile(index).getTileType()))
-				neighbours.push_back(NodePtr(new AstarNode(index.x, index.y, node)));
+			controlNeighbour(node, index, neighbours);
 
 		return neighbours;
 	};

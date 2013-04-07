@@ -5,40 +5,54 @@
 
 namespace WorkbenchFunctions
 {
-	int defaultCostCalc(Weapon *weapon, int cost)
+	int defaultCostCalc(int upgradeLevel, int cost)
 	{
-		return cost*weapon->getLevel();
+		return cost*upgradeLevel;
 	};
-	int ammoCostCalc(Weapon *weapon, int cost)
+	int ammoCostCalc(int upgradeLevel, int cost)
 	{
 		return cost;
 	};
 
-	void defaultPurchase(std::shared_ptr<Weapon> weapon, Player *player, int cost, bool firstTimePurchase, int maxUpgradeLevel)
+	void defaultPurchase(WorkbenchItem &item, Player *player)
 	{
-		player->removeCurrency(cost);
+		player->removeCurrency(item.weaponCostCalc(item.weapon->getLevel(), item.cost));
 
-		// First time purchase, maxUpgradeLevel < 0 symbols this
-		if(firstTimePurchase)
+		// First time purchase
+		if(!item.isBought)
 		{
-			player->addWeapon(weapon);
-			MessageLog::addMessage("You bought a " + weapon->getName());
+			item.weapon->upgrade();
+			player->addWeapon(item.weapon);
+			MessageLog::addMessage("You bought a " + item.weapon->getName());
 		}
 
 		// Weapon upgrade
 		else
 		{
-			weapon->upgrade();
-			MessageLog::addMessage("You upgraded your " + weapon->getName());
+			item.weapon->upgrade();
+			MessageLog::addMessage("You upgraded your " + item.weapon->getName());
 		}
 
 	};
-	void ammoPurchase(std::shared_ptr<Weapon> weapon, Player *player, int cost, bool firstTimePurchase, int maxUpgradeLevel)
+	void ammoPurchase(WorkbenchItem &item, Player *player)
 	{
-		if(player->getAmmo() + 5 <= TileCharacter::maxAmmo)
+		int cost = item.weaponCostCalc(item.upgradeLevel, item.cost);
+		if(player->getAmmo() + cost <= TileCharacter::maxAmmo)
 		{
-			player->addAmmo(5);
-			player->removeCurrency(5);
+			player->addAmmo(cost);
+			player->removeCurrency(cost);
 		}
 	};
+	void healthPurchase(WorkbenchItem &item, Player *player)
+	{
+		player->removeCurrency(item.weaponCostCalc(item.upgradeLevel, item.cost));
+
+		if(item.upgradeLevel < item.maxUpgradeLevel)
+		{
+			item.upgradeLevel += 1;
+
+			player->setMaxHealth(player->getMaxHealth()+1);
+			MessageLog::addMessage("Health pack increased max life by 1");
+		}
+	};	
 };

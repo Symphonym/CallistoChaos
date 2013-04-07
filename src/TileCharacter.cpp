@@ -23,7 +23,6 @@ TileCharacter::TileCharacter(GameState *gameState, jl::AssetManager &assets, con
 void TileCharacter::setMaxHealth(int health)
 {
 	m_maxHealth = health;
-	m_health = m_maxHealth;
 }
 void TileCharacter::setSpeed(double speed)
 {
@@ -285,6 +284,14 @@ int TileCharacter::getCurrency() const
 int TileCharacter::getAmmo() const
 {
 	return m_ammoAmount;
+}
+int TileCharacter::getMaxHealth() const
+{
+	return m_maxHealth;
+}
+int TileCharacter::getHealth() const
+{
+	return m_health;
 }
 
 bool TileCharacter::isBusy() const
