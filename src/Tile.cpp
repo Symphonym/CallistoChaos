@@ -73,11 +73,11 @@ void Tile::damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int b
 
 	// Standard brown color
 	else if(isImmortal())
-		particleColor = sf::Color(81, 46, 16);
+		particleColor = sf::Color(138, 91, 0);
 
 	// Brown tree/door/wall color
 	else if(isPlayerAttackable())
-		particleColor = sf::Color(131 - (50*hpRatio), 86 - (40*hpRatio), 41 - (25*hpRatio));
+		particleColor = sf::Color(138 - (57*hpRatio), 91 - (45*hpRatio), 0 - (-16*hpRatio));
 
 	// Grey object color
 	else
