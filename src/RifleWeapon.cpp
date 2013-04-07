@@ -4,11 +4,7 @@
 RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	Weapon(name, tileCharacter, assets)
 {
-	setAmmo(1, 50);
-	setFireRate(0.1);
-	setDamage(1);
 	setBulletSpeed(250);
-	setBulletSpread(10);
 	setKnockBack(sf::Vector2f(5, 5));
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),
@@ -38,4 +34,29 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 	addBulletFireAnimation("bulletFire");
 
 	setBulletAnimation(anim);
+}
+
+int RifleWeapon::calculateDamage() const
+{
+	if(getLevel() >= 5)
+		return 2;
+	return 1;
+}
+int RifleWeapon::calculateCost() const
+{
+	if(getLevel() >= 5)
+		return 2;
+	return 1;
+}
+int RifleWeapon::calculateMaxAmmo() const
+{
+	return 40+(10*getLevel());
+}
+double RifleWeapon::calculateFireRate() const
+{
+	return 0.1 - (0.005*getLevel());
+}
+double RifleWeapon::calculateBulletSpread() const
+{
+	return 10 - (0.5*getLevel());
 }

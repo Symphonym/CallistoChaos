@@ -15,8 +15,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	setSpeed(100);
 	setMaxHealth(5);
 	heal(5);
-	addAmmo(100);
-	addCurrency(500);
+	addCurrency(150);
 	gameState->getBed().setRegenDelay(2);
 
 	m_animation.createAnimation("right");

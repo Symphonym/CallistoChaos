@@ -52,6 +52,7 @@ void EnemyWaveManager::update(double deltaTime)
 
 			sf::Vector2i tileIndex(0,0);
 
+			// Loop through outskirts of map until an available spot is found
 			do
 			{
 				tileIndex = sf::Vector2i(0,0);
@@ -78,7 +79,7 @@ void EnemyWaveManager::update(double deltaTime)
 				enemy->setSpeed(jl::Math::randInt(90, 115));
 				enemy->setMoveDelay((double)jl::Math::randInt(2, 7)/10.0);
 			}
-			enemy->addCurrency(jl::Math::randInt(1, 8));
+			enemy->addCurrency(jl::Math::randInt(1, 3));
 
 			m_characters->addCharacter(std::move(enemy));
 			++m_waveSpawns;

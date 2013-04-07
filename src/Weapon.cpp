@@ -122,7 +122,8 @@ void Weapon::fire()
 		if((m_ammo - calculateCost()) >= 0 || calculateMaxAmmo() < 0)
 		{
 
-			m_ammo -= calculateCost();
+			if(!hasUnlimitedAmmo())
+				m_ammo -= calculateCost();
 
 			m_fireRateClock.restart();
 
@@ -176,10 +177,10 @@ void Weapon::fire()
 
 			// Calculate bulletspread angle
 			int angle = 0;
-			if(m_bulletSpread != 0)
+			if(calculateBulletSpread() != 0)
 			{
 				// Equation provided by Lukas Hagman
-				angle = -m_bulletSpread+((double)std::rand() / (double)RAND_MAX)*m_bulletSpread*2;	
+				angle = -calculateBulletSpread()+((double)std::rand() / (double)RAND_MAX)*calculateBulletSpread()*2;	
 			}
 
 			sf::Vector2f knockBack(m_knockBack);
@@ -339,7 +340,7 @@ int Weapon::getAmmo() const
 }
 int Weapon::getMaxAmmo() const
 {
-	return m_maxAmmo;
+	return calculateMaxAmmo();
 }
 
 bool Weapon::hasUnlimitedAmmo() const
@@ -348,7 +349,7 @@ bool Weapon::hasUnlimitedAmmo() const
 }
 bool Weapon::hasFullAmmo() const
 {
-	return m_ammo >= m_maxAmmo;
+	return m_ammo >= calculateMaxAmmo();
 }
 
 
@@ -373,6 +374,11 @@ double Weapon::calculateSpeed() const
 {
 	return m_bulletSpeed;
 }
+double Weapon::calculateBulletSpread() const
+{
+	return m_bulletSpread;
+}
+
 
 
 sf::Vector2i Weapon::getBulletIndex(const AnimatedSpriteData &bullet) const
@@ -398,23 +404,13 @@ double Weapon::getSpeed(double deltaTime) const
 
 std::string Weapon::toAmmoString()
 {
-	std::stringstream ss;
-	std::string ammoString = "", maxAmmoString = "";
+	std::string ammoString(jl::Util::toString(getAmmo()));
+	std::string maxAmmoString(jl::Util::toString(getMaxAmmo()));
 
-	if(m_maxAmmo < 0)
+	if(hasUnlimitedAmmo())
 	{
 		ammoString = "inf";
 		maxAmmoString = "inf";
-	}
-	else
-	{
-		ss << m_ammo;
-		ss >> ammoString;
-
-		ss.clear();
-
-		ss << m_maxAmmo;
-		ss >> maxAmmoString;
 	}
 
 	return ammoString + "/" + maxAmmoString;

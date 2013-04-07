@@ -77,6 +77,7 @@ protected:
 	virtual int calculateMaxAmmo() const;
 	virtual double calculateFireRate() const;
 	virtual double calculateSpeed() const;
+	virtual double calculateBulletSpread() const;
 
 
 public:

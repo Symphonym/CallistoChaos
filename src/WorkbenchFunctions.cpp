@@ -21,7 +21,6 @@ namespace WorkbenchFunctions
 		// First time purchase
 		if(!item.isBought)
 		{
-			item.weapon->upgrade();
 			player->addWeapon(item.weapon);
 			MessageLog::addMessage("You bought a " + item.weapon->getName());
 		}

@@ -23,7 +23,7 @@ GameState::GameState(jl::Engine *engine) :
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,3,4,4,6,4,3,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,3,9,10,8,12,3,0,0,0,0,0,0,0,0},
-	{0,0,0,0,0,0,0,0,0,0,3,8,8,8,8,3,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,3,8,8,8,8,5,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,3,11,8,8,8,3,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -82,7 +82,7 @@ GameState::GameState(jl::Engine *engine) :
 	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 
 	// Load character manager
-	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(8,11)));
+	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(13,11)));
 
 	// Set player to be used for the Tile options
 	m_tileOptions.provideCharacter(player.get());

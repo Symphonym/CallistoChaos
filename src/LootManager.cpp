@@ -8,6 +8,7 @@ LootManager::LootManager(jl::AssetManager &assets) :
 {
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
 	m_sprite.setTextureRect(sf::IntRect(48, 0, 8, 7));
+	m_sprite.setScale(0.8, 0.8);
 	m_sprite.setOrigin(
 		m_sprite.getGlobalBounds().width/2,
 		m_sprite.getGlobalBounds().height/2);
@@ -59,6 +60,7 @@ void LootManager::update(double deltaTime)
 
 		float exactDistance = jl::Vec::length(centerPlayer - m_entities[i].position);
 
+		// Drag entity towards player and pick it up
 		if(exactDistance < 60)
 		{
 			m_entities[i].speed = 60.0 - exactDistance;
@@ -68,7 +70,8 @@ void LootManager::update(double deltaTime)
 
 			if(exactDistance < 1.0)
 			{
-				m_player->addCurrency(1);
+				// Each entity "contains" 3 currency
+				m_player->addCurrency(3);
 				m_entities.erase(m_entities.begin() + i);
 				continue;
 			}

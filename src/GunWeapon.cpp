@@ -6,10 +6,8 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 {
 	setAmmo(10, -1);
 	setFireRate(0.5);
-	setBulletSpeed(200);
 	setBulletSpread(5);
 	setKnockBack(sf::Vector2f(5, 5));
-	setDamage(1);
 	setWeaponSheet(
 		assets.getAsset<jl::TextureAsset>("res/weapons.png")->get(),
 		assets.getAsset<jl::TextureAsset>("res/bullets.png")->get());
@@ -42,12 +40,11 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 	setBulletAnimation(anim);
 
 }
-
 int GunWeapon::calculateDamage() const
 {
-	return getLevel();
+	return std::ceil(getLevel()/2.0);
 }
-double GunWeapon::calculateFireRate() const
+double GunWeapon::calculateSpeed() const
 {
-	return 1.0 - 0.15*getLevel();
+	return 100 + (50*getLevel());
 }
