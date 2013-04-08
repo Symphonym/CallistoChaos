@@ -17,7 +17,12 @@ namespace AstarAlgorithm
 
 	int calculateValueG(const AstarNode &node)
 	{
-		return 10;
+		// Getting through windows and closed doorsis worth the base move cost, 10, 
+		// and how many hits it takes to go down
+		if(m_tileMap->getTile(node.index).getTileType() == 5 || m_tileMap->getTile(node.index).getTileType() == 6)
+			return 10+(10*m_tileMap->getTile(node.index).getHealth());
+		else
+			return 10;
 	};
 	int calculateValueH(const AstarNode &node)
 	{

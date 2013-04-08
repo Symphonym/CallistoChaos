@@ -38,6 +38,7 @@ namespace WorkbenchFunctions
 	void defaultPurchase(WorkbenchItem &item, Player *player);
 	void ammoPurchase(WorkbenchItem &item, Player *player);
 	void healthPurchase(WorkbenchItem &item, Player *player);
+	void speedPurchase(WorkbenchItem &item, Player *player);
 };
 
 #endif

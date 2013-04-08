@@ -71,6 +71,7 @@ FrameAnimation.o: FrameAnimation.h SoundManager.h
 FontAsset.o: Asset.h FontAsset.h
 Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h
 EnemyWaveManager.o: AssetManager.h EnemyWaveManager.h Settings.h CharacterManager.h WeakEnemy.h TileMap.h Utility.h
+Console.o: Console.h Utility.h
 CharacterManager.o: TileCharacter.h Player.h CharacterManager.h TileMap.h GameState.h
 BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h
 AstarAlgorithm.o: AstarAlgorithm.h TileMap.h Player.h

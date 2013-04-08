@@ -5,10 +5,10 @@
 #include "WeakEnemy.h"
 #include "Utility.h"
 #include "ParticleManager.h"
+#include "SettingsConsole.h"
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
-	m_gameRatio(0.0),
 	m_loot(engine->getAssets())
 {
 	std::vector<std::vector<int>> gameLevel = {
@@ -44,21 +44,6 @@ GameState::GameState(jl::Engine *engine) :
 		sf::Vector2i(24, 20),
 		16);
 
-	// Set camera data
-	m_view.setSize(gameLevel[0].size()*m_tileMap.getTileSize(), gameLevel.size()*m_tileMap.getTileSize());
-	m_view.setCenter((gameLevel[0].size()*m_tileMap.getTileSize())/2, (gameLevel.size()*m_tileMap.getTileSize())/2);
-
-	// Store ratio between map and window size
-	sf::Vector2f viewSize(
-		(double)m_view.getSize().x,
-		(double)m_view.getSize().y);
-	sf::Vector2f windowSize(
-		(double)getEngine()->getWindow().getSize().x,
-		(double)getEngine()->getWindow().getSize().y);
-	jl::Settings::setDouble("gameRatio", 
-		(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
-	m_gameRatio = jl::Settings::getDouble("gameRatio");
-
 
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
@@ -74,6 +59,11 @@ GameState::GameState(jl::Engine *engine) :
 	m_tileMap.addType(11, sf::IntRect(0, 48, 16, 16), false, true); // Bed
 	m_tileMap.addType(12, sf::IntRect(0, 64, 16, 16), false, true); // Workbench
 	m_tileMap.loadFromData(gameLevel);
+
+	// Set camera data
+	reloadView();
+
+	SettingsConsole::setFontData(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get(), 24);
 
 	// Load assets
 	m_tileOptions.loadAssets(getEngine()->getAssets());
@@ -94,7 +84,6 @@ GameState::GameState(jl::Engine *engine) :
 	// Give player to manager
 	m_characters.addPlayer(std::move(player));
 
-	
 
 	// Add interactive options for tiles
 	// Flower
@@ -152,12 +141,29 @@ GameState::GameState(jl::Engine *engine) :
 	m_tileOptions.addOption(12, "Craft", TileOptionActions::craft);
 }
 
+void GameState::reloadView()
+{
+	m_view.setSize(m_tileMap.getMapSize().x*m_tileMap.getTileSize(), m_tileMap.getMapSize().y*m_tileMap.getTileSize());
+	m_view.setCenter((m_tileMap.getMapSize().x*m_tileMap.getTileSize())/2, (m_tileMap.getMapSize().y*m_tileMap.getTileSize())/2);
+
+	// Store ratio between map and window size
+	sf::Vector2f viewSize(
+		(double)m_view.getSize().x,
+		(double)m_view.getSize().y);
+	sf::Vector2f windowSize(
+		(double)getEngine()->getWindow().getSize().x,
+		(double)getEngine()->getWindow().getSize().y);
+	jl::Settings::setDouble("gameRatio", 
+		(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
+}
+
 void GameState::events()
 {
 	if(!isPaused())
 	{
 		m_characters.events(getEngine()->getEvent());
 		m_workbench.events(getEngine()->getEvent());
+		SettingsConsole::events(getEngine()->getEvent(), *this);
 
 		if(!m_characters.getPlayer().isDead())
 			m_tileOptions.events(getEngine()->getEvent());
@@ -166,19 +172,6 @@ void GameState::events()
 
 void GameState::update()
 {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-	{
-		ParticleManager::addParticle(
-			sf::Vector2f(50, 50),
-			5.0,
-			60,
-			0,
-			std::rand() % 90,
-			sf::Color::Red,
-			sf::Vector2f(5, 5),
-			1,
-			true);
-	}
 
 	// Update view
 	getEngine()->getWindow().setView(m_view);
@@ -188,7 +181,7 @@ void GameState::update()
 		sf::Color scoreColor = sf::Color::White;
 		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 100;
 		m_scoreText.setColor(scoreColor);
-		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60*m_gameRatio : 30*m_gameRatio);
+		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60*jl::Settings::getDouble("gameRatio") : 30*jl::Settings::getDouble("gameRatio"));
 		m_scoreText.setString("Score: " + jl::Util::toString(m_characters.getPlayer().getScore()));
 		m_scoreText.setPosition(getEngine()->getWindow().getSize().x * 0.5 - int(m_scoreText.getGlobalBounds().width/2), getEngine()->getWindow().getSize().y * 0.1);
 
@@ -202,6 +195,8 @@ void GameState::update()
 			m_bedControl.update();
 		}
 
+		// Derp functions
+/*
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			m_view.zoom(1.0 - getEngine()->getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -211,10 +206,7 @@ void GameState::update()
 			m_view.rotate(100*getEngine()->getDelta());
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-			m_view.zoom(1.0);
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-			getEngine()->getStack().popState();
+			m_view.zoom(1.0);*/
 
 		MessageLog::update(getEngine()->getDelta());
 	}
@@ -258,6 +250,8 @@ void GameState::render()
 		getEngine()->getWindow().draw(m_scoreText);
 		getEngine()->getWindow().setView(m_view);
 	}
+
+	SettingsConsole::render(getEngine()->getWindow());
 }
 
 TileMap &GameState::getTileMap()

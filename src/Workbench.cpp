@@ -94,6 +94,19 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	healthItem.cost = 50;
 	m_workbenchItems.push_back(healthItem);
 
+	// Speed purchase
+	WorkbenchItem speedItem;
+	speedItem.weaponCostCalc = WorkbenchFunctions::defaultCostCalc;
+	speedItem.weaponAction = WorkbenchFunctions::speedPurchase;
+	speedItem.weapon = std::shared_ptr<Weapon>(nullptr);
+	speedItem.name = "Speed boost";
+	speedItem.isBought = true;
+	speedItem.displaySubRect = sf::IntRect(30, 49, 7, 7);
+	speedItem.maxUpgradeLevel = 4;
+	speedItem.upgradeLevel = 1;
+	speedItem.cost = 150;
+	m_workbenchItems.push_back(speedItem);
+
 	std::shared_ptr<Weapon> defaultWeapon(new GunWeapon("Pulse Pistol", m_player, *m_assets));
 	addUpgradeableWeapon(sf::IntRect(0,0,16,16),50, 5, defaultWeapon);
 	m_player->addWeapon(defaultWeapon);

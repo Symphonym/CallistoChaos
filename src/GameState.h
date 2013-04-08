@@ -17,8 +17,6 @@ class GameState : public jl::State
 {
 private:
 
-	double m_gameRatio;
-
 	// Stores level data
 	TileMap m_tileMap;
 	// Stores characters on the TileMap
@@ -43,6 +41,8 @@ private:
 public:
 
 	explicit GameState(jl::Engine *engine);
+
+	void reloadView();
 
 	void events();
 	void update();

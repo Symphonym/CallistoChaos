@@ -15,7 +15,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	setSpeed(100);
 	setMaxHealth(5);
 	heal(5);
-	addCurrency(150);
+	addCurrency(999);
 	gameState->getBed().setRegenDelay(2);
 
 	m_animation.createAnimation("right");
@@ -46,7 +46,6 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
 	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_resourceText.setCharacterSize(std::floor(8*jl::Settings::getDouble("gameRatio")));
 
 	// Transparent color
 	sf::Color transparentColor(sf::Color::White); 
@@ -200,6 +199,7 @@ void Player::render(sf::RenderTarget &target)
 		sf::View tempView(target.getView());
 		target.setView(target.getDefaultView());
 
+		m_resourceText.setCharacterSize(std::floor(8*jl::Settings::getDouble("gameRatio")));
 		// Draw currency box text
 		m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
 		m_resourceText.setString(jl::Util::toString(m_currencyAmount));

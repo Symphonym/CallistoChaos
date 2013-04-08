@@ -53,5 +53,17 @@ namespace WorkbenchFunctions
 			player->setMaxHealth(player->getMaxHealth()+1);
 			MessageLog::addMessage("Health pack increased max life by 1");
 		}
+	};
+	void speedPurchase(WorkbenchItem &item, Player *player)
+	{
+		player->removeCurrency(item.weaponCostCalc(item.upgradeLevel, item.cost));
+
+		if(item.upgradeLevel < item.maxUpgradeLevel)
+		{
+			item.upgradeLevel += 1;
+
+			player->setSpeed(player->getSpeed()+10);
+			MessageLog::addMessage("Speed boost increased movement speed by 10");
+		}
 	};	
 };

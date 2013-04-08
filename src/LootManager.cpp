@@ -60,8 +60,8 @@ void LootManager::update(double deltaTime)
 
 		float exactDistance = jl::Vec::length(centerPlayer - m_entities[i].position);
 
-		// Drag entity towards player and pick it up
-		if(exactDistance < 60)
+		// Drag entity towards player, if he's got space
+		if(exactDistance < 60 && m_player->getCurrency() + 3 <= TileCharacter::maxCurrency)
 		{
 			m_entities[i].speed = 60.0 - exactDistance;
 			sf::Vector2f normalizedDirection(jl::Vec::normalize(centerPlayer - m_entities[i].position));
