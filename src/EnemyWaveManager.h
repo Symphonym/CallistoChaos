@@ -13,8 +13,6 @@ private:
 	CharacterManager *m_characters;
 	jl::AssetManager *m_assets;
 
-	int m_waveNumber;
-
 	// How many enemies the wave will spawn
 	int m_waveEnemies;
 	// How man enemies that have been spawned

@@ -15,7 +15,6 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	setSpeed(100);
 	setMaxHealth(5);
 	heal(5);
-	addCurrency(999);
 	gameState->getBed().setRegenDelay(2);
 
 	m_animation.createAnimation("right");
@@ -135,19 +134,6 @@ void Player::events(sf::Event &events)
 			else if(lookingDown())
 				getActiveWeapon()->setStance("down", playerCenter);
 		}
-
-		// Changing direction of player
-		if(!isWalking())
-		{
-			if(jl::Input::isKeyDown(events, sf::Keyboard::Right) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, 100))
-				lookRight();
-			else if (jl::Input::isKeyDown(events, sf::Keyboard::Left) || jl::Input::isAxisDown(events, sf::Joystick::Axis::U, -100))
-				lookLeft();
-			else if (jl::Input::isKeyDown(events, sf::Keyboard::Up) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, -100))
-				lookUp();
-			else if (jl::Input::isKeyDown(events, sf::Keyboard::Down) || jl::Input::isAxisDown(events, sf::Joystick::Axis::V, 100))
-				lookDown();
-		}
 	}
 }
 
@@ -165,6 +151,7 @@ void Player::update(double deltaTime)
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
 			getActiveWeapon()->fire();
 
+		// Walking around
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
      		walkUp();
@@ -177,6 +164,20 @@ void Player::update(double deltaTime)
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
 	  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
        		walkRight();
+
+       	// Changing direction of player
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || 
+    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), -100, 25))
+     		lookUp();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || 
+     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), 100, 25))
+       		lookDown();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || 
+	   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), -100, 25))
+       		lookLeft();
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || 
+	  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), 100, 25))
+       		lookRight();
 
 		m_animation.commit(m_sprite, deltaTime);
 

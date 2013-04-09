@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"consoe",
+				"consoleArgs"
+			],
+			[
 				"game",
 				"gameState"
 			],
@@ -510,10 +514,6 @@
 			[
 				"pos",
 				"position"
-			],
-			[
-				"TileOp",
-				"TileOptionManager"
 			]
 		]
 	},
@@ -547,7 +547,7 @@
 			"file": "src/EnemyWaveManager.h",
 			"settings":
 			{
-				"buffer_size": 965,
+				"buffer_size": 945,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 4666,
+				"buffer_size": 5762,
 				"line_ending": "Unix"
 			}
 		},
@@ -563,15 +563,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 9533,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/SettingsConsole.h",
-			"settings":
-			{
-				"buffer_size": 399,
+				"buffer_size": 9752,
 				"line_ending": "Unix"
 			}
 		},
@@ -579,7 +571,7 @@
 			"file": "src/SettingsConsole.cpp",
 			"settings":
 			{
-				"buffer_size": 2529,
+				"buffer_size": 2580,
 				"line_ending": "Unix"
 			}
 		},
@@ -590,9 +582,49 @@
 				"buffer_size": 1351,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "src/main.cpp",
+			"settings":
+			{
+				"buffer_size": 682,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.cpp",
+			"settings":
+			{
+				"buffer_size": 6774,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/AstarAlgorithm.cpp",
+			"settings":
+			{
+				"buffer_size": 4265,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/CharacterManager.cpp",
+			"settings":
+			{
+				"buffer_size": 5395,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Utility.h",
+			"settings":
+			{
+				"buffer_size": 3476,
+				"line_ending": "Unix"
+			}
 		}
 	],
-	"build_system": "Packages/User/MakeRelease.sublime-build",
+	"build_system": "Packages/User/OpenDirectory.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -636,6 +668,8 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SettingsConsole.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/main.cpp",
@@ -665,7 +699,6 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/XboxButton mapping",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Tile.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Player.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WeakEnemy.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionActions.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionActions.h",
@@ -882,7 +915,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -950,8 +983,8 @@
 						"selection":
 						[
 							[
-								7531,
-								7531
+								7104,
+								7104
 							]
 						],
 						"settings":
@@ -960,7 +993,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1781.0,
+						"translation.y": 1581.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -970,15 +1003,15 @@
 					"file": "src/EnemyWaveManager.h",
 					"settings":
 					{
-						"buffer_size": 965,
+						"buffer_size": 945,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								729,
-								729
+								258,
+								258
 							]
 						],
 						"settings":
@@ -997,15 +1030,15 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 4666,
+						"buffer_size": 5762,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1713,
-								1713
+								3449,
+								3449
 							]
 						],
 						"settings":
@@ -1014,7 +1047,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 509.0,
+						"translation.y": 923.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1024,15 +1057,15 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 9533,
+						"buffer_size": 9752,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7534,
-								7534
+								355,
+								355
 							]
 						],
 						"settings":
@@ -1041,65 +1074,40 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 351.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/SettingsConsole.h",
-					"settings":
-					{
-						"buffer_size": 399,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								127,
-								127
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 6,
 					"file": "src/SettingsConsole.cpp",
 					"settings":
 					{
-						"buffer_size": 2529,
+						"buffer_size": 2580,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1212,
-								1212
+								1207,
+								1207
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 587.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"file": "src/State.h",
 					"settings":
 					{
@@ -1121,6 +1129,141 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 312.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/main.cpp",
+					"settings":
+					{
+						"buffer_size": 682,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								368,
+								368
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 6774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								311,
+								311
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/AstarAlgorithm.cpp",
+					"settings":
+					{
+						"buffer_size": 4265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/CharacterManager.cpp",
+					"settings":
+					{
+						"buffer_size": 5395,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 507.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/Utility.h",
+					"settings":
+					{
+						"buffer_size": 3476,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2100,
+								2100
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 624.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1178,6 +1321,34 @@
 		"selected_items":
 		[
 			[
+				"uti",
+				"CallistoChaos/src/Utility.h"
+			],
+			[
+				"tile",
+				"CallistoChaos/src/TileCharacter.cpp"
+			],
+			[
+				"pla",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"chara",
+				"CallistoChaos/src/CharacterManager.cpp"
+			],
+			[
+				"ast",
+				"CallistoChaos/src/AstarAlgorithm.cpp"
+			],
+			[
+				"e",
+				"CallistoChaos/src/Engine.cpp"
+			],
+			[
+				"main",
+				"CallistoChaos/src/main.cpp"
+			],
+			[
 				"state",
 				"CallistoChaos/src/State.h"
 			],
@@ -1206,10 +1377,6 @@
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
-				"pla",
-				"CallistoChaos/src/Player.cpp"
-			],
-			[
 				"work",
 				"CallistoChaos/src/WorkbenchFunctions.h"
 			],
@@ -1222,20 +1389,12 @@
 				"CallistoChaos/src/AstarAlgorithm.cpp"
 			],
 			[
-				"ast",
-				"CallistoChaos/src/AstarAlgorithm.cpp"
-			],
-			[
 				"enemyw",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
 				"pl",
 				"CallistoChaos/src/Player.cpp"
-			],
-			[
-				"main",
-				"CallistoChaos/src/main.cpp"
 			],
 			[
 				"workbe",
@@ -1278,10 +1437,6 @@
 				"CallistoChaos/src/Tile.cpp"
 			],
 			[
-				"tile",
-				"CallistoChaos/src/Tile.h"
-			],
-			[
 				"xbo",
 				"CallistoChaos/XboxButton mapping"
 			],
@@ -1316,10 +1471,6 @@
 			[
 				"char",
 				"CallistoChaos/src/CharacterManager.cpp"
-			],
-			[
-				"chara",
-				"CallistoChaos/src/CharacterManager.h"
 			],
 			[
 				"p",
@@ -1458,10 +1609,6 @@
 				"CallistoChaos/src/Engine.cpp"
 			],
 			[
-				"e",
-				"CallistoChaos/src/Engine.cpp"
-			],
-			[
 				"engi",
 				"CallistoChaos/src/Engine.h"
 			],
@@ -1476,10 +1623,6 @@
 			[
 				"tileoption",
 				"CallistoChaos/src/TileOptionManager.cpp"
-			],
-			[
-				"uti",
-				"CallistoChaos/src/Utility.h"
 			],
 			[
 				"tilemap",

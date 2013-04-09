@@ -73,9 +73,16 @@ namespace jl
 		{
 			return start + percent*(end - start);
 		};
+
+		// Random integer between two values
 		inline int randInt(int min, int max)
 		{
 			return std::rand() % ((max+1) - min) + min;
+		};
+		// Return double between two values
+		inline double randDouble(double min, double max)
+		{
+			return min + ((double)std::rand()/ (double)RAND_MAX)*(max-min);
 		};
 	};
 

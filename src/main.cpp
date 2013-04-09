@@ -17,8 +17,8 @@ int main(int argc, char const *args[])
 	// Set non-changeable settings
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
 	jl::Settings::setBool("windowFullscreen", false);
-	jl::Settings::setInt("windowHeight", 900);
-	jl::Settings::setInt("windowWidth", 1600);
+	jl::Settings::setInt("windowHeight", 600);
+	jl::Settings::setInt("windowWidth", 800);
 
 	// Run the game engine with default values
 	engine.run<GameState>();

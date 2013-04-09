@@ -8,7 +8,6 @@
 EnemyWaveManager::EnemyWaveManager() :
 	m_characters(nullptr),
 	m_assets(nullptr),
-	m_waveNumber(0),
 	m_waveEnemies(0),
 	m_waveSpawns(0),
 	m_waveIsActive(false),
@@ -17,12 +16,16 @@ EnemyWaveManager::EnemyWaveManager() :
 	m_waveSpawnDelay(1),
 	m_waveTextColor(sf::Color::White)
 {
-
+	jl::Settings::setDouble("gameEnemyMinDelay", 0.5);
+	jl::Settings::setDouble("gameEnemyMaxDelay", 1.0);
+	jl::Settings::setInt("gameEnemyMinCurrency", 1);
+	jl::Settings::setInt("gameEnemyMaxCurrency", 3);
+	jl::Settings::setInt("gameEnemyBaseSpeed", 50);
+	jl::Settings::setInt("gameWaveNumber", 0);
 }
 EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManager &assets) :
 	m_characters(&characters),
 	m_assets(&assets),
-	m_waveNumber(0),
 	m_waveEnemies(0),
 	m_waveSpawns(0),
 	m_waveIsActive(false),
@@ -31,6 +34,13 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	m_waveSpawnDelay(1),
 	m_waveTextColor(sf::Color::White)
 {
+	jl::Settings::setDouble("gameEnemyMinDelay", 0.5);
+	jl::Settings::setDouble("gameEnemyMaxDelay", 1.0);
+	jl::Settings::setInt("gameEnemyMinCurrency", 1);
+	jl::Settings::setInt("gameEnemyMaxCurrency", 3);
+	jl::Settings::setInt("gameEnemyBaseSpeed", 50);
+	jl::Settings::setInt("gameWaveNumber", 0);
+
 	m_waveBreakTime = 20;
 	m_waveBreakLeft = 20;
 	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
@@ -47,7 +57,7 @@ void EnemyWaveManager::update(double deltaTime)
 		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 30)
 		{
 			// Get left overs
-			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(m_waveNumber/2.0);
+			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(jl::Settings::getInt("gameWaveNumber")/2.0);
 			m_waveSpawnTimer.restart();
 
 			sf::Vector2i tileIndex(0,0);
@@ -70,16 +80,18 @@ void EnemyWaveManager::update(double deltaTime)
 			}
 			while(m_characters->getPlayer().getTileMap().getTile(tileIndex).isSolid() || m_characters->getPlayer().getTileMap().getTile(tileIndex).isOccupied());
 
+			// Spawn enemy
 			std::unique_ptr<WeakEnemy> enemy(new WeakEnemy(&m_characters->getPlayer().getGame(), *m_assets,tileIndex));
-			enemy->setSpeed(50);
-			enemy->setMoveDelay((double)jl::Math::randInt(5, 10)/10.0);
+			enemy->setSpeed(jl::Settings::getInt("gameEnemyBaseSpeed"));
+			enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay"), jl::Settings::getDouble("gameEnemyMaxDelay")));
 
-			if(std::rand() % 100 <= m_waveNumber*2)
+			// "Speeder" enemy types
+			if(std::rand() % 100 <= jl::Settings::getInt("gameWaveNumber")*2)
 			{
-				enemy->setSpeed(jl::Math::randInt(90, 115));
-				enemy->setMoveDelay((double)jl::Math::randInt(2, 7)/10.0);
+				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
+				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
 			}
-			enemy->addCurrency(jl::Math::randInt(1, 3));
+			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
 
 			m_characters->addCharacter(std::move(enemy));
 			++m_waveSpawns;
@@ -95,7 +107,7 @@ void EnemyWaveManager::update(double deltaTime)
 	{
 
 		// Predict enemy count
-		m_waveEnemies = (m_waveNumber+1)*3;
+		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*3;
 
 		// Break countdown
 		if(m_waveBreakTimer.getElapsedTime().asSeconds() >= 1.0)
@@ -107,7 +119,7 @@ void EnemyWaveManager::update(double deltaTime)
 		if(m_waveBreakLeft <= 0 || (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
 		{
 			m_waveIsActive = true;
-			++m_waveNumber;
+			jl::Settings::setInt("gameWaveNumber", jl::Settings::getInt("gameWaveNumber")+1);
 
 			m_waveBreakLeft = m_waveBreakTime;
 
@@ -132,7 +144,7 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 		target.setView(target.getDefaultView());
 
 		m_waveText.setColor(m_waveTextColor);
-		m_waveText.setString("Wave " + jl::Util::toString(m_waveNumber) + ": " + jl::Util::toString(m_waveBreakLeft));
+		m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
 		m_waveText.setPosition(
 			(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
 			(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);

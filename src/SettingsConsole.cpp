@@ -2,7 +2,6 @@
 #include "Utility.h"
 #include "GameState.h"
 #include <sstream>
-#include <iostream>
 
 namespace SettingsConsole
 {
@@ -40,18 +39,22 @@ namespace SettingsConsole
 				std::stringstream ss(m_text.getString());
 
 				std::string arg = "";
+				bool modifyWindow = false;
 				while(ss >> arg)
+				{
+					if(arg.find("window") != std::string::npos)
+						modifyWindow = true;
+
 					consoleArgs.push_back(arg);
-
-				std::cout << "PreRatio: " << jl::Settings::getDouble("gameRatio") << std::endl;
-
+				}
 
 				gameState.getEngine()->parseArgs(consoleArgs);
-				gameState.getEngine()->refreshSettings();
 
-				gameState.reloadView();
-				
-				std::cout << "PostRatio: " << jl::Settings::getDouble("gameRatio") << std::endl;
+				if(modifyWindow)
+				{
+					gameState.getEngine()->refreshSettings();
+					gameState.reloadView();
+				}
 
 				m_text.setString("");
 			}
@@ -64,8 +67,8 @@ namespace SettingsConsole
 			    {
 			    	 std::string consoleInput(m_text.getString());
 
-			    	// Check for delete or backspace characters
-			    	if(events.text.unicode == 128 || events.text.unicode == 8)
+			    	// Check for delete or backspace characters AND carriage return and line feed
+			    	if(events.text.unicode == 128 || events.text.unicode == 8 || events.text.unicode == 13 || events.text.unicode == 10)
 			    	{
 			    		if(consoleInput.size() > 0)
 			    			m_text.setString(consoleInput.substr(0, consoleInput.size() - 1));
