@@ -1,4 +1,4 @@
-#include "Tile.h"
+c#include "Tile.h"
 
 Tile::Tile() :
 	m_isSolid(false),
