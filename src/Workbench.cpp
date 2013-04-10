@@ -110,7 +110,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	std::shared_ptr<Weapon> defaultWeapon(new GunWeapon("Pulse Pistol", m_player, *m_assets));
 	addUpgradeableWeapon(sf::IntRect(0,0,16,16),50, 5, defaultWeapon);
 	m_player->addWeapon(defaultWeapon);
-	addBuyableWeapon(sf::IntRect(0,48,22,9),150, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
+	addBuyableWeapon(sf::IntRect(0,48,22,9),100, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
 
 }
 

@@ -99,6 +99,7 @@ void Player::events(sf::Event &events)
 {
 	if(!m_gameState->getBed().isInUse() && !m_gameState->getWorkbench().isVisible())
 	{
+
 		// Scroll through weapons
 		bool changedWeapon = false;
 
@@ -151,20 +152,6 @@ void Player::update(double deltaTime)
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
 			getActiveWeapon()->fire();
 
-		// Walking around
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
-    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
-     		walkUp();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
-     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
-       		walkDown();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
-	   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
-       		walkLeft();
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
-	  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
-       		walkRight();
-
        	// Changing direction of player
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || 
     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), -100, 25))
@@ -178,6 +165,22 @@ void Player::update(double deltaTime)
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || 
 	  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), 100, 25))
        		lookRight();
+       	else
+       	{
+	       	// Walking around
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
+	    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
+	     		walkUp();
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
+	     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
+	       		walkDown();
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
+		   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
+	       		walkLeft();
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
+		  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
+	       		walkRight();
+       	}
 
 		m_animation.commit(m_sprite, deltaTime);
 
@@ -192,46 +195,50 @@ void Player::render(sf::RenderTarget &target)
 {
 	if(!isDead())
 	{
-		sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
-			sf::Vector2f(getTileMap().getTilePosition(11, 10).x+4,getTileMap().getTilePosition(11, 10).y+3), target.getView()));
-		sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
-			sf::Vector2f(getTileMap().getTilePosition(12, 10).x+4,getTileMap().getTilePosition(12, 10).y+3), target.getView()));
 
-		sf::View tempView(target.getView());
-		target.setView(target.getDefaultView());
+		if(!m_gameState->isPaused())
+		{
+			sf::Vector2i currencyBoxPos(target.mapCoordsToPixel(
+				sf::Vector2f(getTileMap().getTilePosition(11, 10).x+4,getTileMap().getTilePosition(11, 10).y+3), target.getView()));
+			sf::Vector2i ammoBoxPos(target.mapCoordsToPixel(
+				sf::Vector2f(getTileMap().getTilePosition(12, 10).x+4,getTileMap().getTilePosition(12, 10).y+3), target.getView()));
 
-		m_resourceText.setCharacterSize(std::floor(8*jl::Settings::getDouble("gameRatio")));
-		// Draw currency box text
-		m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
-		m_resourceText.setString(jl::Util::toString(m_currencyAmount));
-		target.draw(m_resourceText);
+			sf::View tempView(target.getView());
+			target.setView(target.getDefaultView());
 
-		// Draw ammo box text
-		m_resourceText.setPosition(ammoBoxPos.x, ammoBoxPos.y);
-		m_resourceText.setString(jl::Util::toString(m_ammoAmount));
-		target.draw(m_resourceText);
+			m_resourceText.setCharacterSize(std::floor(8*jl::Settings::getDouble("gameRatio")));
+			// Draw currency box text
+			m_resourceText.setPosition(currencyBoxPos.x, currencyBoxPos.y);
+			m_resourceText.setString(jl::Util::toString(m_currencyAmount));
+			target.draw(m_resourceText);
 
-		// Draw player hp
-		m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);
-		m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
-		target.draw(m_playerText);
-		// Draw health icon
-		m_healthSprite.setPosition(
-			m_playerText.getPosition().x - m_healthSprite.getGlobalBounds().width*1.5,
-			(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_healthSprite.getGlobalBounds().height/2);
-		target.draw(m_healthSprite);
+			// Draw ammo box text
+			m_resourceText.setPosition(ammoBoxPos.x, ammoBoxPos.y);
+			m_resourceText.setString(jl::Util::toString(m_ammoAmount));
+			target.draw(m_resourceText);
 
-		// Draw player weapon ammo
-		m_playerText.setString(getActiveWeapon()->toAmmoString());
-		m_playerText.setPosition(target.getView().getSize().x * 0.6, target.getView().getSize().y * 0.9);
-		target.draw(m_playerText);
-		// Draw ammo icon
-		m_ammoSprite.setPosition(
-			m_playerText.getPosition().x - m_ammoSprite.getGlobalBounds().width*1.5,
-			(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
-		target.draw(m_ammoSprite);
+			// Draw player hp
+			m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);
+			m_playerText.setString(jl::Util::toString(m_health) + "/" + jl::Util::toString(m_maxHealth));
+			target.draw(m_playerText);
+			// Draw health icon
+			m_healthSprite.setPosition(
+				m_playerText.getPosition().x - m_healthSprite.getGlobalBounds().width*1.5,
+				(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_healthSprite.getGlobalBounds().height/2);
+			target.draw(m_healthSprite);
 
-		target.setView(tempView);
+			// Draw player weapon ammo
+			m_playerText.setString(getActiveWeapon()->toAmmoString());
+			m_playerText.setPosition(target.getView().getSize().x * 0.6, target.getView().getSize().y * 0.9);
+			target.draw(m_playerText);
+			// Draw ammo icon
+			m_ammoSprite.setPosition(
+				m_playerText.getPosition().x - m_ammoSprite.getGlobalBounds().width*1.5,
+				(m_playerText.getPosition().y + m_playerText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
+			target.draw(m_ammoSprite);
+
+			target.setView(tempView);
+		}
 
 		target.draw(m_sprite);
 	

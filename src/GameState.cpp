@@ -47,11 +47,11 @@ GameState::GameState(jl::Engine *engine) :
 
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
-	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 100, true, true); // Bush
+	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 30, true, true); // Bush
 	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
 	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
 	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(32,0, 16, 16), 15, false, true); // Window
-	m_tileMap.addDType(6, sf::IntRect(0, 32, 16, 16), sf::IntRect(48, 32, 16, 16), 10, true, true); // Door closed
+	m_tileMap.addDType(6, sf::IntRect(0, 32, 16, 16), sf::IntRect(48, 32, 16, 16), 20, true, true); // Door closed
 	m_tileMap.addType(7, sf::IntRect(16, 32, 16, 16)); // Door open
 	m_tileMap.addType(8, sf::IntRect(32, 32, 16, 16)); // Floor
 	m_tileMap.addType(9, sf::IntRect(32, 48, 16, 16), false, true); // Currency box
@@ -145,6 +145,9 @@ void GameState::reloadView()
 {
 	m_view.setSize(m_tileMap.getMapSize().x*m_tileMap.getTileSize(), m_tileMap.getMapSize().y*m_tileMap.getTileSize());
 	m_view.setCenter((m_tileMap.getMapSize().x*m_tileMap.getTileSize())/2, (m_tileMap.getMapSize().y*m_tileMap.getTileSize())/2);
+	pause();
+	m_view.zoom(100);
+	m_view.setRotation(180);
 
 	// Store ratio between map and window size
 	sf::Vector2f viewSize(
@@ -172,7 +175,30 @@ void GameState::events()
 
 void GameState::update()
 {
+	if(isPaused())
+	{
+		m_view.setSize(jl::Vec::lerp(
+			m_view.getSize(),
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()), 10*getEngine()->getDelta()));
 
+		m_view.setRotation(jl::Math::lerp(m_view.getRotation(), 0, 10*getEngine()->getDelta()));
+
+		sf::Vector2f sizeDistance(
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()) - m_view.getSize());
+
+		if(jl::Vec::length(sizeDistance) < 2)
+		{
+			resume();
+			m_view.setRotation(0);
+			m_view.setSize(sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()));
+		}
+	}
 	// Update view
 	getEngine()->getWindow().setView(m_view);
 
@@ -223,6 +249,7 @@ void GameState::render()
 		getEngine()->getWindow().setView(m_view);
 	}
 	ParticleManager::render(getEngine()->getWindow());
+
 	m_characters.render(getEngine()->getWindow());
 
 	if(!m_characters.getPlayer().isDead())

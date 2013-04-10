@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-c#include "Tile.h"
-=======
+#include "Tile.h"
 #include "Tile.h"
 #include "ParticleManager.h"
 #include "Utility.h"
 #include "TileMap.h"
->>>>>>> 60a8ed0f7ff86d19e4cea13ce6c5b25615d114d3
 
 Tile::Tile() :
 	m_isSolid(false),

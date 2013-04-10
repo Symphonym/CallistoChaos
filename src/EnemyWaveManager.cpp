@@ -4,6 +4,7 @@
 #include "WeakEnemy.h"
 #include "TileMap.h"
 #include "Utility.h"
+#include "GameState.h"
 
 EnemyWaveManager::EnemyWaveManager() :
 	m_characters(nullptr),
@@ -143,20 +144,23 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 		sf::View tempView(target.getView());
 		target.setView(target.getDefaultView());
 
-		m_waveText.setColor(m_waveTextColor);
-		m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
-		m_waveText.setPosition(
-			(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
-			(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);
+		if(!m_characters->getPlayer().getGame().isPaused())
+		{
+			m_waveText.setColor(m_waveTextColor);
+			m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
+			m_waveText.setPosition(
+				(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
+				(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);
 
-		m_waveInfoText.setColor(m_waveTextColor);
-		m_waveInfoText.setString(jl::Util::toString(m_waveEnemies) + " enem" + std::string(m_waveEnemies == 1 ? "y" : "ies"));
-		m_waveInfoText.setPosition(
-			(m_waveText.getPosition().x + m_waveText.getGlobalBounds().width/2) - m_waveInfoText.getGlobalBounds().width/2,
-			(m_waveText.getPosition().y + m_waveText.getGlobalBounds().height)+10);
+			m_waveInfoText.setColor(m_waveTextColor);
+			m_waveInfoText.setString(jl::Util::toString(m_waveEnemies) + " enem" + std::string(m_waveEnemies == 1 ? "y" : "ies"));
+			m_waveInfoText.setPosition(
+				(m_waveText.getPosition().x + m_waveText.getGlobalBounds().width/2) - m_waveInfoText.getGlobalBounds().width/2,
+				(m_waveText.getPosition().y + m_waveText.getGlobalBounds().height)+10);
 
-		target.draw(m_waveText);
-		target.draw(m_waveInfoText);
+			target.draw(m_waveText);
+			target.draw(m_waveInfoText);
+		}
 
 		target.setView(tempView);
 	}
