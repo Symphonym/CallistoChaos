@@ -1,10 +1,9 @@
 #include "CharacterManager.h"
 #include "TileMap.h"
-
+#include "GameState.h"
 
 CharacterManager::CharacterManager() :
-	m_tileMap(nullptr),
-	m_charId(0)
+	m_tileMap(nullptr)
 {
 
 }
@@ -26,46 +25,40 @@ void CharacterManager::stopCharacter(TileCharacter &tilecharacter, const sf::Vec
 		tilecharacter.setDirection(TileCharacter::LookingDown);
 }
 
-void CharacterManager::registerTileMap(TileMap &tilemap)
-{
-	m_tileMap = &tilemap;
-}
-
 void CharacterManager::addCharacter(std::unique_ptr<TileCharacter> tilecharacter)
 {
-	m_characters[m_charId] = std::move(tilecharacter);
-	m_tileMap->getTile(m_characters[m_charId]->getIndex().x, m_characters[m_charId]->getIndex().y).
-		setCharacter(m_characters[m_charId].get());
-
-	++m_charId;
+	m_characters.push_back(std::move(tilecharacter));
+	m_tileMap->getTile(m_characters.back()->getIndex()).setCharacter(m_characters.back().get());
+}
+void CharacterManager::addPlayer(std::unique_ptr<Player> player)
+{
+	m_player = player.get();
+	m_tileMap = &player.get()->getTileMap();
+	addCharacter(std::move(player));
 }
 
 void CharacterManager::events(sf::Event &events)
 {
-	for(std::size_t i = 0; i < m_characters.size(); i++)
+	for(int i = 0; i < m_characters.size(); i++)
 		m_characters[i]->events(events);
 }
+
 void CharacterManager::update(double deltaTime)
 {
-	for(std::size_t i = 0; i < m_characters.size(); i++)
+	for(int i = 0; i < m_characters.size(); i++)
 	{
 		// Check if character is dead, if so, delete it
-		if(m_characters[i]->isDead())
+		if(m_characters[i]->isDead() && !dynamic_cast<Player*>(m_characters[i].get()))
 		{
-			m_characters.erase(m_characters.find(i));
+			m_tileMap->getTile(m_characters[i]->getIndex()).clearCharacter();
 
-			// Move the previous character to this spot
-			if(!m_characters.empty())
-			{
-				--m_charId;
+			for(int e = 0; e < m_characters[i]->getCurrency(); e++)
+				m_player->getGame().getLoot().spawnEntity(sf::Vector2f(
+					m_characters[i]->getSprite().getPosition().x + m_characters[i]->getSprite().getGlobalBounds().width/2,
+					m_characters[i]->getSprite().getPosition().y + m_characters[i]->getSprite().getGlobalBounds().height/2));
 
-				// Move previous character to temp variable, and delete previous element
-				std::unique_ptr<TileCharacter> previousChar(std::move(m_characters[m_charId]));
-				m_characters.erase(m_characters.find(m_charId));
-
-				m_characters.insert(std::make_pair(i, std::move(previousChar)));
-			}
-
+			m_characters.erase(m_characters.begin() + i);
+			m_player->addScore(1);
 			continue;
 		}
 
@@ -93,7 +86,7 @@ void CharacterManager::update(double deltaTime)
 				m_characters[i]->characterEvents(TileCharacter::WalkingDown);
 			}
 
-			// Position of the tile that the Character is walking towards
+			// Position of the tile that the Character is walking towards (Tile index modified in character class)
 			sf::Vector2f targetPosition = m_tileMap->getTilePosition(m_characters[i]->getIndex().x, m_characters[i]->getIndex().y);
 			// Size of the tiles
 			std::size_t tileSize = m_tileMap->getTileSize();
@@ -127,11 +120,19 @@ void CharacterManager::update(double deltaTime)
 }
 void CharacterManager::render(sf::RenderTarget &target)
 {
-	for(auto it = m_characters.begin(); it != m_characters.end(); it++)
-		it->second->render(target);
+	for(int i = 0; i < m_characters.size(); i++)
+		m_characters[i]->render(target);
 }
 
+Player &CharacterManager::getPlayer()
+{
+	return *m_player;
+}
 TileCharacter &CharacterManager::getCharacter(int index)
 {
 	return *m_characters[index];
+}
+std::size_t CharacterManager::getCount() const
+{
+	return m_characters.size();
 }

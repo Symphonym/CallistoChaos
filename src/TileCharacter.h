@@ -5,8 +5,9 @@
 #include "FrameAnimation.h"
 #include "AssetManager.h"
 
-
+class GameState;
 class TileMap;
+class CharacterManager;
 class TileCharacter
 {
 public:
@@ -27,11 +28,11 @@ public:
 	};
 
 protected:
-	TileMap *m_tileMap;
+	GameState *m_gameState;
 	jl::FrameAnimation m_animation;
 	sf::Vector2i m_tileIndex;
 	sf::Sprite m_sprite;
-	bool m_isWalking;
+	bool m_isWalking, m_isBusy;
 	int m_maxHealth, m_health;
 	double m_speed;
 	// Looking/Walking direction
@@ -45,15 +46,15 @@ protected:
 	// Pass Tilemap to allow for move operations
 	// Pass AssetManager to allow sprite/animation data to be set in the constructor
 	// Pass Tileindex to specify where the Character should be created
-	explicit TileCharacter(TileMap &tilemap, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit TileCharacter(GameState* gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 public:
 
 
 	// Maximum currency
-	static const int maxCurrency = 300;
+	static const int maxCurrency = 999;
 	// Maximum ammo
-	static const int maxAmmo = 300;
+	static const int maxAmmo = 999;
 
 	virtual void events(sf::Event &events) = 0;
 	virtual void update(double deltaTime) = 0;
@@ -63,6 +64,7 @@ public:
 
 	void setMaxHealth(int health);
 	void setSpeed(double speed);
+	void setBusy(bool busy);
 	void setWalking(bool walking);
 	void setDirection(TileCharacter::Event direction);
 
@@ -76,6 +78,7 @@ public:
 	void removeAmmo(int ammo);
 
 	void damage(int damage);
+	void heal(int healing);
 
 	void walkRight();
 	void walkLeft();
@@ -87,21 +90,28 @@ public:
 	void lookUp();
 	void lookDown();
 
-	bool lookingRight();
-	bool lookingLeft();
-	bool lookingUp();
-	bool lookingDown();
+	bool lookingRight() const;
+	bool lookingLeft() const;
+	bool lookingUp() const;
+	bool lookingDown() const;
+
+	GameState &getGame();
+	TileMap &getTileMap();
+	CharacterManager &getChars();
 
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
-	TileMap &getTileMap();
 	sf::Vector2i getIndex() const;
 	TileCharacter::Event getDirection() const;
 	double getSpeed() const;	
 	int getCurrency() const;
 	int getAmmo() const;
+	int getMaxHealth() const;
+	int getHealth() const;
+	bool isBusy() const;
 	bool isWalking() const;
 	bool isDead() const;
+	bool isFullHealth() const;
 };
 
 #endif

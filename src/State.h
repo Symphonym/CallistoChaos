@@ -42,10 +42,6 @@ namespace jl
 		
 		explicit State(jl::Engine *engine);
 
-		// "getEngine" returns a pointer to the Engine that 
-		// manages the State.
-		jl::Engine *const getEngine() const;
-
 		// "getElapsedTime" returns total elapsed time in seconds
 		// that the State has been active(unpaused) since the
 		// constructor was called.
@@ -54,6 +50,11 @@ namespace jl
 		// that the State has been inactive(paused) since the
 		// constructor was called
 		float getPausedTime() const;
+
+	public:
+		// "getEngine" returns a pointer to the Engine that 
+		// manages the State.
+		jl::Engine *const getEngine() const;
 
 	};
 };

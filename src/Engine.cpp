@@ -37,6 +37,10 @@ namespace jl
 			m_delta = m_deltaClock.restart().asSeconds();
 			m_fps = 1 / m_delta;
 
+			// Limit deltaTime to avoid "jumpy" behaviour
+			if(m_delta > 0.01)
+				m_delta = 0.01;
+
 			// Do delete requests
 			m_stack.processDeletes();
 
@@ -60,12 +64,21 @@ namespace jl
 					m_stack.getActiveState()->pause();
 				else if(m_event.type == sf::Event::GainedFocus)
 					m_stack.getActiveState()->resume();
+				else if(m_event.type == sf::Event::JoystickConnected)
+					sf::Joystick::update();
 
 				// State events
 				m_stack.getActiveState()->events();
 
 				// Global events
 				events();
+			}
+
+			// Finish loop if Stack is empty
+			if(m_stack.isEmpty())
+			{
+				m_window.close();
+				break;
 			}
 
 			// State updating
@@ -75,6 +88,13 @@ namespace jl
 			update();
 
 			m_window.clear();
+
+			// Finish loop if Stack is empty
+			if(m_stack.isEmpty())
+			{
+				m_window.close();
+				break;
+			}
 
 			// State rendering
 			m_stack.getActiveState()->render();
@@ -89,7 +109,12 @@ namespace jl
 
 	void Engine::parseArgs(int argc, char const *args[])
 	{
-		int argtype = -1;
+		std::vector<std::string> vecArgs;
+		for(int i = 0; i < argc; i++)
+			vecArgs.push_back(std::string(args[i]));
+
+		parseArgs(vecArgs);
+		/*int argtype = -1;
 
 		for(int i = 0; i < argc; i++)
 		{
@@ -128,7 +153,68 @@ namespace jl
 					continue;
 			}
 
+		}*/
+	}
+	void Engine::parseArgs(const std::vector<std::string> &args)
+	{
+		int argtype = -1;
+
+		for(int i = 0; i < args.size(); i++)
+		{
+
+			if(args[i] == "--int")
+				argtype = 0;
+			else if(args[i] == "--double")
+				argtype = 1;
+			else if(args[i] == "--bool")
+				argtype = 2;
+			else if(args[i] == "--string")
+				argtype = 3;
+			else
+			{
+				// Just scan the argument for an equal sign and attempt to parse data from it
+				if(argtype != -1 && args[i].find('=') != std::string::npos)
+				{
+					// Splits the argument to name and value, from the form: "name=value"
+					std::string name = args[i].substr(0, args[i].find('='));
+					std::string value = args[i].substr(args[i].find('=')+1, args[i].size()+1);
+
+					if(argtype == 0) // Integer settings
+						Settings::setInt(name, Util::convertData<std::string, int>(value));
+					else if(argtype == 1) // Double settings
+						Settings::setDouble(name, Util::convertData<std::string, double>(value));
+					else if(argtype == 2) // Bool settings
+						Settings::setBool(name, Util::convertData<std::string, bool>(value));
+					else if(argtype == 3) // String settings
+						Settings::setString(name, value);
+
+					argtype = -1;
+				}
+				else
+					continue;
+			}
+
 		}
+	}
+
+	void Engine::refreshSettings()
+	{
+		// Initialize renderwindow and load settings
+		unsigned int windowStyle = Settings::getBool("windowFullscreen") == true ? sf::Style::Fullscreen : sf::Style::Close;
+		if(windowStyle == sf::Style::Fullscreen)
+		{
+			Settings::setInt("windowWidth", sf::VideoMode::getDesktopMode().width);
+			Settings::setInt("windowHeight", sf::VideoMode::getDesktopMode().height);
+		}
+
+		m_window.create(
+			sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
+			 Settings::getString("windowTitle"),
+			 windowStyle);
+		m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
+		m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
+		m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
+		sf::Listener::setGlobalVolume(Settings::getInt("gameGlobalVolume"));
 	}
 
 	void Engine::render(const sf::Drawable &drawable, const sf::RenderStates &states)
@@ -144,7 +230,7 @@ namespace jl
 	{
 		sf::View view(m_window.getDefaultView());
 		view.zoom(zoomFactor);
-		view.setCenter(view.getSize().x/2, view.getSize().y/2);
+		view.setCenter(view.getSize().x/2.0, view.getSize().y/2.0);
 
 		return view;
 	}

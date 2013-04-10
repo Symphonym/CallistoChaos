@@ -1,11 +1,11 @@
 #include "TileOptionManager.h"
 #include "TileMap.h"
 #include "Utility.h"
-
-Player *TileOptionManager::m_player = nullptr;
+#include "Settings.h"
 
 TileOptionManager::TileOptionManager() :
 	m_tileOptions(),
+	m_player(nullptr),
 	m_displayOptions(false),
 	m_optionIndex(0),
 	m_tileIndex(0,0),
@@ -24,6 +24,7 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 	m_selRect = sf::IntRect(0,6,25,6);
 
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_sprite.setScale(3, 2);
 	m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_text.setCharacterSize(8);
 }
@@ -31,6 +32,14 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 void TileOptionManager::addOption(int tileTypeIndex, const std::string &title, ActionPtr action)
 {
 	m_tileOptions[tileTypeIndex].push_back(std::make_pair(title, action));
+}
+void TileOptionManager::insertOption(int tileTypeIndex, const std::string &title, ActionPtr action, int optionIndex)
+{
+	m_tileOptions[tileTypeIndex].insert(m_tileOptions[tileTypeIndex].begin() + optionIndex, std::make_pair(title, action));
+}
+void TileOptionManager::removeOption(int tileTypeIndex, int optionIndex)
+{
+	m_tileOptions[tileTypeIndex].erase(m_tileOptions[tileTypeIndex].begin() + optionIndex);
 }
 
 void TileOptionManager::provideCharacter(Player *player)
@@ -40,103 +49,118 @@ void TileOptionManager::provideCharacter(Player *player)
 
 void TileOptionManager::events(sf::Event &events)
 {
-	if(m_player->isWalking())
+	if(m_player->isBusy())
 		m_displayOptions = false;
-
-	// Interact with tile
-	if(events.type == sf::Event::KeyPressed || 
-		events.type == sf::Event::JoystickButtonPressed)
+	else
 	{
-		int tileType = getTileType();
-
-
-		// Display list
-		if((jl::Input::isKeyDown(events, sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
-			(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty()))
+		// Interact with tile
+		if(events.type == sf::Event::KeyPressed || 
+			events.type == sf::Event::JoystickButtonPressed)
 		{
-			if(!m_displayOptions)
-				displayList();
+			int tileType = getTileType();
 
-			// Run option command
-			else if(m_displayOptions)
+
+			// Display list
+			if((jl::Input::isKeyDown(events, sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
+				(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty()))
 			{
-				m_tileOptions[m_tileType][m_optionIndex].second(
-					&TileOptionManager::m_player->getTileMap(),
-					m_tileIndex);
-
-				// Check if the aciton changed type of the Tile
-				if(tileType != getTileType())
+				if(!m_displayOptions)
 					displayList();
 
-			}
+				// Run option command
+				else if(m_displayOptions)
+				{
+					m_tileOptions[m_tileType][m_optionIndex].second(
+						&TileOptionManager::m_player->getTileMap(),
+						m_tileIndex,
+						this);
 
+					// Check if the aciton changed type of the Tile
+					if(tileType != getTileType())
+						displayList();
+
+				}
+
+			}
+			else if(m_displayOptions)
+			{
+				// Scroll up
+				if(events.key.code == sf::Keyboard::F)
+					--m_optionIndex;
+				// Scroll down
+				else if(events.key.code == sf::Keyboard::V)
+					++m_optionIndex;
+				// Other action not accounted for, simply close the list
+				else
+					m_displayOptions = false;
+
+				m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
+			}
 		}
-		else if(m_displayOptions)
+
+		if(events.type == sf::Event::JoystickMoved && m_displayOptions)
 		{
 			// Scroll up
-			if(events.key.code == sf::Keyboard::F)
+			if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
 				--m_optionIndex;
 			// Scroll down
-			else if(events.key.code == sf::Keyboard::V)
+			else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
 				++m_optionIndex;
-			// Other action not accounted for, simply close the list
-			else
-				m_displayOptions = false;
 
+			
 			m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 		}
-	}
-
-	if(events.type == sf::Event::JoystickMoved && m_displayOptions)
-	{
-		// Scroll up
-		if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
-			--m_optionIndex;
-		// Scroll down
-		else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
-			++m_optionIndex;
-
-		m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 	}
 }
 void TileOptionManager::render(sf::RenderTarget &target)
 {
-	if(m_player->isWalking())
+	if(m_player->isBusy())
 		m_displayOptions = false;
-
-	if(m_displayOptions)
+	else
 	{
-		for(int i = 0; i < (int)m_tileOptions[m_tileType].size(); i++)
+		if(m_displayOptions)
 		{
-			std::size_t tileSize(TileOptionManager::getPlayer()->getTileMap().getTileSize());
-			sf::Vector2i mapSize(TileOptionManager::getPlayer()->getTileMap().getMapSize());
+			for(int i = 0; i < (int)m_tileOptions[m_tileType].size(); i++)
+			{
+				std::size_t tileSize(getPlayer()->getTileMap().getTileSize());
+				sf::Vector2i mapSize(getPlayer()->getTileMap().getMapSize());
 
-			sf::Vector2f tilePos(TileOptionManager::getPlayer()->getTileMap().getTilePosition(m_tileIndex.x, m_tileIndex.y));
-			sf::Vector2f listPos(tilePos.x + tileSize, tilePos.y);
+				sf::Vector2f tilePos(getPlayer()->getTileMap().getTilePosition(m_tileIndex.x, m_tileIndex.y));
+				sf::Vector2f listPos(tilePos.x + tileSize, tilePos.y);
 
-			// Place list to the left of tile if there's no right side
-			if(m_tileIndex.x == mapSize.x - 1)
-				listPos.x -= tileSize * 2;
+				// Place list to the left of tile if there's no right side
+				if(m_tileIndex.x == mapSize.x - 1)
+					listPos.x -= tileSize * 2;
 
-			m_sprite.setTextureRect(i == m_optionIndex ? m_selRect : m_nonRect);
-			m_sprite.setPosition(listPos.x,listPos.y + (i * m_sprite.getTextureRect().height));
+				m_sprite.setTextureRect(i == m_optionIndex ? m_selRect : m_nonRect);
 
-			// Converted text position
-			sf::Vector2i textPos(target.mapCoordsToPixel(m_sprite.getPosition(), target.getView()));
-			m_text.setPosition(textPos.x + 3, textPos.y + 1);
-			m_text.setString(m_tileOptions[m_tileType][i].first);
+				// Convert position to pixel
+				sf::Vector2i convertedPos(target.mapCoordsToPixel(listPos, target.getView()));
+				convertedPos.y += (i * m_sprite.getGlobalBounds().height);
+				m_sprite.setPosition(convertedPos.x, convertedPos.y);
 
-			target.draw(m_sprite);
+				m_text.setPosition(convertedPos.x + 3, convertedPos.y + 1);
+				m_text.setString(m_tileOptions[m_tileType][i].first);
 
-			sf::View tempView = target.getView();
-			target.setView(target.getDefaultView());
+				sf::View tempView = target.getView();
+				target.setView(target.getDefaultView());
 
-			target.draw(m_text);
-			target.setView(tempView);
+				target.draw(m_sprite);
+
+				target.draw(m_text);
+				target.setView(tempView);
+			}
 		}
 	}
 }
 
+void TileOptionManager::setVisible(bool visible)
+{
+	if(visible)
+		displayList();
+	else
+		m_displayOptions = visible;
+}
 bool TileOptionManager::isVisible()
 {
 	return m_displayOptions;

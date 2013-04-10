@@ -28,6 +28,8 @@ private:
 	// Vector of tiles
 	std::vector<std::vector<Tile>> m_tiles;
 
+	sf::Vector2f m_adjustScaling;
+
 public:
 
 	explicit TileMap();
@@ -44,14 +46,14 @@ public:
 	void changeTile(int tileType, std::size_t x, std::size_t y, bool resetHealth = false);
 	void changeTile(int tileType, Tile *tile, bool resetHealth = false);
 
+	void render(sf::RenderTarget& target);
+
 	Tile &getTile(std::size_t x, std::size_t y);
 	Tile &getTile(const sf::Vector2i &tileIndex);
 
 	sf::Vector2f getTilePosition(std::size_t x, std::size_t y) const;
 	std::size_t getTileSize() const;
 	sf::Vector2i getMapSize() const;
-
-	void render(sf::RenderTarget& target);
 };
 
 #endif

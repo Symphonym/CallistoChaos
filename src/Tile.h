@@ -1,8 +1,10 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <SFML/Graphics.hpp>
 #include "TileCharacter.h"
 
+class TileMap;
 class Tile
 {
 private:
@@ -25,7 +27,8 @@ public:
 	void setCharacter(TileCharacter *character);
 	void clearCharacter();
 
-	void damage(int damage);
+	// Base direction is used for splatter particle effects
+	void damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int baseDirection = -1);
 	void repair(int repair);
 
 	TileCharacter *getCharacter();

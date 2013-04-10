@@ -46,6 +46,12 @@ namespace jl
 			return value < min ? min : (value > max ? max : value);
 		};
 
+		// Round to nearest number
+		template<typename T> T round(const T &value)
+		{
+			return (value > 0.0) ? std::floor(value + 0.5) : std::ceil(value - 0.5);
+		};
+
 		// Converts radians to degrees
 		template<typename T> T radToDeg(const T &radians)
 		{
@@ -63,14 +69,38 @@ namespace jl
 		{
 			return value <= (maxValue + range) ? (value >= (maxValue - range) ? true : false) : false;
 		};
+		inline float lerp(float start, float end, float percent)
+		{
+			return start + percent*(end - start);
+		};
+
+		// Random integer between two values
+		inline int randInt(int min, int max)
+		{
+			return std::rand() % ((max+1) - min) + min;
+		};
+		// Return double between two values
+		inline double randDouble(double min, double max)
+		{
+			return min + ((double)std::rand()/ (double)RAND_MAX)*(max-min);
+		};
 	};
 
 	namespace Vec
 	{
 		// Linear interpolation between start and end
-		inline sf::Vector2f lerp(const sf::Vector2f &start, const sf::Vector2f &end, double percent)
+		inline sf::Vector2f lerp(const sf::Vector2f &start, const sf::Vector2f &end, float percent)
 		{
-			return sf::Vector2f(start + sf::Vector2f(percent*(end.x - start.x),percent*(end.y - start.y)));
+			return sf::Vector2f(start + percent*(end - start));
+		};
+
+		inline float length(const sf::Vector2f &vec)
+		{
+			return std::sqrt((vec.x*vec.x)+(vec.y*vec.y));
+		};
+		inline sf::Vector2f normalize(const sf::Vector2f &vec)
+		{
+			return vec/length(vec);
 		};
 	};
 

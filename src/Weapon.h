@@ -31,6 +31,7 @@ public:
 		sf::Vector2f direction;
 		jl::FrameAnimation animation;
 		std::string animationName;
+		int baseDirection; // Used for blood splatter mainly
 	};
 
 private:
@@ -62,10 +63,11 @@ private:
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
-	virtual void update(AnimatedSpriteData &bullet, double deltaTime);
-	virtual void render(AnimatedSpriteData &bullet, sf::RenderTarget &target);
+	virtual void updateBullet(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target);
 
 protected:
+
 	sf::Vector2i getBulletIndex(const AnimatedSpriteData &bullet) const;
 	sf::Vector2f getWeaponPos();
 	double getSpeed(double deltaTime) const;
@@ -75,6 +77,7 @@ protected:
 	virtual int calculateMaxAmmo() const;
 	virtual double calculateFireRate() const;
 	virtual double calculateSpeed() const;
+	virtual double calculateBulletSpread() const;
 
 
 public:
@@ -107,8 +110,8 @@ public:
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
-	void update(double deltaTime);
-	void render(sf::RenderTarget &target);
+	void updateWeapon(double deltaTime);
+	void renderWeapon(sf::RenderTarget &target);
 
 	std::string getStance() const;
 	std::string getName() const;

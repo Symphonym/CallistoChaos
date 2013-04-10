@@ -1,5 +1,5 @@
 #include "TextureAsset.h"
-#include <iostream>
+
 namespace jl
 {
 

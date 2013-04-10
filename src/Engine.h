@@ -5,6 +5,7 @@
 #include "AssetManager.h"
 #include "StateManager.h"
 #include "Settings.h"
+#include <vector>
 
 namespace jl
 {
@@ -45,6 +46,9 @@ namespace jl
 		explicit Engine();
 		virtual ~Engine(){};
 
+		// Reloads all settings from the global jl::Settings data
+		void refreshSettings();
+
 		// "run" initializes the Game engine and starts the game loop. The
 		// specified type T is the startup State that will be used.
 		template<typename T> void run()
@@ -52,20 +56,12 @@ namespace jl
 			// Only allow running this method if the game isn't already running
 			if(!m_window.isOpen())
 			{
+				// Initialize renderwindow and load settings
+				refreshSettings();
+
 				// Initialize startup state with type T
 				std::unique_ptr<State> startupState = std::unique_ptr<State>(new T(this));
 				m_stack.pushState(std::move(startupState));
-
-				// Initialize renderwindow and load settings
-				unsigned int windowStyle = Settings::getBool("windowFullscreen") == true ? sf::Style::Fullscreen : sf::Style::Close;
-				m_window.create(
-					sf::VideoMode(Settings::getInt("windowWidth"), Settings::getInt("windowHeight")),
-					 Settings::getString("windowTitle"),
-					 windowStyle);
-				m_window.setFramerateLimit(Settings::getInt("windowFpsLimit"));
-				m_window.setMouseCursorVisible(Settings::getBool("windowShowCursor"));
-				m_window.setVerticalSyncEnabled(Settings::getBool("windowVsync"));
-				sf::Listener::setGlobalVolume(Settings::getInt("gameGlobalVolume"));
 
 				// Initialize additional game engine data
 				init();
@@ -78,6 +74,7 @@ namespace jl
 		// "parseArgs" allows Game settings to be set through command-line
 		// in the format of: settingName=value
 		void parseArgs(int argc, char const* args[]);
+		void parseArgs(const std::vector<std::string> &args);
 
 
 		void render(const sf::Drawable &drawable, const sf::RenderStates &states = sf::RenderStates::Default);

@@ -8,6 +8,10 @@
 #include "State.h"
 #include "CharacterManager.h"
 #include "TileOptionManager.h"
+#include "Workbench.h"
+#include "BedControl.h"
+#include "LootManager.h"
+#include "EnemyWaveManager.h"
 
 class GameState : public jl::State
 {
@@ -19,16 +23,36 @@ private:
 	CharacterManager m_characters;
 	// Stores options for different tiletypes
 	TileOptionManager m_tileOptions;
+	// Stores the loot on the TileMap
+	LootManager m_loot;
+	// Handles enemy spawning
+	EnemyWaveManager m_enemyWaves;
+
+	
 	sf::View m_view;
 
+	// Bed controller
+	BedControl m_bedControl;
+	// Workbench for crafting/shop
+	Workbench m_workbench;
+
+	sf::Text m_scoreText;
 
 public:
 
 	explicit GameState(jl::Engine *engine);
 
+	void reloadView();
+
 	void events();
 	void update();
 	void render();
+
+	TileMap &getTileMap();
+	CharacterManager &getChars();
+	BedControl &getBed();
+	Workbench &getWorkbench();
+	LootManager &getLoot();
 };
 
 #endif

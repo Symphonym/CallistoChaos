@@ -31,39 +31,49 @@ debug: ${SRCS_OBJECT}
 clean:
 	rm *.o
 
+.PHONY: JLautodep
+JLautodep:
+	./JLautodep -i ${SRCS} -m makefile -E "<" --empty-targets --self-dependency
+
 
 # For effective, fast and correct compiling(not skipping files):
 # specify each .h file that each .o file is dependent on in the
 # form of:
 # objectfile.o: headerfile.h
 
-#Engine object files
-Engine.o: Settings.h Utility.h AssetManager.h StateManager.h SoundManager.h
-Asset.o:
-AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h
-TextureAsset.o: Asset.h
-FontAsset.o: Asset.h
-SoundBufferAsset.o: Asset.h
-MusicAsset.o: Asset.h
-SoundManager.o: AssetManager.h
-FrameAnimation.o: SoundManager.h
-StateManager.o: State.h
-State.o: StopWatch.h Engine.h
-Settings.o:
-StopWatch.o:
-
-#Game object files
+#JLautodep START
 main.o: GameState.h Engine.h
-TileMap.o: Tile.h
-Tile.o: TileCharacter.h TileMap.h
-TileCharacter.o: FrameAnimation.h TileMap.h AssetManager.h
-TileOptionManager.o: Player.h AssetManager.h TileMap.h Utility.h
-TileOptionActions.o: TileMap.h MessageLog.h TileOptionManager.h Utility.h
-Player.o: TileCharacter.h TileMap.h MessageLog.h Utility.h Weapon.h BedControl.h
-CharacterManager.o: TileCharacter.h TileMap.h
-GameState.o: Engine.h TileMap.h Player.h State.h CharacterManager.h TileOptionManager.h MessageLog.h TileOptionActions.h
-MessageLog.o: AssetManager.h
-Weapon.o: TileCharacter.h AssetManager.h Weapon.h FrameAnimation.h TileMap.h Utility.h MessageLog.h
-GunWeapon.o: Weapon.h TileMap.h
-RifleWeapon.o: Weapon.h TileMap.h
-BedControl.o: Player.h TileMap.h
+WorkbenchFunctions.o: WorkbenchFunctions.h Weapon.h Player.h MessageLog.h
+Workbench.o: AssetManager.h WorkbenchFunctions.h Workbench.h Utility.h Weapon.h GunWeapon.h RifleWeapon.h Player.h Settings.h MessageLog.h
+Weapon.o: AssetManager.h FrameAnimation.h Weapon.h TileMap.h TileCharacter.h Utility.h MessageLog.h Player.h ParticleManager.h
+WeakEnemy.o: TileCharacter.h WeakEnemy.h AstarAlgorithm.h GameState.h ParticleManager.h Utility.h
+TileOptionManager.o: Player.h AssetManager.h TileOptionManager.h TileMap.h Utility.h Settings.h
+TileOptionActions.o: TileOptionActions.h TileMap.h MessageLog.h TileOptionManager.h Utility.h GameState.h
+TileMap.o: Tile.h TileMap.h
+TileCharacter.o: FrameAnimation.h AssetManager.h TileCharacter.h TileMap.h GameState.h
+Tile.o: TileCharacter.h Tile.h ParticleManager.h Utility.h TileMap.h
+TextureAsset.o: Asset.h TextureAsset.h
+StopWatch.o: StopWatch.h
+StateManager.o: State.h StateManager.h
+State.o: StopWatch.h State.h Engine.h
+SoundManager.o: SoundManager.h AssetManager.h
+SoundBufferAsset.o: Asset.h SoundBufferAsset.h
+Settings.o: Settings.h
+RifleWeapon.o: Weapon.h RifleWeapon.h TileMap.h
+Player.o: TileCharacter.h Weapon.h Player.h TileMap.h MessageLog.h Utility.h GunWeapon.h RifleWeapon.h Settings.h GameState.h
+ParticleManager.o: ParticleManager.h Utility.h
+MusicAsset.o: Asset.h MusicAsset.h
+MessageLog.o: AssetManager.h MessageLog.h Settings.h
+LootManager.o: AssetManager.h LootManager.h Utility.h Player.h TileMap.h
+GunWeapon.o: Weapon.h GunWeapon.h TileMap.h
+GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h ParticleManager.h
+FrameAnimation.o: FrameAnimation.h SoundManager.h
+FontAsset.o: Asset.h FontAsset.h
+Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h
+EnemyWaveManager.o: AssetManager.h EnemyWaveManager.h Settings.h CharacterManager.h WeakEnemy.h TileMap.h Utility.h
+Console.o: Console.h Utility.h
+CharacterManager.o: TileCharacter.h Player.h CharacterManager.h TileMap.h GameState.h
+BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h
+AstarAlgorithm.o: AstarAlgorithm.h TileMap.h Player.h
+AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h AssetManager.h
+#JLautodep END
