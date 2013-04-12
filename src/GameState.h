@@ -37,6 +37,7 @@ private:
 	Workbench m_workbench;
 
 	sf::Text m_scoreText;
+	sf::Sprite m_backgroundPlanet;
 
 public:
 

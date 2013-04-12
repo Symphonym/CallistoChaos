@@ -31,6 +31,8 @@ namespace ParticleManager
 
 	void update(double deltaTime);
 	void render(sf::RenderTarget &target);
+
+	void clearParticles();
 };
 
 #endif

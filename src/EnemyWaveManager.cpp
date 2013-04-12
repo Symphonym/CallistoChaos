@@ -4,6 +4,7 @@
 #include "WeakEnemy.h"
 #include "TileMap.h"
 #include "Utility.h"
+#include "GameState.h"
 
 EnemyWaveManager::EnemyWaveManager() :
 	m_characters(nullptr),
@@ -43,10 +44,17 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 
 	m_waveBreakTime = 20;
 	m_waveBreakLeft = 20;
+
 	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_waveText.setCharacterSize(std::ceil(32*jl::Settings::getDouble("gameRatio")));
+	m_waveText.setCharacterSize(32);
+
 	m_waveInfoText = sf::Text(m_waveText);
-	m_waveInfoText.setCharacterSize(std::ceil(24*jl::Settings::getDouble("gameRatio")));
+	m_waveInfoText.setCharacterSize(24);
+
+	m_waveSkipText = sf::Text(m_waveText);
+	m_waveSkipText.setCharacterSize(10);
+	m_waveSkipText.setString("Press RT + LT to skip countdown");
+
 
 }
 
@@ -143,20 +151,29 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 		sf::View tempView(target.getView());
 		target.setView(target.getDefaultView());
 
-		m_waveText.setColor(m_waveTextColor);
-		m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
-		m_waveText.setPosition(
-			(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
-			(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);
+		if(!m_characters->getPlayer().getGame().isPaused())
+		{
+			m_waveText.setColor(m_waveTextColor);
+			m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
+			m_waveText.setPosition(
+				(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
+				(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);
 
-		m_waveInfoText.setColor(m_waveTextColor);
-		m_waveInfoText.setString(jl::Util::toString(m_waveEnemies) + " enem" + std::string(m_waveEnemies == 1 ? "y" : "ies"));
-		m_waveInfoText.setPosition(
-			(m_waveText.getPosition().x + m_waveText.getGlobalBounds().width/2) - m_waveInfoText.getGlobalBounds().width/2,
-			(m_waveText.getPosition().y + m_waveText.getGlobalBounds().height)+10);
+			m_waveInfoText.setColor(m_waveTextColor);
+			m_waveInfoText.setString(jl::Util::toString(m_waveEnemies) + " enem" + std::string(m_waveEnemies == 1 ? "y" : "ies"));
+			m_waveInfoText.setPosition(
+				(m_waveText.getPosition().x + m_waveText.getGlobalBounds().width/2) - m_waveInfoText.getGlobalBounds().width/2,
+				(m_waveText.getPosition().y + m_waveText.getGlobalBounds().height)+10);
 
-		target.draw(m_waveText);
-		target.draw(m_waveInfoText);
+			m_waveSkipText.setColor(m_waveTextColor);
+			m_waveSkipText.setPosition(
+				(m_waveInfoText.getPosition().x + m_waveInfoText.getGlobalBounds().width/2) - m_waveSkipText.getGlobalBounds().width/2,
+				(m_waveInfoText.getPosition().y + m_waveInfoText.getGlobalBounds().height)+10);
+
+			target.draw(m_waveText);
+			target.draw(m_waveInfoText);
+			target.draw(m_waveSkipText);
+		}
 
 		target.setView(tempView);
 	}

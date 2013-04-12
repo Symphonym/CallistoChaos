@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "MainMenuState.h"
 #include "Engine.h"
 #include <SFML/Graphics.hpp>
 
@@ -21,7 +21,7 @@ int main(int argc, char const *args[])
 	jl::Settings::setInt("windowWidth", 800);
 
 	// Run the game engine with default values
-	engine.run<GameState>();
+	engine.run<MainMenuState>();
 
 	return 0;
 }

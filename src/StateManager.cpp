@@ -52,6 +52,11 @@ namespace jl
 		m_stack.push_back(std::move(state));
 	}
 
+	void StateManager::clearStack()
+	{
+		m_stack.clear();
+	}
+
 	jl::State *const StateManager::getActiveState() const
 	{
 		return m_stack.back().get();

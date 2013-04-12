@@ -60,10 +60,6 @@ namespace jl
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::O) &&
 					 sf::Keyboard::isKeyPressed(sf::Keyboard::B)))
 					m_window.close();
-				else if(m_event.type == sf::Event::LostFocus)
-					m_stack.getActiveState()->pause();
-				else if(m_event.type == sf::Event::GainedFocus)
-					m_stack.getActiveState()->resume();
 				else if(m_event.type == sf::Event::JoystickConnected)
 					sf::Joystick::update();
 
