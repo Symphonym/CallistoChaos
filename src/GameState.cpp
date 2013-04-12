@@ -188,7 +188,7 @@ void GameState::update()
 			m_view.getSize(),
 			sf::Vector2f(
 				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
-				m_tileMap.getMapSize().y*m_tileMap.getTileSize()), 2*getEngine()->getDelta()));
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()), 5*getEngine()->getDelta()));
 
 		sf::Vector2f sizeDistance(
 			sf::Vector2f(
