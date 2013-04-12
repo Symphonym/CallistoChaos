@@ -37,6 +37,10 @@ namespace jl
 		// the State stack, making it the active State.
 		void pushState(std::unique_ptr<State> state);
 
+		// "clearStack" clears all states from the stack, effectively
+		// exiting the game.
+		void clearStack();
+
 		// "getActiveState" returns the active State of the stack,
 		// which will always be the State on the top of the stack.
 		jl::State *const getActiveState() const;

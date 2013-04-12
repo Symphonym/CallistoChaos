@@ -124,7 +124,7 @@ void LootManager::moveEntity(LootEntity &entity, const sf::Vector2f &speedOffset
 	tileIndex.y = jl::Math::clamp(tileIndex.y, 0, m_player->getTileMap().getMapSize().y-1);
 
 	// Check x collision
-	if(!m_player->getTileMap().getTile(tileIndex).isSolid())
+	if(!m_player->getTileMap().getTile(tileIndex).isSolid() || m_player->getTileMap().getTile(tileIndex).getTileType() == 5)
 		entity.position.x += speedOffset.x;
 
 	tileIndex = sf::Vector2i(
@@ -135,6 +135,6 @@ void LootManager::moveEntity(LootEntity &entity, const sf::Vector2f &speedOffset
 	tileIndex.y = jl::Math::clamp(tileIndex.y, 0, m_player->getTileMap().getMapSize().y-1);
 
 	// Check y collision
-	if(!m_player->getTileMap().getTile(tileIndex).isSolid())
+	if(!m_player->getTileMap().getTile(tileIndex).isSolid() || m_player->getTileMap().getTile(tileIndex).getTileType() == 5)
 		entity.position.y += speedOffset.y;
 }

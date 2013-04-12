@@ -44,10 +44,17 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 
 	m_waveBreakTime = 20;
 	m_waveBreakLeft = 20;
+
 	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_waveText.setCharacterSize(std::ceil(32*jl::Settings::getDouble("gameRatio")));
+	m_waveText.setCharacterSize(32);
+
 	m_waveInfoText = sf::Text(m_waveText);
-	m_waveInfoText.setCharacterSize(std::ceil(24*jl::Settings::getDouble("gameRatio")));
+	m_waveInfoText.setCharacterSize(24);
+
+	m_waveSkipText = sf::Text(m_waveText);
+	m_waveSkipText.setCharacterSize(10);
+	m_waveSkipText.setString("Press RT + LT to skip countdown");
+
 
 }
 
@@ -158,8 +165,14 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 				(m_waveText.getPosition().x + m_waveText.getGlobalBounds().width/2) - m_waveInfoText.getGlobalBounds().width/2,
 				(m_waveText.getPosition().y + m_waveText.getGlobalBounds().height)+10);
 
+			m_waveSkipText.setColor(m_waveTextColor);
+			m_waveSkipText.setPosition(
+				(m_waveInfoText.getPosition().x + m_waveInfoText.getGlobalBounds().width/2) - m_waveSkipText.getGlobalBounds().width/2,
+				(m_waveInfoText.getPosition().y + m_waveInfoText.getGlobalBounds().height)+10);
+
 			target.draw(m_waveText);
 			target.draw(m_waveInfoText);
+			target.draw(m_waveSkipText);
 		}
 
 		target.setView(tempView);

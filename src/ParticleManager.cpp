@@ -54,6 +54,11 @@ namespace ParticleManager
 
 				if(m_particles[i].stopTime > 0 && m_particles[i].aliveTime < m_particles[i].stopTime)
 					m_particles[i].speed = jl::Vec::lerp(sf::Vector2f(0, m_particles[i].initialSpeed), sf::Vector2f(m_particles[i].stopTime, 0),  m_particles[i].aliveTime/m_particles[i].stopTime).y;
+			
+				if(m_particles[i].speed < 0)
+					m_particles[i].speed = 0;
+				if(m_particles[i].alpha < 0)
+					m_particles[i].alpha = 0;
 			}
 		}
 	}
@@ -71,5 +76,10 @@ namespace ParticleManager
 
 			target.draw(m_particle);
 		}
+	}
+
+	void clearParticles()
+	{
+		m_particles.clear();
 	}
 };

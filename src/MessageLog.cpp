@@ -34,10 +34,10 @@ namespace MessageLog
 	void loadAssets(jl::AssetManager &assets)
 	{
 		m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-		m_text.setCharacterSize(std::floor(12*jl::Settings::getDouble("gameRatio")));
+		m_text.setCharacterSize(12);
 		m_text.setPosition(0,0);
 
-		m_textSpacing = std::ceil(15*jl::Settings::getDouble("gameRatio"));
+		m_textSpacing = 15;
 	}
 
 	void update(double deltaTime)

@@ -42,6 +42,9 @@ namespace SettingsConsole
 				bool modifyWindow = false;
 				while(ss >> arg)
 				{
+					if(arg.find("exit") != std::string::npos || arg.find("quit") != std::string::npos)
+						gameState.getEngine()->getStack().clearStack();
+
 					if(arg.find("window") != std::string::npos)
 						modifyWindow = true;
 

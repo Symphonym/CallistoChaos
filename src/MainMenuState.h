@@ -12,6 +12,10 @@ private:
 	int m_selectedItem;
 	std::vector<std::string> m_menuItems;
 
+	sf::Sprite m_backgroundPlanet;
+	std::vector<sf::Sprite> m_backgroundGalaxy;
+	sf::View m_solarView;
+
 public:
 
 	explicit MainMenuState(jl::Engine *engine);

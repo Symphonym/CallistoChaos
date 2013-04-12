@@ -30,7 +30,7 @@ private:
 	sf::Clock m_waveSpawnTimer;
 	double m_waveSpawnDelay;
 
-	sf::Text m_waveText, m_waveInfoText;
+	sf::Text m_waveText, m_waveInfoText, m_waveSkipText;
 	sf::Color m_waveTextColor;
 
 public:

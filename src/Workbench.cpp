@@ -49,10 +49,10 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	m_itemUpgradeSprite.setScale(3,3);
 
 	m_itemNameText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_itemNameText.setCharacterSize(std::floor(20*jl::Settings::getDouble("gameRatio")));
+	m_itemNameText.setCharacterSize(20);
 
 	m_itemCostText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_itemCostText.setCharacterSize(std::floor(15*jl::Settings::getDouble("gameRatio")));
+	m_itemCostText.setCharacterSize(15);
 
 	m_boughtSelRect = sf::IntRect(0, 12, 66, 19);
 	m_boughtNonRect = sf::IntRect(0, 31, 66, 19);
