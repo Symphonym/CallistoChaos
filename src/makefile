@@ -58,6 +58,7 @@ StateManager.o: State.h StateManager.h
 State.o: StopWatch.h State.h Engine.h
 SoundManager.o: SoundManager.h AssetManager.h
 SoundBufferAsset.o: Asset.h SoundBufferAsset.h
+SettingsConsole.o: SettingsConsole.h Utility.h GameState.h
 Settings.o: Settings.h
 RifleWeapon.o: Weapon.h RifleWeapon.h TileMap.h
 Player.o: TileCharacter.h Weapon.h Player.h TileMap.h MessageLog.h Utility.h GunWeapon.h RifleWeapon.h Settings.h GameState.h
@@ -66,12 +67,11 @@ MusicAsset.o: Asset.h MusicAsset.h
 MessageLog.o: AssetManager.h MessageLog.h Settings.h
 LootManager.o: AssetManager.h LootManager.h Utility.h Player.h TileMap.h
 GunWeapon.o: Weapon.h GunWeapon.h TileMap.h
-GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h ParticleManager.h
+GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h ParticleManager.h SettingsConsole.h
 FrameAnimation.o: FrameAnimation.h SoundManager.h
 FontAsset.o: Asset.h FontAsset.h
 Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h
 EnemyWaveManager.o: AssetManager.h EnemyWaveManager.h Settings.h CharacterManager.h WeakEnemy.h TileMap.h Utility.h
-Console.o: Console.h Utility.h
 CharacterManager.o: TileCharacter.h Player.h CharacterManager.h TileMap.h GameState.h
 BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h
 AstarAlgorithm.o: AstarAlgorithm.h TileMap.h Player.h
