@@ -260,10 +260,6 @@ void GameState::render()
 
 		getEngine()->getWindow().draw(m_backgroundPlanet);
 
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-		ParticleManager::render(getEngine()->getWindow());
-		getEngine()->getWindow().setView(tempView);
-
 	}
 
 	m_tileMap.render(getEngine()->getWindow());

@@ -520,18 +520,26 @@
 	"buffers":
 	[
 		{
-			"file": "src/WorkbenchFunctions.cpp",
+			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 1670,
+				"buffer_size": 735,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/TileOptionActions.cpp",
+			"file": "src/Engine.cpp",
 			"settings":
 			{
-				"buffer_size": 5308,
+				"buffer_size": 6591,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/GameState.cpp",
+			"settings":
+			{
+				"buffer_size": 12668,
 				"line_ending": "Unix"
 			}
 		},
@@ -544,26 +552,18 @@
 			}
 		},
 		{
-			"file": "src/GameState.cpp",
+			"file": "src/ParticleManager.cpp",
 			"settings":
 			{
-				"buffer_size": 12847,
+				"buffer_size": 2627,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/GalaxyGenerator.h",
+			"file": "src/ParticleManager.h",
 			"settings":
 			{
-				"buffer_size": 503,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/GalaxyGenerator.cpp",
-			"settings":
-			{
-				"buffer_size": 2149,
+				"buffer_size": 827,
 				"line_ending": "Unix"
 			}
 		}
@@ -612,6 +612,13 @@
 	},
 	"file_history":
 	[
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GalaxyGenerator.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GalaxyGenerator.h",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GameState.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/MainMenuState.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionActions.cpp",
+		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Weapon.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Player.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Utility.h",
@@ -624,11 +631,9 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/makefile",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EnemyWaveManager.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/EnemyWaveManager.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GameState.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GameState.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/SettingsConsole.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Engine.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileCharacter.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/AstarAlgorithm.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WeakEnemy.cpp",
@@ -641,7 +646,6 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Workbench.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Workbench.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WorkbenchFunctions.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GunWeapon.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/GunWeapon.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Weapon.h",
@@ -652,7 +656,6 @@
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Tile.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/Player.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/WeakEnemy.h",
-		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionActions.cpp",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionActions.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionManager.h",
 		"/home/jakob/Skrivbord/Programming/Projects/CallistoChaos/src/TileOptionManager.cpp",
@@ -736,10 +739,7 @@
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/main.cpp",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/fragment.shader",
 		"/home/jakob/Skrivbord/Projects/OpenGLtest/src/vertex.shader",
-		"/home/jakob/Skrivbord/Projects/SFMLtest/src/Makefile",
-		"/home/jakob/Skrivbord/Projects/SFMLtest/src/main.cpp",
-		"/home/jakob/.config/sublime-text-2/Packages/SublimeClang/SublimeClang.sublime-settings",
-		"/home/jakob/Skrivbord/Projects/SFMLtest/SFMLtest.sublime-project"
+		"/home/jakob/Skrivbord/Projects/SFMLtest/src/Makefile"
 	],
 	"find":
 	{
@@ -758,6 +758,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"clear",
 			"bulletspread",
 			"m_game",
 			";\n",
@@ -865,15 +866,42 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/WorkbenchFunctions.cpp",
+					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 1670,
+						"buffer_size": 735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								289,
+								289
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 6591,
 						"regions":
 						{
 						},
@@ -890,25 +918,79 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 78.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "src/TileOptionActions.cpp",
+					"buffer": 2,
+					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 5308,
+						"buffer_size": 12668,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2992,
-								2992
+								8986,
+								8986
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2398.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/MainMenuState.cpp",
+					"settings":
+					{
+						"buffer_size": 4295,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/ParticleManager.cpp",
+					"settings":
+					{
+						"buffer_size": 2627,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2624,
+								2573
 							]
 						],
 						"settings":
@@ -923,108 +1005,28 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "src/MainMenuState.cpp",
+					"buffer": 5,
+					"file": "src/ParticleManager.h",
 					"settings":
 					{
-						"buffer_size": 4295,
+						"buffer_size": 827,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3370,
-								3370
+								794,
+								794
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 864.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/GameState.cpp",
-					"settings":
-					{
-						"buffer_size": 12847,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8634,
-								8634
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2217.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/GalaxyGenerator.h",
-					"settings":
-					{
-						"buffer_size": 503,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								354,
-								354
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/GalaxyGenerator.cpp",
-					"settings":
-					{
-						"buffer_size": 2149,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2143,
-								2143
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 429.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1082,12 +1084,24 @@
 		"selected_items":
 		[
 			[
-				"wea",
-				"CallistoChaos/src/Weapon.cpp"
+				"part",
+				"CallistoChaos/src/ParticleManager.cpp"
+			],
+			[
+				"main",
+				"CallistoChaos/src/MainMenuState.cpp"
 			],
 			[
 				"game",
 				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"engi",
+				"CallistoChaos/src/Engine.h"
+			],
+			[
+				"wea",
+				"CallistoChaos/src/Weapon.cpp"
 			],
 			[
 				"mainn",
@@ -1124,10 +1138,6 @@
 			[
 				"e",
 				"CallistoChaos/src/Engine.cpp"
-			],
-			[
-				"main",
-				"CallistoChaos/src/main.cpp"
 			],
 			[
 				"state",
@@ -1380,10 +1390,6 @@
 			[
 				"en",
 				"CallistoChaos/src/Engine.cpp"
-			],
-			[
-				"engi",
-				"CallistoChaos/src/Engine.h"
 			],
 			[
 				"tileoptionmanager",
