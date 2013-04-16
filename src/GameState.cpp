@@ -72,8 +72,8 @@ GameState::GameState(jl::Engine *engine) :
 	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet2.png")->get());
 	m_backgroundPlanet.setScale(
-		10000.0 / m_backgroundPlanet.getTexture()->getSize().x,
-		10000.0 / m_backgroundPlanet.getTexture()->getSize().y);
+		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
+		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
 	m_backgroundPlanet.setPosition(
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().width/2),
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().height/2));
@@ -151,7 +151,7 @@ void GameState::reloadView()
 	m_view.setSize(m_tileMap.getMapSize().x*m_tileMap.getTileSize(), m_tileMap.getMapSize().y*m_tileMap.getTileSize());
 	m_view.setCenter((m_tileMap.getMapSize().x*m_tileMap.getTileSize())/2, (m_tileMap.getMapSize().y*m_tileMap.getTileSize())/2);
 	pause();
-	m_view.zoom(80);
+	m_view.zoom(10);
 
 	// Store ratio between map and window size
 	sf::Vector2f viewSize(
@@ -195,7 +195,11 @@ void GameState::update()
 				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
 				m_tileMap.getMapSize().y*m_tileMap.getTileSize()) - m_view.getSize());
 
-		if(jl::Vec::length(sizeDistance) < 1)
+		float distance = jl::Vec::length(sizeDistance);
+		if(distance < 600)
+			ParticleManager::clearParticles();
+
+		if(distance < 1)
 		{
 			resume();
 			m_view.setSize(sf::Vector2f(
@@ -253,10 +257,7 @@ void GameState::render()
 	{
 		GalaxyGenerator::render(getEngine()->getWindow());
 
-		sf::View tempView(getEngine()->getWindow().getView());
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
 		ParticleManager::render(getEngine()->getWindow());
-		getEngine()->getWindow().setView(tempView);
 
 		getEngine()->getWindow().draw(m_backgroundPlanet);
 

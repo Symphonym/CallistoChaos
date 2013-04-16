@@ -20,10 +20,10 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 
 	jl::FrameAnimation anim;
 	anim.createAnimation("default");
-	anim.pushFrame(sf::IntRect(0,0,16,16), 0.05).
-		pushFrame(sf::IntRect(16,0,16,16), 0.05).
-		pushFrame(sf::IntRect(32,0,16,16), 0.05).
-		pushFrame(sf::IntRect(48,0,16,16), 0.05);
+	anim.pushFrame(sf::IntRect(0,0,16,16), 0.1).
+		pushFrame(sf::IntRect(16,0,16,16), 0.1).
+		pushFrame(sf::IntRect(32,0,16,16), 0.1).
+		pushFrame(sf::IntRect(48,0,16,16), 0.1);
 	addBulletAnimation("default");
 	anim.createAnimation("bulletFire");
 	anim.pushFrame(sf::IntRect(0,32,16,16), 0.01).

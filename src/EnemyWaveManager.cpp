@@ -52,7 +52,7 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	m_waveInfoText.setCharacterSize(24);
 
 	m_waveSkipText = sf::Text(m_waveText);
-	m_waveSkipText.setCharacterSize(10);
+	m_waveSkipText.setCharacterSize(12);
 	m_waveSkipText.setString("Press RT + LT to skip countdown");
 
 
@@ -140,7 +140,7 @@ void EnemyWaveManager::update(double deltaTime)
 		}
 
 		// Alpha value on the y-axis, time on the x-axis
-		m_waveTextColor.a = jl::Vec::lerp(sf::Vector2f(0, 0), sf::Vector2f(m_waveBreakTime, 255),
+		m_waveTextColor.a = jl::Vec::lerp(sf::Vector2f(0, 50), sf::Vector2f(m_waveBreakTime, 255),
 		 double((double)(m_waveBreakTime - m_waveBreakLeft) + m_waveBreakTimer.getElapsedTime().asSeconds())/(double)m_waveBreakTime).y;
 	}
 }
