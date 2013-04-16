@@ -28,9 +28,10 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1).
 		pushFrame(sf::IntRect(48, 0, 16, 16), 0.1);
 	m_animation.createAnimation("up");
-	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 48, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 48, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 32, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1).
+		pushFrame(sf::IntRect(48, 32, 16, 16), 0.1);
 	m_animation.createAnimation("down");
 	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
 		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).

@@ -6,6 +6,7 @@
 #include "Utility.h"
 #include "ParticleManager.h"
 #include "SettingsConsole.h"
+#include "GalaxyGenerator.h"
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
@@ -150,7 +151,7 @@ void GameState::reloadView()
 	m_view.setSize(m_tileMap.getMapSize().x*m_tileMap.getTileSize(), m_tileMap.getMapSize().y*m_tileMap.getTileSize());
 	m_view.setCenter((m_tileMap.getMapSize().x*m_tileMap.getTileSize())/2, (m_tileMap.getMapSize().y*m_tileMap.getTileSize())/2);
 	pause();
-	m_view.zoom(7);
+	m_view.zoom(10);
 
 	// Store ratio between map and window size
 	sf::Vector2f viewSize(
@@ -159,8 +160,8 @@ void GameState::reloadView()
 	sf::Vector2f windowSize(
 		(double)getEngine()->getWindow().getSize().x,
 		(double)getEngine()->getWindow().getSize().y);
-	//jl::Settings::setDouble("gameRatio", 
-		//(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
+	jl::Settings::setDouble("gameRatio", 
+		(viewSize.y/viewSize.x)/(windowSize.y/windowSize.x));
 }
 
 void GameState::events()
@@ -178,29 +179,41 @@ void GameState::events()
 
 void GameState::update()
 {
+	// Smack down to planet (with camera)
 	if(isPaused())
 	{
+		GalaxyGenerator::rotate(getEngine()->getDelta());
+
 		m_view.setSize(jl::Vec::lerp(
 			m_view.getSize(),
 			sf::Vector2f(
 				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
-				m_tileMap.getMapSize().y*m_tileMap.getTileSize()), 10*getEngine()->getDelta()));
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()), 5*getEngine()->getDelta()));
 
 		sf::Vector2f sizeDistance(
 			sf::Vector2f(
 				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
 				m_tileMap.getMapSize().y*m_tileMap.getTileSize()) - m_view.getSize());
 
-		if(jl::Vec::length(sizeDistance) < 2)
+		float distance = jl::Vec::length(sizeDistance);
+		if(distance < 600)
+			ParticleManager::clearParticles();
+
+		if(distance < 1)
 		{
 			resume();
 			m_view.setSize(sf::Vector2f(
 				m_tileMap.getMapSize().x*m_tileMap.getTileSize(), 
 				m_tileMap.getMapSize().y*m_tileMap.getTileSize()));
+			ParticleManager::clearParticles();
 		}
 	}
+
+
+
 	// Update view
 	getEngine()->getWindow().setView(m_view);
+	ParticleManager::update(getEngine()->getDelta());
 
 	if(!isPaused())
 	{
@@ -214,7 +227,6 @@ void GameState::update()
 		m_characters.update(getEngine()->getDelta());
 		m_loot.update(getEngine()->getDelta());
 		m_enemyWaves.update(getEngine()->getDelta());
-		ParticleManager::update(getEngine()->getDelta());
 		if(!m_characters.getPlayer().isDead())
 		{
 			m_workbench.update(getEngine()->getDelta());
@@ -240,8 +252,16 @@ void GameState::update()
 }
 void GameState::render()
 {
+	// Draw planet and galaxy during zoom in
 	if(isPaused())
+	{
+		GalaxyGenerator::render(getEngine()->getWindow());
+
+		ParticleManager::render(getEngine()->getWindow());
+
 		getEngine()->getWindow().draw(m_backgroundPlanet);
+
+	}
 
 	m_tileMap.render(getEngine()->getWindow());
 
@@ -251,7 +271,10 @@ void GameState::render()
 		getEngine()->getWindow().draw(m_scoreText);
 		getEngine()->getWindow().setView(m_view);
 	}
-	ParticleManager::render(getEngine()->getWindow());
+
+	// Don't draw particles ontop tilemap during zoom in
+	if(!isPaused())
+		ParticleManager::render(getEngine()->getWindow());
 
 	m_characters.render(getEngine()->getWindow());
 

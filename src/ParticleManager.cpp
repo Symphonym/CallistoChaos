@@ -10,7 +10,7 @@ namespace ParticleManager
 	void addParticle(
 		const sf::Vector2f &position, 
 		double lifeTime, 
-		double speed, 
+		int speed, 
 		double rotation, 
 		int angleDirection, 
 		const sf::Color &particleColor, 
@@ -46,8 +46,8 @@ namespace ParticleManager
 			else
 			{
 				m_particles[i].aliveTime += deltaTime;
-				m_particles[i].position.x += m_particles[i].direction.x*m_particles[i].speed*deltaTime;
-				m_particles[i].position.y += m_particles[i].direction.y*m_particles[i].speed*deltaTime;
+				m_particles[i].position.x += (double)m_particles[i].direction.x*(double)m_particles[i].speed*deltaTime;
+				m_particles[i].position.y += (double)m_particles[i].direction.y*(double)m_particles[i].speed*deltaTime;
 
 				if(m_particles[i].fadeOut)
 					m_particles[i].alpha = jl::Vec::lerp(sf::Vector2f(0, 255), sf::Vector2f(m_particles[i].lifeTime, 0), m_particles[i].aliveTime/m_particles[i].lifeTime).y;
@@ -66,6 +66,8 @@ namespace ParticleManager
 	{
 		for(int i = 0; i < m_particles.size(); i++)
 		{
+
+
 			m_particle.setSize(m_particles[i].particleSize);
 			sf::Color particleColor = m_particles[i].particleColor;
 			particleColor.a = m_particles[i].alpha;
