@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"m_waveTe",
+				"m_waveTextColor"
+			],
+			[
+				"m_b",
+				"m_backgroundGalaxy"
+			],
+			[
+				"gala",
+				"galaxyItem"
+			],
+			[
 				"getA",
 				"getActiveWeapon"
 			],
@@ -267,7 +279,7 @@
 			"file": "src/MainMenuState.h",
 			"settings":
 			{
-				"buffer_size": 397,
+				"buffer_size": 442,
 				"line_ending": "Unix"
 			}
 		},
@@ -275,7 +287,7 @@
 			"file": "src/MainMenuState.cpp",
 			"settings":
 			{
-				"buffer_size": 2273,
+				"buffer_size": 4148,
 				"line_ending": "Unix"
 			}
 		},
@@ -291,7 +303,95 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 12645,
+				"buffer_size": 12097,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/LootManager.cpp",
+			"settings":
+			{
+				"buffer_size": 4653,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/ParticleManager.h",
+			"settings":
+			{
+				"buffer_size": 827,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/ParticleManager.cpp",
+			"settings":
+			{
+				"buffer_size": 2627,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Player.cpp",
+			"settings":
+			{
+				"buffer_size": 10426,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Player.h",
+			"settings":
+			{
+				"buffer_size": 857,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/EnemyWaveManager.cpp",
+			"settings":
+			{
+				"buffer_size": 6224,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/EnemyWaveManager.h",
+			"settings":
+			{
+				"buffer_size": 961,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/MessageLog.cpp",
+			"settings":
+			{
+				"buffer_size": 1586,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Workbench.cpp",
+			"settings":
+			{
+				"buffer_size": 13582,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/SettingsConsole.cpp",
+			"settings":
+			{
+				"buffer_size": 2723,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/SettingsConsole.h",
+			"settings":
+			{
+				"buffer_size": 399,
 				"line_ending": "Unix"
 			}
 		}
@@ -340,9 +440,13 @@
 	},
 	"file_history":
 	[
+		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
+		"/home/felix/Desktop/CallistoChaos/src/StateManager.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/Player.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/ParticleManager.h",
+		"/home/felix/Desktop/CallistoChaos/src/ParticleManager.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Workbench.h",
 		"/home/felix/Desktop/CallistoChaos/src/EnemyWaveManager.cpp",
-		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
 		"/home/felix/Desktop/CallistoChaos/src/MainMenuState.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/MainMenuState.h",
 		"/home/felix/Desktop/CallistoChaos/src/FrameAnimation.cpp",
@@ -368,7 +472,6 @@
 		"/home/felix/Desktop/CallistoChaos/src/makefile",
 		"/home/felix/Desktop/CallistoChaos/src/TileMap.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/TileMap.h",
-		"/home/felix/Desktop/CallistoChaos/src/Player.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/main.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Engine.h",
 		"/home/felix/Desktop/CallistoChaos/src/GameState.h",
@@ -378,7 +481,6 @@
 		"/home/felix/Desktop/CallistoChaos/src/State.h",
 		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Asset.h",
-		"/home/felix/Desktop/CallistoChaos/src/StateManager.cpp",
 		"/home/felix/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/felix/.config/sublime-text-2/Packages/User/DebugProject.sublime-build",
 		"/home/felix/Desktop/CallistoChaos/src/State.cpp",
@@ -463,6 +565,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"gameRatio",
+			"m_resourceText.setChar",
 			"m_weapons",
 			"Left",
 			"for(int x = 0; (std::size_t)x < gameLevel.size(); x++)\n		for(int y = 0; (std::size_t)y < 5; y++)\n			gameLevel[x][y] = std::rand() % 100 < 10 ? 1 : 0;",
@@ -527,7 +631,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 14,
 			"sheets":
 			[
 				{
@@ -542,8 +646,8 @@
 						"selection":
 						[
 							[
-								288,
-								288
+								508,
+								508
 							]
 						],
 						"settings":
@@ -562,20 +666,21 @@
 					"file": "src/MainMenuState.h",
 					"settings":
 					{
-						"buffer_size": 397,
+						"buffer_size": 442,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								282,
-								282
+								96,
+								96
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -588,15 +693,15 @@
 					"file": "src/MainMenuState.cpp",
 					"settings":
 					{
-						"buffer_size": 2273,
+						"buffer_size": 4148,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1869,
-								1869
+								3930,
+								3930
 							]
 						],
 						"settings":
@@ -605,7 +710,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 468.0,
+						"translation.y": 1675.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -622,8 +727,89 @@
 						"selection":
 						[
 							[
-								841,
-								841
+								583,
+								583
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 273.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/GameState.cpp",
+					"settings":
+					{
+						"buffer_size": 12097,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7352,
+								7352
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2693.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/LootManager.cpp",
+					"settings":
+					{
+						"buffer_size": 4653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								164,
+								164
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/ParticleManager.h",
+					"settings":
+					{
+						"buffer_size": 827,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								816,
+								816
 							]
 						],
 						"settings":
@@ -638,19 +824,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "src/GameState.cpp",
+					"buffer": 7,
+					"file": "src/ParticleManager.cpp",
 					"settings":
 					{
-						"buffer_size": 12645,
+						"buffer_size": 2627,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3423,
-								3423
+								2621,
+								2621
 							]
 						],
 						"settings":
@@ -659,7 +845,222 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 819.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/Player.cpp",
+					"settings":
+					{
+						"buffer_size": 10426,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1906,
+								1906
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 362.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Player.h",
+					"settings":
+					{
+						"buffer_size": 857,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								343,
+								343
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/EnemyWaveManager.cpp",
+					"settings":
+					{
+						"buffer_size": 6224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4974,
+								4974
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1894.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/EnemyWaveManager.h",
+					"settings":
+					{
+						"buffer_size": 961,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								724,
+								724
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 39.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/MessageLog.cpp",
+					"settings":
+					{
+						"buffer_size": 1586,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								642,
+								642
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "src/Workbench.cpp",
+					"settings":
+					{
+						"buffer_size": 13582,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2665,
+								2665
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 975.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/SettingsConsole.cpp",
+					"settings":
+					{
+						"buffer_size": 2723,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1387,
+								1387
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 481.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "src/SettingsConsole.h",
+					"settings":
+					{
+						"buffer_size": 399,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								336,
+								336
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -717,6 +1118,58 @@
 		"selected_items":
 		[
 			[
+				"stat",
+				"CallistoChaos/src/StateManager.h"
+			],
+			[
+				"settingsco",
+				"CallistoChaos/src/SettingsConsole.cpp"
+			],
+			[
+				"ene",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
+				"pl",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"work",
+				"CallistoChaos/src/Workbench.cpp"
+			],
+			[
+				"mess",
+				"CallistoChaos/src/MessageLog.cpp"
+			],
+			[
+				"enemy",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
+				"gamest",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"p",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"lo",
+				"CallistoChaos/src/LootManager.cpp"
+			],
+			[
+				"pa",
+				"CallistoChaos/src/ParticleManager.h"
+			],
+			[
+				"par",
+				"CallistoChaos/src/ParticleManager.h"
+			],
+			[
+				"loot",
+				"CallistoChaos/src/LootManager.cpp"
+			],
+			[
 				"game",
 				"CallistoChaos/src/GameState.h"
 			],
@@ -753,10 +1206,6 @@
 				"CallistoChaos/src/Workbench.h"
 			],
 			[
-				"pl",
-				"CallistoChaos/src/Player.cpp"
-			],
-			[
 				"wea",
 				"CallistoChaos/src/Weapon.cpp"
 			],
@@ -771,10 +1220,6 @@
 			[
 				"engi",
 				"CallistoChaos/src/Engine.cpp"
-			],
-			[
-				"stat",
-				"CallistoChaos/src/State.h"
 			],
 			[
 				"mainme",
@@ -875,10 +1320,6 @@
 			[
 				"tilech",
 				"CallistoChaos/src/TileCharacter.h"
-			],
-			[
-				"p",
-				"CallistoChaos/src/Player.cpp"
 			],
 			[
 				"tileo",
