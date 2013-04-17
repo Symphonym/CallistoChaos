@@ -65,6 +65,7 @@ void MainMenuState::events()
 }
 void MainMenuState::update()
 {
+
 	m_backgroundPlanet.setPosition(
 		m_solarView.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
 		m_solarView.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);

@@ -69,7 +69,6 @@ GameState::GameState(jl::Engine *engine) :
 	m_tileOptions.loadAssets(getEngine()->getAssets());
 	MessageLog::loadAssets(getEngine()->getAssets());
 
-	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet2.png")->get());
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
@@ -208,6 +207,46 @@ void GameState::update()
 			ParticleManager::clearParticles();
 		}
 	}
+	else if(m_characters.getPlayer().isDead())
+	{
+		GalaxyGenerator::rotate(getEngine()->getDelta());
+		m_backgroundPlanet.setPosition(
+		m_view.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
+		m_view.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);
+
+		m_view.setSize(jl::Vec::lerp(
+			m_view.getSize(),
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10), 5*getEngine()->getDelta()));
+
+		sf::Vector2f sizeDistance(
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10) - m_view.getSize());
+
+		float distance = jl::Vec::length(sizeDistance);
+
+		if(distance < 0.5)
+		{
+			m_view.setSize(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10);
+			getEngine()->getStack().popState();
+		}
+
+		for(int i = 0; i < 5; i++)
+			ParticleManager::addParticle(
+				m_view.getCenter(),
+				jl::Math::randDouble(1.0, 1.4),
+				jl::Math::randInt(700, 900),
+				0,
+				jl::Math::randInt(0, 360),
+				sf::Color(255, 102, 51),
+				sf::Vector2f(m_backgroundPlanet.getScale().x, m_backgroundPlanet.getScale().y),
+				1.4,
+				true);
+	}
 
 
 
@@ -215,15 +254,8 @@ void GameState::update()
 	getEngine()->getWindow().setView(m_view);
 	ParticleManager::update(getEngine()->getDelta());
 
-	if(!isPaused())
+	if(!isPaused() && !m_characters.getPlayer().isDead())
 	{
-		sf::Color scoreColor = sf::Color::White;
-		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 100;
-		m_scoreText.setColor(scoreColor);
-		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60 : 30);
-		m_scoreText.setString("Score: " + jl::Util::toString(m_characters.getPlayer().getScore()));
-		m_scoreText.setPosition(getEngine()->getWindow().getSize().x * 0.5 - int(m_scoreText.getGlobalBounds().width/2), getEngine()->getWindow().getSize().y * 0.1);
-
 		m_characters.update(getEngine()->getDelta());
 		m_loot.update(getEngine()->getDelta());
 		m_enemyWaves.update(getEngine()->getDelta());
@@ -253,7 +285,7 @@ void GameState::update()
 void GameState::render()
 {
 	// Draw planet and galaxy during zoom in
-	if(isPaused())
+	if(isPaused() || m_characters.getPlayer().isDead())
 	{
 		GalaxyGenerator::render(getEngine()->getWindow());
 
@@ -263,46 +295,25 @@ void GameState::render()
 
 	}
 
-	m_tileMap.render(getEngine()->getWindow());
-
 	if(!m_characters.getPlayer().isDead())
 	{
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-		getEngine()->getWindow().draw(m_scoreText);
-		getEngine()->getWindow().setView(m_view);
-	}
+		m_tileMap.render(getEngine()->getWindow());
 
-	// Don't draw particles ontop tilemap during zoom in
-	if(!isPaused())
-		ParticleManager::render(getEngine()->getWindow());
+		// Don't draw particles ontop tilemap during zoom in
+		if(!isPaused())
+			ParticleManager::render(getEngine()->getWindow());
 
-	m_characters.render(getEngine()->getWindow());
+		m_characters.render(getEngine()->getWindow());
 
-	if(!m_characters.getPlayer().isDead())
-	{
 		m_workbench.render(getEngine()->getWindow());
 		m_tileOptions.render(getEngine()->getWindow());
+
+		m_loot.render(getEngine()->getWindow());
+		MessageLog::render(getEngine()->getWindow());
+
+		m_enemyWaves.render(getEngine()->getWindow());
 	}
-	m_loot.render(getEngine()->getWindow());
-	MessageLog::render(getEngine()->getWindow());
 
-	m_enemyWaves.render(getEngine()->getWindow());
-
-	if(m_characters.getPlayer().isDead())
-	{
-		sf::Color blackColor = sf::Color::Black;
-		blackColor.a = 100;
-		sf::Image blackScreen;
-		blackScreen.create(getEngine()->getWindow().getView().getSize().x, getEngine()->getWindow().getView().getSize().y, blackColor);
-
-		sf::Texture blackScreenTexture; blackScreenTexture.loadFromImage(blackScreen);
-		sf::Sprite blackScreenSprite; blackScreenSprite.setTexture(blackScreenTexture);
-		getEngine()->getWindow().draw(blackScreenSprite);
-
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-		getEngine()->getWindow().draw(m_scoreText);
-		getEngine()->getWindow().setView(m_view);
-	}
 
 	SettingsConsole::render(getEngine()->getWindow());
 }

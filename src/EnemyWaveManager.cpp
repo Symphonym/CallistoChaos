@@ -98,6 +98,7 @@ void EnemyWaveManager::update(double deltaTime)
 			{
 				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
 				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+				enemy->getSprite().setColor(sf::Color(150, 150, 150));
 			}
 			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
 

@@ -38,8 +38,8 @@ namespace jl
 			m_fps = 1 / m_delta;
 
 			// Limit deltaTime to avoid "jumpy" behaviour
-			if(m_delta > 0.01)
-				m_delta = 0.01;
+			if(m_delta > 0.02)
+				m_delta = 0.02;
 
 			// Do delete requests
 			m_stack.processDeletes();

@@ -13,29 +13,45 @@ WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::V
 	heal(5);
 
 	m_animation.createAnimation("right");
-	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 32, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 48, 16, 16), 0.05);
 	m_animation.createAnimation("left");
-	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 16, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 32, 16, 16), 0.05);
 	m_animation.createAnimation("up");
-	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 48, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 48, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 16, 16, 16), 0.05);
 	m_animation.createAnimation("down");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 0, 16, 16), 0.05);
 	m_animation.createAnimation("lookRight");
-	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 48, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 48, 16, 16), 0.05);
 	m_animation.createAnimation("lookLeft");
-	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 32, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 32, 16, 16), 0.05);
 	m_animation.createAnimation("lookUp");
-	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 16, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 16, 16, 16), 0.05);
 	m_animation.createAnimation("lookDown");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(64, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(80, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(96, 0, 16, 16), 0.05).
+		pushFrame(sf::IntRect(112, 0, 16, 16), 0.05);
 
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
@@ -93,7 +109,7 @@ void WeakEnemy::update(double deltaTime)
 
 	}
 
-	m_animation.commit(m_sprite, deltaTime);
+		m_animation.commit(m_sprite, deltaTime);
 }
 void WeakEnemy::render(sf::RenderTarget &target)
 {
