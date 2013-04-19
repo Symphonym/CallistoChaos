@@ -37,6 +37,7 @@ private:
 	Workbench m_workbench;
 
 	sf::Sprite m_backgroundPlanet;
+	bool m_updatedHighscore;
 
 public:
 

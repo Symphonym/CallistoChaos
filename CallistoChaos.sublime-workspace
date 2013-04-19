@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"m_wa",
+				"m_waveIsActive"
+			],
+			[
+				"m_sco",
+				"m_scoreSprite"
+			],
+			[
+				"high",
+				"highscoreLine"
+			],
+			[
 				"m_waveTe",
 				"m_waveTextColor"
 			],
@@ -271,7 +283,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 736,
+				"buffer_size": 734,
 				"line_ending": "Unix"
 			}
 		},
@@ -279,7 +291,7 @@
 			"file": "src/MainMenuState.h",
 			"settings":
 			{
-				"buffer_size": 442,
+				"buffer_size": 455,
 				"line_ending": "Unix"
 			}
 		},
@@ -287,7 +299,7 @@
 			"file": "src/MainMenuState.cpp",
 			"settings":
 			{
-				"buffer_size": 4471,
+				"buffer_size": 5923,
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +307,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 1083,
+				"buffer_size": 1109,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +315,7 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 12474,
+				"buffer_size": 12971,
 				"line_ending": "Unix"
 			}
 		},
@@ -335,7 +347,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 10473,
+				"buffer_size": 11241,
 				"line_ending": "Unix"
 			}
 		},
@@ -343,7 +355,7 @@
 			"file": "src/Player.h",
 			"settings":
 			{
-				"buffer_size": 857,
+				"buffer_size": 872,
 				"line_ending": "Unix"
 			}
 		},
@@ -351,7 +363,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 6284,
+				"buffer_size": 5767,
 				"line_ending": "Unix"
 			}
 		},
@@ -359,7 +371,7 @@
 			"file": "src/EnemyWaveManager.h",
 			"settings":
 			{
-				"buffer_size": 961,
+				"buffer_size": 841,
 				"line_ending": "Unix"
 			}
 		},
@@ -426,6 +438,38 @@
 				"buffer_size": 11037,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "src/Utility.h",
+			"settings":
+			{
+				"buffer_size": 3476,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/CharacterManager.cpp",
+			"settings":
+			{
+				"buffer_size": 5395,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/StateManager.h",
+			"settings":
+			{
+				"buffer_size": 1406,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/StateManager.cpp",
+			"settings":
+			{
+				"buffer_size": 1244,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "Packages/User/OpenProject.sublime-build",
@@ -472,10 +516,10 @@
 	},
 	"file_history":
 	[
-		"/home/felix/Desktop/CallistoChaos/src/Weapon.cpp",
-		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
 		"/home/felix/Desktop/CallistoChaos/src/StateManager.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/Weapon.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Player.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/ParticleManager.h",
 		"/home/felix/Desktop/CallistoChaos/src/ParticleManager.cpp",
@@ -597,6 +641,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"popState",
 			"gameRatio",
 			"m_resourceText.setChar",
 			"m_weapons",
@@ -663,7 +708,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 10,
 			"sheets":
 			[
 				{
@@ -671,15 +716,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 736,
+						"buffer_size": 734,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								512,
-								512
+								404,
+								404
 							]
 						],
 						"settings":
@@ -698,15 +743,15 @@
 					"file": "src/MainMenuState.h",
 					"settings":
 					{
-						"buffer_size": 442,
+						"buffer_size": 455,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								96,
-								96
+								179,
+								179
 							]
 						],
 						"settings":
@@ -725,15 +770,15 @@
 					"file": "src/MainMenuState.cpp",
 					"settings":
 					{
-						"buffer_size": 4471,
+						"buffer_size": 5923,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4217,
-								4217
+								67,
+								67
 							]
 						],
 						"settings":
@@ -742,7 +787,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 960.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -752,15 +797,15 @@
 					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 1083,
+						"buffer_size": 1109,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								348,
-								348
+								845,
+								845
 							]
 						],
 						"settings":
@@ -769,7 +814,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 78.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -779,15 +824,15 @@
 					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 12474,
+						"buffer_size": 12971,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9178,
-								9178
+								2572,
+								2572
 							]
 						],
 						"settings":
@@ -796,7 +841,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2559.0,
+						"translation.y": 613.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -887,15 +932,15 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 10473,
+						"buffer_size": 11241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								179,
-								179
+								703,
+								703
 							]
 						],
 						"settings":
@@ -904,7 +949,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -914,15 +959,15 @@
 					"file": "src/Player.h",
 					"settings":
 					{
-						"buffer_size": 857,
+						"buffer_size": 872,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								343,
-								343
+								358,
+								358
 							]
 						],
 						"settings":
@@ -941,15 +986,15 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 6284,
+						"buffer_size": 5767,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3275,
-								3275
+								4991,
+								4991
 							]
 						],
 						"settings":
@@ -958,7 +1003,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 962.0,
+						"translation.y": 1450.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -968,15 +1013,15 @@
 					"file": "src/EnemyWaveManager.h",
 					"settings":
 					{
-						"buffer_size": 961,
+						"buffer_size": 841,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								724,
-								724
+								606,
+								606
 							]
 						],
 						"settings":
@@ -1029,8 +1074,8 @@
 						"selection":
 						[
 							[
-								2665,
-								2665
+								2510,
+								2510
 							]
 						],
 						"settings":
@@ -1204,6 +1249,114 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "src/Utility.h",
+					"settings":
+					{
+						"buffer_size": 3476,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 78.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "src/CharacterManager.cpp",
+					"settings":
+					{
+						"buffer_size": 5395,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								899,
+								899
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "src/StateManager.h",
+					"settings":
+					{
+						"buffer_size": 1406,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								460,
+								460
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "src/StateManager.cpp",
+					"settings":
+					{
+						"buffer_size": 1244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								235,
+								235
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1245,7 +1398,7 @@
 	},
 	"output.exec":
 	{
-		"height": 252.0
+		"height": 172.0
 	},
 	"replace":
 	{
@@ -1258,16 +1411,60 @@
 		"selected_items":
 		[
 			[
-				"",
-				"CallistoChaos/src/GameState.h"
+				"enemyw",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
 				"gamest",
 				"CallistoChaos/src/GameState.cpp"
 			],
 			[
-				"enemyw",
+				"pl",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"m",
+				"CallistoChaos/src/MainMenuState.cpp"
+			],
+			[
+				"work",
+				"CallistoChaos/src/Workbench.cpp"
+			],
+			[
+				"p",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"statem",
+				"CallistoChaos/src/StateManager.h"
+			],
+			[
+				"game",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"games",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"enem",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
+				"statemana",
+				"CallistoChaos/src/StateManager.cpp"
+			],
+			[
+				"chara",
+				"CallistoChaos/src/CharacterManager.cpp"
+			],
+			[
+				"uti",
+				"CallistoChaos/src/Utility.h"
+			],
+			[
+				"",
+				"CallistoChaos/src/GameState.h"
 			],
 			[
 				"main",
@@ -1282,20 +1479,12 @@
 				"CallistoChaos/src/Weapon.cpp"
 			],
 			[
-				"pl",
-				"CallistoChaos/src/Player.cpp"
-			],
-			[
 				"engi",
 				"CallistoChaos/src/Engine.cpp"
 			],
 			[
 				"weak",
 				"CallistoChaos/src/WeakEnemy.cpp"
-			],
-			[
-				"enem",
-				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
 				"gun",
@@ -1326,20 +1515,12 @@
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
-				"work",
-				"CallistoChaos/src/Workbench.cpp"
-			],
-			[
 				"mess",
 				"CallistoChaos/src/MessageLog.cpp"
 			],
 			[
 				"enemy",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
-			],
-			[
-				"p",
-				"CallistoChaos/src/Player.cpp"
 			],
 			[
 				"lo",
@@ -1352,10 +1533,6 @@
 			[
 				"loot",
 				"CallistoChaos/src/LootManager.cpp"
-			],
-			[
-				"game",
-				"CallistoChaos/src/GameState.h"
 			],
 			[
 				"mainm",
@@ -1420,10 +1597,6 @@
 			[
 				"mainmen",
 				"CallistoChaos/src/MainMenuState.cpp"
-			],
-			[
-				"games",
-				"CallistoChaos/src/GameState.cpp"
 			],
 			[
 				"gamesta",
@@ -1500,10 +1673,6 @@
 			[
 				"tileoptionmana",
 				"CallistoChaos/src/TileOptionManager.cpp"
-			],
-			[
-				"uti",
-				"CallistoChaos/src/Utility.h"
 			],
 			[
 				"bedc",

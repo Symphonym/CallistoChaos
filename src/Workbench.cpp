@@ -101,7 +101,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	speedItem.weapon = std::shared_ptr<Weapon>(nullptr);
 	speedItem.name = "Speed boost";
 	speedItem.isBought = true;
-	speedItem.displaySubRect = sf::IntRect(30, 49, 7, 7);
+	speedItem.displaySubRect = sf::IntRect(38, 49, 8, 6);
 	speedItem.maxUpgradeLevel = 4;
 	speedItem.upgradeLevel = 1;
 	speedItem.cost = 150;

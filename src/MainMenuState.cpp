@@ -4,6 +4,8 @@
 #include "GameState.h"
 #include "ParticleManager.h"
 #include "GalaxyGenerator.h"
+#include "Settings.h"
+#include <fstream>
 
 MainMenuState::MainMenuState(jl::Engine *engine) :
 	jl::State(engine),
@@ -11,6 +13,10 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 {
 	m_text.setFont(engine->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
 	m_text.setCharacterSize(54);
+
+	m_scoreText.setFont(engine->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_scoreText.setCharacterSize(24);
+
 
 	m_menuItems.push_back("Start");
 	m_menuItems.push_back("Exit");
@@ -23,7 +29,7 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	m_solarView.setCenter((mapSize.x*tileSize)/2, (mapSize.y*tileSize)/2);
 	m_solarView.zoom(10);
 
-	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet2.png")->get());
+	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet.png")->get());
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
@@ -39,6 +45,31 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	GalaxyGenerator::addPlanet(100,sf::IntRect(15,3,2,2), -m_solarView.getSize(), m_solarView.getSize()*3.f);
 	GalaxyGenerator::addPlanet(100,sf::IntRect(33,3,1,1), -m_solarView.getSize(), m_solarView.getSize()*3.f);
 	GalaxyGenerator::generateGalaxy(1500, sf::Vector2f(4, 4));
+
+
+	// Set default previous score
+	jl::Settings::setInt("gameScore", 0);
+
+	std::ifstream input("res/highscore.encrypted", std::ifstream::in);
+	std::string highscoreLine = "";
+	input >> highscoreLine;
+	input.close();
+
+	if(highscoreLine.empty() || highscoreLine.find("score=") == std::string::npos || highscoreLine.length() <= 6)
+	{
+		std::ofstream output("res/highscore.encrypted", std::ofstream::trunc);
+		output << "score=0";
+		output.close();
+
+		jl::Settings::setInt("gameHighscore", 0);
+	}
+	else
+	{
+		jl::Settings::setInt(
+			"gameHighscore", 
+			jl::Util::convertData<std::string, int>(highscoreLine.substr(highscoreLine.find('=') + 1, highscoreLine.length())));
+
+	}
 }
 
 void MainMenuState::events()
@@ -116,4 +147,18 @@ void MainMenuState::render()
 			int(getEngine()->getWindow().getSize().y*0.4) + i*int(m_text.getGlobalBounds().height*1.5));
 		getEngine()->getWindow().draw(m_text);
 	}
+
+	// Draw previous score
+	m_scoreText.setString("Previous score: " + jl::Util::toString(jl::Settings::getInt("gameScore")));
+	m_scoreText.setPosition(
+		getEngine()->getWindow().getSize().x*0.05, 
+		getEngine()->getWindow().getSize().y*0.9);
+	getEngine()->getWindow().draw(m_scoreText);
+
+	// Draw highscore
+	m_scoreText.setString("Highscore: " + jl::Util::toString(jl::Settings::getInt("gameHighscore")));
+	m_scoreText.setPosition(
+		getEngine()->getWindow().getSize().x*0.95 - (m_scoreText.getGlobalBounds().width), 
+		getEngine()->getWindow().getSize().y*0.9);
+	getEngine()->getWindow().draw(m_scoreText);
 }

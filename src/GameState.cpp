@@ -7,10 +7,12 @@
 #include "ParticleManager.h"
 #include "SettingsConsole.h"
 #include "GalaxyGenerator.h"
+#include <fstream>
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
-	m_loot(engine->getAssets())
+	m_loot(engine->getAssets()),
+	m_updatedHighscore(false)
 {
 	std::vector<std::vector<int>> gameLevel = {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -48,7 +50,7 @@ GameState::GameState(jl::Engine *engine) :
 
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
-	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 30, true, true); // Bush
+	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 20, true, true); // Bush
 	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
 	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
 	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(16, 64, 16, 16), 15, false, true); // Window
@@ -69,7 +71,7 @@ GameState::GameState(jl::Engine *engine) :
 	m_tileOptions.loadAssets(getEngine()->getAssets());
 	MessageLog::loadAssets(getEngine()->getAssets());
 
-	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet2.png")->get());
+	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet.png")->get());
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
@@ -181,7 +183,7 @@ void GameState::update()
 	// Smack down to planet (with camera)
 	if(isPaused())
 	{
-		GalaxyGenerator::rotate(getEngine()->getDelta());
+		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
 
 		m_view.setSize(jl::Vec::lerp(
 			m_view.getSize(),
@@ -209,7 +211,22 @@ void GameState::update()
 	}
 	else if(m_characters.getPlayer().isDead())
 	{
-		GalaxyGenerator::rotate(getEngine()->getDelta());
+		if(!m_updatedHighscore)
+		{
+			jl::Settings::setInt("gameScore", m_characters.getPlayer().getScore());
+
+			if(m_characters.getPlayer().getScore() > jl::Settings::getInt("gameHighscore"))
+			{
+				std::ofstream output("res/highscore.encrypted");
+				output << "score=" << jl::Settings::getInt("gameScore");
+				jl::Settings::setInt("gameHighscore", jl::Settings::getInt("gameScore"));
+				output.close();
+			}
+
+			m_updatedHighscore = true;
+		}
+
+		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
 		m_backgroundPlanet.setPosition(
 		m_view.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
 		m_view.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);

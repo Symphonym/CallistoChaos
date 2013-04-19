@@ -21,11 +21,6 @@ private:
 	// If the wave is active or if it's a "between wave break"
 	bool m_waveIsActive;
 
-	// How many seconds that's left on the break
-	int m_waveBreakLeft;
-	int m_waveBreakTime;
-	sf::Clock m_waveBreakTimer;
-
 	// Spawning clock and delay
 	sf::Clock m_waveSpawnTimer;
 	double m_waveSpawnDelay;

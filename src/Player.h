@@ -14,7 +14,7 @@ private:
 	std::vector<std::shared_ptr<Weapon>> m_weapons;
 
 	sf::Text m_resourceText, m_playerText;
-	sf::Sprite m_healthSprite, m_ammoSprite, m_materialSprite;
+	sf::Sprite m_healthSprite, m_ammoSprite, m_materialSprite, m_scoreSprite;
 
 	// Selected weapon
 	int m_selectedWeapon;
