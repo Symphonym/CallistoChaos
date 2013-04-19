@@ -271,7 +271,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 734,
+				"buffer_size": 736,
 				"line_ending": "Unix"
 			}
 		},
@@ -287,7 +287,7 @@
 			"file": "src/MainMenuState.cpp",
 			"settings":
 			{
-				"buffer_size": 4456,
+				"buffer_size": 4471,
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +295,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 1106,
+				"buffer_size": 1083,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +303,7 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 12573,
+				"buffer_size": 12474,
 				"line_ending": "Unix"
 			}
 		},
@@ -319,7 +319,7 @@
 			"file": "src/ParticleManager.h",
 			"settings":
 			{
-				"buffer_size": 848,
+				"buffer_size": 893,
 				"line_ending": "Unix"
 			}
 		},
@@ -327,7 +327,7 @@
 			"file": "src/ParticleManager.cpp",
 			"settings":
 			{
-				"buffer_size": 2658,
+				"buffer_size": 2837,
 				"line_ending": "Unix"
 			}
 		},
@@ -351,7 +351,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 6225,
+				"buffer_size": 6284,
 				"line_ending": "Unix"
 			}
 		},
@@ -410,6 +410,22 @@
 				"buffer_size": 1692,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "src/WeakEnemy.cpp",
+			"settings":
+			{
+				"buffer_size": 4745,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Weapon.cpp",
+			"settings":
+			{
+				"buffer_size": 11037,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "Packages/User/OpenProject.sublime-build",
@@ -456,6 +472,8 @@
 	},
 	"file_history":
 	[
+		"/home/felix/Desktop/CallistoChaos/src/Weapon.cpp",
+		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/StateManager.h",
 		"/home/felix/Desktop/CallistoChaos/src/StateManager.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Player.cpp",
@@ -472,7 +490,6 @@
 		"/home/felix/Desktop/CallistoChaos/src/TileOptionManager.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Utility.h",
 		"/home/felix/Desktop/CallistoChaos/src/GameState.cpp",
-		"/home/felix/Desktop/CallistoChaos/src/Weapon.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Weapon.h",
 		"/home/felix/Desktop/CallistoChaos/src/RifleWeapon.h",
 		"/home/felix/Desktop/CallistoChaos/src/RifleWeapon.cpp",
@@ -495,7 +512,6 @@
 		"/home/felix/Desktop/CallistoChaos/src/GameEngine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/GameEngine.h",
 		"/home/felix/Desktop/CallistoChaos/src/State.h",
-		"/home/felix/Desktop/CallistoChaos/src/Engine.cpp",
 		"/home/felix/Desktop/CallistoChaos/src/Asset.h",
 		"/home/felix/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/felix/.config/sublime-text-2/Packages/User/DebugProject.sublime-build",
@@ -647,7 +663,7 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -655,15 +671,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 734,
+						"buffer_size": 736,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								372,
-								372
+								512,
+								512
 							]
 						],
 						"settings":
@@ -709,15 +725,15 @@
 					"file": "src/MainMenuState.cpp",
 					"settings":
 					{
-						"buffer_size": 4456,
+						"buffer_size": 4471,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3371,
-								3371
+								4217,
+								4217
 							]
 						],
 						"settings":
@@ -726,7 +742,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 973.0,
+						"translation.y": 960.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -736,15 +752,15 @@
 					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 1106,
+						"buffer_size": 1083,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								583,
-								583
+								348,
+								348
 							]
 						],
 						"settings":
@@ -753,7 +769,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 78.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -763,15 +779,15 @@
 					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 12573,
+						"buffer_size": 12474,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8772,
-								8772
+								9178,
+								9178
 							]
 						],
 						"settings":
@@ -780,7 +796,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2257.0,
+						"translation.y": 2559.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -817,15 +833,15 @@
 					"file": "src/ParticleManager.h",
 					"settings":
 					{
-						"buffer_size": 848,
+						"buffer_size": 893,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								683,
-								683
+								0,
+								0
 							]
 						],
 						"settings":
@@ -844,15 +860,15 @@
 					"file": "src/ParticleManager.cpp",
 					"settings":
 					{
-						"buffer_size": 2658,
+						"buffer_size": 2837,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2360,
-								2360
+								0,
+								0
 							]
 						],
 						"settings":
@@ -878,8 +894,8 @@
 						"selection":
 						[
 							[
-								1050,
-								1050
+								179,
+								179
 							]
 						],
 						"settings":
@@ -888,7 +904,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 167.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -925,15 +941,15 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 6225,
+						"buffer_size": 6284,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1155,
-								1155
+								3275,
+								3275
 							]
 						],
 						"settings":
@@ -942,7 +958,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 377.0,
+						"translation.y": 962.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -986,13 +1002,8 @@
 						"selection":
 						[
 							[
-<<<<<<< HEAD
-								9086,
-								9086
-=======
 								642,
 								642
->>>>>>> c62cfb2b41f0c48e8dc19ec32aed349d741e209e
 							]
 						],
 						"settings":
@@ -1139,6 +1150,60 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "src/WeakEnemy.cpp",
+					"settings":
+					{
+						"buffer_size": 4745,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3805,
+								3805
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1092.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "src/Weapon.cpp",
+					"settings":
+					{
+						"buffer_size": 11037,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6040,
+								6040
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2621.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1193,6 +1258,42 @@
 		"selected_items":
 		[
 			[
+				"",
+				"CallistoChaos/src/GameState.h"
+			],
+			[
+				"gamest",
+				"CallistoChaos/src/GameState.cpp"
+			],
+			[
+				"enemyw",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
+				"main",
+				"CallistoChaos/src/main.cpp"
+			],
+			[
+				"weap",
+				"CallistoChaos/src/Weapon.cpp"
+			],
+			[
+				"weapon",
+				"CallistoChaos/src/Weapon.cpp"
+			],
+			[
+				"pl",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"engi",
+				"CallistoChaos/src/Engine.cpp"
+			],
+			[
+				"weak",
+				"CallistoChaos/src/WeakEnemy.cpp"
+			],
+			[
 				"enem",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
@@ -1225,10 +1326,6 @@
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
-				"pl",
-				"CallistoChaos/src/Player.cpp"
-			],
-			[
 				"work",
 				"CallistoChaos/src/Workbench.cpp"
 			],
@@ -1239,10 +1336,6 @@
 			[
 				"enemy",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
-			],
-			[
-				"gamest",
-				"CallistoChaos/src/GameState.cpp"
 			],
 			[
 				"p",
@@ -1267,10 +1360,6 @@
 			[
 				"mainm",
 				"CallistoChaos/src/MainMenuState.h"
-			],
-			[
-				"main",
-				"CallistoChaos/src/main.cpp"
 			],
 			[
 				"g",
@@ -1309,10 +1398,6 @@
 				"CallistoChaos/src/GameState.cpp"
 			],
 			[
-				"engi",
-				"CallistoChaos/src/Engine.cpp"
-			],
-			[
 				"mainme",
 				"CallistoChaos/src/MainMenuState.cpp"
 			],
@@ -1343,10 +1428,6 @@
 			[
 				"gamesta",
 				"CallistoChaos/src/GameState.h"
-			],
-			[
-				"weap",
-				"CallistoChaos/src/Weapon.cpp"
 			],
 			[
 				"tile",
@@ -1395,10 +1476,6 @@
 			[
 				"we",
 				"CallistoChaos/src/Weapon.cpp"
-			],
-			[
-				"weapon",
-				"CallistoChaos/src/Weapon.h"
 			],
 			[
 				"tilecha",
