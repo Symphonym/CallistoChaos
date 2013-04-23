@@ -56,7 +56,7 @@ void EnemyWaveManager::update(double deltaTime)
 	if(m_waveIsActive)
 	{
 
-		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 30)
+		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 15)
 		{
 			// Get left overs
 			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(jl::Settings::getInt("gameWaveNumber")/2.0);
@@ -87,13 +87,24 @@ void EnemyWaveManager::update(double deltaTime)
 			enemy->setSpeed(jl::Settings::getInt("gameEnemyBaseSpeed"));
 			enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay"), jl::Settings::getDouble("gameEnemyMaxDelay")));
 
+			double randChance = jl::Math::randDouble(0.0, 100.0);
 			// "Speeder" enemy types
-			if(std::rand() % 100 <= jl::Settings::getInt("gameWaveNumber")*2)
+			if(randChance <= jl::Settings::getInt("gameWaveNumber"))
 			{
 				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
 				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
 				enemy->getSprite().setColor(sf::Color(150, 150, 150));
 			}
+			// "Tanking" enemy types
+			else if(randChance <= (double)jl::Settings::getInt("gameWaveNumber")*0.4)
+			{
+				enemy->setMaxHealth(15);
+				enemy->heal(15);
+				enemy->setSpeed(20);
+				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+				enemy->getSprite().setColor(sf::Color(200, 150, 150));
+			}
+
 			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
 
 			m_characters->addCharacter(std::move(enemy));

@@ -54,7 +54,8 @@ namespace jl
 
 	void StateManager::clearStack()
 	{
-		m_stack.clear();
+		while(!m_stack.empty())
+			popState();
 	}
 
 	jl::State *const StateManager::getActiveState() const

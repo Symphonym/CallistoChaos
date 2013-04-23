@@ -16,7 +16,7 @@ int main(int argc, char const *args[])
 
 	// Set non-changeable settings
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
-	jl::Settings::setBool("windowFullscreen", true);
+	jl::Settings::setBool("windowFullscreen", false);
 	jl::Settings::setInt("windowHeight", 600);
 	jl::Settings::setInt("windowWidth", 800);
 	jl::Settings::setInt("windowFpsLimit", 60);

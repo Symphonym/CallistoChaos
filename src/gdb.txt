@@ -1,0 +1,20 @@
+Starting program: /home/felix/Desktop/CallistoChaos/debug/CallistoChaos 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/i386-linux-gnu/libthread_db.so.1".
+[New Thread 0xb57acb40 (LWP 2152)]
+[Thread 0xb57acb40 (LWP 2152) exited]
+[New Thread 0xb57acb40 (LWP 2153)]
+[New Thread 0xb0dffb40 (LWP 2154)]
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0805a8cf in jl::Engine::gameloop (this=0xbffff444) at Engine.cpp:74
+Starting program: /home/felix/Desktop/CallistoChaos/debug/CallistoChaos 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/i386-linux-gnu/libthread_db.so.1".
+[New Thread 0xb57acb40 (LWP 2030)]
+[Thread 0xb57acb40 (LWP 2030) exited]
+[New Thread 0xb57acb40 (LWP 2031)]
+[New Thread 0xb0dffb40 (LWP 2032)]
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0805a87b in jl::Engine::gameloop (this=0xbffff444) at Engine.cpp:67

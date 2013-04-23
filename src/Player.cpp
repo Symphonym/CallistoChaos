@@ -32,17 +32,17 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1).
 		pushFrame(sf::IntRect(48, 32, 16, 16), 0.1);
 	m_animation.createAnimation("down");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 48, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 48, 16, 16), 0.1);
 	m_animation.createAnimation("lookRight");
 	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1);
 	m_animation.createAnimation("lookLeft");
 	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
 	m_animation.createAnimation("lookUp");
-	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1);
 	m_animation.createAnimation("lookDown");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
 
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
