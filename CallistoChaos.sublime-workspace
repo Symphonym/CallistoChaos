@@ -283,7 +283,7 @@
 			"file": "src/main.cpp",
 			"settings":
 			{
-				"buffer_size": 734,
+				"buffer_size": 735,
 				"line_ending": "Unix"
 			}
 		},
@@ -347,7 +347,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 11241,
+				"buffer_size": 11245,
 				"line_ending": "Unix"
 			}
 		},
@@ -363,7 +363,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 5767,
+				"buffer_size": 6212,
 				"line_ending": "Unix"
 			}
 		},
@@ -419,7 +419,7 @@
 			"file": "src/GunWeapon.cpp",
 			"settings":
 			{
-				"buffer_size": 1692,
+				"buffer_size": 1647,
 				"line_ending": "Unix"
 			}
 		},
@@ -467,7 +467,15 @@
 			"file": "src/StateManager.cpp",
 			"settings":
 			{
-				"buffer_size": 1244,
+				"buffer_size": 1266,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Engine.cpp",
+			"settings":
+			{
+				"buffer_size": 6591,
 				"line_ending": "Unix"
 			}
 		}
@@ -691,6 +699,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"{\n",
 			"TileMap",
 			"GameState",
 			"jl",
@@ -708,7 +717,7 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 17,
 			"sheets":
 			[
 				{
@@ -716,15 +725,15 @@
 					"file": "src/main.cpp",
 					"settings":
 					{
-						"buffer_size": 734,
+						"buffer_size": 735,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								404,
-								404
+								268,
+								268
 							]
 						],
 						"settings":
@@ -932,15 +941,15 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 11241,
+						"buffer_size": 11245,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								703,
-								703
+								19,
+								19
 							]
 						],
 						"settings":
@@ -949,7 +958,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 156.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -986,15 +995,15 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 5767,
+						"buffer_size": 6212,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4991,
-								4991
+								1624,
+								1624
 							]
 						],
 						"settings":
@@ -1003,7 +1012,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1450.0,
+						"translation.y": 514.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1174,15 +1183,15 @@
 					"file": "src/GunWeapon.cpp",
 					"settings":
 					{
-						"buffer_size": 1692,
+						"buffer_size": 1647,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								817,
-								817
+								1038,
+								1038
 							]
 						],
 						"settings":
@@ -1191,7 +1200,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 39.0,
+						"translation.y": 195.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1235,8 +1244,8 @@
 						"selection":
 						[
 							[
-								6040,
-								6040
+								542,
+								559
 							]
 						],
 						"settings":
@@ -1244,8 +1253,8 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 2621.0,
+						"translation.x": 100.0,
+						"translation.y": 83.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1336,15 +1345,15 @@
 					"file": "src/StateManager.cpp",
 					"settings":
 					{
-						"buffer_size": 1244,
+						"buffer_size": 1266,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								235,
-								235
+								1084,
+								1084
 							]
 						],
 						"settings":
@@ -1353,7 +1362,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 507.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "src/Engine.cpp",
+					"settings":
+					{
+						"buffer_size": 6591,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1969,
+								1969
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 819.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1411,16 +1447,44 @@
 		"selected_items":
 		[
 			[
+				"gun",
+				"CallistoChaos/src/GunWeapon.cpp"
+			],
+			[
+				"wea",
+				"CallistoChaos/src/Weapon.cpp"
+			],
+			[
+				"gunwe",
+				"CallistoChaos/src/GunWeapon.cpp"
+			],
+			[
+				"pl",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"en",
+				"CallistoChaos/src/Engine.cpp"
+			],
+			[
+				"pla",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"statem",
+				"CallistoChaos/src/StateManager.cpp"
+			],
+			[
+				"engine",
+				"CallistoChaos/src/Engine.cpp"
+			],
+			[
 				"enemyw",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
 			[
 				"gamest",
 				"CallistoChaos/src/GameState.cpp"
-			],
-			[
-				"pl",
-				"CallistoChaos/src/Player.cpp"
 			],
 			[
 				"m",
@@ -1433,10 +1497,6 @@
 			[
 				"p",
 				"CallistoChaos/src/Player.cpp"
-			],
-			[
-				"statem",
-				"CallistoChaos/src/StateManager.h"
 			],
 			[
 				"game",
@@ -1485,10 +1545,6 @@
 			[
 				"weak",
 				"CallistoChaos/src/WeakEnemy.cpp"
-			],
-			[
-				"gun",
-				"CallistoChaos/src/GunWeapon.cpp"
 			],
 			[
 				"play",
@@ -1543,16 +1599,8 @@
 				"CallistoChaos/src/GameEngine.cpp"
 			],
 			[
-				"en",
-				"CallistoChaos/src/Engine.h"
-			],
-			[
 				"gamee",
 				"CallistoChaos/src/GameEngine.h"
-			],
-			[
-				"pla",
-				"CallistoChaos/src/Player.cpp"
 			],
 			[
 				"player",
@@ -1561,10 +1609,6 @@
 			[
 				"workbe",
 				"CallistoChaos/src/Workbench.h"
-			],
-			[
-				"wea",
-				"CallistoChaos/src/Weapon.cpp"
 			],
 			[
 				"enemym",
@@ -1581,10 +1625,6 @@
 			[
 				"stateman",
 				"CallistoChaos/src/StateManager.h"
-			],
-			[
-				"engine",
-				"CallistoChaos/src/Engine.h"
 			],
 			[
 				"mai",
