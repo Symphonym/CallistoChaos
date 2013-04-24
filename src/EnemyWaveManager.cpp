@@ -38,7 +38,7 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	jl::Settings::setInt("gameEnemyBaseSpeed", 50);
 	jl::Settings::setInt("gameWaveNumber", 0);
 
-	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_waveText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_waveText.setCharacterSize(32);
 
 	m_waveInfoText = sf::Text(m_waveText);

@@ -43,7 +43,7 @@ GameState::GameState(jl::Engine *engine) :
 
 	// Specify tilemap data
 	m_tileMap.setData(
-		getEngine()->getAssets().getAsset<jl::TextureAsset>("res/tiles.png")->get(),
+		getEngine()->getAssets().getTexture("res/tiles.png"),
 		sf::Vector2i(24, 20),
 		16);
 
@@ -65,13 +65,13 @@ GameState::GameState(jl::Engine *engine) :
 	// Set camera data
 	reloadView();
 
-	SettingsConsole::setFontData(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get(), 24);
+	SettingsConsole::setFontData(getEngine()->getAssets().getFont("res/Minecraftia.ttf"), 24);
 
 	// Load assets
 	m_tileOptions.loadAssets(getEngine()->getAssets());
 	MessageLog::loadAssets(getEngine()->getAssets());
 
-	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet.png")->get());
+	m_backgroundPlanet.setTexture(getEngine()->getAssets().getTexture("res/planet.png"));
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);

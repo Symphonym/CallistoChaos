@@ -45,7 +45,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
 
 	m_animation.initAnimation(m_sprite, "down");
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
+	m_sprite.setTexture(assets.getTexture("res/rpgmaker16.png"));
 
 	// Transparent color
 	sf::Color transparentColor(sf::Color::White); 
@@ -54,30 +54,30 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 
 
 	// Set color of playerText to semi transparent to minimize gameplay interfering
-	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_playerText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_playerText.setCharacterSize(30);
 	m_playerText.setColor(transparentColor);
 
-	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_resourceText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_resourceText.setCharacterSize(30);
 	m_resourceText.setColor(transparentColor);
 	
-	m_materialSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_materialSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_materialSprite.setTextureRect(sf::IntRect(48, 0, 8, 7));
 	m_materialSprite.setScale(5., 5.0);
 	m_materialSprite.setColor(transparentColor);
 
-	m_ammoSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_ammoSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_ammoSprite.setTextureRect(sf::IntRect(49, 8, 6, 8));
 	m_ammoSprite.setScale(5.0, 5.0);
 	m_ammoSprite.setColor(transparentColor);
 
-	m_healthSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_healthSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_healthSprite.setTextureRect(sf::IntRect(49, 17, 7, 7));
 	m_healthSprite.setScale(5, 5);
 	m_healthSprite.setColor(transparentColor);
 
-	m_scoreSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_scoreSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_scoreSprite.setTextureRect(sf::IntRect(57, 17, 7, 7));
 	m_scoreSprite.setScale(5, 5);
 	m_scoreSprite.setColor(transparentColor);

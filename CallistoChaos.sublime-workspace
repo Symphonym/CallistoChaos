@@ -480,7 +480,7 @@
 			}
 		}
 	],
-	"build_system": "Packages/User/OpenProject.sublime-build",
+	"build_system": "Packages/User/RunRelease.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,

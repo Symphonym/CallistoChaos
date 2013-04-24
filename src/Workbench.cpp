@@ -36,22 +36,22 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	m_buyBoughtRect(0,0,0,0),
 	m_buyForSaleRect(0,0,0,0)
 {
-	m_itemDisplaySprite.setTexture(assets.getAsset<jl::TextureAsset>("res/weapons.png")->get());
+	m_itemDisplaySprite.setTexture(assets.getTexture("res/weapons.png"));
 	m_itemDisplaySprite.setScale(2, 2);
 
-	m_itemBackgroundSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemBackgroundSprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemBackgroundSprite.setScale(3,3);sf::Text text;
 
-	m_itemBuySprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemBuySprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemBuySprite.setScale(2,2);
 
-	m_itemUpgradeSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemUpgradeSprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemUpgradeSprite.setScale(3,3);
 
-	m_itemNameText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_itemNameText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_itemNameText.setCharacterSize(20);
 
-	m_itemCostText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_itemCostText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_itemCostText.setCharacterSize(15);
 
 	m_boughtSelRect = sf::IntRect(0, 12, 66, 19);

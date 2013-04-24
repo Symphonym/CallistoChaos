@@ -52,18 +52,15 @@ TileOptionActions.o: TileOptionActions.h TileMap.h MessageLog.h TileOptionManage
 TileMap.o: Tile.h TileMap.h
 TileCharacter.o: FrameAnimation.h AssetManager.h TileCharacter.h TileMap.h GameState.h
 Tile.o: TileCharacter.h Tile.h Tile.h ParticleManager.h Utility.h TileMap.h
-TextureAsset.o: Asset.h TextureAsset.h
 StopWatch.o: StopWatch.h
 StateManager.o: State.h StateManager.h
 State.o: StopWatch.h State.h Engine.h
 SoundManager.o: SoundManager.h AssetManager.h
-SoundBufferAsset.o: Asset.h SoundBufferAsset.h
 SettingsConsole.o: SettingsConsole.h Utility.h GameState.h
 Settings.o: Settings.h
 RifleWeapon.o: Weapon.h RifleWeapon.h TileMap.h
 Player.o: TileCharacter.h Weapon.h Player.h TileMap.h MessageLog.h Utility.h GunWeapon.h RifleWeapon.h Settings.h GameState.h
 ParticleManager.o: ParticleManager.h Utility.h
-MusicAsset.o: Asset.h MusicAsset.h
 MessageLog.o: AssetManager.h MessageLog.h Settings.h
 MainMenuState.o: State.h MainMenuState.h Utility.h Engine.h GameState.h ParticleManager.h GalaxyGenerator.h
 LootManager.o: AssetManager.h LootManager.h Utility.h Player.h TileMap.h
@@ -71,11 +68,10 @@ GunWeapon.o: Weapon.h GunWeapon.h TileMap.h
 GameState.o: Engine.h TileMap.h State.h CharacterManager.h TileOptionManager.h Workbench.h BedControl.h LootManager.h EnemyWaveManager.h GameState.h Player.h MessageLog.h TileOptionActions.h WeakEnemy.h Utility.h ParticleManager.h SettingsConsole.h GalaxyGenerator.h
 GalaxyGenerator.o: GalaxyGenerator.h Utility.h
 FrameAnimation.o: FrameAnimation.h SoundManager.h
-FontAsset.o: Asset.h FontAsset.h
 Engine.o: AssetManager.h StateManager.h Settings.h Engine.h Utility.h SoundManager.h
 EnemyWaveManager.o: AssetManager.h EnemyWaveManager.h Settings.h CharacterManager.h WeakEnemy.h TileMap.h Utility.h GameState.h
 CharacterManager.o: TileCharacter.h Player.h CharacterManager.h TileMap.h GameState.h
 BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h
 AstarAlgorithm.o: AstarAlgorithm.h TileMap.h Player.h
-AssetManager.o: Asset.h TextureAsset.h FontAsset.h SoundBufferAsset.h MusicAsset.h AssetManager.h
+AssetManager.o: AssetManager.h
 #JLautodep END

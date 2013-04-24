@@ -11,10 +11,10 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	jl::State(engine),
 	m_selectedItem(0)
 {
-	m_text.setFont(engine->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_text.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
 	m_text.setCharacterSize(54);
 
-	m_scoreText.setFont(engine->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_scoreText.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
 	m_scoreText.setCharacterSize(24);
 
 
@@ -29,13 +29,13 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	m_solarView.setCenter((mapSize.x*tileSize)/2, (mapSize.y*tileSize)/2);
 	m_solarView.zoom(10);
 
-	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet.png")->get());
+	m_backgroundPlanet.setTexture(getEngine()->getAssets().getTexture("res/planet.png"));
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
 
 	GalaxyGenerator::setView(m_solarView);
-	GalaxyGenerator::setPlanetTextureSheet(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/galax.png")->get());
+	GalaxyGenerator::setPlanetTextureSheet(getEngine()->getAssets().getTexture("res/galax.png"));
 	GalaxyGenerator::addPlanet(4,sf::IntRect(0,0,6,6), -m_solarView.getSize(), m_solarView.getSize()*3.f);
 	GalaxyGenerator::addPlanet(4,sf::IntRect(7,0,7,7), -m_solarView.getSize(), m_solarView.getSize()*3.f);
 	GalaxyGenerator::addPlanet(4,sf::IntRect(18,0,6,6), -m_solarView.getSize(), m_solarView.getSize()*3.f);

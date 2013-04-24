@@ -54,7 +54,7 @@ WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::V
 		pushFrame(sf::IntRect(112, 0, 16, 16), 0.05);
 
 	m_animation.initAnimation(m_sprite, "down");
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
+	m_sprite.setTexture(assets.getTexture("res/rpgmaker16.png"));
 }
 
 

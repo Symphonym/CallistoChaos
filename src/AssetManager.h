@@ -6,13 +6,6 @@
 #include <map>
 #include <memory>
 #include <stdexcept>
-#include "Asset.h"
-
-// Include built-in assets for user friendliness
-#include "TextureAsset.h"
-#include "FontAsset.h"
-#include "SoundBufferAsset.h"
-#include "MusicAsset.h"
 
 namespace jl
 {
@@ -20,32 +13,22 @@ namespace jl
 	class AssetManager
 	{
 	private:
-		std::map<std::string, std::unique_ptr<Asset>> m_assets;
+		std::map<std::string, std::unique_ptr<sf::Texture>> m_textures;
+		std::map<std::string, std::unique_ptr<sf::Font>> m_fonts;
+		std::map<std::string, std::unique_ptr<sf::SoundBuffer>> m_sounds;
+		std::map<std::string, std::unique_ptr<sf::Music>> m_music;
 
 	public:
 
-		// Returns asset converted to the specified AssetType, attempts to load
-		// the asset from the filepath if it could not be found.
-		template<typename AssetType> AssetType* getAsset(const std::string &filepath)
-		{
-			// Check if assets exists, if not; blame the user
-			if(m_assets.find(filepath) == m_assets.end())
-			{
-				// Create new asset
-				auto asset = std::unique_ptr<AssetType>(new AssetType());
+		sf::Texture &getTexture(const std::string &filepath);
+		sf::Font &getFont(const std::string &filepath);
+		sf::SoundBuffer &getSound(const std::string &filepath);
+		sf::Music &getMusic(const std::string &filepath);
 
-				// Run asset's load method
-				if(!asset->loadAsset(filepath))
-					throw std::runtime_error("The asset \"" + filepath + "\" could not be loaded properly.");
-
-				// Store asset
-				m_assets[filepath] = std::move(asset);
-			}
-
-			return dynamic_cast<AssetType*>(&(*m_assets[filepath]));
-		};
-
-		void deleteAsset(const std::string &filepath);
+		void deleteTexture(const std::string &filepath);
+		void deleteFont(const std::string &filepath);
+		void deleteSound(const std::string &filepath);
+		void deleteMusic(const std::string &filepath);
 
 	};
 };

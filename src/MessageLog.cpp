@@ -33,7 +33,7 @@ namespace MessageLog
 	}
 	void loadAssets(jl::AssetManager &assets)
 	{
-		m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+		m_text.setFont(assets.getFont("res/Minecraftia.ttf"));
 		m_text.setCharacterSize(12);
 		m_text.setPosition(0,0);
 
