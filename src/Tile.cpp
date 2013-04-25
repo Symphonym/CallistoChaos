@@ -3,6 +3,7 @@
 #include "ParticleManager.h"
 #include "Utility.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 
 Tile::Tile() :
 	m_isSolid(false),
@@ -113,8 +114,12 @@ void Tile::damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int b
 
 	// Damage character on tile 
 	if(isOccupied())
+	{	
 		m_character->damage(damage);
+	}
 	
+	jl::SoundManager::playSound("res/damage.wav");
+
 	if(m_isImmortal)
 		return;
 

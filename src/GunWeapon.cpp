@@ -8,6 +8,7 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 	setFireRate(0.5);
 	setBulletSpread(5);
 	setKnockBack(sf::Vector2f(5, 5));
+	setFireSound("res/lasershoot.wav");
 	setWeaponSheet(
 		assets.getTexture("res/weapons.png"),
 		assets.getTexture("res/bullets.png"));

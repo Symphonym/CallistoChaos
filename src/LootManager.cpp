@@ -2,6 +2,7 @@
 #include "Utility.h"
 #include "Player.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 
 LootManager::LootManager(jl::AssetManager &assets) : 
 	m_player(nullptr)
@@ -12,6 +13,7 @@ LootManager::LootManager(jl::AssetManager &assets) :
 	m_sprite.setOrigin(
 		m_sprite.getGlobalBounds().width/2,
 		m_sprite.getGlobalBounds().height/2);
+	jl::SoundManager::addSound("res/pickup.wav");
 }
 
 void LootManager::providePlayer(Player *player)
@@ -72,6 +74,7 @@ void LootManager::update(double deltaTime)
 			{
 				// Each entity "contains" 3 currency
 				m_player->addCurrency(3);
+				jl::SoundManager::playSound("res/pickup.wav");
 				m_entities.erase(m_entities.begin() + i);
 				continue;
 			}

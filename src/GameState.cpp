@@ -8,6 +8,7 @@
 #include "SettingsConsole.h"
 #include "GalaxyGenerator.h"
 #include <fstream>
+#include "SoundManager.h"
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
@@ -80,6 +81,8 @@ GameState::GameState(jl::Engine *engine) :
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().height/2));
 		//m_view.getSize().x/2 - (m_backgroundPlanet.getGlobalBounds().width/2),
 		//m_view.getSize().y/2 - (m_backgroundPlanet.getGlobalBounds().height/2));
+
+	jl::SoundManager::addSound("res/damage.wav");
 
 	// Load character manager
 	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(13,11)));

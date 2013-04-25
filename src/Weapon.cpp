@@ -6,6 +6,7 @@
 #include <sstream>
 #include "Player.h"
 #include "ParticleManager.h"
+#include "SoundManager.h"
 
 Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets) :
 	m_name(name),
@@ -22,6 +23,7 @@ Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetM
 	m_bulletSpread(0),
 	m_bulletLifetime(-1),
 	m_customFire(false),
+	m_fireSound(""),
 	m_knockBack(0,0)
 {
 
@@ -114,6 +116,11 @@ void Weapon::setCustomFire(bool custom)
 {
 	m_customFire = custom;
 }
+void Weapon::setFireSound(const std::string &soundPath)
+{
+	m_fireSound = soundPath;
+	jl::SoundManager::addSound(soundPath);
+}
 void Weapon::setWeaponSheet(const sf::Texture &texture, const sf::Texture &bulletSheet)
 {
 	m_weaponSprite.setTexture(texture);
@@ -185,6 +192,8 @@ void Weapon::fire()
 				m_weaponSprite.move(0, knockBack.y);
 			else if(m_trackedCharacter->lookingDown())
 				m_weaponSprite.move(0, -knockBack.y);
+
+			jl::SoundManager::playSound(m_fireSound);	
 
 			if(!m_customFire)
 				spawnBullet(weaponPos);

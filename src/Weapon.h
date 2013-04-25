@@ -62,6 +62,7 @@ private:
 	int m_ammoCost, m_ammo, m_maxAmmo, m_damage, m_upgradeLevel;
 	double m_fireRate, m_bulletSpeed, m_bulletSpread, m_bulletLifetime;
 	bool m_customFire;
+	std::string m_fireSound;
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
@@ -107,6 +108,7 @@ public:
 	void setBulletSpeed(double speed);
 	void setBulletLifetime(double lifetime);
 	void setCustomFire(bool custom);
+	void setFireSound(const std::string &soundPath);
 	void setWeaponSheet(const sf::Texture &weaponSheet, const sf::Texture &bulletSheet);
 	// Bullet animation and bullet fire animation on this animation
 	void setBulletAnimation(const jl::FrameAnimation &animation);
