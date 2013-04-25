@@ -12,8 +12,6 @@ EnemyWaveManager::EnemyWaveManager() :
 	m_waveEnemies(0),
 	m_waveSpawns(0),
 	m_waveIsActive(false),
-	m_waveBreakLeft(10),
-	m_waveBreakTime(10),
 	m_waveSpawnDelay(1),
 	m_waveTextColor(sf::Color::White)
 {
@@ -30,8 +28,6 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	m_waveEnemies(0),
 	m_waveSpawns(0),
 	m_waveIsActive(false),
-	m_waveBreakLeft(10),
-	m_waveBreakTime(10),
 	m_waveSpawnDelay(1),
 	m_waveTextColor(sf::Color::White)
 {
@@ -42,18 +38,15 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 	jl::Settings::setInt("gameEnemyBaseSpeed", 50);
 	jl::Settings::setInt("gameWaveNumber", 0);
 
-	m_waveBreakTime = 20;
-	m_waveBreakLeft = 20;
-
-	m_waveText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_waveText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_waveText.setCharacterSize(32);
 
 	m_waveInfoText = sf::Text(m_waveText);
 	m_waveInfoText.setCharacterSize(24);
 
 	m_waveSkipText = sf::Text(m_waveText);
-	m_waveSkipText.setCharacterSize(12);
-	m_waveSkipText.setString("Press RT + LT to skip countdown");
+	m_waveSkipText.setCharacterSize(14);
+	m_waveSkipText.setString("Press RT + LT to start the wave!");
 
 
 }
@@ -62,7 +55,8 @@ void EnemyWaveManager::update(double deltaTime)
 {
 	if(m_waveIsActive)
 	{
-		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 30)
+
+		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 15)
 		{
 			// Get left overs
 			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(jl::Settings::getInt("gameWaveNumber")/2.0);
@@ -93,12 +87,24 @@ void EnemyWaveManager::update(double deltaTime)
 			enemy->setSpeed(jl::Settings::getInt("gameEnemyBaseSpeed"));
 			enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay"), jl::Settings::getDouble("gameEnemyMaxDelay")));
 
+			double randChance = jl::Math::randDouble(0.0, 100.0);
 			// "Speeder" enemy types
-			if(std::rand() % 100 <= jl::Settings::getInt("gameWaveNumber")*2)
+			if(randChance <= jl::Settings::getInt("gameWaveNumber"))
 			{
 				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
 				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+				enemy->getSprite().setColor(sf::Color(150, 150, 150));
 			}
+			// "Tanking" enemy types
+			else if(randChance <= (double)jl::Settings::getInt("gameWaveNumber")*0.4)
+			{
+				enemy->setMaxHealth(15);
+				enemy->heal(15);
+				enemy->setSpeed(20);
+				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+				enemy->getSprite().setColor(sf::Color(200, 150, 150));
+			}
+
 			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
 
 			m_characters->addCharacter(std::move(enemy));
@@ -117,33 +123,24 @@ void EnemyWaveManager::update(double deltaTime)
 		// Predict enemy count
 		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*3;
 
-		// Break countdown
-		if(m_waveBreakTimer.getElapsedTime().asSeconds() >= 1.0)
-		{
-			m_waveBreakTimer.restart();
-			--m_waveBreakLeft;
-		}
-
-		if(m_waveBreakLeft <= 0 || (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
+		if((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
 		{
 			m_waveIsActive = true;
 			jl::Settings::setInt("gameWaveNumber", jl::Settings::getInt("gameWaveNumber")+1);
 
-			m_waveBreakLeft = m_waveBreakTime;
-
 			m_waveSpawns = 0;
 
-			m_waveBreakTimer.restart();
 			m_waveTextColor = sf::Color::White;
+			m_waveTextColor.a = 0;
 
 			m_waveSpawnTimer.restart();
 		}
 
 		// Alpha value on the y-axis, time on the x-axis
-		m_waveTextColor.a = jl::Vec::lerp(sf::Vector2f(0, 50), sf::Vector2f(m_waveBreakTime, 255),
-		 double((double)(m_waveBreakTime - m_waveBreakLeft) + m_waveBreakTimer.getElapsedTime().asSeconds())/(double)m_waveBreakTime).y;
+		m_waveTextColor.a = jl::Math::lerp(m_waveTextColor.a, 255.0, deltaTime*0.5);
 	}
 }
+
 void EnemyWaveManager::render(sf::RenderTarget &target)
 {
 	if(!m_waveIsActive)
@@ -154,7 +151,7 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 		if(!m_characters->getPlayer().getGame().isPaused())
 		{
 			m_waveText.setColor(m_waveTextColor);
-			m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")) + ": " + jl::Util::toString(m_waveBreakLeft));
+			m_waveText.setString("Wave " + jl::Util::toString(jl::Settings::getInt("gameWaveNumber")));
 			m_waveText.setPosition(
 				(target.getView().getSize().x * 0.5) - m_waveText.getGlobalBounds().width/2,
 				(target.getView().getSize().y*0.75) - m_waveText.getGlobalBounds().height/2);
@@ -167,8 +164,8 @@ void EnemyWaveManager::render(sf::RenderTarget &target)
 
 			m_waveSkipText.setColor(m_waveTextColor);
 			m_waveSkipText.setPosition(
-				(m_waveInfoText.getPosition().x + m_waveInfoText.getGlobalBounds().width/2) - m_waveSkipText.getGlobalBounds().width/2,
-				(m_waveInfoText.getPosition().y + m_waveInfoText.getGlobalBounds().height)+10);
+				(int)(m_waveInfoText.getPosition().x + m_waveInfoText.getGlobalBounds().width/2) - (int)m_waveSkipText.getGlobalBounds().width/2,
+				(int)(m_waveInfoText.getPosition().y + m_waveInfoText.getGlobalBounds().height)+10);
 
 			target.draw(m_waveText);
 			target.draw(m_waveInfoText);

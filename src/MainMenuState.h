@@ -8,7 +8,7 @@ class MainMenuState : public jl::State
 {
 private:
 
-	sf::Text m_text;
+	sf::Text m_text, m_scoreText;
 	int m_selectedItem;
 	std::vector<std::string> m_menuItems;
 

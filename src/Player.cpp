@@ -14,9 +14,9 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 {
 	setSpeed(100);
 	setMaxHealth(5);
+	addCurrency(999);
 	heal(5);
 	gameState->getBed().setRegenDelay(2);
-
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
 		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).
@@ -33,20 +33,20 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 		pushFrame(sf::IntRect(32, 32, 16, 16), 0.1).
 		pushFrame(sf::IntRect(48, 32, 16, 16), 0.1);
 	m_animation.createAnimation("down");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(16, 0, 16, 16), 0.1).
-		pushFrame(sf::IntRect(32, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 48, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 48, 16, 16), 0.1);
 	m_animation.createAnimation("lookRight");
 	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1);
 	m_animation.createAnimation("lookLeft");
 	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
 	m_animation.createAnimation("lookUp");
-	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 32, 16, 16), 0.1);
 	m_animation.createAnimation("lookDown");
-	m_animation.pushFrame(sf::IntRect(0, 0, 16, 16), 0.1);
+	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
 
 	m_animation.initAnimation(m_sprite, "down");
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/rpgmaker16.png")->get());
+	m_sprite.setTexture(assets.getTexture("res/rpgmaker16.png"));
 
 	// Transparent color
 	sf::Color transparentColor(sf::Color::White); 
@@ -55,28 +55,33 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 
 
 	// Set color of playerText to semi transparent to minimize gameplay interfering
-	m_playerText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_playerText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_playerText.setCharacterSize(30);
 	m_playerText.setColor(transparentColor);
 
-	m_resourceText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_resourceText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_resourceText.setCharacterSize(30);
 	m_resourceText.setColor(transparentColor);
 	
-	m_materialSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_materialSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_materialSprite.setTextureRect(sf::IntRect(48, 0, 8, 7));
 	m_materialSprite.setScale(5., 5.0);
 	m_materialSprite.setColor(transparentColor);
 
-	m_ammoSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_ammoSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_ammoSprite.setTextureRect(sf::IntRect(49, 8, 6, 8));
 	m_ammoSprite.setScale(5.0, 5.0);
 	m_ammoSprite.setColor(transparentColor);
 
-	m_healthSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_healthSprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_healthSprite.setTextureRect(sf::IntRect(49, 17, 7, 7));
 	m_healthSprite.setScale(5, 5);
 	m_healthSprite.setColor(transparentColor);
+
+	m_scoreSprite.setTexture(assets.getTexture("res/tiles.png"));
+	m_scoreSprite.setTextureRect(sf::IntRect(57, 17, 7, 7));
+	m_scoreSprite.setScale(5, 5);
+	m_scoreSprite.setColor(transparentColor);
 }
 
 void Player::characterEvents(TileCharacter::Event events)
@@ -219,7 +224,7 @@ void Player::render(sf::RenderTarget &target)
 			target.setView(target.getDefaultView());
 
 			// Draw currency text
-			m_resourceText.setPosition(target.getView().getSize().x * 0.1, target.getView().getSize().y * 0.1);
+			m_resourceText.setPosition(target.getView().getSize().x * 0.1, target.getView().getSize().y * 0.8);
 			m_resourceText.setString(jl::Util::toString(m_currencyAmount));
 			target.draw(m_resourceText);
 			// Draw currency icon
@@ -229,7 +234,7 @@ void Player::render(sf::RenderTarget &target)
 			target.draw(m_materialSprite);
 
 			// Draw stored ammo text
-			m_resourceText.setPosition(target.getView().getSize().x * 0.1, (target.getView().getSize().y * 0.1) + m_resourceText.getGlobalBounds().height*2);
+			m_resourceText.setPosition(target.getView().getSize().x * 0.1, (target.getView().getSize().y * 0.8) + m_resourceText.getGlobalBounds().height*2);
 			m_resourceText.setString(jl::Util::toString(m_ammoAmount));
 			target.draw(m_resourceText);
 			// Draw ammo icon
@@ -237,6 +242,16 @@ void Player::render(sf::RenderTarget &target)
 				m_resourceText.getPosition().x - (m_ammoSprite.getGlobalBounds().width+10),
 				(m_resourceText.getPosition().y + m_resourceText.getGlobalBounds().height/2) - m_ammoSprite.getGlobalBounds().height/2);
 			target.draw(m_ammoSprite);
+
+			// Draw score
+			m_resourceText.setPosition(target.getView().getSize().x * 0.1, (target.getView().getSize().y * 0.8) - m_resourceText.getGlobalBounds().height*2);
+			m_resourceText.setString(jl::Util::toString(getScore()));
+			target.draw(m_resourceText);
+			// Draw score icon
+			m_scoreSprite.setPosition(
+				m_resourceText.getPosition().x - (m_scoreSprite.getGlobalBounds().width+10),
+				(m_resourceText.getPosition().y + m_resourceText.getGlobalBounds().height/2) - m_scoreSprite.getGlobalBounds().height/2);
+			target.draw(m_scoreSprite);
 
 			// Draw player hp
 			m_playerText.setPosition(target.getView().getSize().x * 0.3, target.getView().getSize().y * 0.9);

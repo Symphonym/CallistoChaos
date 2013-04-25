@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "GunWeapon.h"
 #include "RifleWeapon.h"
+#include "RailGun.h"
 #include "Player.h"
 #include "Settings.h"
 #include "MessageLog.h"
@@ -36,22 +37,22 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	m_buyBoughtRect(0,0,0,0),
 	m_buyForSaleRect(0,0,0,0)
 {
-	m_itemDisplaySprite.setTexture(assets.getAsset<jl::TextureAsset>("res/weapons.png")->get());
+	m_itemDisplaySprite.setTexture(assets.getTexture("res/weapons.png"));
 	m_itemDisplaySprite.setScale(2, 2);
 
-	m_itemBackgroundSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemBackgroundSprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemBackgroundSprite.setScale(3,3);sf::Text text;
 
-	m_itemBuySprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemBuySprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemBuySprite.setScale(2,2);
 
-	m_itemUpgradeSprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_itemUpgradeSprite.setTexture(assets.getTexture("res/gui.png"));
 	m_itemUpgradeSprite.setScale(3,3);
 
-	m_itemNameText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_itemNameText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_itemNameText.setCharacterSize(20);
 
-	m_itemCostText.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_itemCostText.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_itemCostText.setCharacterSize(15);
 
 	m_boughtSelRect = sf::IntRect(0, 12, 66, 19);
@@ -101,7 +102,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	speedItem.weapon = std::shared_ptr<Weapon>(nullptr);
 	speedItem.name = "Speed boost";
 	speedItem.isBought = true;
-	speedItem.displaySubRect = sf::IntRect(30, 49, 7, 7);
+	speedItem.displaySubRect = sf::IntRect(38, 49, 8, 6);
 	speedItem.maxUpgradeLevel = 4;
 	speedItem.upgradeLevel = 1;
 	speedItem.cost = 150;
@@ -110,6 +111,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	std::shared_ptr<Weapon> defaultWeapon(new GunWeapon("Pulse Pistol", m_player, *m_assets));
 	addUpgradeableWeapon(sf::IntRect(0,0,16,16),50, 5, defaultWeapon);
 	m_player->addWeapon(defaultWeapon);
+	m_player->addWeapon(std::shared_ptr<Weapon>(new RailGun("Rail Gun", m_player, *m_assets)));
 	addBuyableWeapon(sf::IntRect(0,48,22,9),100, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
 
 }

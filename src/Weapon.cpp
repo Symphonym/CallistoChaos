@@ -20,6 +20,8 @@ Weapon::Weapon(const std::string &name, TileCharacter *tileCharacter, jl::AssetM
 	m_fireRate(0.5),
 	m_bulletSpeed(100),
 	m_bulletSpread(0),
+	m_bulletLifetime(-1),
+	m_customFire(false),
 	m_knockBack(0,0)
 {
 
@@ -104,6 +106,14 @@ void Weapon::setBulletSpeed(double speed)
 {
 	m_bulletSpeed = speed;
 }
+void Weapon::setBulletLifetime(double lifetime)
+{
+	m_bulletLifetime = lifetime;
+}
+void Weapon::setCustomFire(bool custom)
+{
+	m_customFire = custom;
+}
 void Weapon::setWeaponSheet(const sf::Texture &texture, const sf::Texture &bulletSheet)
 {
 	m_weaponSprite.setTexture(texture);
@@ -132,12 +142,6 @@ void Weapon::fire()
 			weaponPos.x += m_stances[m_activeStance].bulletPosition.x;
 			weaponPos.y += m_stances[m_activeStance].bulletPosition.y;
 
-
-
-			AnimatedSpriteData data;
-			data.sprite.setTexture(*m_bulletSheet);
-			data.animation = m_bulletAnimation;
-
 			// Add bullet fire animation
 			if(!m_bulletFireAnimations.empty())
 			{
@@ -164,24 +168,6 @@ void Weapon::fire()
 				m_bulletFires.push_back(fireData);
 
 			}
-			if(!m_bulletAnimations.empty())
-			{
-				data.animationName = m_bulletAnimations[std::rand() % m_bulletAnimations.size()];
-				data.animation.initAnimation(data.sprite, data.animationName);
-			}
-
-			data.sprite.setOrigin(
-				data.sprite.getGlobalBounds().width/2,
-				data.sprite.getGlobalBounds().height/2);
-			data.sprite.setPosition(weaponPos);
-
-			// Calculate bulletspread angle
-			int angle = 0;
-			if(calculateBulletSpread() != 0)
-			{
-				// Equation provided by Lukas Hagman
-				angle = -calculateBulletSpread()+((double)std::rand() / (double)RAND_MAX)*calculateBulletSpread()*2;	
-			}
 
 			sf::Vector2f knockBack(m_knockBack);
 			if(m_trackedCharacter->isWalking())
@@ -192,47 +178,84 @@ void Weapon::fire()
 
 			// Base directions for up and down are inverted to get the intended behaviour, idk why
 			if(m_trackedCharacter->lookingRight())
-			{
-					data.sprite.setRotation(90 - angle);
-					data.baseDirection = 90;
-					data.direction = sf::Vector2f(
-						std::sin(jl::Math::degToRad<double>(90 + angle)),
-						std::cos(jl::Math::degToRad<double>(90 + angle)));
-					m_weaponSprite.move(-knockBack.x, 0);
-			}
+				m_weaponSprite.move(-knockBack.x, 0);
 			else if(m_trackedCharacter->lookingLeft())
-			{
-
-					data.sprite.setRotation(270 - angle);
-					data.baseDirection = 270; 
-					data.direction = sf::Vector2f(
-						std::sin(jl::Math::degToRad<double>(270 + angle)),
-						std::cos(jl::Math::degToRad<double>(270 + angle)));
-					m_weaponSprite.move(knockBack.x, 0);
-			}
+				m_weaponSprite.move(knockBack.x, 0);
 			else if(m_trackedCharacter->lookingUp())
-			{
-					data.sprite.setRotation(angle);
-					data.baseDirection = 180;
-					data.direction = sf::Vector2f(
-						std::sin(jl::Math::degToRad<double>(angle)),
-						-std::cos(jl::Math::degToRad<double>(angle)));
-					m_weaponSprite.move(0, knockBack.y);
-			}
+				m_weaponSprite.move(0, knockBack.y);
 			else if(m_trackedCharacter->lookingDown())
-			{
-					data.sprite.setRotation(180 + angle);
-					data.baseDirection = 0;
-					data.direction = sf::Vector2f(
-						std::sin(jl::Math::degToRad<double>(180 + angle)),
-						-std::cos(jl::Math::degToRad<double>(180 + angle)));
-					m_weaponSprite.move(0, -knockBack.y);
-			}
-			m_bullets.push_back(data);
+				m_weaponSprite.move(0, -knockBack.y);
+
+			if(!m_customFire)
+				spawnBullet(weaponPos);
 		}
 		else
 			MessageLog::addSingleMessage(getName() +  " is out of ammunition");
 	}
+}
+void Weapon::spawnBullet(const sf::Vector2f &position)
+{
+	AnimatedSpriteData data;
+	data.sprite.setTexture(*m_bulletSheet);
+	data.animation = m_bulletAnimation;
+	data.lifeTime = 0;
+
+	// Randomly select one of the bullet animations
+	if(!m_bulletAnimations.empty())
+	{
+		data.animationName = m_bulletAnimations[std::rand() % m_bulletAnimations.size()];
+		data.animation.initAnimation(data.sprite, data.animationName);
+	}
+
+	data.sprite.setOrigin(
+		data.sprite.getGlobalBounds().width/2,
+		data.sprite.getGlobalBounds().height/2);
+	data.sprite.setPosition(position);
+
+	// Calculate bulletspread angle
+	int angle = 0;
+	if(calculateBulletSpread() != 0)
+	{
+		// Equation provided by Lukas Hagman
+		angle = -calculateBulletSpread()+((double)std::rand() / (double)RAND_MAX)*calculateBulletSpread()*2;	
+	}
+
+	// Base directions for up and down are inverted to get the intended behaviour, idk why
+	if(m_trackedCharacter->lookingRight())
+	{
+			data.sprite.setRotation(90 - angle);
+			data.baseDirection = 90;
+			data.direction = sf::Vector2f(
+				std::sin(jl::Math::degToRad<double>(90 + angle)),
+				std::cos(jl::Math::degToRad<double>(90 + angle)));
+	}
+	else if(m_trackedCharacter->lookingLeft())
+	{
+
+			data.sprite.setRotation(270 - angle);
+			data.baseDirection = 270; 
+			data.direction = sf::Vector2f(
+				std::sin(jl::Math::degToRad<double>(270 + angle)),
+				std::cos(jl::Math::degToRad<double>(270 + angle)));
+	}
+	else if(m_trackedCharacter->lookingUp())
+	{
+			data.sprite.setRotation(angle);
+			data.baseDirection = 180;
+			data.direction = sf::Vector2f(
+				std::sin(jl::Math::degToRad<double>(angle)),
+				-std::cos(jl::Math::degToRad<double>(angle)));
+	}
+	else if(m_trackedCharacter->lookingDown())
+	{
+			data.sprite.setRotation(180 + angle);
+			data.baseDirection = 0;
+			data.direction = sf::Vector2f(
+				std::sin(jl::Math::degToRad<double>(180 + angle)),
+				-std::cos(jl::Math::degToRad<double>(180 + angle)));
+	}
+
+	m_bullets.push_back(data);
 }
 
 void Weapon::updateBullet(AnimatedSpriteData &bullet, double deltaTime)
@@ -252,6 +275,8 @@ void Weapon::updateBullets(double deltaTime)
 	{
 		if(m_bulletFires[i].animation.hasPlayed())
 		{
+			// Register that a bulletfire animation has ended to the user
+			bulletFireCallBack();
 			m_bulletFires.erase(m_bulletFires.begin() + i);
 			continue;
 		}
@@ -273,9 +298,19 @@ void Weapon::updateBullets(double deltaTime)
 		sf::Vector2i index(getBulletIndex(m_bullets[i]));
 		Tile *tile = &m_trackedCharacter->getTileMap().getTile(index);
 
+		// Add to lifetime variable
+		m_bullets[i].lifeTime += deltaTime;
+
 		// Check if bullet is outside map, delete bullet
 		if(index.x < 0 || index.x >= m_trackedCharacter->getTileMap().getMapSize().x ||
 			index.y < 0 || index.y >= m_trackedCharacter->getTileMap().getMapSize().y)
+		{
+			m_bullets.erase(m_bullets.begin() + i);
+			continue;
+		}
+
+		// Check if bullet is "dead", or expired
+		if(m_bulletLifetime > 0 && m_bullets[i].lifeTime >= m_bulletLifetime)
 		{
 			m_bullets.erase(m_bullets.begin() + i);
 			continue;
@@ -341,6 +376,14 @@ int Weapon::getAmmo() const
 int Weapon::getMaxAmmo() const
 {
 	return calculateMaxAmmo();
+}
+TileCharacter &Weapon::getTrackedChar()
+{
+	return *m_trackedCharacter;
+}
+double Weapon::getBulletLifetime() const
+{
+	return m_bulletLifetime;
 }
 
 bool Weapon::hasUnlimitedAmmo() const

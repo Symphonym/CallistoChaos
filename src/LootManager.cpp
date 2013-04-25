@@ -6,7 +6,7 @@
 LootManager::LootManager(jl::AssetManager &assets) : 
 	m_player(nullptr)
 {
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/tiles.png")->get());
+	m_sprite.setTexture(assets.getTexture("res/tiles.png"));
 	m_sprite.setTextureRect(sf::IntRect(48, 0, 8, 7));
 	m_sprite.setScale(0.8, 0.8);
 	m_sprite.setOrigin(

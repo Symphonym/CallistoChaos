@@ -16,7 +16,7 @@ namespace jl
 
 		void addSound(const std::string &filepath)
 		{
-			sf::Sound sound(m_assets->getAsset<SoundBufferAsset>(filepath)->get());
+			sf::Sound sound(m_assets->getSound(filepath));
 			m_sounds[filepath] = sound;
 		}
 		void removeSound(const std::string &filepath)

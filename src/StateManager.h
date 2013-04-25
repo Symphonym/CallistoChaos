@@ -15,7 +15,8 @@ namespace jl
 		friend class Engine;
 
 		// The State stack, and the delete requests
-		std::vector<std::unique_ptr<jl::State>> m_stack, m_delete;
+		std::vector<std::unique_ptr<jl::State>> m_stack;
+		std::vector<unsigned int> m_delete;
 
 		// "processDeletes" loops through all delete requests, processing
 		// them. Only the Engine will run this method.

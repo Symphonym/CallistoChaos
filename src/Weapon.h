@@ -32,6 +32,7 @@ public:
 		jl::FrameAnimation animation;
 		std::string animationName;
 		int baseDirection; // Used for blood splatter mainly
+		double lifeTime;
 	};
 
 private:
@@ -59,12 +60,14 @@ private:
 
 
 	int m_ammoCost, m_ammo, m_maxAmmo, m_damage, m_upgradeLevel;
-	double m_fireRate, m_bulletSpeed, m_bulletSpread;
+	double m_fireRate, m_bulletSpeed, m_bulletSpread, m_bulletLifetime;
+	bool m_customFire;
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
 	virtual void updateBullet(AnimatedSpriteData &bullet, double deltaTime);
 	virtual void renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target);
+	virtual void bulletFireCallBack(){};
 
 protected:
 
@@ -102,11 +105,14 @@ public:
 	void setBulletSpread(double angle);
 	void setKnockBack(const sf::Vector2f &knockBack);
 	void setBulletSpeed(double speed);
+	void setBulletLifetime(double lifetime);
+	void setCustomFire(bool custom);
 	void setWeaponSheet(const sf::Texture &weaponSheet, const sf::Texture &bulletSheet);
 	// Bullet animation and bullet fire animation on this animation
 	void setBulletAnimation(const jl::FrameAnimation &animation);
 
 	void fire();
+	void spawnBullet(const sf::Vector2f &position);
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
@@ -118,6 +124,8 @@ public:
 	int getLevel() const;
 	int getAmmo() const;
 	int getMaxAmmo() const;
+	TileCharacter &getTrackedChar();
+	double getBulletLifetime() const;
 
 	bool hasUnlimitedAmmo() const;
 	bool hasFullAmmo() const;

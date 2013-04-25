@@ -36,8 +36,8 @@ private:
 	// Workbench for crafting/shop
 	Workbench m_workbench;
 
-	sf::Text m_scoreText;
 	sf::Sprite m_backgroundPlanet;
+	bool m_updatedHighscore;
 
 public:
 

@@ -5,8 +5,11 @@ namespace jl
 
 	void StateManager::processDeletes()
 	{
-		while(!m_delete.empty())
+		for(int i = 0; i < m_delete.size(); i++)
+		{
+			m_stack.erase(m_stack.begin() + m_delete[i]);
 			m_delete.pop_back();
+		}
 	}
 
 
@@ -15,10 +18,7 @@ namespace jl
 		if(!isEmpty())
 		{
 			// Move ownershipf of State to delete queue
-			m_delete.push_back(std::move(m_stack.back()));
-
-			// Ownership is moved, remove stack element
-			m_stack.pop_back();
+			m_delete.push_back(m_stack.size()-1);
 		}
 
 	}
@@ -38,8 +38,7 @@ namespace jl
 
 	void StateManager::setState(std::unique_ptr<State> state)
 	{
-		while(!isEmpty())
-			popState();
+		clearStack();
 
 		pushState(std::move(state));
 	}
@@ -54,7 +53,10 @@ namespace jl
 
 	void StateManager::clearStack()
 	{
-		m_stack.clear();
+		for(int i = 0; i < m_stack.size(); i++)
+		{
+			m_delete.push_back(i);
+		}
 	}
 
 	jl::State *const StateManager::getActiveState() const

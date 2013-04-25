@@ -7,10 +7,12 @@
 #include "ParticleManager.h"
 #include "SettingsConsole.h"
 #include "GalaxyGenerator.h"
+#include <fstream>
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
-	m_loot(engine->getAssets())
+	m_loot(engine->getAssets()),
+	m_updatedHighscore(false)
 {
 	std::vector<std::vector<int>> gameLevel = {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -41,14 +43,14 @@ GameState::GameState(jl::Engine *engine) :
 
 	// Specify tilemap data
 	m_tileMap.setData(
-		getEngine()->getAssets().getAsset<jl::TextureAsset>("res/tiles.png")->get(),
+		getEngine()->getAssets().getTexture("res/tiles.png"),
 		sf::Vector2i(24, 20),
 		16);
 
 
 	m_tileMap.addType(0, sf::IntRect(0,0, 16, 16)); // Ground
 	m_tileMap.addType(1, sf::IntRect(16,0, 16, 16)); // Flower
-	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 30, true, true); // Bush
+	m_tileMap.addDType(2, sf::IntRect(32,0, 16, 16), sf::IntRect(16,48, 16, 16), 20, true, true); // Bush
 	m_tileMap.addType(3, sf::IntRect(0, 16, 16, 16), true, true); // Wall side
 	m_tileMap.addType(4, sf::IntRect(16, 16, 16, 16), true, true); // Wall top
 	m_tileMap.addDType(5, sf::IntRect(32, 16, 16, 16), sf::IntRect(16, 64, 16, 16), 15, false, true); // Window
@@ -63,14 +65,13 @@ GameState::GameState(jl::Engine *engine) :
 	// Set camera data
 	reloadView();
 
-	SettingsConsole::setFontData(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get(), 24);
+	SettingsConsole::setFontData(getEngine()->getAssets().getFont("res/Minecraftia.ttf"), 24);
 
 	// Load assets
 	m_tileOptions.loadAssets(getEngine()->getAssets());
 	MessageLog::loadAssets(getEngine()->getAssets());
 
-	m_scoreText.setFont(getEngine()->getAssets().getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
-	m_backgroundPlanet.setTexture(getEngine()->getAssets().getAsset<jl::TextureAsset>("res/planet2.png")->get());
+	m_backgroundPlanet.setTexture(getEngine()->getAssets().getTexture("res/planet.png"));
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
@@ -182,7 +183,7 @@ void GameState::update()
 	// Smack down to planet (with camera)
 	if(isPaused())
 	{
-		GalaxyGenerator::rotate(getEngine()->getDelta());
+		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
 
 		m_view.setSize(jl::Vec::lerp(
 			m_view.getSize(),
@@ -208,6 +209,61 @@ void GameState::update()
 			ParticleManager::clearParticles();
 		}
 	}
+	else if(m_characters.getPlayer().isDead())
+	{
+		if(!m_updatedHighscore)
+		{
+			jl::Settings::setInt("gameScore", m_characters.getPlayer().getScore());
+
+			if(m_characters.getPlayer().getScore() > jl::Settings::getInt("gameHighscore"))
+			{
+				std::ofstream output("res/highscore.encrypted");
+				output << "score=" << jl::Settings::getInt("gameScore");
+				jl::Settings::setInt("gameHighscore", jl::Settings::getInt("gameScore"));
+				output.close();
+			}
+
+			m_updatedHighscore = true;
+		}
+
+		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
+		m_backgroundPlanet.setPosition(
+		m_view.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
+		m_view.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);
+
+		m_view.setSize(jl::Vec::lerp(
+			m_view.getSize(),
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10), 5*getEngine()->getDelta()));
+
+		sf::Vector2f sizeDistance(
+			sf::Vector2f(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10) - m_view.getSize());
+
+		float distance = jl::Vec::length(sizeDistance);
+
+		if(distance < 0.5)
+		{
+			m_view.setSize(
+				m_tileMap.getMapSize().x*m_tileMap.getTileSize()*10, 
+				m_tileMap.getMapSize().y*m_tileMap.getTileSize()*10);
+			getEngine()->getStack().popState();
+		}
+
+		for(int i = 0; i < 5; i++)
+			ParticleManager::addParticle(
+				m_view.getCenter(),
+				jl::Math::randDouble(1.0, 1.4),
+				jl::Math::randInt(700, 900),
+				0,
+				jl::Math::randInt(0, 360),
+				sf::Color(255, 102, 51),
+				sf::Vector2f(m_backgroundPlanet.getScale().x, m_backgroundPlanet.getScale().y),
+				1.4,
+				true);
+	}
 
 
 
@@ -215,15 +271,8 @@ void GameState::update()
 	getEngine()->getWindow().setView(m_view);
 	ParticleManager::update(getEngine()->getDelta());
 
-	if(!isPaused())
+	if(!isPaused() && !m_characters.getPlayer().isDead())
 	{
-		sf::Color scoreColor = sf::Color::White;
-		scoreColor.a = m_characters.getPlayer().isDead() ? 255 : 100;
-		m_scoreText.setColor(scoreColor);
-		m_scoreText.setCharacterSize(m_characters.getPlayer().isDead() ? 60 : 30);
-		m_scoreText.setString("Score: " + jl::Util::toString(m_characters.getPlayer().getScore()));
-		m_scoreText.setPosition(getEngine()->getWindow().getSize().x * 0.5 - int(m_scoreText.getGlobalBounds().width/2), getEngine()->getWindow().getSize().y * 0.1);
-
 		m_characters.update(getEngine()->getDelta());
 		m_loot.update(getEngine()->getDelta());
 		m_enemyWaves.update(getEngine()->getDelta());
@@ -253,7 +302,7 @@ void GameState::update()
 void GameState::render()
 {
 	// Draw planet and galaxy during zoom in
-	if(isPaused())
+	if(isPaused() || m_characters.getPlayer().isDead())
 	{
 		GalaxyGenerator::render(getEngine()->getWindow());
 
@@ -263,46 +312,25 @@ void GameState::render()
 
 	}
 
-	m_tileMap.render(getEngine()->getWindow());
-
 	if(!m_characters.getPlayer().isDead())
 	{
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-		getEngine()->getWindow().draw(m_scoreText);
-		getEngine()->getWindow().setView(m_view);
-	}
+		m_tileMap.render(getEngine()->getWindow());
 
-	// Don't draw particles ontop tilemap during zoom in
-	if(!isPaused())
-		ParticleManager::render(getEngine()->getWindow());
+		// Don't draw particles ontop tilemap during zoom in
+		if(!isPaused())
+			ParticleManager::render(getEngine()->getWindow());
 
-	m_characters.render(getEngine()->getWindow());
+		m_characters.render(getEngine()->getWindow());
 
-	if(!m_characters.getPlayer().isDead())
-	{
 		m_workbench.render(getEngine()->getWindow());
 		m_tileOptions.render(getEngine()->getWindow());
+
+		m_loot.render(getEngine()->getWindow());
+		MessageLog::render(getEngine()->getWindow());
+
+		m_enemyWaves.render(getEngine()->getWindow());
 	}
-	m_loot.render(getEngine()->getWindow());
-	MessageLog::render(getEngine()->getWindow());
 
-	m_enemyWaves.render(getEngine()->getWindow());
-
-	if(m_characters.getPlayer().isDead())
-	{
-		sf::Color blackColor = sf::Color::Black;
-		blackColor.a = 100;
-		sf::Image blackScreen;
-		blackScreen.create(getEngine()->getWindow().getView().getSize().x, getEngine()->getWindow().getView().getSize().y, blackColor);
-
-		sf::Texture blackScreenTexture; blackScreenTexture.loadFromImage(blackScreen);
-		sf::Sprite blackScreenSprite; blackScreenSprite.setTexture(blackScreenTexture);
-		getEngine()->getWindow().draw(blackScreenSprite);
-
-		getEngine()->getWindow().setView(getEngine()->getWindow().getDefaultView());
-		getEngine()->getWindow().draw(m_scoreText);
-		getEngine()->getWindow().setView(m_view);
-	}
 
 	SettingsConsole::render(getEngine()->getWindow());
 }

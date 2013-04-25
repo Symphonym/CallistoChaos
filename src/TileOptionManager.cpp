@@ -23,9 +23,9 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 	m_nonRect = sf::IntRect(0,0,25,6);
 	m_selRect = sf::IntRect(0,6,25,6);
 
-	m_sprite.setTexture(assets.getAsset<jl::TextureAsset>("res/gui.png")->get());
+	m_sprite.setTexture(assets.getTexture("res/gui.png"));
 	m_sprite.setScale(3, 2);
-	m_text.setFont(assets.getAsset<jl::FontAsset>("res/Minecraftia.ttf")->get());
+	m_text.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_text.setCharacterSize(8);
 }
 
