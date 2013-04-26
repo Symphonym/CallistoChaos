@@ -12,9 +12,10 @@ private:
 	int m_selectedItem;
 	std::vector<std::string> m_menuItems;
 
-	sf::Sprite m_backgroundPlanet;
-	std::vector<sf::Sprite> m_backgroundGalaxy;
+	sf::Sprite m_backgroundPlanet, m_titleSprite;
 	sf::View m_solarView;
+
+	bool m_movedJoystick;
 
 public:
 

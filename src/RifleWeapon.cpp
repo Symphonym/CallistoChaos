@@ -9,8 +9,9 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 	setWeaponSheet(
 		assets.getTexture("res/weapons.png"),
 		assets.getTexture("res/bullets.png"));
+	setFireSound("res/lasershoot.wav");
 
-	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,48,22,9), sf::Vector2f(6, -2.7), sf::Vector2f(7, -1.5));
+	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,16,16,16), sf::Vector2f(6, -2.7), sf::Vector2f(7, -1.5));
 	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,16,16,16), sf::Vector2f(-6, -2.7), sf::Vector2f(-7.5, -1.5));
 	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,16,16,16));
 	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,16,16,16), sf::Vector2f(0.5,0));

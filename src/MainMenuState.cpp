@@ -4,12 +4,14 @@
 #include "GameState.h"
 #include "ParticleManager.h"
 #include "GalaxyGenerator.h"
+#include "SoundManager.h"
 #include "Settings.h"
 #include <fstream>
 
 MainMenuState::MainMenuState(jl::Engine *engine) :
 	jl::State(engine),
-	m_selectedItem(0)
+	m_selectedItem(0),
+	m_movedJoystick(false)
 {
 	m_text.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
 	m_text.setCharacterSize(54);
@@ -20,6 +22,7 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 	m_menuItems.push_back("Start");
 	m_menuItems.push_back("Exit");
+	m_menuItems.push_back("HERO");
 
 	m_solarView = getEngine()->getWindow().getDefaultView();
 	sf::Vector2i mapSize(24, 20);
@@ -33,6 +36,11 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	m_backgroundPlanet.setScale(
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().x,
 		1000.0 / m_backgroundPlanet.getTexture()->getSize().y);
+
+	m_titleSprite.setTexture(getEngine()->getAssets().getTexture("res/logo.png"));
+	m_titleSprite.setScale(5, 5);
+
+	jl::SoundManager::addSound("res/menuSelect.wav");
 
 	GalaxyGenerator::setView(m_solarView);
 	GalaxyGenerator::setPlanetTextureSheet(getEngine()->getAssets().getTexture("res/galax.png"));
@@ -74,10 +82,27 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 void MainMenuState::events()
 {
-	if(jl::Input::isAxisDown(getEngine()->getEvent(), sf::Joystick::Y, -100))
-		--m_selectedItem;
-	else if(jl::Input::isAxisDown(getEngine()->getEvent(), sf::Joystick::Y, 100))
-		++m_selectedItem;
+	if(!m_movedJoystick)
+	{
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) == -100 &&
+			getEngine()->getEvent().type == sf::Event::JoystickMoved)
+		{
+			--m_selectedItem;
+			jl::SoundManager::playSound("res/menuSelect.wav");
+			m_movedJoystick = true;
+		}
+		else if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) == 100 &&
+			getEngine()->getEvent().type == sf::Event::JoystickMoved)
+		{
+			++m_selectedItem;
+			jl::SoundManager::playSound("res/menuSelect.wav");
+			m_movedJoystick = true;
+		}
+	}
+
+	if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) != -100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Y) != 100)
+		m_movedJoystick = false;
+
 
 	if(m_selectedItem < 0)
 		m_selectedItem = 0;
@@ -147,6 +172,13 @@ void MainMenuState::render()
 			int(getEngine()->getWindow().getSize().y*0.4) + i*int(m_text.getGlobalBounds().height*1.5));
 		getEngine()->getWindow().draw(m_text);
 	}
+
+	// Draw title sprite
+	m_titleSprite.setPosition(
+		getEngine()->getWindow().getSize().x*0.5 - (m_titleSprite.getGlobalBounds().width/2), 
+		getEngine()->getWindow().getSize().y*0.05);
+	getEngine()->getWindow().draw(m_titleSprite);
+
 
 	// Draw previous score
 	m_scoreText.setString("Previous score: " + jl::Util::toString(jl::Settings::getInt("gameScore")));

@@ -15,6 +15,11 @@ LootManager::LootManager(jl::AssetManager &assets) :
 		m_sprite.getGlobalBounds().height/2);
 	jl::SoundManager::addSound("res/pickup.wav");
 }
+LootManager::LootManager() :
+	m_player(nullptr)
+{
+
+}
 
 void LootManager::providePlayer(Player *player)
 {

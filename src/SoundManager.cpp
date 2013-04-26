@@ -6,8 +6,8 @@ namespace jl
 {
 	namespace SoundManager
 	{
-		std::map<std::string, sf::Sound> m_sounds;
-		AssetManager* m_assets;
+		std::map<std::string, sf::Sound> m_sounds = std::map<std::string, sf::Sound>();
+		AssetManager* m_assets = nullptr;
 
 		void registerAssets(AssetManager* assets)
 		{
@@ -17,10 +17,7 @@ namespace jl
 		void addSound(const std::string &filepath)
 		{
 			if(m_sounds.find(filepath) == m_sounds.end())
-			{
-				sf::Sound sound(m_assets->getSound(filepath));
-				m_sounds[filepath] = sound;
-			}
+				m_sounds[filepath] = sf::Sound(m_assets->getSound(filepath));;
 
 		}
 		void removeSound(const std::string &filepath)

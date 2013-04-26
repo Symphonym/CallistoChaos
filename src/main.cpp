@@ -20,6 +20,7 @@ int main(int argc, char const *args[])
 	jl::Settings::setInt("windowHeight", 600);
 	jl::Settings::setInt("windowWidth", 800);
 	jl::Settings::setInt("windowFpsLimit", 60);
+	jl::Settings::setBool("haxMode", false);
 
 	// Run the game engine with default values
 	engine.run<MainMenuState>();

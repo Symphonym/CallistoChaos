@@ -31,6 +31,7 @@ private:
 public:
 
 	explicit LootManager(jl::AssetManager &assets);
+	explicit LootManager();
 
 	void providePlayer(Player *player);
 

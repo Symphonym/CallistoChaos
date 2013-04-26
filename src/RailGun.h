@@ -10,10 +10,11 @@ class RailGun : public Weapon
 public:
 	explicit RailGun(const std::string &name, TileCharacter *tileCharacter, jl::AssetManager &assets);
 
-	virtual void updateBullet(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void updateBullet(std::vector<Weapon::AnimatedSpriteData> &bullets, int index, double deltaTime);
 	virtual void bulletFireCallBack();
 
-	int calculateDamage() const;
+	double calculateFireRate() const;
+	int calculateMaxAmmo() const;
 };
 
 #endif

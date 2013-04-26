@@ -193,7 +193,8 @@ void Weapon::fire()
 			else if(m_trackedCharacter->lookingDown())
 				m_weaponSprite.move(0, -knockBack.y);
 
-			jl::SoundManager::playSound(m_fireSound);	
+			if(!m_fireSound.empty())
+				jl::SoundManager::playSound(m_fireSound);	
 
 			if(!m_customFire)
 				spawnBullet(weaponPos);
@@ -202,12 +203,12 @@ void Weapon::fire()
 			MessageLog::addSingleMessage(getName() +  " is out of ammunition");
 	}
 }
-void Weapon::spawnBullet(const sf::Vector2f &position)
+void Weapon::spawnBullet(const sf::Vector2f &position, double initialLifeTime)
 {
 	AnimatedSpriteData data;
 	data.sprite.setTexture(*m_bulletSheet);
 	data.animation = m_bulletAnimation;
-	data.lifeTime = 0;
+	data.lifeTime = initialLifeTime;
 
 	// Randomly select one of the bullet animations
 	if(!m_bulletAnimations.empty())
@@ -267,11 +268,31 @@ void Weapon::spawnBullet(const sf::Vector2f &position)
 	m_bullets.push_back(data);
 }
 
-void Weapon::updateBullet(AnimatedSpriteData &bullet, double deltaTime)
+void Weapon::updateBullet(std::vector<Weapon::AnimatedSpriteData> &bullets, int i, double deltaTime)
 {
-	bullet.sprite.move(
-		bullet.direction.x*calculateSpeed()*deltaTime,
-		bullet.direction.y*calculateSpeed()*deltaTime);
+
+	sf::Vector2i index(getBulletIndex(bullets[i]));
+	Tile *tile = &getTrackedChar().getTileMap().getTile(index);
+
+	bullets[i].sprite.move(
+		bullets[i].direction.x*calculateSpeed()*deltaTime,
+		bullets[i].direction.y*calculateSpeed()*deltaTime);
+
+	// Collision with solid tile, delete bullet
+	if(tile->isSolid() && tile->isPlayerAttackable())
+	{	
+		tile->damage(calculateDamage(), &getTrackedChar().getTileMap(), index, bullets[i].baseDirection);
+		bullets.erase(bullets.begin() + i);
+	}
+	// Collision with enemy, delete bullet
+	else if (tile->isOccupied() && tile->isOccupied() && getTrackedChar().getIndex() != index)
+	{
+		if(bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
+		{
+			tile->damage(calculateDamage(), &getTrackedChar().getTileMap(), index, bullets[i].baseDirection);
+			bullets.erase(bullets.begin() + i);
+		}
+	}
 }
 void Weapon::renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target)
 {
@@ -325,28 +346,10 @@ void Weapon::updateBullets(double deltaTime)
 			continue;
 		}
 
-		// Collision with solid tile, delete bullet
-		if(tile->isSolid() && tile->isPlayerAttackable())
-		{	
-			tile->damage(calculateDamage(), &m_trackedCharacter->getTileMap(), index, m_bullets[i].baseDirection);
-			m_bullets.erase(m_bullets.begin() + i);
-			continue;
-		}
-		// Collision with enemy, delete bullet
-		else if (tile->isOccupied() && !dynamic_cast<Player*>(tile->getCharacter()))
-		{
-			if(m_bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
-			{
-				tile->damage(calculateDamage(), &m_trackedCharacter->getTileMap(), index, m_bullets[i].baseDirection);
-				m_bullets.erase(m_bullets.begin() + i);
-				continue;
-			}
-		}
-
 		if(!m_bulletAnimations.empty())
 			m_bullets[i].animation.animate(m_bullets[i].sprite, m_bullets[i].animationName, deltaTime);
 
-		updateBullet(m_bullets[i], deltaTime);
+		updateBullet(m_bullets, i, deltaTime);
 	}
 
 }
@@ -359,7 +362,7 @@ void Weapon::renderBullets(sf::RenderTarget &target)
 }
 void Weapon::updateWeapon(double deltaTime)
 {
-	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 40*deltaTime));
+	m_weaponSprite.setPosition(jl::Vec::lerp(m_weaponSprite.getPosition(), getWeaponPos(), 35*deltaTime));
 }
 void Weapon::renderWeapon(sf::RenderTarget &target)
 {		
@@ -389,6 +392,10 @@ int Weapon::getMaxAmmo() const
 TileCharacter &Weapon::getTrackedChar()
 {
 	return *m_trackedCharacter;
+}
+const Weapon::StanceData &Weapon::getActiveStance() const
+{
+	return m_stances.find(m_activeStance)->second;
 }
 double Weapon::getBulletLifetime() const
 {

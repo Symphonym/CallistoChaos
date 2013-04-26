@@ -14,7 +14,6 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 {
 	setSpeed(100);
 	setMaxHealth(5);
-	addCurrency(999);
 	heal(5);
 	gameState->getBed().setRegenDelay(2);
 	m_animation.createAnimation("right");
@@ -288,7 +287,7 @@ void Player::render(sf::RenderTarget &target)
 	}
 }
 
-void Player::addWeapon(std::shared_ptr<Weapon> weapon)
+void Player::addWeapon(std::shared_ptr<Weapon>& weapon)
 {
 	m_weapons.push_back(weapon);
 }

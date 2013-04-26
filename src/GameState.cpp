@@ -12,7 +12,6 @@
 
 GameState::GameState(jl::Engine *engine) : 
 	jl::State(engine),
-	m_loot(engine->getAssets()),
 	m_updatedHighscore(false)
 {
 	std::vector<std::vector<int>> gameLevel = {
@@ -37,8 +36,8 @@ GameState::GameState(jl::Engine *engine) :
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	// Throw in some random flowers at certain intervalls
-	for(std::size_t y = 0; y < gameLevel.size(); y++)
-		for(std::size_t x = 0; (std::size_t)x < gameLevel[x].size(); x++)
+	for(std::size_t y = 0; y < 20; y++)
+		for(std::size_t x = 0; x < 24; x++)
 			if(!(x > 9 && x < 16 && y > 7 && y < 14)) // Set an area not have bushes generated
 				gameLevel[y][x] = std::rand() % 100 < 20 ? (std::rand() % 100 < 40 ? 1 : 2) : 0;
 
@@ -82,21 +81,21 @@ GameState::GameState(jl::Engine *engine) :
 		//m_view.getSize().x/2 - (m_backgroundPlanet.getGlobalBounds().width/2),
 		//m_view.getSize().y/2 - (m_backgroundPlanet.getGlobalBounds().height/2));
 
-	jl::SoundManager::addSound("res/damage.wav");
-
 	// Load character manager
 	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(13,11)));
-
 	// Set player to be used for the Tile options
 	m_tileOptions.provideCharacter(player.get());
 	m_loot.providePlayer(player.get());
 	m_workbench = Workbench(player.get(), getEngine()->getAssets());
 	m_bedControl = BedControl(player.get());
+	m_loot = LootManager(getEngine()->getAssets());
 	m_enemyWaves = EnemyWaveManager(m_characters, getEngine()->getAssets());
 
 	// Give player to manager
 	m_characters.addPlayer(std::move(player));
 
+	jl::SoundManager::addSound("res/damage.wav");
+	jl::SoundManager::addSound("res/death.wav");
 
 	// Add interactive options for tiles
 	// Flower
@@ -231,6 +230,7 @@ void GameState::update()
 			}
 
 			m_updatedHighscore = true;
+			jl::SoundManager::playSound("res/death.wav");
 		}
 
 		GalaxyGenerator::rotate(getEngine()->getDelta()*5);

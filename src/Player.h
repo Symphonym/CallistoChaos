@@ -31,7 +31,7 @@ public:
 
 	virtual void characterEvents(TileCharacter::Event events);
 
-	void addWeapon(std::shared_ptr<Weapon> weapon);
+	void addWeapon(std::shared_ptr<Weapon>& weapon);
 	void addScore(int score);
 
 	Weapon* getActiveWeapon();

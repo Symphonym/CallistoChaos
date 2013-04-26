@@ -13,9 +13,9 @@ namespace jl
 	class AssetManager
 	{
 	private:
-		std::map<std::string, std::unique_ptr<sf::Texture>> m_textures;
-		std::map<std::string, std::unique_ptr<sf::Font>> m_fonts;
-		std::map<std::string, std::unique_ptr<sf::SoundBuffer>> m_sounds;
+		std::map<std::string, sf::Texture> m_textures;
+		std::map<std::string, sf::Font> m_fonts;
+		std::map<std::string, sf::SoundBuffer> m_sounds;
 		std::map<std::string, std::unique_ptr<sf::Music>> m_music;
 
 	public:

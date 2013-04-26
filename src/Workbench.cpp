@@ -111,8 +111,8 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	std::shared_ptr<Weapon> defaultWeapon(new GunWeapon("Pulse Pistol", m_player, *m_assets));
 	addUpgradeableWeapon(sf::IntRect(0,0,16,16),50, 5, defaultWeapon);
 	m_player->addWeapon(defaultWeapon);
-	m_player->addWeapon(std::shared_ptr<Weapon>(new RailGun("Rail Gun", m_player, *m_assets)));
-	addBuyableWeapon(sf::IntRect(0,48,22,9),100, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
+	addBuyableWeapon(sf::IntRect(0, 20, 16, 8), 100, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
+	addBuyableWeapon(sf::IntRect(0, 36, 16, 9), 200, 4, std::shared_ptr<Weapon>(new RailGun("Rail Gun", m_player, *m_assets)));
 
 }
 
@@ -193,7 +193,7 @@ void Workbench::events(sf::Event &events)
 
 
 			// Check if player can afford
-			if(m_player->affordCurrency(cost) && canBuy)
+			if(m_player->affordCurrency(cost) && canBuy || (jl::Settings::getBool("haxMode") && canBuy))
 			{
 				// Check if it's a non upgradeable, if not, check if it's upgradeable any more otherwise just buy it
 				if(canBuy)

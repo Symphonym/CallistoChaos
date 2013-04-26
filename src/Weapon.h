@@ -66,7 +66,7 @@ private:
 	sf::Vector2f m_knockBack;
 	sf::Clock m_fireRateClock;
 
-	virtual void updateBullet(AnimatedSpriteData &bullet, double deltaTime);
+	virtual void updateBullet(std::vector<AnimatedSpriteData> &bullets, int index, double deltaTime);
 	virtual void renderBullet(AnimatedSpriteData &bullet, sf::RenderTarget &target);
 	virtual void bulletFireCallBack(){};
 
@@ -114,7 +114,7 @@ public:
 	void setBulletAnimation(const jl::FrameAnimation &animation);
 
 	void fire();
-	void spawnBullet(const sf::Vector2f &position);
+	void spawnBullet(const sf::Vector2f &position, double initialLifetime=0.0);
 
 	void updateBullets(double deltaTime);
 	void renderBullets(sf::RenderTarget &target);
@@ -127,6 +127,7 @@ public:
 	int getAmmo() const;
 	int getMaxAmmo() const;
 	TileCharacter &getTrackedChar();
+	const StanceData &getActiveStance() const;
 	double getBulletLifetime() const;
 
 	bool hasUnlimitedAmmo() const;

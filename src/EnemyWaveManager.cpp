@@ -88,21 +88,30 @@ void EnemyWaveManager::update(double deltaTime)
 			enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay"), jl::Settings::getDouble("gameEnemyMaxDelay")));
 
 			double randChance = jl::Math::randDouble(0.0, 100.0);
-			// "Speeder" enemy types
-			if(randChance <= jl::Settings::getInt("gameWaveNumber"))
-			{
-				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
-				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
-				enemy->getSprite().setColor(sf::Color(150, 150, 150));
-			}
-			// "Tanking" enemy types
-			else if(randChance <= (double)jl::Settings::getInt("gameWaveNumber")*0.4)
+
+
+			double speederPercent = (double)jl::Settings::getInt("gameWaveNumber")*0.8;
+			if(speederPercent > 60)
+				speederPercent = 60;
+			double tankerPercent = (double)jl::Settings::getInt("gameWaveNumber")*0.2;
+			if(tankerPercent > 20)
+				tankerPercent = 20;
+
+			// "Tanker" enemy types
+			if(randChance <= tankerPercent)
 			{
 				enemy->setMaxHealth(15);
 				enemy->heal(15);
 				enemy->setSpeed(20);
 				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
 				enemy->getSprite().setColor(sf::Color(200, 150, 150));
+			}
+			// "Speeder" enemy types
+			else if(randChance <= speederPercent)
+			{
+				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
+				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+				enemy->getSprite().setColor(sf::Color(150, 150, 150));
 			}
 
 			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
@@ -121,7 +130,7 @@ void EnemyWaveManager::update(double deltaTime)
 	{
 
 		// Predict enemy count
-		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*3;
+		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*2;
 
 		if((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
 		{
