@@ -16,8 +16,12 @@ namespace jl
 
 		void addSound(const std::string &filepath)
 		{
-			sf::Sound sound(m_assets->getSound(filepath));
-			m_sounds[filepath] = sound;
+			if(m_sounds.find(filepath) == m_sounds.end())
+			{
+				sf::Sound sound(m_assets->getSound(filepath));
+				m_sounds[filepath] = sound;
+			}
+
 		}
 		void removeSound(const std::string &filepath)
 		{
@@ -37,6 +41,12 @@ namespace jl
 		{
 			m_sounds[filepath].stop();
 		}
+
+		void clearSounds()
+		{
+			m_sounds.clear();
+		}
+
 
 		sf::Sound &getSound(const std::string &filepath)
 		{

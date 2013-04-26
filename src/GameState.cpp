@@ -149,6 +149,10 @@ GameState::GameState(jl::Engine *engine) :
 	// Workbench
 	m_tileOptions.addOption(11, "Craft", TileOptionActions::craft);
 }
+GameState::~GameState()
+{
+	jl::SoundManager::clearSounds();
+}
 
 void GameState::reloadView()
 {

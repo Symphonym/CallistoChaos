@@ -42,6 +42,7 @@ private:
 public:
 
 	explicit GameState(jl::Engine *engine);
+	~GameState();
 
 	void reloadView();
 

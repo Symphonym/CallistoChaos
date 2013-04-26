@@ -23,6 +23,8 @@ namespace jl
 		void pauseSound(const std::string &filepath);
 		void stopSound(const std::string &filepath);
 
+		void clearSounds();
+
 		sf::Sound &getSound(const std::string &filepath);
 	};
 };
