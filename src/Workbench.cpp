@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Settings.h"
 #include "MessageLog.h"
+#include "SoundManager.h"
 
 Workbench::Workbench() :
 	m_assets(nullptr),
@@ -189,6 +190,9 @@ void Workbench::events(sf::Event &events)
 						MessageLog::addSingleMessage("The " + getSelectedItem()->weapon->getName() + " is already fully upgraded");
 					else
 						MessageLog::addSingleMessage("This upgrade is already fully upgraded");
+
+
+					jl::SoundManager::playSound("res/actiondenied.wav");
 			}
 
 
@@ -198,13 +202,17 @@ void Workbench::events(sf::Event &events)
 				// Check if it's a non upgradeable, if not, check if it's upgradeable any more otherwise just buy it
 				if(canBuy)
 				{
+					jl::SoundManager::playSound("res/actionconfirmed.wav");
 					getSelectedItem()->weaponAction(*getSelectedItem(), m_player);
 
 					getSelectedItem()->isBought = true;
 				}
 			}
 			else if(canBuy)
+			{
+				jl::SoundManager::playSound("res/actiondenied.wav");
 				MessageLog::addSingleMessage("I don't have enough material");
+			}
 		}
 
 		int yModifier = 0;

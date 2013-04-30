@@ -78,17 +78,15 @@ GameState::GameState(jl::Engine *engine) :
 	m_backgroundPlanet.setPosition(
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().width/2),
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().height/2));
-		//m_view.getSize().x/2 - (m_backgroundPlanet.getGlobalBounds().width/2),
-		//m_view.getSize().y/2 - (m_backgroundPlanet.getGlobalBounds().height/2));
 
 	// Load character manager
 	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(13,11)));
 	// Set player to be used for the Tile options
 	m_tileOptions.provideCharacter(player.get());
+	m_loot = LootManager(getEngine()->getAssets());
 	m_loot.providePlayer(player.get());
 	m_workbench = Workbench(player.get(), getEngine()->getAssets());
 	m_bedControl = BedControl(player.get());
-	m_loot = LootManager(getEngine()->getAssets());
 	m_enemyWaves = EnemyWaveManager(m_characters, getEngine()->getAssets());
 
 	// Give player to manager
@@ -96,6 +94,8 @@ GameState::GameState(jl::Engine *engine) :
 
 	jl::SoundManager::addSound("res/damage.wav");
 	jl::SoundManager::addSound("res/death.wav");
+	jl::SoundManager::addSound("res/actionconfirmed.wav");
+	jl::SoundManager::addSound("res/actiondenied.wav");
 
 	// Add interactive options for tiles
 	// Flower
@@ -147,10 +147,6 @@ GameState::GameState(jl::Engine *engine) :
 
 	// Workbench
 	m_tileOptions.addOption(11, "Craft", TileOptionActions::craft);
-}
-GameState::~GameState()
-{
-	jl::SoundManager::clearSounds();
 }
 
 void GameState::reloadView()
