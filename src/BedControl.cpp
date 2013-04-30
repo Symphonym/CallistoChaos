@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "MessageLog.h"
+#include "TileOptionActions.h"
+#include "GameState.h"
 
 BedControl::BedControl() :
 	m_player(nullptr),
@@ -22,6 +24,9 @@ void BedControl::update()
 {
 	if(m_inBed)
 	{
+		if(sf::Joystick::isButtonPressed(0, 1))
+			TileOptionActions::sleep(nullptr, sf::Vector2i(0,0), &m_player->getGame().getTileOptions());
+
 		if(m_regenClock.getElapsedTime().asSeconds() >= m_regenDelay)
 		{
 			m_regenClock.restart();

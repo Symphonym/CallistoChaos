@@ -132,7 +132,7 @@ void EnemyWaveManager::update(double deltaTime)
 		// Predict enemy count
 		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*2;
 
-		if((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100)
 		{
 			m_waveIsActive = true;
 			jl::Settings::setInt("gameWaveNumber", jl::Settings::getInt("gameWaveNumber")+1);

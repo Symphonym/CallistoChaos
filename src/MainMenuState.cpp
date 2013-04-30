@@ -22,8 +22,7 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 	m_menuItems.push_back("Start");
 	m_menuItems.push_back("Exit");
-	m_menuItems.push_back("HERO");
-
+	
 	m_solarView = getEngine()->getWindow().getDefaultView();
 	sf::Vector2i mapSize(24, 20);
 	int tileSize = 16;

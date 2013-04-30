@@ -362,3 +362,7 @@ LootManager &GameState::getLoot()
 {
 	return m_loot;
 }
+TileOptionManager &GameState::getTileOptions()
+{
+	return m_tileOptions;
+}
