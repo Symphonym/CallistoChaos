@@ -22,7 +22,6 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 	m_menuItems.push_back("Start");
 	m_menuItems.push_back("Exit");
-
 	m_solarView = getEngine()->getWindow().getDefaultView();
 	sf::Vector2i mapSize(24, 20);
 	int tileSize = 16;
@@ -40,6 +39,9 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	m_titleSprite.setScale(5, 5);
 
 	jl::SoundManager::addSound("res/menuSelect.wav");
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setLoop(true);
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").play();
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(20);
 
 	GalaxyGenerator::setView(m_solarView);
 	GalaxyGenerator::setPlanetTextureSheet(getEngine()->getAssets().getTexture("res/galax.png"));
@@ -120,7 +122,8 @@ void MainMenuState::events()
 }
 void MainMenuState::update()
 {
-
+	if(getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getPlayingOffset().asSeconds() > 12)
+		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setPlayingOffset(sf::seconds(6));
 	m_backgroundPlanet.setPosition(
 		m_solarView.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
 		m_solarView.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);

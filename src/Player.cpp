@@ -47,6 +47,14 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_animation.createAnimation("lookDown");
 	m_animation.pushFrame(sf::IntRect(0, 48, 16, 16), 0.1);
 
+	m_animation.createAnimation("sleep");
+	m_animation.pushFrame(sf::IntRect(0, 64, 16, 16), 0.1).
+		pushFrame(sf::IntRect(16, 64, 16, 16), 0.1).
+		pushFrame(sf::IntRect(32, 64, 16, 16), 0.1).
+		pushFrame(sf::IntRect(48, 64, 16, 16), 0.1).
+		pushFrame(sf::IntRect(64, 64, 16, 16), 0.1).
+		pushFrame(sf::IntRect(80, 64, 16, 16), 0.1);
+
 	m_animation.initAnimation(m_sprite, "down");
 	m_sprite.setTexture(assets.getTexture("res/rpgmaker16.png"));
 
@@ -85,10 +93,12 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_scoreSprite.setScale(5, 5);
 	m_scoreSprite.setColor(transparentColor);
 }
-
+#include <iostream>
 void Player::characterEvents(TileCharacter::Event events)
 {
-	if(events == TileCharacter::WalkingRight)
+	if(m_gameState->getBed().isInUse())
+		m_animation.request("sleep");
+	else if(events == TileCharacter::WalkingRight)
 		m_animation.request("right");
 	else if(events == TileCharacter::WalkingLeft)
 		m_animation.request("left");
@@ -204,9 +214,9 @@ void Player::update(double deltaTime)
 		       		walkRight();
 	       	}
 
-			m_animation.commit(m_sprite, deltaTime);
-
 		}
+
+		m_animation.commit(m_sprite, deltaTime);
 
 		for(std::size_t i = 0; i < m_weapons.size(); i++)
 			m_weapons[i]->updateBullets(deltaTime);
@@ -286,7 +296,8 @@ void Player::render(sf::RenderTarget &target)
 			m_weapons[i]->renderBullets(target);
 
 		// Render weapon
-		getActiveWeapon()->renderWeapon(target);
+		if(!m_gameState->getBed().isInUse())
+			getActiveWeapon()->renderWeapon(target);
 	}
 }
 

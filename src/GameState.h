@@ -54,6 +54,7 @@ public:
 	BedControl &getBed();
 	Workbench &getWorkbench();
 	LootManager &getLoot();
+	TileOptionManager &getTileOptions();
 };
 
 #endif

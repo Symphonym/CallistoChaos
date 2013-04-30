@@ -79,7 +79,8 @@ void WeakEnemy::update(double deltaTime)
 				std::rand() % m_gameState->getTileMap().getMapSize().x,
 				std::rand() % m_gameState->getTileMap().getMapSize().y) : getChars().getPlayer().getIndex();
 
-		std::vector<AstarNode> path = AstarAlgorithm::findPath(getIndex(), pathGoal, &getTileMap());
+		bool disregardEnemies = getGame().getChars().getCount() < CharacterManager::characterLimit - 2 ? false : true;
+		std::vector<AstarNode> path = AstarAlgorithm::findPath(getIndex(), pathGoal, &getTileMap(), disregardEnemies);
 
 		sf::Vector2i pathIndex = path[0].index;
 

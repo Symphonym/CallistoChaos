@@ -65,7 +65,7 @@ namespace AstarAlgorithm
 		};
 	};
 
-	NodePath findPath(const sf::Vector2i &start, const sf::Vector2i &end, TileMap *tileMap);
+	NodePath findPath(const sf::Vector2i &start, const sf::Vector2i &end, TileMap *tileMap, bool disregardEnemies = false);
 };
 
 #endif

@@ -96,6 +96,8 @@ GameState::GameState(jl::Engine *engine) :
 	jl::SoundManager::addSound("res/death.wav");
 	jl::SoundManager::addSound("res/actionconfirmed.wav");
 	jl::SoundManager::addSound("res/actiondenied.wav");
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(60);
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setPlayingOffset(sf::seconds(6));
 
 	// Add interactive options for tiles
 	// Flower
@@ -357,4 +359,8 @@ Workbench &GameState::getWorkbench()
 LootManager &GameState::getLoot()
 {
 	return m_loot;
+}
+TileOptionManager &GameState::getTileOptions()
+{
+	return m_tileOptions;
 }

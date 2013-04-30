@@ -2,12 +2,14 @@
 #include "TileMap.h"
 #include <queue>
 #include "Player.h"
+#include <iostream>
 
 namespace AstarAlgorithm
 {
 	NodeList m_openList, m_closedList;
 	sf::Vector2i m_start, m_end;
 	TileMap *m_tileMap;
+	bool m_disregardEnemies;
 
 	bool allowedTileType(int tileType)
 	{
@@ -37,7 +39,7 @@ namespace AstarAlgorithm
 
 	bool occupiedByEnemy(const sf::Vector2i &index)
 	{
-		return m_tileMap->getTile(index).isOccupied() && !dynamic_cast<Player*>(m_tileMap->getTile(index).getCharacter());
+		return m_tileMap->getTile(index).isOccupied() && !dynamic_cast<Player*>(m_tileMap->getTile(index).getCharacter()) && !m_disregardEnemies;
 	}
 	void controlNeighbour(AstarNode *node, const sf::Vector2i &index, NodeList &neighbours)
 	{
@@ -112,8 +114,9 @@ namespace AstarAlgorithm
 		return path;
 	};
 
-	NodePath findPath(const sf::Vector2i &start, const sf::Vector2i &end, TileMap *tileMap)
+	NodePath findPath(const sf::Vector2i &start, const sf::Vector2i &end, TileMap *tileMap, bool disregardEnemies)
 	{
+		m_disregardEnemies = disregardEnemies;
 		m_start = start;
 		m_end = end;
 
@@ -147,6 +150,7 @@ namespace AstarAlgorithm
 				return tracePath(m_openList.back().get());
 		}	
 		
+		std::cout << "NO PATH WAS FOUND!!!" << std::endl;
 		return tracePath(current.get());
 	};
 };

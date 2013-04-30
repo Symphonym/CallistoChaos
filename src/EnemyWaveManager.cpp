@@ -46,7 +46,7 @@ EnemyWaveManager::EnemyWaveManager(CharacterManager &characters, jl::AssetManage
 
 	m_waveSkipText = sf::Text(m_waveText);
 	m_waveSkipText.setCharacterSize(14);
-	m_waveSkipText.setString("Press RT + LT to start the wave!");
+	m_waveSkipText.setString("Press LT to start the wave!");
 
 
 }
@@ -56,7 +56,7 @@ void EnemyWaveManager::update(double deltaTime)
 	if(m_waveIsActive)
 	{
 
-		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < 15)
+		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < CharacterManager::characterLimit)
 		{
 			// Get left overs
 			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(jl::Settings::getInt("gameWaveNumber")/2.0);
@@ -132,7 +132,7 @@ void EnemyWaveManager::update(double deltaTime)
 		// Predict enemy count
 		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*2;
 
-		if((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100))
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100)
 		{
 			m_waveIsActive = true;
 			jl::Settings::setInt("gameWaveNumber", jl::Settings::getInt("gameWaveNumber")+1);
