@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include "Utility.h"
 #include "Settings.h"
+#include "SoundManager.h"
 
 TileOptionManager::TileOptionManager() :
 	m_tileOptions(),
@@ -27,6 +28,8 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 	m_sprite.setScale(3, 2);
 	m_text.setFont(assets.getFont("res/Minecraftia.ttf"));
 	m_text.setCharacterSize(8);
+	jl::SoundManager::addSound("res/tileoptionselect.wav");
+	jl::SoundManager::addSound("res/tileoptionconfirm.wav");
 }
 
 void TileOptionManager::addOption(int tileTypeIndex, const std::string &title, ActionPtr action)
@@ -64,9 +67,10 @@ void TileOptionManager::events(sf::Event &events)
 			if((jl::Input::isKeyDown(events, sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
 				(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty()))
 			{
+				jl::SoundManager::playSound("res/tileoptionconfirm.wav");
+
 				if(!m_displayOptions)
 					displayList();
-
 				// Run option command
 				else if(m_displayOptions)
 				{
@@ -102,10 +106,16 @@ void TileOptionManager::events(sf::Event &events)
 		{
 			// Scroll up
 			if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
+			{
 				--m_optionIndex;
+				jl::SoundManager::playSound("res/tileoptionselect.wav");
+			}
 			// Scroll down
 			else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
+			{
 				++m_optionIndex;
+				jl::SoundManager::playSound("res/tileoptionselect.wav");
+			}
 
 			
 			m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);

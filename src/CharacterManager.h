@@ -26,6 +26,8 @@ private:
 
 public:
 
+	static const int characterLimit = 15;
+	
 	explicit CharacterManager();
 
 	void addCharacter(std::unique_ptr<TileCharacter> tilecharacter);

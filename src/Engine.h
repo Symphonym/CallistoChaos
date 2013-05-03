@@ -44,7 +44,7 @@ namespace jl
 		// "Engine" constructor provides the game with default settings,
 		// most of which can be overloaded.
 		explicit Engine();
-		virtual ~Engine(){};
+		virtual ~Engine();
 
 		// Reloads all settings from the global jl::Settings data
 		void refreshSettings();

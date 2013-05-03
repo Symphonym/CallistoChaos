@@ -78,17 +78,15 @@ GameState::GameState(jl::Engine *engine) :
 	m_backgroundPlanet.setPosition(
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().width/2),
 		m_view.getCenter().x - (m_backgroundPlanet.getGlobalBounds().height/2));
-		//m_view.getSize().x/2 - (m_backgroundPlanet.getGlobalBounds().width/2),
-		//m_view.getSize().y/2 - (m_backgroundPlanet.getGlobalBounds().height/2));
 
 	// Load character manager
 	std::unique_ptr<Player> player(new Player(this, getEngine()->getAssets(), sf::Vector2i(13,11)));
 	// Set player to be used for the Tile options
 	m_tileOptions.provideCharacter(player.get());
+	m_loot = LootManager(getEngine()->getAssets());
 	m_loot.providePlayer(player.get());
 	m_workbench = Workbench(player.get(), getEngine()->getAssets());
 	m_bedControl = BedControl(player.get());
-	m_loot = LootManager(getEngine()->getAssets());
 	m_enemyWaves = EnemyWaveManager(m_characters, getEngine()->getAssets());
 
 	// Give player to manager
@@ -96,6 +94,8 @@ GameState::GameState(jl::Engine *engine) :
 
 	jl::SoundManager::addSound("res/damage.wav");
 	jl::SoundManager::addSound("res/death.wav");
+	jl::SoundManager::addSound("res/actionconfirmed.wav");
+	jl::SoundManager::addSound("res/actiondenied.wav");
 
 	// Add interactive options for tiles
 	// Flower
@@ -148,10 +148,6 @@ GameState::GameState(jl::Engine *engine) :
 	// Workbench
 	m_tileOptions.addOption(11, "Craft", TileOptionActions::craft);
 }
-GameState::~GameState()
-{
-	jl::SoundManager::clearSounds();
-}
 
 void GameState::reloadView()
 {
@@ -186,10 +182,14 @@ void GameState::events()
 
 void GameState::update()
 {
+	// Slowly fade in music
+	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(jl::Math::lerp(
+		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getVolume(), 60, getEngine()->getDelta()));
+
 	// Smack down to planet (with camera)
 	if(isPaused())
 	{
-		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
+		GalaxyGenerator::rotate(getEngine()->getDelta());
 
 		m_view.setSize(jl::Vec::lerp(
 			m_view.getSize(),
@@ -219,6 +219,11 @@ void GameState::update()
 	{
 		if(!m_updatedHighscore)
 		{
+			
+				
+			getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(0);
+			getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").stop();
+			getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").play();
 			jl::Settings::setInt("gameScore", m_characters.getPlayer().getScore());
 
 			if(m_characters.getPlayer().getScore() > jl::Settings::getInt("gameHighscore"))
@@ -232,6 +237,10 @@ void GameState::update()
 			m_updatedHighscore = true;
 			jl::SoundManager::playSound("res/death.wav");
 		}
+
+		// Fade in music to menu volume
+		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(jl::Math::lerp(
+			getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getVolume(), 20, 2*getEngine()->getDelta()));
 
 		GalaxyGenerator::rotate(getEngine()->getDelta()*5);
 		m_backgroundPlanet.setPosition(

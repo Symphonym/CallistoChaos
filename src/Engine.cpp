@@ -29,6 +29,10 @@ namespace jl
 		// Register Engine data to those who need it
 		SoundManager::registerAssets(&m_assets);
 	}	
+	Engine::~Engine()
+	{
+		jl::SoundManager::clearSounds();
+	}
 
 	void Engine::gameloop()
 	{

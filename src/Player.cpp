@@ -6,6 +6,7 @@
 #include "RifleWeapon.h"
 #include "Settings.h"
 #include "GameState.h"
+#include "SoundManager.h"
 
 Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(gameState, assets, tileIndex),
@@ -16,6 +17,8 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	setMaxHealth(5);
 	heal(5);
 	gameState->getBed().setRegenDelay(2);
+	jl::SoundManager::addSound("res/playerwalk.wav");
+
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
 		pushFrame(sf::IntRect(16, 16, 16, 16), 0.1).

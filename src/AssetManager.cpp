@@ -44,7 +44,7 @@ namespace jl
 		if(m_sounds.find(filepath) == m_sounds.end())
 		{
 			// Create new sound
-			sf::SoundBuffer sound = sf::SoundBuffer();
+			sf::SoundBuffer sound;
 
 			// Load sound
 			if(!sound.loadFromFile(filepath))
