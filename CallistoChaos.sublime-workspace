@@ -307,7 +307,7 @@
 			"file": "src/MainMenuState.cpp",
 			"settings":
 			{
-				"buffer_size": 6776,
+				"buffer_size": 6745,
 				"line_ending": "Unix"
 			}
 		},
@@ -315,7 +315,7 @@
 			"file": "src/GameState.h",
 			"settings":
 			{
-				"buffer_size": 1125,
+				"buffer_size": 1163,
 				"line_ending": "Unix"
 			}
 		},
@@ -323,7 +323,7 @@
 			"file": "src/GameState.cpp",
 			"settings":
 			{
-				"buffer_size": 13107,
+				"buffer_size": 13180,
 				"line_ending": "Unix"
 			}
 		},
@@ -363,7 +363,7 @@
 			"file": "src/Player.cpp",
 			"settings":
 			{
-				"buffer_size": 11086,
+				"buffer_size": 11550,
 				"line_ending": "Unix"
 			}
 		},
@@ -379,7 +379,7 @@
 			"file": "src/EnemyWaveManager.cpp",
 			"settings":
 			{
-				"buffer_size": 6389,
+				"buffer_size": 6321,
 				"line_ending": "Unix"
 			}
 		},
@@ -582,9 +582,25 @@
 				"buffer_size": 3642,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "src/TileOptionActions.cpp",
+			"settings":
+			{
+				"buffer_size": 5308,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/BedControl.cpp",
+			"settings":
+			{
+				"buffer_size": 1372,
+				"line_ending": "Unix"
+			}
 		}
 	],
-	"build_system": "Packages/User/RunRelease.sublime-build",
+	"build_system": "Packages/User/DebugProject.sublime-build",
 	"command_palette":
 	{
 		"height": 54.0,
@@ -823,7 +839,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 29,
 			"sheets":
 			[
 				{
@@ -885,15 +901,15 @@
 					"file": "src/MainMenuState.cpp",
 					"settings":
 					{
-						"buffer_size": 6776,
+						"buffer_size": 6745,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2889,
-								2890
+								611,
+								611
 							]
 						],
 						"settings":
@@ -902,7 +918,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 780.0,
+						"translation.y": 39.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -912,15 +928,15 @@
 					"file": "src/GameState.h",
 					"settings":
 					{
-						"buffer_size": 1125,
+						"buffer_size": 1163,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1151,
+								1151
 							]
 						],
 						"settings":
@@ -929,7 +945,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 195.0,
+						"translation.y": 234.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -939,15 +955,15 @@
 					"file": "src/GameState.cpp",
 					"settings":
 					{
-						"buffer_size": 13107,
+						"buffer_size": 13180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3926,
-								3926
+								13178,
+								13178
 							]
 						],
 						"settings":
@@ -956,7 +972,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 434.0,
+						"translation.y": 4348.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1074,15 +1090,15 @@
 					"file": "src/Player.cpp",
 					"settings":
 					{
-						"buffer_size": 11086,
+						"buffer_size": 11550,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10807,
-								10807
+								1057,
+								1057
 							]
 						],
 						"settings":
@@ -1091,7 +1107,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3580.0,
+						"translation.y": 243.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1128,15 +1144,15 @@
 					"file": "src/EnemyWaveManager.cpp",
 					"settings":
 					{
-						"buffer_size": 6389,
+						"buffer_size": 6321,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2710,
-								2710
+								4505,
+								4505
 							]
 						],
 						"settings":
@@ -1145,7 +1161,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1008.0,
+						"translation.y": 1125.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1323,8 +1339,8 @@
 						"selection":
 						[
 							[
-								187,
-								187
+								1044,
+								1044
 							]
 						],
 						"settings":
@@ -1444,7 +1460,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 390.0,
+						"translation.y": 1287.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1623,8 +1639,8 @@
 						"selection":
 						[
 							[
-								442,
-								442
+								386,
+								386
 							]
 						],
 						"settings":
@@ -1824,6 +1840,60 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 37,
+					"file": "src/TileOptionActions.cpp",
+					"settings":
+					{
+						"buffer_size": 5308,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4924,
+								4924
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1599.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 38,
+					"file": "src/BedControl.cpp",
+					"settings":
+					{
+						"buffer_size": 1372,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								202,
+								202
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1878,6 +1948,78 @@
 		"selected_items":
 		[
 			[
+				"rif",
+				"CallistoChaos/src/RifleWeapon.cpp"
+			],
+			[
+				"gu",
+				"CallistoChaos/src/GunWeapon.cpp"
+			],
+			[
+				"rifle",
+				"CallistoChaos/src/RifleWeapon.cpp"
+			],
+			[
+				"gunwe",
+				"CallistoChaos/src/GunWeapon.cpp"
+			],
+			[
+				"pla",
+				"CallistoChaos/src/Player.cpp"
+			],
+			[
+				"be",
+				"CallistoChaos/src/BedControl.cpp"
+			],
+			[
+				"gamest",
+				"CallistoChaos/src/GameState.h"
+			],
+			[
+				"acto",
+				"CallistoChaos/src/TileOptionActions.cpp"
+			],
+			[
+				"a",
+				"CallistoChaos/src/AssetManager.cpp"
+			],
+			[
+				"act",
+				"CallistoChaos/src/TileOptionActions.cpp"
+			],
+			[
+				"acti",
+				"CallistoChaos/src/TileOptionActions.cpp"
+			],
+			[
+				"uti",
+				"CallistoChaos/src/Utility.h"
+			],
+			[
+				"bed",
+				"CallistoChaos/src/BedControl.cpp"
+			],
+			[
+				"bedcontr",
+				"CallistoChaos/src/BedControl.cpp"
+			],
+			[
+				"tileoptionac",
+				"CallistoChaos/src/TileOptionActions.cpp"
+			],
+			[
+				"enemy",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
+				"mainm",
+				"CallistoChaos/src/MainMenuState.cpp"
+			],
+			[
+				"enem",
+				"CallistoChaos/src/EnemyWaveManager.cpp"
+			],
+			[
 				"mainmen",
 				"CallistoChaos/src/MainMenuState.cpp"
 			],
@@ -1912,10 +2054,6 @@
 			[
 				"so",
 				"CallistoChaos/src/SoundManager.cpp"
-			],
-			[
-				"gamest",
-				"CallistoChaos/src/GameState.cpp"
 			],
 			[
 				"engi",
@@ -1954,10 +2092,6 @@
 				"CallistoChaos/src/Player.cpp"
 			],
 			[
-				"a",
-				"CallistoChaos/src/AssetManager.cpp"
-			],
-			[
 				"ass",
 				"CallistoChaos/src/AssetManager.cpp"
 			],
@@ -1978,10 +2112,6 @@
 				"CallistoChaos/src/main.cpp"
 			],
 			[
-				"enemy",
-				"CallistoChaos/src/EnemyWaveManager.cpp"
-			],
-			[
 				"enemyw",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
 			],
@@ -1992,14 +2122,6 @@
 			[
 				"eneywave",
 				"CallistoChaos/src/EnemyWaveManager.cpp"
-			],
-			[
-				"rif",
-				"CallistoChaos/src/RifleWeapon.cpp"
-			],
-			[
-				"rifle",
-				"CallistoChaos/src/RifleWeapon.cpp"
 			],
 			[
 				"mainstate",
@@ -2074,16 +2196,8 @@
 				"CallistoChaos/src/AssetManager.h"
 			],
 			[
-				"gunwe",
-				"CallistoChaos/src/GunWeapon.cpp"
-			],
-			[
 				"en",
 				"CallistoChaos/src/Engine.cpp"
-			],
-			[
-				"pla",
-				"CallistoChaos/src/Player.cpp"
 			],
 			[
 				"statem",
@@ -2098,20 +2212,12 @@
 				"CallistoChaos/src/MainMenuState.cpp"
 			],
 			[
-				"enem",
-				"CallistoChaos/src/EnemyWaveManager.cpp"
-			],
-			[
 				"statemana",
 				"CallistoChaos/src/StateManager.cpp"
 			],
 			[
 				"chara",
 				"CallistoChaos/src/CharacterManager.cpp"
-			],
-			[
-				"uti",
-				"CallistoChaos/src/Utility.h"
 			],
 			[
 				"weapon",
@@ -2144,10 +2250,6 @@
 			[
 				"loot",
 				"CallistoChaos/src/LootManager.cpp"
-			],
-			[
-				"mainm",
-				"CallistoChaos/src/MainMenuState.h"
 			],
 			[
 				"g",
@@ -2184,10 +2286,6 @@
 			[
 				"gamesta",
 				"CallistoChaos/src/GameState.h"
-			],
-			[
-				"gu",
-				"CallistoChaos/src/GunWeapon.cpp"
 			],
 			[
 				"r",
@@ -2232,10 +2330,6 @@
 			[
 				"bedc",
 				"CallistoChaos/src/BedControl.cpp"
-			],
-			[
-				"bed",
-				"CallistoChaos/src/BedControl.h"
 			],
 			[
 				"exce",
