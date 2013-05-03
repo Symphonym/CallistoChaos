@@ -17,6 +17,9 @@ private:
 
 	bool m_movedJoystick;
 
+	sf::Vector2f m_controlTargetPos;
+	sf::Sprite m_controlSprite;
+
 public:
 
 	explicit MainMenuState(jl::Engine *engine);

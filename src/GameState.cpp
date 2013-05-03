@@ -95,6 +95,7 @@ GameState::GameState(jl::Engine *engine) :
 	jl::SoundManager::addSound("res/damage.wav");
 	jl::SoundManager::addSound("res/death.wav");
 	jl::SoundManager::addSound("res/actionconfirmed.wav");
+	jl::SoundManager::getSound("res/actionconfirmed.wav").setVolume(60);
 	jl::SoundManager::addSound("res/actiondenied.wav");
 
 	// Add interactive options for tiles
@@ -184,7 +185,7 @@ void GameState::update()
 {
 	// Slowly fade in music
 	getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setVolume(jl::Math::lerp(
-		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getVolume(), 60, getEngine()->getDelta()));
+		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getVolume(), 45, getEngine()->getDelta()));
 
 	// Smack down to planet (with camera)
 	if(isPaused())
@@ -299,8 +300,7 @@ void GameState::update()
 		}
 
 		// Derp functions
-/*
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		/*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			m_view.zoom(1.0 - getEngine()->getDelta());
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			m_view.zoom(1.0 + getEngine()->getDelta());

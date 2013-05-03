@@ -21,10 +21,10 @@ RailGun::RailGun(const std::string &name, TileCharacter *tileCharacter, jl::Asse
 		assets.getTexture("res/weapons.png"), 
 		assets.getTexture("res/bullets.png"));
 
-	addStance("right", sf::Vector2f(5, 3), sf::IntRect(0,32,16,16), sf::Vector2f(5, 4), sf::Vector2f(6, -1));
-	addStance("left", sf::Vector2f(-5, 3), sf::IntRect(16,32,16,16), sf::Vector2f(5, 4), sf::Vector2f(-5, -1));
-	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,32,16,16));
-	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,32,16,16), sf::Vector2f(0.5,0));
+	addStance("right", sf::Vector2f(5, 3), sf::IntRect(0,32,16,16), sf::Vector2f(0, 2), sf::Vector2f(8, 0));
+	addStance("left", sf::Vector2f(-5, 3), sf::IntRect(16,32,16,16), sf::Vector2f(0, 4), sf::Vector2f(-8, 0));
+	addStance("up", sf::Vector2f(5, -1), sf::IntRect(32,32,16,16), sf::Vector2f(4, 0), sf::Vector2f(0, -8));
+	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,32,16,16), sf::Vector2f(1 ,0), sf::Vector2f(0, 5));
 	setStance("down");
 
 	jl::FrameAnimation anim;
@@ -41,20 +41,20 @@ RailGun::RailGun(const std::string &name, TileCharacter *tileCharacter, jl::Asse
 		pushFrame(sf::IntRect(144,48,16,16), 0.01);
 	addBulletAnimation("default");
 	anim.createAnimation("bulletFire");
-	anim.pushFrame(sf::IntRect(0,64,16,16), 0.01).
-		pushFrame(sf::IntRect(16,64,16,16), 0.01).
-		pushFrame(sf::IntRect(32,64,16,16), 0.01).
-		pushFrame(sf::IntRect(48,64,16,16), 0.01).
-		pushFrame(sf::IntRect(64,64,16,16), 0.01).
-		pushFrame(sf::IntRect(80,64,16,16), 0.01).
-		pushFrame(sf::IntRect(96,64,16,16), 0.01).
-		pushFrame(sf::IntRect(112,64,16,16), 0.01).
-		pushFrame(sf::IntRect(128,64,16,16), 0.01).
-		pushFrame(sf::IntRect(144,64,16,16), 0.01).
-		pushFrame(sf::IntRect(160,64,16,16), 0.01).
-		pushFrame(sf::IntRect(176,64,16,16), 0.01).
-		pushFrame(sf::IntRect(192,64,16,16), 0.01).
-		pushFrame(sf::IntRect(208,64,16,16), 0.01);
+	anim.pushFrame(sf::IntRect(1,64,16,16), 0.01).
+		pushFrame(sf::IntRect(17,64,16,16), 0.01).
+		pushFrame(sf::IntRect(33,64,16,16), 0.01).
+		pushFrame(sf::IntRect(49,64,16,16), 0.01).
+		pushFrame(sf::IntRect(65,64,16,16), 0.01).
+		pushFrame(sf::IntRect(81,64,16,16), 0.01).
+		pushFrame(sf::IntRect(97,64,16,16), 0.01).
+		pushFrame(sf::IntRect(113,64,16,16), 0.01).
+		pushFrame(sf::IntRect(129,64,16,16), 0.01).
+		pushFrame(sf::IntRect(145,64,16,16), 0.01).
+		pushFrame(sf::IntRect(161,64,16,16), 0.01).
+		pushFrame(sf::IntRect(177,64,16,16), 0.01).
+		pushFrame(sf::IntRect(193,64,16,16), 0.01).
+		pushFrame(sf::IntRect(209,64,16,16), 0.01);
 	addBulletFireAnimation("bulletFire");
 
 	setBulletAnimation(anim);
@@ -191,7 +191,7 @@ void RailGun::bulletFireCallBack()
 
 double RailGun::calculateFireRate() const
 {
-	return 7 - (getLevel()-1);
+	return 9 - (getLevel()-1);
 }
 int RailGun::calculateMaxAmmo() const
 {

@@ -17,7 +17,6 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	setMaxHealth(5);
 	heal(5);
 	gameState->getBed().setRegenDelay(2);
-	jl::SoundManager::addSound("res/playerwalk.wav");
 
 	m_animation.createAnimation("right");
 	m_animation.pushFrame(sf::IntRect(0, 16, 16, 16), 0.1).
@@ -93,7 +92,7 @@ Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2
 	m_scoreSprite.setScale(5, 5);
 	m_scoreSprite.setColor(transparentColor);
 }
-#include <iostream>
+
 void Player::characterEvents(TileCharacter::Event events)
 {
 	if(m_gameState->getBed().isInUse())

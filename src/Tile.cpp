@@ -4,6 +4,7 @@
 #include "Utility.h"
 #include "TileMap.h"
 #include "SoundManager.h"
+#include "Player.h"
 
 Tile::Tile() :
 	m_isSolid(false),
@@ -67,24 +68,29 @@ void Tile::damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int b
 	if(isOccupied())
 	{
 		hpRatio = (double)getCharacter()->getHealth()/(double)getCharacter()->getMaxHealth();
-		particleColor = sf::Color(255 - (125*hpRatio), 0 ,0);
+
+		if(dynamic_cast<Player*>(getCharacter()))
+			particleColor = sf::Color(255 - (125*hpRatio), 0 ,0);
+		else
+			particleColor = sf::Color((125*hpRatio), (125*hpRatio) , (125*hpRatio));
+
 		position = sf::Vector2f(
 			getCharacter()->getSprite().getPosition().x + getCharacter()->getSprite().getGlobalBounds().width/2,
 			getCharacter()->getSprite().getPosition().y + getCharacter()->getSprite().getGlobalBounds().height/2);
 	}
-
-	// Standard brown color
-	else if(isImmortal())
-		particleColor = sf::Color(138, 91, 0);
-
-	// Brown tree/door/wall color
-	else if(isPlayerAttackable())
-		particleColor = sf::Color(138 - (57*hpRatio), 91 - (45*hpRatio), 0 - (-16*hpRatio));
-
-	// Grey object color
 	else
-		particleColor = sf::Color(160 - (70*hpRatio), 160 - (70*hpRatio), 160 - (70*hpRatio));
+	{
+		if(isImmortal())
+			hpRatio = 1;
 
+		// Standard brown color
+		if(getTileType() == 2)
+			particleColor = sf::Color(138 - (57*hpRatio), 91 - (45*hpRatio), 0 - (-16*hpRatio));
+
+		// Grey object color
+		else if(getTileType() == 3 || getTileType() == 4 || getTileType() == 6)
+			particleColor = sf::Color(160 - (70*hpRatio), 160 - (70*hpRatio), 160 - (70*hpRatio));
+	}
 	// No specified direction, add some extra particles and have 360 spread
 	if(baseDirection == -1)
 	{

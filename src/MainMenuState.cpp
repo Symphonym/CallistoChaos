@@ -11,16 +11,18 @@
 MainMenuState::MainMenuState(jl::Engine *engine) :
 	jl::State(engine),
 	m_selectedItem(0),
-	m_movedJoystick(false)
+	m_movedJoystick(false),
+	m_controlTargetPos(0,0)
 {
 	m_text.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
-	m_text.setCharacterSize(54);
+	m_text.setCharacterSize(34);
 
 	m_scoreText.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
 	m_scoreText.setCharacterSize(24);
 
 
 	m_menuItems.push_back("Start");
+	m_menuItems.push_back("Controls");
 	m_menuItems.push_back("Exit");
 	m_solarView = getEngine()->getWindow().getDefaultView();
 	sf::Vector2i mapSize(24, 20);
@@ -55,6 +57,12 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 	GalaxyGenerator::addPlanet(100,sf::IntRect(33,3,1,1), -m_solarView.getSize(), m_solarView.getSize()*3.f);
 	GalaxyGenerator::generateGalaxy(1500, sf::Vector2f(4, 4));
 
+	m_controlSprite.setScale(3,3);
+	m_controlSprite.setTexture(getEngine()->getAssets().getTexture("res/controller_menu.png"));
+	m_controlSprite.setPosition(
+		getEngine()->getWindow().getSize().x * 1.2,
+		(getEngine()->getWindow().getSize().y*0.5) - (m_controlSprite.getGlobalBounds().height/2));
+	m_controlTargetPos = m_controlSprite.getPosition();
 
 	// Set default previous score
 	jl::Settings::setInt("gameScore", 0);
@@ -83,7 +91,7 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 void MainMenuState::events()
 {
-	if(!m_movedJoystick)
+	if(!m_movedJoystick && m_controlTargetPos.x > getEngine()->getWindow().getSize().x)
 	{
 		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) == -100 &&
 			getEngine()->getEvent().type == sf::Event::JoystickMoved)
@@ -118,12 +126,27 @@ void MainMenuState::events()
 			getEngine()->getStack().pushState(std::unique_ptr<State>(new GameState(getEngine())));
 		else if(buttonName == "Exit")
 			getEngine()->getStack().popState();
+		else if(buttonName == "Controls")
+		{
+			if(m_controlTargetPos.x >= getEngine()->getWindow().getSize().x)
+				m_controlTargetPos = sf::Vector2f(
+					(getEngine()->getWindow().getSize().x*0.5) - (m_controlSprite.getGlobalBounds().width/2),
+					(getEngine()->getWindow().getSize().y*0.5) - (m_controlSprite.getGlobalBounds().height/2));
+			else
+				m_controlTargetPos = sf::Vector2f(
+					getEngine()->getWindow().getSize().x * 1.2,
+					(getEngine()->getWindow().getSize().y*0.5) - (m_controlSprite.getGlobalBounds().height/2));
+		}
 	}
 }
 void MainMenuState::update()
 {
+	// Loop music intro while in menu
 	if(getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").getPlayingOffset().asSeconds() > 12)
 		getEngine()->getAssets().getMusic("res/Saturday Supernova.wav").setPlayingOffset(sf::seconds(6));
+
+	m_controlSprite.setPosition(jl::Vec::lerp(m_controlSprite.getPosition(), m_controlTargetPos, 10*getEngine()->getDelta()));
+
 	m_backgroundPlanet.setPosition(
 		m_solarView.getCenter().x - m_backgroundPlanet.getGlobalBounds().width/2,
 		m_solarView.getCenter().y - m_backgroundPlanet.getGlobalBounds().height/2);
@@ -174,6 +197,9 @@ void MainMenuState::render()
 			int(getEngine()->getWindow().getSize().y*0.4) + i*int(m_text.getGlobalBounds().height*1.5));
 		getEngine()->getWindow().draw(m_text);
 	}
+
+	// Draw controller menu
+	getEngine()->getWindow().draw(m_controlSprite);
 
 	// Draw title sprite
 	m_titleSprite.setPosition(

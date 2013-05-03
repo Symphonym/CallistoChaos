@@ -11,10 +11,10 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 		assets.getTexture("res/bullets.png"));
 	setFireSound("res/lasershoot.wav");
 
-	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,16,16,16), sf::Vector2f(6, -2.7), sf::Vector2f(7, -1.5));
-	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,16,16,16), sf::Vector2f(-6, -2.7), sf::Vector2f(-7.5, -1.5));
-	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,16,16,16));
-	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,16,16,16), sf::Vector2f(0.5,0));
+	addStance("right", sf::Vector2f(5,5), sf::IntRect(0,16,16,16), sf::Vector2f(6, -2.7), sf::Vector2f(9, -1.5));
+	addStance("left", sf::Vector2f(-5, 5), sf::IntRect(16,16,16,16), sf::Vector2f(-6, -2.7), sf::Vector2f(-9, -1.5));
+	addStance("up", sf::Vector2f(5, 5), sf::IntRect(32,16,16,16), sf::Vector2f(0.5,0), sf::Vector2f(0, -8));
+	addStance("down", sf::Vector2f(0, 5), sf::IntRect(48,16,16,16), sf::Vector2f(0.5,0), sf::Vector2f(0, 4.5));
 	setStance("down");
 
 	jl::FrameAnimation anim;
@@ -25,13 +25,13 @@ RifleWeapon::RifleWeapon(const std::string &name, TileCharacter *tileCharacter, 
 		pushFrame(sf::IntRect(48,0,16,16), 0.05);
 	addBulletAnimation("default");
 	anim.createAnimation("bulletFire");
-	anim.pushFrame(sf::IntRect(0,32,16,16), 0.01).
-		pushFrame(sf::IntRect(16,32,16,16), 0.01).
-		pushFrame(sf::IntRect(32,32,16,16), 0.01).
-		pushFrame(sf::IntRect(48,32,16,16), 0.01).
-		pushFrame(sf::IntRect(64,32,16,16), 0.01).
-		pushFrame(sf::IntRect(80,32,16,16), 0.01).
-		pushFrame(sf::IntRect(96,32,16,16), 0.01);
+	anim.pushFrame(sf::IntRect(1,32,16,16), 0.01).
+		pushFrame(sf::IntRect(17,32,16,16), 0.01).
+		pushFrame(sf::IntRect(33,32,16,16), 0.01).
+		pushFrame(sf::IntRect(49,32,16,16), 0.01).
+		pushFrame(sf::IntRect(65,32,16,16), 0.01).
+		pushFrame(sf::IntRect(81,32,16,16), 0.01).
+		pushFrame(sf::IntRect(97,32,16,16), 0.01);
 	addBulletFireAnimation("bulletFire");
 
 	setBulletAnimation(anim);

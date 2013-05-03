@@ -2,7 +2,6 @@
 #include "TileMap.h"
 #include <queue>
 #include "Player.h"
-#include <iostream>
 
 namespace AstarAlgorithm
 {
@@ -150,7 +149,6 @@ namespace AstarAlgorithm
 				return tracePath(m_openList.back().get());
 		}	
 		
-		std::cout << "NO PATH WAS FOUND!!!" << std::endl;
 		return tracePath(current.get());
 	};
 };

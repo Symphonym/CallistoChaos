@@ -30,6 +30,7 @@ void TileOptionManager::loadAssets(jl::AssetManager &assets)
 	m_text.setCharacterSize(8);
 	jl::SoundManager::addSound("res/tileoptionselect.wav");
 	jl::SoundManager::addSound("res/tileoptionconfirm.wav");
+	jl::SoundManager::getSound("res/tileoptionconfirm.wav").setVolume(50);
 }
 
 void TileOptionManager::addOption(int tileTypeIndex, const std::string &title, ActionPtr action)
