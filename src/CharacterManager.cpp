@@ -48,14 +48,19 @@ void CharacterManager::update(double deltaTime)
 	for(int i = 0; i < m_characters.size(); i++)
 	{
 		// Check if character is dead, if so, delete it
-		if(m_characters[i]->isDead() && !dynamic_cast<Player*>(m_characters[i].get()))
+		if(m_characters[i]->isDead() && m_characters[i].get()->getName() != "Player")
 		{
 			m_tileMap->getTile(m_characters[i]->getIndex()).clearCharacter();
 
+			const sf::Vector2f entityPos(
+				m_characters[i]->getSprite().getPosition().x + m_characters[i]->getSprite().getGlobalBounds().width/2,
+				m_characters[i]->getSprite().getPosition().y + m_characters[i]->getSprite().getGlobalBounds().height/2);
+
 			for(int e = 0; e < m_characters[i]->getCurrency(); e++)
-				m_player->getGame().getLoot().spawnEntity(sf::Vector2f(
-					m_characters[i]->getSprite().getPosition().x + m_characters[i]->getSprite().getGlobalBounds().width/2,
-					m_characters[i]->getSprite().getPosition().y + m_characters[i]->getSprite().getGlobalBounds().height/2));
+				m_player->getGame().getLoot().spawnEntity(entityPos, "Currency");
+			for(int a = 0; a < m_characters[i]->getAmmo(); a++)
+				m_player->getGame().getLoot().spawnEntity(entityPos, "Ammo");
+
 
 			m_characters.erase(m_characters.begin() + i);
 			m_player->addScore(1);

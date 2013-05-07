@@ -17,7 +17,7 @@ private:
 
 public:
 
-	explicit WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit WeakEnemy(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 	void setMoveDelay(double moveDelay);
 

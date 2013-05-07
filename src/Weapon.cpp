@@ -287,7 +287,13 @@ void Weapon::updateBullet(std::vector<Weapon::AnimatedSpriteData> &bullets, int 
 	// Collision with enemy, delete bullet
 	else if (tile->isOccupied() && tile->isOccupied() && getTrackedChar().getIndex() != index)
 	{
-		if(bullets[i].sprite.getGlobalBounds().intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
+		const sf::FloatRect bulletBounds(
+			bullets[i].sprite.getPosition().x, 
+			bullets[i].sprite.getPosition().y,
+			bullets[i].sprite.getGlobalBounds().width/2, 
+			bullets[i].sprite.getGlobalBounds().height/2);
+
+		if(bulletBounds.intersects(tile->getCharacter()->getSprite().getGlobalBounds()))
 		{
 			tile->damage(calculateDamage(), &getTrackedChar().getTileMap(), index, bullets[i].baseDirection);
 			bullets.erase(bullets.begin() + i);

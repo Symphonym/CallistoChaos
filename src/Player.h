@@ -23,7 +23,7 @@ private:
 
 public:
 
-	explicit Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit Player(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 	virtual void events(sf::Event &events);
 	virtual void update(double deltaTime);

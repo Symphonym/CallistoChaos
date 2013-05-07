@@ -8,11 +8,7 @@ LootManager::LootManager(jl::AssetManager &assets) :
 	m_player(nullptr)
 {
 	m_sprite.setTexture(assets.getTexture("res/tiles.png"));
-	m_sprite.setTextureRect(sf::IntRect(48, 0, 8, 7));
 	m_sprite.setScale(0.8, 0.8);
-	m_sprite.setOrigin(
-		m_sprite.getGlobalBounds().width/2,
-		m_sprite.getGlobalBounds().height/2);
 	jl::SoundManager::addSound("res/pickup.wav");
 }
 LootManager::LootManager() :
@@ -26,7 +22,7 @@ void LootManager::providePlayer(Player *player)
 	m_player = player;
 }
 
-void LootManager::spawnEntity(const sf::Vector2f &position)
+void LootManager::spawnEntity(const sf::Vector2f &position, const std::string &entityType)
 {
 	LootEntity entity;
 	entity.position = position;
@@ -38,6 +34,7 @@ void LootManager::spawnEntity(const sf::Vector2f &position)
 	entity.speed = 0;
 	entity.sineWave = directionAngle;
 	entity.alphaFade = 255;
+	entity.type = entityType;
 
 	m_entities.push_back(entity);
 }
@@ -77,8 +74,12 @@ void LootManager::update(double deltaTime)
 
 			if(exactDistance < 1.0)
 			{
-				// Each entity "contains" 3 currency
-				m_player->addCurrency(3);
+				// Each entity "contains" 3 currency/ammo
+				if(m_entities[i].type == "Currency")
+					m_player->addCurrency(3);
+				else if(m_entities[i].type == "Ammo")
+					m_player->addAmmo(3);
+
 				jl::SoundManager::playSound("res/pickup.wav");
 				m_entities.erase(m_entities.begin() + i);
 				continue;
@@ -99,6 +100,11 @@ void LootManager::render(sf::RenderTarget &target)
 {
 	for(int i = 0; i < m_entities.size(); i++)
 	{
+		m_sprite.setTextureRect(m_entities[i].type == "Currency" ? 	sf::IntRect(48, 0, 8, 7) : sf::IntRect(49, 8, 6, 8));
+		m_sprite.setOrigin(
+			m_sprite.getGlobalBounds().width/2,
+			m_sprite.getGlobalBounds().height/2);
+
 		// Clamp entity to screen
 		if(m_entities[i].position.x < 0)
 			m_entities[i].position.x = 0;

@@ -69,7 +69,7 @@ void Tile::damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int b
 	{
 		hpRatio = (double)getCharacter()->getHealth()/(double)getCharacter()->getMaxHealth();
 
-		if(dynamic_cast<Player*>(getCharacter()))
+		if(getCharacter()->getName() == "Player")
 			particleColor = sf::Color(255 - (125*hpRatio), 0 ,0);
 		else
 			particleColor = sf::Color((125*hpRatio), (125*hpRatio) , (125*hpRatio));

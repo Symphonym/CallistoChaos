@@ -2,7 +2,8 @@
 #include "TileMap.h"
 #include "GameState.h"
 
-TileCharacter::TileCharacter(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+TileCharacter::TileCharacter(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+	m_name(name),
 	m_gameState(gameState),
 	m_animation(),
 	m_tileIndex(tileIndex),
@@ -264,6 +265,10 @@ sf::Sprite &TileCharacter::getSprite()
 jl::FrameAnimation &TileCharacter::getAnim()
 {
 	return m_animation;
+}
+const std::string &TileCharacter::getName() const
+{
+	return m_name;
 }
 sf::Vector2i TileCharacter::getIndex() const
 {

@@ -22,6 +22,9 @@ private:
 
 		// Alpha fading, as the entity goes away if not looted
 		float alphaFade;
+
+		// Type of entity, "Ammo" or "Currency"
+		std::string type;
 	};
 
 	std::vector<LootEntity> m_entities;
@@ -35,7 +38,7 @@ public:
 
 	void providePlayer(Player *player);
 
-	void spawnEntity(const sf::Vector2f &position);
+	void spawnEntity(const sf::Vector2f &position, const std::string &entityType);
 
 	void update(double deltaTime);
 	void render(sf::RenderTarget &target);

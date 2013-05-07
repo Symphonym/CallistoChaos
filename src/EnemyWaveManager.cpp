@@ -59,7 +59,7 @@ void EnemyWaveManager::update(double deltaTime)
 		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < CharacterManager::characterLimit)
 		{
 			// Get left overs
-			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0)/double(jl::Settings::getInt("gameWaveNumber")/2.0);
+			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0);
 			m_waveSpawnTimer.restart();
 
 			sf::Vector2i tileIndex(0,0);
@@ -83,38 +83,53 @@ void EnemyWaveManager::update(double deltaTime)
 			while(m_characters->getPlayer().getTileMap().getTile(tileIndex).isSolid() || m_characters->getPlayer().getTileMap().getTile(tileIndex).isOccupied());
 
 			// Spawn enemy
-			std::unique_ptr<WeakEnemy> enemy(new WeakEnemy(&m_characters->getPlayer().getGame(), *m_assets,tileIndex));
+			std::unique_ptr<WeakEnemy> enemy(new WeakEnemy("Weak Enemy", &m_characters->getPlayer().getGame(), *m_assets,tileIndex));
 			enemy->setSpeed(jl::Settings::getInt("gameEnemyBaseSpeed"));
 			enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay"), jl::Settings::getDouble("gameEnemyMaxDelay")));
 
 			double randChance = jl::Math::randDouble(0.0, 100.0);
+			int ammoSpawnPercent = jl::Math::randInt(0, 100);
 
-
-			double speederPercent = (double)jl::Settings::getInt("gameWaveNumber")*0.8;
-			if(speederPercent > 60)
-				speederPercent = 60;
-			double tankerPercent = (double)jl::Settings::getInt("gameWaveNumber")*0.2;
-			if(tankerPercent > 20)
-				tankerPercent = 20;
-
-			// "Tanker" enemy types
-			if(randChance <= tankerPercent)
+			if(jl::Settings::getInt("gameWaveNumber") >= 4)
 			{
-				enemy->setMaxHealth(15);
-				enemy->heal(15);
-				enemy->setSpeed(20);
-				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
-				enemy->getSprite().setColor(sf::Color(200, 150, 150));
-			}
-			// "Speeder" enemy types
-			else if(randChance <= speederPercent)
-			{
-				enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
-				enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
-				enemy->getSprite().setColor(sf::Color(150, 150, 150));
+				double speederPercent = (double)jl::Settings::getInt("gameWaveNumber");
+				if(speederPercent > 60)
+					speederPercent = 60;
+				double tankerPercent = (double)jl::Settings::getInt("gameWaveNumber")*0.8;
+				if(tankerPercent > 20)
+					tankerPercent = 20;
+
+				// "Tanker" enemy types
+				if(randChance <= tankerPercent)
+				{
+					enemy->setMaxHealth(15);
+					enemy->heal(15);
+					enemy->setSpeed(20);
+					enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+					enemy->getSprite().setColor(sf::Color(200, 150, 150));
+
+					// Add some extra loot to tank types
+					enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")*2));
+					if(ammoSpawnPercent <= 20)
+						enemy->addAmmo(jl::Math::randInt(1,2));
+				}
+				// "Speeder" enemy types
+				else if(randChance <= speederPercent)
+				{
+					enemy->setMaxHealth(3);
+					enemy->heal(3);
+					enemy->setSpeed(jl::Math::randInt(enemy->getSpeed()*1.8, enemy->getSpeed()*2.2));
+					enemy->setMoveDelay(jl::Math::randDouble(jl::Settings::getDouble("gameEnemyMinDelay")*0.4, jl::Settings::getDouble("gameEnemyMinDelay")*0.7));
+					enemy->getSprite().setColor(sf::Color(150, 150, 150));
+				}
 			}
 
 			enemy->addCurrency(jl::Math::randInt(jl::Settings::getInt("gameEnemyMinCurrency"), jl::Settings::getInt("gameEnemyMaxCurrency")));
+
+			// 20% chance to drop ammo
+			if(ammoSpawnPercent <= 20)
+				enemy->addAmmo(jl::Math::randInt(1,2));
+
 
 			m_characters->addCharacter(std::move(enemy));
 			++m_waveSpawns;
@@ -130,7 +145,7 @@ void EnemyWaveManager::update(double deltaTime)
 	{
 
 		// Predict enemy count
-		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*2;
+		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*4;
 
 		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100)
 		{

@@ -4,8 +4,8 @@
 #include "ParticleManager.h"
 #include "Utility.h"
 
-WeakEnemy::WeakEnemy(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
-	TileCharacter(gameState, assets, tileIndex),
+WeakEnemy::WeakEnemy(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+	TileCharacter(name, gameState, assets, tileIndex),
 	m_moveDelay(0.1),
 	m_damage(1)
 {
@@ -102,7 +102,7 @@ void WeakEnemy::update(double deltaTime)
 		{
 			if(m_gameState->getTileMap().getTile(pathIndex).getTileType() == 5 ||
 				m_gameState->getTileMap().getTile(pathIndex).getTileType() == 6 ||
-				(m_gameState->getTileMap().getTile(pathIndex).isOccupied() && dynamic_cast<Player*>(m_gameState->getTileMap().getTile(pathIndex).getCharacter())))
+				(m_gameState->getTileMap().getTile(pathIndex).isOccupied() && m_gameState->getTileMap().getTile(pathIndex).getCharacter()->getName() == "Player"))
 			{
 				m_gameState->getTileMap().getTile(pathIndex).damage(m_damage, &m_gameState->getTileMap(), pathIndex);
 			}

@@ -28,6 +28,8 @@ public:
 	};
 
 protected:
+	std::string m_name;
+
 	GameState *m_gameState;
 	jl::FrameAnimation m_animation;
 	sf::Vector2i m_tileIndex;
@@ -46,7 +48,7 @@ protected:
 	// Pass Tilemap to allow for move operations
 	// Pass AssetManager to allow sprite/animation data to be set in the constructor
 	// Pass Tileindex to specify where the Character should be created
-	explicit TileCharacter(GameState* gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
+	explicit TileCharacter(const std::string &name, GameState* gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex);
 
 public:
 
@@ -101,6 +103,7 @@ public:
 
 	sf::Sprite &getSprite();
 	jl::FrameAnimation &getAnim();
+	const std::string &getName() const;
 	sf::Vector2i getIndex() const;
 	TileCharacter::Event getDirection() const;
 	double getSpeed() const;	

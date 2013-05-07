@@ -8,8 +8,8 @@
 #include "GameState.h"
 #include "SoundManager.h"
 
-Player::Player(GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
-	TileCharacter(gameState, assets, tileIndex),
+Player::Player(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
+	TileCharacter(name, gameState, assets, tileIndex),
 	m_selectedWeapon(0),
 	m_score(0)
 {
