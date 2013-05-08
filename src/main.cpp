@@ -14,11 +14,14 @@ int main(int argc, char const *args[])
 	// Allow editing of settings through command line
 	engine.parseArgs(argc, args);
 
+	engine.getAssets().getTexture("res/icon.png");
+	engine.getWindow().setIcon(16, 16, engine.getAssets().getTexture("res/icon.png").copyToImage().getPixelsPtr());
+
 	// Set non-changeable settings
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
 	jl::Settings::setBool("windowFullscreen", false);
-	jl::Settings::setInt("windowHeight", 600);//900);
-	jl::Settings::setInt("windowWidth", 800);//1400);
+	jl::Settings::setInt("windowHeight", 900);
+	jl::Settings::setInt("windowWidth", 1400);
 	jl::Settings::setInt("windowFpsLimit", 60);
 	jl::Settings::setBool("haxMode", false);
 
