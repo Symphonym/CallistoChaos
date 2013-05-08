@@ -59,7 +59,7 @@ void EnemyWaveManager::update(double deltaTime)
 		if(m_waveSpawns < m_waveEnemies && m_waveSpawnTimer.getElapsedTime().asSeconds() >= m_waveSpawnDelay && m_characters->getCount() < CharacterManager::characterLimit)
 		{
 			// Get left overs
-			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*5.0);
+			m_waveSpawnDelay = (((double)std::rand() / (double)RAND_MAX)*3.0);
 			m_waveSpawnTimer.restart();
 
 			sf::Vector2i tileIndex(0,0);
@@ -90,7 +90,7 @@ void EnemyWaveManager::update(double deltaTime)
 			double randChance = jl::Math::randDouble(0.0, 100.0);
 			int ammoSpawnPercent = jl::Math::randInt(0, 100);
 
-			if(jl::Settings::getInt("gameWaveNumber") >= 4)
+			if(jl::Settings::getInt("gameWaveNumber") >= 3)
 			{
 				double speederPercent = (double)jl::Settings::getInt("gameWaveNumber");
 				if(speederPercent > 60)

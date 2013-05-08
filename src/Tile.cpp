@@ -88,7 +88,7 @@ void Tile::damage(int damage, TileMap *tileMap, const sf::Vector2i &index, int b
 			particleColor = sf::Color(138 - (57*hpRatio), 91 - (45*hpRatio), 0 - (-16*hpRatio));
 
 		// Grey object color
-		else if(getTileType() == 3 || getTileType() == 4 || getTileType() == 6)
+		else if(getTileType() == 3 || getTileType() == 4 || getTileType() == 5 || getTileType() == 6)
 			particleColor = sf::Color(160 - (70*hpRatio), 160 - (70*hpRatio), 160 - (70*hpRatio));
 	}
 	// No specified direction, add some extra particles and have 360 spread

@@ -126,7 +126,12 @@ void MainMenuState::events()
 			getEngine()->getStack().pushState(std::unique_ptr<State>(new GameState(getEngine())));
 		else if(buttonName == "Exit")
 			getEngine()->getStack().popState();
-		else if(buttonName == "Controls")
+	}
+
+	if(jl::Input::isButtonDown(getEngine()->getEvent(), 0) || jl::Input::isButtonDown(getEngine()->getEvent(), 1))
+	{
+		std::string buttonName(m_menuItems[m_selectedItem]);
+		if(buttonName == "Controls")
 		{
 			if(m_controlTargetPos.x >= getEngine()->getWindow().getSize().x)
 				m_controlTargetPos = sf::Vector2f(

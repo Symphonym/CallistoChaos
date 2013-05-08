@@ -12,6 +12,7 @@ public:
 
 	int calculateDamage() const;
 	double calculateSpeed() const;
+	double calculateBulletSpread() const;
 };
 
 #endif

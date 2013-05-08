@@ -338,13 +338,13 @@ void GameState::render()
 
 		m_characters.render(getEngine()->getWindow());
 
+		m_enemyWaves.render(getEngine()->getWindow());
+
 		m_workbench.render(getEngine()->getWindow());
 		m_tileOptions.render(getEngine()->getWindow());
 
 		m_loot.render(getEngine()->getWindow());
 		MessageLog::render(getEngine()->getWindow());
-
-		m_enemyWaves.render(getEngine()->getWindow());
 	}
 
 

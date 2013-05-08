@@ -40,9 +40,16 @@ GunWeapon::GunWeapon(const std::string &name, TileCharacter *tileCharacter, jl::
 }
 int GunWeapon::calculateDamage() const
 {
-	return std::ceil(getLevel()/2.0);
+	int damage = std::floor(getLevel()/2.0);
+	if(damage <= 0) 
+		damage = 1;
+	return damage;
 }
 double GunWeapon::calculateSpeed() const
 {
 	return 100 + (50*getLevel());
+}
+double GunWeapon::calculateBulletSpread() const
+{
+	return 5 - (0.25*getLevel());
 }

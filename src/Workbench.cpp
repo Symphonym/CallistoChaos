@@ -80,7 +80,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	ammoItem.displaySubRect = sf::IntRect(23, 49, 6, 8);
 	ammoItem.maxUpgradeLevel = -1;
 	ammoItem.upgradeLevel = -1;
-	ammoItem.cost = 10;
+	ammoItem.cost = 5;
 	m_workbenchItems.push_back(ammoItem);
 
 	// Health purchase
@@ -113,7 +113,7 @@ Workbench::Workbench(Player *player, jl::AssetManager &assets) :
 	addUpgradeableWeapon(sf::IntRect(0,0,16,16),25, 5, defaultWeapon);
 	m_player->addWeapon(defaultWeapon);
 	addBuyableWeapon(sf::IntRect(0, 20, 16, 8), 50, 5, std::shared_ptr<Weapon>(new RifleWeapon("Pulse Rifle", m_player, *m_assets)));
-	addBuyableWeapon(sf::IntRect(0, 36, 16, 9), 100, 4, std::shared_ptr<Weapon>(new RailGun("Rail Gun", m_player, *m_assets)));
+	addBuyableWeapon(sf::IntRect(0, 36, 16, 9), 75, 4, std::shared_ptr<Weapon>(new RailGun("Rail Gun", m_player, *m_assets)));
 
 }
 
