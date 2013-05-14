@@ -8,6 +8,7 @@
 #include "Settings.h"
 #include "MessageLog.h"
 #include "SoundManager.h"
+#include "XboxInput.h"
 
 Workbench::Workbench() :
 	m_assets(nullptr),
@@ -161,7 +162,8 @@ void Workbench::events(sf::Event &events)
 	if(m_isVisible)
 	{
 		// B button to leave menu
-		if(jl::Input::isButtonDown(events, 1))
+		//if(jl::Input::isButtonDown(events, 1))
+		if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::B) && events.type == sf::Event::JoystickButtonPressed)
 		{
 			m_player->setBusy(false);
 			m_isVisible = false;
@@ -169,8 +171,9 @@ void Workbench::events(sf::Event &events)
 		}
 
 		// A button to buy
-		else if(jl::Input::isButtonDown(events, 0))
-		{
+		//else if(jl::Input::isButtonDown(events, 0))
+		else if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::A) && events.type == sf::Event::JoystickButtonPressed)
+		 {
 			int cost = getSelectedItem()->weaponCostCalc(
 				getSelectedItem()->upgradeLevel,
 				getSelectedItem()->cost);
@@ -216,12 +219,16 @@ void Workbench::events(sf::Event &events)
 		}
 
 		int yModifier = 0;
-		if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
+		//if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
+		if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) &&
+			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			yModifier = (m_itemBackgroundSprite.getGlobalBounds().height + m_itemSpacing);
 			--m_selectedItem;
 		}
-		else if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
+		//else if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
+		else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) &&
+			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			yModifier = -(m_itemBackgroundSprite.getGlobalBounds().height + m_itemSpacing);
 			++m_selectedItem;

@@ -122,6 +122,11 @@ namespace jl
 		{
 			return events.type == sf::Event::MouseWheelMoved ? (events.mouseWheel.delta > 0 ? 1 : -1) : 0;
 		};
+
+		inline bool axisMoved(const sf::Event &events, sf::Joystick::Axis axis)
+		{
+			return events.type == sf::Event::JoystickMoved && events.joystickMove.axis == axis;
+		};
 	};
 };
 

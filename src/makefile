@@ -85,4 +85,5 @@ CharacterManager.o: TileCharacter.h Player.h CharacterManager.h TileMap.h GameSt
 BedControl.o: BedControl.h Player.h TileMap.h MessageLog.h TileOptionActions.h GameState.h
 AstarAlgorithm.o: AstarAlgorithm.h TileMap.h Player.h
 AssetManager.o: AssetManager.h
+XboxInput.o: Utility.h
 #JLautodep END

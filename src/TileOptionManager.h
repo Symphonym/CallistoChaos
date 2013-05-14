@@ -20,6 +20,7 @@ private:
 
 	// Whether or not to render the options
 	bool m_displayOptions;
+	
 
 	// Selected item in the list of options
 	int m_optionIndex;

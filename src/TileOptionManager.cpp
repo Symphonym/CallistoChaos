@@ -3,6 +3,7 @@
 #include "Utility.h"
 #include "Settings.h"
 #include "SoundManager.h"
+#include "XboxInput.h"
 
 TileOptionManager::TileOptionManager() :
 	m_tileOptions(),
@@ -50,7 +51,6 @@ void TileOptionManager::provideCharacter(Player *player)
 {
 	m_player = player;
 }
-
 void TileOptionManager::events(sf::Event &events)
 {
 	if(m_player->isBusy())
@@ -58,15 +58,14 @@ void TileOptionManager::events(sf::Event &events)
 	else
 	{
 		// Interact with tile
-		if(events.type == sf::Event::KeyPressed || 
-			events.type == sf::Event::JoystickButtonPressed)
+		if(events.type == sf::Event::JoystickButtonPressed)
 		{
 			int tileType = getTileType();
 
 
 			// Display list
-			if((jl::Input::isKeyDown(events, sf::Keyboard::G) && !m_tileOptions[tileType].empty()) ||
-				(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty()))
+			//if(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty())
+			if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::A))
 			{
 				jl::SoundManager::playSound("res/tileoptionconfirm.wav");
 
@@ -89,30 +88,28 @@ void TileOptionManager::events(sf::Event &events)
 			}
 			else if(m_displayOptions)
 			{
-				// Scroll up
-				if(events.key.code == sf::Keyboard::F)
-					--m_optionIndex;
-				// Scroll down
-				else if(events.key.code == sf::Keyboard::V)
-					++m_optionIndex;
 				// Other action not accounted for, simply close the list
-				else
-					m_displayOptions = false;
+				m_displayOptions = false;
 
-				m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
+				//m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 			}
 		}
 
-		if(events.type == sf::Event::JoystickMoved && m_displayOptions)
+		else if(events.type == sf::Event::JoystickMoved && m_displayOptions)
 		{
+			
 			// Scroll up
-			if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
+			//if(sf::Joystick::getAxisPosition(jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)) == -100)
+			if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && 
+				jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 			{
 				--m_optionIndex;
 				jl::SoundManager::playSound("res/tileoptionselect.wav");
 			}
 			// Scroll down
-			else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
+			//else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
+			else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && 
+				jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 			{
 				++m_optionIndex;
 				jl::SoundManager::playSound("res/tileoptionselect.wav");

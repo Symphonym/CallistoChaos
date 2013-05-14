@@ -1,3 +1,5 @@
+
+------------- Ubuntu(Linux) -----------
 Button Index = Button
 0 = A
 1 = B
@@ -27,3 +29,34 @@ V = Right Joystick (Y wise)
 
 PovX = Keypad (X wise)
 PovY = Keypad (Y wise)
+
+------------- Windows(Windows 7) -----------
+Button Index = Button
+0 = A
+1 = B
+2 = X
+3 = Y
+
+4 = Left Button
+5 = Right Button
+
+6 = Back
+7 = Start
+
+8 = Left Joystick
+9 = Right joystick
+
+Axis = Button
+
+R = Right Joystick(Y wise)
+U = Right Joystick (X wise)
+
+Z = Both triggers (~(100) is Right trigger, ~(-100) is Left trigger)
+
+X = Left Joystick (X wise)
+Y = Left Joystick (Y wise)
+
+V = Nothing? (Locked at -100)
+
+PovX = Keypad (Y wise)
+PovY = Keypad (X wise)

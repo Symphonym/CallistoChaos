@@ -7,6 +7,7 @@
 #include "Settings.h"
 #include "GameState.h"
 #include "SoundManager.h"
+#include "XboxInput.h"
 
 Player::Player(const std::string &name, GameState *gameState, jl::AssetManager &assets, const sf::Vector2i &tileIndex) :
 	TileCharacter(name, gameState, assets, tileIndex),
@@ -133,15 +134,20 @@ void Player::events(sf::Event &events)
 		// Scroll through weapons
 		bool changedWeapon = false;
 
-		if((jl::Input::scrollDirection(events) < 0) || jl::Input::isButtonDown(events, 2))
+		if(events.type == sf::Event::JoystickButtonPressed)
 		{
-			--m_selectedWeapon; 
-			changedWeapon = true;
-		}
-		if((jl::Input::scrollDirection(events) > 0) || jl::Input::isButtonDown(events, 3))
-		{
-			++m_selectedWeapon; 
-			changedWeapon = true;
+			//if(jl::Input::isButtonDown(events, 2))
+			if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::X))
+			{
+				--m_selectedWeapon; 
+				changedWeapon = true;
+			}
+			//if(jl::Input::isButtonDown(events, 3))
+			if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::Y))
+			{
+				++m_selectedWeapon; 
+				changedWeapon = true;
+			}
 		}
 
 		if(m_selectedWeapon < 0)
@@ -180,36 +186,37 @@ void Player::update(double deltaTime)
 		if(!m_gameState->getBed().isInUse() && !m_gameState->getWorkbench().isVisible())
 		{
 			// Fire weapon
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
+			//if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
+			if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightTrigger, 100, 50))
 				getActiveWeapon()->fire();
 
 	       	// Changing direction of player
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || 
-	    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), -100, 25))
+			//if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), -100, 25))
+			if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightJoyY, -100, 25))
 	     		lookUp();
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || 
-	     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), 100, 25))
+			//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::V), 100, 25))
+			else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightJoyY, 100, 25))
 	       		lookDown();
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || 
-		   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), -100, 25))
+			//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), -100, 25))
+			else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightJoyX, -100, 25))
 	       		lookLeft();
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || 
-		  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), 100, 25))
+			//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::U), 100, 25))
+			else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightJoyX, 100, 25))
 	       		lookRight();
 	       	else
 	       	{
 		       	// Walking around
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || 
-		    		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
+				//if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), -100, 25))
+				if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftJoyY, -100, 25))
 		     		walkUp();
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
-		     		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
+				//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y), 100, 25))
+				else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftJoyY, 100, 25))
 		       		walkDown();
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
-			   		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
+				//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), -100, 25))
+				else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftJoyX, -100, 25))
 		       		walkLeft();
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
-			  		jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
+				//else if(jl::Math::valueInRange<float, float, float>(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X), 100, 25))
+				else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftJoyX, 100, 25))
 		       		walkRight();
 	       	}
 

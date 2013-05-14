@@ -7,11 +7,11 @@
 #include "SoundManager.h"
 #include "Settings.h"
 #include <fstream>
+#include "XboxInput.h"
 
 MainMenuState::MainMenuState(jl::Engine *engine) :
 	jl::State(engine),
 	m_selectedItem(0),
-	m_movedJoystick(false),
 	m_controlTargetPos(0,0)
 {
 	m_text.setFont(engine->getAssets().getFont("res/Minecraftia.ttf"));
@@ -91,26 +91,21 @@ MainMenuState::MainMenuState(jl::Engine *engine) :
 
 void MainMenuState::events()
 {
-	if(!m_movedJoystick && m_controlTargetPos.x > getEngine()->getWindow().getSize().x)
+	if(m_controlTargetPos.x > getEngine()->getWindow().getSize().x)
 	{
-		if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) == -100 &&
-			getEngine()->getEvent().type == sf::Event::JoystickMoved)
+		if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && 
+			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			--m_selectedItem;
 			jl::SoundManager::playSound("res/menuSelect.wav");
-			m_movedJoystick = true;
-		}
-		else if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) == 100 &&
-			getEngine()->getEvent().type == sf::Event::JoystickMoved)
+		}		
+		else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && 
+			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			++m_selectedItem;
 			jl::SoundManager::playSound("res/menuSelect.wav");
-			m_movedJoystick = true;
 		}
 	}
-
-	if(sf::Joystick::getAxisPosition(0, sf::Joystick::Y) != -100 && sf::Joystick::getAxisPosition(0, sf::Joystick::Y) != 100)
-		m_movedJoystick = false;
 
 
 	if(m_selectedItem < 0)
@@ -128,16 +123,17 @@ void MainMenuState::events()
 			getEngine()->getStack().popState();
 	}
 
-	if(jl::Input::isButtonDown(getEngine()->getEvent(), 0) || jl::Input::isButtonDown(getEngine()->getEvent(), 1))
+	//if(jl::Input::isButtonDown(getEngine()->getEvent(), 0) || jl::Input::isButtonDown(getEngine()->getEvent(), 1))
+	if(getEngine()->getEvent().type == sf::Event::JoystickButtonPressed)
 	{
 		std::string buttonName(m_menuItems[m_selectedItem]);
 		if(buttonName == "Controls")
 		{
-			if(m_controlTargetPos.x >= getEngine()->getWindow().getSize().x)
+			if(m_controlTargetPos.x >= getEngine()->getWindow().getSize().x && jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::A))
 				m_controlTargetPos = sf::Vector2f(
 					(getEngine()->getWindow().getSize().x*0.5) - (m_controlSprite.getGlobalBounds().width/2),
 					(getEngine()->getWindow().getSize().y*0.5) - (m_controlSprite.getGlobalBounds().height/2));
-			else
+			else if (jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::A) || jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::B))
 				m_controlTargetPos = sf::Vector2f(
 					getEngine()->getWindow().getSize().x * 1.2,
 					(getEngine()->getWindow().getSize().y*0.5) - (m_controlSprite.getGlobalBounds().height/2));
