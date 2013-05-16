@@ -5,20 +5,38 @@ namespace jl
 {
 	namespace XboxInput
 	{
-		bool isAxisDown(unsigned int controllerIndex, XboxInput::Axis axis, float triggerValue, float valueSpread)
+		bool isAxisDown(
+			unsigned int controllerIndex,
+			XboxInput::Axis axis,
+			float triggerValue,
+			float valueSpread)
 		{
 			return jl::Math::valueInRange<float, float, float>(
-				sf::Joystick::getAxisPosition(controllerIndex, translateAxis(axis)), triggerValue, valueSpread);
+				sf::Joystick::getAxisPosition(
+					controllerIndex,
+					translateAxis(axis)), triggerValue, valueSpread);
 		}
 
 		bool isButtonDown(unsigned int controllerIndex, XboxInput::Buttons button)
 		{
-			return sf::Joystick::isButtonPressed(controllerIndex, translateButton(button));
+			return sf::Joystick::isButtonPressed(
+				controllerIndex,
+				translateButton(button));
 		}
 
 
 	// Check if compiled on unix
 	#ifdef __unix || __unix__
+
+		bool usingWindows()
+		{
+			return false;
+		}
+		bool usingUnix()
+		{
+			return true;
+		}
+
 		unsigned int translateButton(XboxInput::Buttons button)
 		{
 			switch(button)
@@ -48,11 +66,21 @@ namespace jl
 				case XboxInput::Axis::DPadY: return sf::Joystick::Axis::PovY;
 				case XboxInput::Axis::LeftTrigger: return sf::Joystick::Axis::Z;
 				case XboxInput::Axis::RightTrigger: return sf::Joystick::Axis::R;
-			}
+			}	
 		}
 
 	// Otherwise assume windows
 	#else
+
+		bool usingWindows()
+		{
+			return true;
+		}
+		bool usingUnix()
+		{
+			return false;
+		}
+
 		unsigned int translateButton(XboxInput::Buttons button)
 		{
 			switch(button)

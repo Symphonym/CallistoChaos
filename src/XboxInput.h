@@ -33,9 +33,19 @@ namespace jl
 			Back
 		};
 
-		bool isAxisDown(unsigned int controllerIndex, XboxInput::Axis axis, float triggerValue, float valueSpread = 25);
-		bool isButtonDown(unsigned int controllerIndex, XboxInput::Buttons button);
+		bool isAxisDown(
+			unsigned int controllerIndex,
+			XboxInput::Axis axis,
+			float triggerValue,
+			float valueSpread = 25);
 
+		bool isButtonDown(
+			unsigned int controllerIndex,
+			XboxInput::Buttons button);
+
+		bool usingWindows();
+		bool usingUnix();
+	
 		sf::Joystick::Axis translateAxis(XboxInput::Axis axis);
 		unsigned int translateButton(XboxInput::Buttons button);
 	};
