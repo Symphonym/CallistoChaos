@@ -100,16 +100,18 @@ void TileOptionManager::events(sf::Event &events)
 			
 			// Scroll up
 			//if(sf::Joystick::getAxisPosition(jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)) == -100)
-			if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && 
-				jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
+			if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && jl::XboxInput::usingWindows())) && 
+			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 			{
 				--m_optionIndex;
 				jl::SoundManager::playSound("res/tileoptionselect.wav");
 			}
 			// Scroll down
 			//else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
-			else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && 
-				jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
+			else if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && jl::XboxInput::usingWindows())) && 
+			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 			{
 				++m_optionIndex;
 				jl::SoundManager::playSound("res/tileoptionselect.wav");

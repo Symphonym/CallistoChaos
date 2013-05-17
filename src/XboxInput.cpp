@@ -104,7 +104,7 @@ namespace jl
 			{
 				case XboxInput::Axis::RightJoyX: return sf::Joystick::Axis::U;
 				case XboxInput::Axis::RightJoyY: return sf::Joystick::Axis::R;
-				case XboxInput::Axis::LeftJoyX: return sf::Joystick::Axis:X;
+				case XboxInput::Axis::LeftJoyX: return sf::Joystick::Axis::X;
 				case XboxInput::Axis::LeftJoyY: return sf::Joystick::Axis::Y;
 				case XboxInput::Axis::DPadX: return sf::Joystick::Axis::PovY;
 				case XboxInput::Axis::DPadY: return sf::Joystick::Axis::PovX;

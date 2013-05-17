@@ -187,7 +187,8 @@ void Player::update(double deltaTime)
 		{
 			// Fire weapon
 			//if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::R) == 100)
-			if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightTrigger, 100, 50))
+			if((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightTrigger, 100, 50) && jl::XboxInput::usingUnix()) ||
+				(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::RightTrigger, -100, 50) && jl::XboxInput::usingWindows()))
 				getActiveWeapon()->fire();
 
 	       	// Changing direction of player

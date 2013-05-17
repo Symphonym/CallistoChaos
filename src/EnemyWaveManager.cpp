@@ -149,12 +149,7 @@ void EnemyWaveManager::update(double deltaTime)
 		m_waveEnemies = (jl::Settings::getInt("gameWaveNumber")+1)*4;
 
 		//if(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Z) == 100)
-		if(
-			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftTrigger, -100, 50) && 
-			jl::XboxInput::usingWindows()) ||
-			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftTrigger, 100, 50) &&
-			jl::XboxInput::usingUnix())
-			)
+		if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::LeftTrigger, -100, 50))
 		{
 			m_waveIsActive = true;
 			jl::Settings::setInt("gameWaveNumber", jl::Settings::getInt("gameWaveNumber")+1);

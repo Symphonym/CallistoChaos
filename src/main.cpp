@@ -15,7 +15,6 @@ int main(int argc, char const *args[])
 	engine.parseArgs(argc, args);
 
 	engine.getAssets().getTexture("res/icon.png");
-	engine.getWindow().setIcon(16, 16, engine.getAssets().getTexture("res/icon.png").copyToImage().getPixelsPtr());
 
 	// Set non-changeable settings
 	jl::Settings::setString("windowTitle", "Callisto Chaos");
@@ -26,7 +25,7 @@ int main(int argc, char const *args[])
 	jl::Settings::setBool("haxMode", false);
 
 	// Run the game engine with default values
-	engine.run<MainMenuState>();
+	engine.run<MainMenuState>("res/icon.png", 16, 16);
 
 	return 0;
 }

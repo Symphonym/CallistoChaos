@@ -51,7 +51,7 @@ namespace jl
 
 		// "run" initializes the Game engine and starts the game loop. The
 		// specified type T is the startup State that will be used.
-		template<typename T> void run()
+		template<typename T> void run(const std::string iconPath = "", unsigned int iconWidth = 0, unsigned int iconHeight = 0)
 		{
 			// Only allow running this method if the game isn't already running
 			if(!m_window.isOpen())
@@ -65,6 +65,13 @@ namespace jl
 
 				// Initialize additional game engine data
 				init();
+
+				if(!iconPath.empty() && iconWidth != 0 && iconHeight != 0)
+				{
+					sf::Image icon;
+					icon.loadFromFile(iconPath);
+					m_window.setIcon(iconWidth, iconHeight, icon.getPixelsPtr());
+				}
 
 				// Start gameloop
 				gameloop();

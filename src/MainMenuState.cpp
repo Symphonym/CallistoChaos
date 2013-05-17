@@ -93,13 +93,15 @@ void MainMenuState::events()
 {
 	if(m_controlTargetPos.x > getEngine()->getWindow().getSize().x)
 	{
-		if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && 
+		if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			--m_selectedItem;
 			jl::SoundManager::playSound("res/menuSelect.wav");
 		}		
-		else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && 
+		else if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(getEngine()->getEvent(), jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			++m_selectedItem;
