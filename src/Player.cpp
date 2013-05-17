@@ -143,7 +143,7 @@ void Player::events(sf::Event &events)
 				changedWeapon = true;
 			}
 			//if(jl::Input::isButtonDown(events, 3))
-			if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::Y))
+			else if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::Y))
 			{
 				++m_selectedWeapon; 
 				changedWeapon = true;

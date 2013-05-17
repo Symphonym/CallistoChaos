@@ -64,7 +64,6 @@ void TileOptionManager::events(sf::Event &events)
 
 
 			// Display list
-			//if(jl::Input::isButtonDown(events, 0) && !m_tileOptions[tileType].empty())
 			if(jl::XboxInput::isButtonDown(0, jl::XboxInput::Buttons::A))
 			{
 				jl::SoundManager::playSound("res/tileoptionconfirm.wav");
@@ -72,7 +71,9 @@ void TileOptionManager::events(sf::Event &events)
 				if(!m_displayOptions)
 					displayList();
 				// Run option command
-				else if(m_displayOptions)
+				else if(m_displayOptions &&
+					m_tileOptions.find(m_tileType) != m_tileOptions.end() &&
+					m_optionIndex < m_tileOptions[m_tileType].size())
 				{
 					m_tileOptions[m_tileType][m_optionIndex].second(
 						&TileOptionManager::m_player->getTileMap(),
@@ -90,8 +91,6 @@ void TileOptionManager::events(sf::Event &events)
 			{
 				// Other action not accounted for, simply close the list
 				m_displayOptions = false;
-
-				//m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 			}
 		}
 
@@ -99,7 +98,6 @@ void TileOptionManager::events(sf::Event &events)
 		{
 			
 			// Scroll up
-			//if(sf::Joystick::getAxisPosition(jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)) == -100)
 			if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && jl::XboxInput::usingUnix()) ||
 			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
@@ -108,7 +106,6 @@ void TileOptionManager::events(sf::Event &events)
 				jl::SoundManager::playSound("res/tileoptionselect.wav");
 			}
 			// Scroll down
-			//else if (jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
 			else if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) && jl::XboxInput::usingUnix()) ||
 			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
@@ -117,8 +114,8 @@ void TileOptionManager::events(sf::Event &events)
 				jl::SoundManager::playSound("res/tileoptionselect.wav");
 			}
 
-			
-			m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
+			if(m_tileOptions.find(m_tileType) != m_tileOptions.end())
+				m_optionIndex = jl::Math::clamp<int,int,int>(m_optionIndex,0, m_tileOptions[m_tileType].size() - 1);
 		}
 	}
 }
