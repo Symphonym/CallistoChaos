@@ -220,14 +220,16 @@ void Workbench::events(sf::Event &events)
 
 		int yModifier = 0;
 		//if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, -100))
-		if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 25) &&
+		if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			yModifier = (m_itemBackgroundSprite.getGlobalBounds().height + m_itemSpacing);
 			--m_selectedItem;
 		}
 		//else if(jl::Input::isAxisDown(events, sf::Joystick::Axis::PovY, 100))
-		else if(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 25) &&
+		else if(((jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, 100, 10) && jl::XboxInput::usingUnix()) ||
+			(jl::XboxInput::isAxisDown(0, jl::XboxInput::Axis::DPadY, -100, 10) && jl::XboxInput::usingWindows())) && 
 			jl::Input::axisMoved(events, jl::XboxInput::translateAxis(jl::XboxInput::Axis::DPadY)))
 		{
 			yModifier = -(m_itemBackgroundSprite.getGlobalBounds().height + m_itemSpacing);
